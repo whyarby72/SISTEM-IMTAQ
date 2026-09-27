@@ -1,22 +1,29 @@
 # NEXT ACTION
 
-**Execution state:** `IMTAQ-REPO-ADOPTION-A3R = COMPLETED / PASS`
+**Execution state:** `CI-PHP-CONTRACT-D1 = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
-## Current repository-adoption task
+## Current CI contract task
 
-**Mode:** `EXISTING_REPO_ADOPTION`  
-**Repository:** `whyarby72/SISTEM-IMTAQ`  
-**Baseline main commit:** `957f062815147a0cc2ea2200fd82692c3447f3e1`  
-**Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`  
-**A3 state-basis commit:** `da5b15dfee1c257be3d262270dc2ba27001977bf`  
-**Task contract:** `codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3R.md`
+**Task:** `CI-PHP-CONTRACT-D1`  
+**Type:** `READ_ONLY_DIAGNOSIS`  
+**Branch:** `chore/CI-PHP-CONTRACT-D1-diagnosis`  
+**State-basis before D1:** `6d3493bc9c8a1d013a4df944a06da6bfb3969f44`  
+**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-D1.md`
 
-A3R corrects repository-state commit semantics only. `PROJECT_STATE.json` and related evidence must describe the A3 state-basis commit `da5b15...`, while exact current branch HEAD remains Git branch-ref authority. Do not chase self-referential commit SHAs into the same state file.
+D1 diagnoses blocker `CI_PHP_LOCKFILE_COMPATIBILITY` without changing PHP, Composer, dependencies, lockfile, CI workflow, application source, database, provider state, or deployment.
 
-The CI blocker `CI_PHP_LOCKFILE_COMPATIBILITY` remains unresolved and must not be repaired in A3R.
+Known conflict:
 
-After A3R PASS, next diagnostic task remains: `CI-PHP-CONTRACT-D1`.
+- CI runner PHP: `8.3.35`
+- root Composer PHP constraint: `^8.3`
+- lockfile platform PHP constraint: `^8.3`
+- locked Symfony 8.1 packages require PHP `>=8.4.1`
+
+D1 must determine whether runtime authority supports PHP >=8.4.1, PHP 8.3 compatibility must be preserved, or the decision remains blocked by unresolved staging/production runtime authority.
+
+After D1, route only to a narrow remediation/decision task. Do not implement the fix inside D1.
+
 
 ## Current AI track — AI Academic Assistant
 
@@ -127,4 +134,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D1`
+**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_D1_FROM_REPOSITORY`
