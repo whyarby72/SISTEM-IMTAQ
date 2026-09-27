@@ -35,7 +35,7 @@
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "FAIL",
+    "exact_current_ci": "NOT_VERIFIED_GITHUB_AUTH_INVALID",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
