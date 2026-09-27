@@ -1,28 +1,20 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-D1 = COMPLETED / PASS_WITH_BLOCKER`
+**Execution state:** `CI-PHP-CONTRACT-D1R = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
-## Current CI contract task
+## Current CI evidence-correction task
 
-**Task:** `CI-PHP-CONTRACT-D1`  
-**Type:** `READ_ONLY_DIAGNOSIS`  
-**Branch:** `chore/CI-PHP-CONTRACT-D1-diagnosis`  
-**State-basis before D1:** `6d3493bc9c8a1d013a4df944a06da6bfb3969f44`  
-**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-D1.md`
+**Task:** `CI-PHP-CONTRACT-D1R`  
+**Type:** `EVIDENCE_CORRECTION_ONLY`  
+**Branch:** `chore/CI-PHP-CONTRACT-D1R-evidence-correction`  
+**State-basis:** `7fb40baa1331d9239fc545b5ff0fa7119e69adee`
 
-D1 diagnoses blocker `CI_PHP_LOCKFILE_COMPATIBILITY` without changing PHP, Composer, dependencies, lockfile, CI workflow, application source, database, provider state, or deployment.
+Correct one factual mismatch in the D1 diagnostic: `symfony/yaml` is locked at `v8.1.6`, not `v8.1.5`.
 
-Known conflict:
+Do not change the D1 diagnosis, blocker, decision gate, Composer/dependency state, CI workflow, application source, database, or deployment.
 
-- CI runner PHP: `8.3.35`
-- root Composer PHP constraint: `^8.3`
-- lockfile platform PHP constraint: `^8.3`
-- locked Symfony 8.1 packages require PHP `>=8.4.1`
-
-D1 must determine whether runtime authority supports PHP >=8.4.1, PHP 8.3 compatibility must be preserved, or the decision remains blocked by unresolved staging/production runtime authority.
-
-After D1, route only to `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`. Do not implement the PHP/dependency fix inside D1.
+After D1R PASS, next task remains `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -134,4 +126,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`
+**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_D1R_FROM_REPOSITORY`
