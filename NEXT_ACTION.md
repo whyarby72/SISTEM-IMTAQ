@@ -1,25 +1,18 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE = COMPLETED / PASS_WITH_PENDING_DECISION`
+**Execution state:** `CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN = COMPLETED / DESIGN_ONLY`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
-## Current CI runtime-authority task
+## Current CI runtime-alignment design task
 
-**Task:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`  
-**Type:** `RUNTIME_AUTHORITY_DECISION_GATE`  
-**Branch:** `chore/CI-PHP-CONTRACT-D2-runtime-authority-gate`  
-**State-basis:** `1c8450081d7178336fbe6238be67f3291b2f3cea`  
-**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE.md`
+**Task:** `CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN`
+**Type:** `RUNTIME_ALIGNMENT_DESIGN_ONLY`
+**Branch:** `chore/ci-php-d2a-runtime-approval`
+**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R1.md`
 
-D2 must establish or explicitly defer the canonical PHP runtime authority for staging/production before any CI/dependency remediation.
+R1 records the owner-approved PHP 8.4.x target (minimum 8.4.1) and defines the minimum safe implementation scope. No CI/dependency remediation is implemented in R1.
 
-Decision options:
-
-- A: PHP >=8.4.1 becomes target runtime authority.
-- B: PHP 8.3 compatibility remains an intentional requirement.
-- C: HOLD until hosting/runtime authority is established.
-
-Codex analyzed and recommended Option C/HOLD; no owner approval for Option A or B was inferred, and no runtime/dependency/CI changes were implemented.
+Owner decision is recorded in D2: PHP 8.4.x with minimum 8.4.1 for CI, staging target, and production target. R1 designs the minimum safe implementation and does not implement runtime/dependency/CI changes.
 
 **Decision artifact:** `codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md`
 
@@ -133,4 +126,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D2A-HOSTING-RUNTIME-AUTHORITY`
+**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`

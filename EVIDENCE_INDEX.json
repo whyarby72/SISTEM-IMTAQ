@@ -48,8 +48,16 @@
       "id": "d2-runtime-authority-gate",
       "kind": "decision_gate",
       "ref": "codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md",
-      "status": "PASS_WITH_PENDING_DECISION",
-      "summary": "No authoritative staging/production PHP runtime was found; Option C HOLD is recommended and owner decision remains pending.",
+      "status": "CLOSED_OWNER_DECISION_RECORDED",
+      "summary": "Owner selected PHP 8.4.x minimum 8.4.1 for CI, staging target, and production target; implementation remains deferred.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "r1-runtime-upward-design",
+      "kind": "implementation_plan",
+      "ref": "codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md",
+      "status": "COMPLETED_DESIGN_ONLY",
+      "summary": "Design plan for PHP 8.4.x minimum 8.4.1 alignment; implementation is deferred to R2.",
       "sensitivity": "non_secret"
     }
   ]
