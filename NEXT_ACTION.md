@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-D1R = READY_FOR_EXECUTION`
+**Execution state:** `CI-PHP-CONTRACT-D1R = COMPLETED / PASS`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
 ## Current CI evidence-correction task
@@ -14,7 +14,7 @@ Correct one factual mismatch in the D1 diagnostic: `symfony/yaml` is locked at `
 
 Do not change the D1 diagnosis, blocker, decision gate, Composer/dependency state, CI workflow, application source, database, or deployment.
 
-After D1R PASS, next task remains `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`.
+After D1R PASS, next task is `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -126,4 +126,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_D1R_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`

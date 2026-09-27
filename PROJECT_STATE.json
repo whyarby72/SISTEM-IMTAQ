@@ -43,8 +43,8 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "CI-PHP-CONTRACT-D1R",
+  "next_task": "CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-27T17:10:00+07:00"
+  "updated_at": "2026-09-27"
 }

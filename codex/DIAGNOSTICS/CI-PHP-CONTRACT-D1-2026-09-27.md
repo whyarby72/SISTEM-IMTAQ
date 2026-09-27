@@ -59,7 +59,7 @@ Locked packages independently requiring PHP above 8.3:
 | `symfony/translation` | `v8.1.5` | `>=8.4.1` |
 | `symfony/uid` | `v8.1.5` | `>=8.4.1` |
 | `symfony/var-dumper` | `v8.1.6` | `>=8.4.1` |
-| `symfony/yaml` | `v8.1.5` | `>=8.4.1` |
+| `symfony/yaml` | `v8.1.6` | `>=8.4.1` |
 
 The lock therefore contains a package-level requirement that cannot be satisfied by PHP 8.3, despite the root and lock platform declarations saying `^8.3`. The lockfile provenance is not proven by the adopted Git history:
 
