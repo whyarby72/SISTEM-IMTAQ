@@ -1,20 +1,25 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-D1R = COMPLETED / PASS`
+**Execution state:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
-## Current CI evidence-correction task
+## Current CI runtime-authority task
 
-**Task:** `CI-PHP-CONTRACT-D1R`  
-**Type:** `EVIDENCE_CORRECTION_ONLY`  
-**Branch:** `chore/CI-PHP-CONTRACT-D1R-evidence-correction`  
-**State-basis:** `7fb40baa1331d9239fc545b5ff0fa7119e69adee`
+**Task:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`  
+**Type:** `RUNTIME_AUTHORITY_DECISION_GATE`  
+**Branch:** `chore/CI-PHP-CONTRACT-D2-runtime-authority-gate`  
+**State-basis:** `1c8450081d7178336fbe6238be67f3291b2f3cea`  
+**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE.md`
 
-Correct one factual mismatch in the D1 diagnostic: `symfony/yaml` is locked at `v8.1.6`, not `v8.1.5`.
+D2 must establish or explicitly defer the canonical PHP runtime authority for staging/production before any CI/dependency remediation.
 
-Do not change the D1 diagnosis, blocker, decision gate, Composer/dependency state, CI workflow, application source, database, or deployment.
+Decision options:
 
-After D1R PASS, next task is `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`.
+- A: PHP >=8.4.1 becomes target runtime authority.
+- B: PHP 8.3 compatibility remains an intentional requirement.
+- C: HOLD until hosting/runtime authority is established.
+
+Codex may analyze and recommend, but must not infer owner approval and must not implement runtime/dependency/CI changes.
 
 
 ## Current AI track — AI Academic Assistant
@@ -126,4 +131,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`
+**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_D2_FROM_REPOSITORY`
