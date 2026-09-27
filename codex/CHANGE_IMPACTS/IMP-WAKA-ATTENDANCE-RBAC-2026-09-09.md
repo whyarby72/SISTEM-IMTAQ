@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Waka Akademik mendapat 403 saat membuka tautan pengisian kehadiran.
+- Change ID / Task ID: `IMP-WAKA-ATTENDANCE-RBAC-2026-09-09`
+- Date: 2026-09-09
+- Owner module: Academic / Attendance Authorization
+- Change class: `SECURITY_GLOBAL`
+- Affected modules/workstreams: Pengisian dan pengesahan kehadiran santri.
+- Source-of-truth entities/services affected: `WaliKelasContextResolver`, `StudentAttendanceDraftService`, `StudentAttendanceFinalizer`.
+- Cross-module contracts touched: Tidak ada.
+- Expected file/write scope: Resolver, controller attendance, draft/finalizer service, attendance UI test, work log, change impact, change manifest.
+- Protected zones touched: Authorization boundary; explicitly requested by owner.
+- RBAC/privacy/security impact: Waka Akademik dapat mengisi dan mengesahkan semua kelas; Wali Kelas tetap class-scoped.
+- Migration/backward-compatibility impact: Tidak ada migration; signature service diberi parameter opsional agar pemanggil lama tetap kompatibel.
+- Environment/config impact (names only, no secrets): Tidak ada.
+- Feature flag requirement: Tidak ada.
+- Policy/management decision required?: Ya, dipenuhi oleh permintaan eksplisit owner.
+- Required regression scope: UI attendance, draft service, resolver, finalizer, dan exception monitor.
+- Staging/deployment impact: Wajib smoke test dengan akun Waka dan Wali Kelas di staging sebelum production.
+- Rollback/feature-disable/compatibility plan: Kembalikan otorisasi global Waka pada resolver/service; tidak ada data yang perlu dipulihkan.
+- Evidence/tests: 11 test lulus dengan 63 assertion; tambahan regresi UI/exception 9 test lulus dengan 57 assertion; Blade cache lulus.
+- Decision/status: Implemented locally; staging approval required.

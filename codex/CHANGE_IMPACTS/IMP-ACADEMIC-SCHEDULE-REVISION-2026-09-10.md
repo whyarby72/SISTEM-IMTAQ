@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Jadwal Kelas 1 perlu direvisi agar aturan baru berlaku mulai 28 Juli 2026 setelah data awal semester terlanjur membentuk sesi, termasuk pergantian guru pengajar dan mata pelajaran; aturan kosong juga perlu dapat dihapus dengan aman.
+- Change ID / Task ID: IMP-ACADEMIC-SCHEDULE-REVISION-2026-09-10
+- Date: 2026-09-10
+- Owner module: Academic scheduling
+- Change class: `MODULE_CONTRACT`
+- Affected modules/workstreams: Admin Academic schedules, teaching assignments/subjects, class-session generation, attendance history/audit, schedule rule lifecycle and archive workflow
+- Source-of-truth entities/services affected: `schedule_rules`, `teaching_assignments`, `class_sessions`, `schedule_changes`, `ScheduleRuleRevisionService`, `ScheduleRuleArchiveService`, `ClassSessionGenerator`
+- Cross-module contracts touched: Attendance reads session history; no attendance rows are rewritten. A changed teacher or subject uses a new effective-dated teaching assignment.
+- Expected file/write scope: `application/web/app/Domains/Academic/Services/ScheduleRuleRevisionService.php`, `application/web/app/Http/Controllers/Admin/ScheduleRuleController.php`, schedule edit view, schedule admin tests, change log/manifest.
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: Existing Waka Akademik/Super Admin schedule authorization remains authoritative.
+- Migration/backward-compatibility impact: NONE; no schema change.
+- Environment/config impact: NONE
+- Feature flag requirement: NONE
+- Policy/management decision required?: No for the selected revision workflow; business owner still chooses the effective date and reason.
+- Required regression scope: Schedule admin tests, Academic tests, Blade cache.
+- Staging/deployment impact: Local UAT only; canonical Git/staging deployment remains pending.
+- Rollback/feature-disable/compatibility plan: Revisions are append-only at rule level; preserve old rule and session audit. Corrective revision uses a new effective-dated rule.
+- Evidence/tests: `ScheduleRuleAdminTest` 15 tests/55 assertions; Academic suite 161 tests/579 assertions; Blade cache and PHP lint passed.
+- Decision/status: IMPLEMENTED — local UAT ready.

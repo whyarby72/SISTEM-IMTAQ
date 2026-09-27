@@ -1,0 +1,13 @@
+Use the repository Checkpoint Choice & Timebox Protocol.
+
+I want to continue, but I want to choose how long the next work segment should be.
+
+Do not edit yet. From the current safe checkpoint, inspect the active task and give me 2–4 next checkpoint options. For each execution option include:
+- estimated time range;
+- exact outcome at the next safe checkpoint;
+- estimate confidence HIGH/MEDIUM/LOW;
+- whether it includes network/download/build/test/migration work.
+
+Option 1 must be your primary recommendation. Include STOP NOW if SAFE_TO_CLOSE is currently YES.
+
+Wait for me to choose a number before continuing.

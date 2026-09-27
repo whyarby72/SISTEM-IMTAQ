@@ -1,0 +1,19 @@
+Audit dan poles UI/UX halaman login SISTEM IMTAQ berdasarkan bundle source yang saya lampirkan.
+
+Fokus utama:
+- modern, profesional, bersih, dan mudah digunakan;
+- hierarki visual, spacing, typography, warna, form controls, tombol Masuk, checkbox Ingat saya, error state, loading state, dan responsive mobile/tablet/desktop;
+- aksesibilitas: label, focus-visible, keyboard navigation, contrast, autocomplete, input type, dan screen-reader semantics;
+- jangan menampilkan atau mengekspos credential dari screenshot atau source;
+- pertahankan bahasa Indonesia dan identitas visual IMTAQ;
+- jangan mengubah authentication flow, route name, POST payload, CSRF, redirect role, RBAC, validation, controller, atau database.
+
+Berikan hasil dalam urutan:
+1. temuan UI/UX berdasarkan source aktual;
+2. masalah prioritas P0/P1/P2;
+3. rekomendasi layout desktop, tablet, dan mobile;
+4. rekomendasi copy dan state error/loading tanpa mengubah kontrak backend;
+5. patch minimal yang hanya menyentuh file presentasi jika implementasi diminta;
+6. checklist regression untuk login availability, valid credentials, invalid credentials, redirect Waka/Wali/Admin, logout, view cache, PHP lint, dan test terkait.
+
+Anggap file source sebagai technical source of truth. Jangan mengarang komponen, route, atau dependency yang tidak ada. Jangan menerapkan perubahan apa pun hanya dari audit ini sebelum ada persetujuan eksplisit.

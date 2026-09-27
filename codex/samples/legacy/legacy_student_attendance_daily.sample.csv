@@ -1,0 +1,6 @@
+source_row_id,legacy_student_key,attendance_date,attendance_status,source_note
+DAILY-0001,LEGACY-STU-001,2026-07-01,PRESENT,
+DAILY-0002,LEGACY-STU-002,2026-07-01,IZIN,izin per sesi dari wali kelas
+DAILY-0003,LEGACY-STU-003,2026-07-01,ABSENT,tidak ada keterangan
+DAILY-0004,LEGACY-STU-001,2026-07-02,PRESENT,masuk di tengah sesi tetap tercatat hadir
+DAILY-0005,LEGACY-STU-004,2026-07-02,SAKIT,catatan sumber dipertahankan

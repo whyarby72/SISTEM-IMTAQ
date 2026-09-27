@@ -1,0 +1,23 @@
+SOC-I0.2 READ-ONLY RESULTS
+Captured: 2026-09-19 10:05:52 Asia/Jakarta
+
+DB identity: imtaq / public / 127.0.0.1:5432 / PostgreSQL 18.6 / Asia/Jakarta.
+transaction_read_only=on. Transaction rolled back.
+DB fingerprint: bc1f8e600fa3f7bc7cd14eca799025043527983b4be6d098c13708ef755912b2.
+
+Migration continuity: repository 41, database 39. Pending exactly:
+- 2026_09_11_000020_add_academic_controlled_vocabulary_checks.php
+- 2026_09_17_000001_create_attendance_semantic_foundation_tables.php
+
+B2C source continuity: 380 checked, missing 0, mismatches 0.
+
+SNAP-01 reconfirmation: exactly 3 rows. Opaque refs and structural facts:
+- 1f61fee87406: CANCELLED / SCHEDULED / planned 2026-07-29 10:00 / schedule_rule present / one SCHEDULE_REVISION / one group / no teacher participation / no attendance / no import-lineage match.
+- 952624b24660: CANCELLED / SCHEDULED / planned 2026-07-29 10:00 / schedule_rule present / one SCHEDULE_REVISION / one group / no teacher participation / no attendance / no import-lineage match.
+- 212a7c2cba1b: CANCELLED / SCHEDULED / planned 2026-07-29 10:00 / schedule_rule present / one SCHEDULE_REVISION / one group / no teacher participation / no attendance / no import-lineage match.
+Schedule-change requested/applied timestamps are respectively 02:38:02, 02:38:44, 02:49:07 Asia/Jakarta on 2026-09-10.
+
+ClassSession totals: 1270; CANCELLED 91; COMPLETED 82; PLANNED 1097; no other status observed.
+Participant snapshots: 1267 sessions with snapshots, 3 without. No data was repaired.
+
+Migration B tables are absent in the current database, and eligibility_status/non_eligible_reason are absent from the live participant table. This confirms pending migration continuity.

@@ -1,0 +1,23 @@
+MANAGEMENT / BUSINESS POLICY DECISION
+
+Policy topic:
+[Name or POLICY_PENDING ID if known.]
+
+Approved decision:
+[State the decision clearly.]
+
+Effective from:
+[Date/period if relevant, otherwise "not specified".]
+
+Approving authority:
+[Role/management authority, if applicable.]
+
+Please:
+1. locate the corresponding POLICY_PENDING entry and affected architecture/workflows;
+2. check for conflicts with the Base Engine or existing DESIGN_LOCKED decisions;
+3. record the decision in the proper governance/decision register;
+4. update only the affected contracts/tasks/tests;
+5. do not silently activate unrelated pending policies;
+6. if implementation becomes executable, identify the correct task rather than jumping ahead.
+
+If the decision conflicts with the Base Engine, explain the conflict and impact before changing the authoritative design.

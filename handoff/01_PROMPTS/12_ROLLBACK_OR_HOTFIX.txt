@@ -1,0 +1,24 @@
+INCIDENT / RELEASE REGRESSION
+
+Affected release/commit:
+[If known.]
+
+Observed problem:
+[Describe.]
+
+Severity:
+[Optional.]
+
+Do not make broad changes first. Establish:
+- currently deployed revision if available;
+- latest known-good revision;
+- database migration state;
+- whether feature-flag disable is sufficient;
+- whether application rollback is safe;
+- whether a forward hotfix is safer than database rollback.
+
+Follow docs/07_implementation/DEPLOYMENT_STAGING_AND_ROLLBACK.md.
+
+Protect business data. Never directly edit production business facts to bypass the domain correction/audit workflow.
+
+Recommend and execute only the safest authorized recovery path, then verify with smoke/regression tests and record the incident/change evidence.

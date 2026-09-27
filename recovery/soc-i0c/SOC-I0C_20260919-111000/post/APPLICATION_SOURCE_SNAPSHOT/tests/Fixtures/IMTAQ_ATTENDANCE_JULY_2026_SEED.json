@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "domain": "ACADEMIC_ATTENDANCE",
+    "period": "2026-07",
+    "validation_status": "NOT_VALIDATED_LOCKED"
+  },
+  "class_attendance_summary": [
+    {"class_admin":"1","attendance_group":"1","matiq_report_class":"Kelas 1","roster":20,"present":53,"permission":2,"sick":1,"absent":1,"eligible":57,"non_eligible":3},
+    {"class_admin":"2A","attendance_group":"2A","matiq_report_class":"Kelas 2","roster":19,"present":340,"permission":12,"sick":8,"absent":1,"eligible":361,"non_eligible":19},
+    {"class_admin":"2B","attendance_group":"2B-3B","matiq_report_class":"Kelas 2","roster":10,"present":170,"permission":6,"sick":4,"absent":0,"eligible":180,"non_eligible":20},
+    {"class_admin":"3A","attendance_group":"3A","matiq_report_class":"Kelas 3","roster":15,"present":270,"permission":9,"sick":5,"absent":1,"eligible":285,"non_eligible":15},
+    {"class_admin":"3B","attendance_group":"2B-3B","matiq_report_class":"Kelas 3","roster":20,"present":293,"permission":10,"sick":11,"absent":1,"eligible":315,"non_eligible":85}
+  ],
+  "overall": {"roster":84,"present":1126,"permission":39,"sick":29,"absent":4,"eligible":1198,"non_eligible":142},
+  "attendance_group_summary": [
+    {"attendance_group":"2B-3B","present":463,"permission":16,"sick":15,"absent":1,"eligible":495,"non_eligible":105}
+  ],
+  "class_system": {"mappings": [
+    {"class_admin":"1","attendance_group":"1","matiq_report_class":"Kelas 1","roster":20},
+    {"class_admin":"2A","attendance_group":"2A","matiq_report_class":"Kelas 2","roster":19},
+    {"class_admin":"2B","attendance_group":"2B-3B","matiq_report_class":"Kelas 2","roster":10},
+    {"class_admin":"3A","attendance_group":"3A","matiq_report_class":"Kelas 3","roster":15},
+    {"class_admin":"3B","attendance_group":"2B-3B","matiq_report_class":"Kelas 3","roster":20}
+  ]}
+}

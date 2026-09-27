@@ -1,0 +1,37 @@
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example
+
+# Dependency trees and generated frontend output
+/application/web/vendor/
+/application/web/node_modules/
+/application/web/public/build/
+
+# Laravel runtime state
+/application/web/storage/logs/*
+/application/web/storage/framework/cache/*
+/application/web/storage/framework/sessions/*
+/application/web/storage/framework/views/*
+/application/web/storage/app/private/*
+/application/web/storage/app/public/*
+!/application/web/storage/app/private/.gitignore
+!/application/web/storage/app/public/.gitignore
+
+# Local databases, dumps, and runtime archives
+*.sqlite
+*.sqlite-*
+*.db
+*.dump
+*.bak
+*.log
+*.tmp
+
+# Local audit/export bundles, not product source
+/SISTEM_IMTAQ_Codex_Project_v1.16.zip
+/codex/bundles/*.zip
+
+# Operating-system and editor files
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,20 @@
+DATABASE SCHEMA CHANGE REQUEST
+
+Requested data change:
+[Describe the field/table/relationship/business requirement.]
+
+Please first identify:
+- Source of Truth;
+- owning module;
+- transaction grain;
+- keys/foreign keys/uniqueness;
+- effective dating/versioning needs;
+- privacy/security classification;
+- downstream reporting/contracts;
+- migration and rollback/forward-fix risk.
+
+Applied migrations are immutable. Do not edit an already-applied migration; create a new migration for schema evolution.
+
+Prefer additive/backward-compatible expand → migrate/backfill/verify → contract sequencing for risky changes.
+
+Add integrity tests and document migration/deployment/rollback implications in the Change Manifest.

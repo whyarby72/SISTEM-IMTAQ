@@ -1,0 +1,10 @@
+SOC-I1E PRE-ACTIVATION READ-ONLY BUSINESS AGGREGATES
+total ClassSession rows: 1270
+before 2026-09-20T00:00:00+07:00: 545
+at or after boundary: 725
+NULL planned_start_at: 0
+at/after boundary with legacy terminal status: 15
+post-boundary terminal range: 2026-09-23T10:00:00+07:00 through 2026-12-30T10:00:00+07:00
+occurrence versions: 0
+effective occurrence pointers: 0
+

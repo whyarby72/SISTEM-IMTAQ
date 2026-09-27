@@ -1,0 +1,168 @@
+{
+  "project": "SISTEM IMTAQ — Multi-Module Parent Workspace",
+  "workspace_version": "1.16",
+  "status": "PILOT_IMPLEMENTED_HARDENING",
+  "current_phase": "Academic pilot hardening / canonicalization",
+  "north_star": "ONE STUDENT → ONE ID → ONE HISTORY → MANY ACTIVITIES → ONE SOURCE OF TRUTH → MANY REPORTS.",
+  "next_action": {
+    "task_id": "SOC-MD-06",
+    "path": "NEXT_ACTION.md"
+  },
+  "module_registry": "modules/MODULE_REGISTRY.json",
+  "module_dependency_map": "modules/MODULE_DEPENDENCY_MAP.md",
+  "cross_module_contracts": "modules/CROSS_MODULE_CONTRACTS.md",
+  "change_impact_rules": "modules/CHANGE_IMPACT_RULES.md",
+  "active_domain": "ACADEMIC",
+  "active_task_queue": "codex/TASK_QUEUE.md",
+  "canonical_implementation_baseline": "codex/GOVERNANCE/CANONICAL_IMPLEMENTATION_BASELINE_v1.0.md",
+  "system_task_queue": "codex/SYSTEM_TASK_QUEUE.md",
+  "sprint_roadmap": "project_management/SPRINT_ROADMAP.md",
+  "system_module_roadmap": "project_management/MODULE_ROADMAP.md",
+  "policy_pending": "docs/00_governance/POLICY_PENDING_REGISTER.md",
+  "application_root": "application/web",
+  "updated_at": "2026-09-18",
+  "project_progress": "PROJECT_PROGRESS.md",
+  "progress_method": "project_management/PROGRESS_TRACKING.md",
+  "progress_update_command": "python scripts/update_project_progress.py",
+  "conversation_closeout": {
+    "show_progress": true,
+    "numbered_next_options": "3-4",
+    "primary_recommendation_option": 1
+  },
+  "ai_architecture": {
+    "status": "DEFERRED_FUTURE_IMPLEMENTATION",
+    "docs_root": "docs/08_ai",
+    "provider_contract": "AIProvider",
+    "openai_secret": "OPENAI_API_KEY",
+    "included_in_current_domain_implementation": false,
+    "access_policy": "docs/08_ai/AI_RBAC_ACCESS_POLICY.md",
+    "initial_access_role": "SUPER_ADMIN",
+    "initial_capabilities": [
+      "ai.assistant.access",
+      "ai.read"
+    ],
+    "other_roles_default": "DENY",
+    "draft_action_default": "DISABLED_UNTIL_AI_GATES",
+    "authorization_rule": "AI capability intersects underlying business permission + scope + resource state",
+    "selected_provider": "OPENAI_API",
+    "provider_strategy": "SINGLE_SELECTED_PRODUCTION_PROVIDER_WITH_THIN_INTERNAL_BOUNDARY",
+    "self_hosted_ai": "OUT_OF_CURRENT_TARGET",
+    "core_dependency_on_ai": false,
+    "provider_failure_behavior": "GRACEFUL_AI_DEGRADATION_CORE_CONTINUES",
+    "provider_adapter": "OpenAIProvider"
+  },
+  "communication_architecture": {
+    "status": "DESIGN_READY_FUTURE_IMPLEMENTATION",
+    "docs_root": "docs/09_communication",
+    "shared_root": "shared/communication",
+    "provider_contract": "MessagingProvider",
+    "first_planned_adapter": "WhatsAppProvider",
+    "included_in_current_domain_implementation": false,
+    "purposes": [
+      "PARENT_PUBLISHED_DELIVERY",
+      "ANNOUNCEMENT",
+      "REMINDER",
+      "ACTION_REQUEST"
+    ],
+    "future_audiences": [
+      "STAFF_ROLE_ASSIGNMENT_BASED",
+      "MANAGED_GROUPS",
+      "GUARDIAN_RECIPIENTS"
+    ],
+    "teacher_availability_rule": "CONFIRMED != PRESENT; NO_RESPONSE != ABSENT; UNAVAILABLE routes to human Academic exception workflow",
+    "implementation_status": "DEFERRED_FUTURE"
+  },
+  "shared_core_architecture": {
+    "status": "DESIGN_READY",
+    "docs_root": "docs/10_shared_core",
+    "shared_root": "shared/core",
+    "included_in_current_foundation_implementation": true
+  },
+  "parent_portal_architecture": {
+    "status": "DESIGN_READY_FUTURE_IMPLEMENTATION",
+    "docs_root": "docs/11_parent_portal",
+    "shared_root": "shared/parent_portal",
+    "first_release": "Read-only exact published Academic parent artifacts",
+    "included_in_current_domain_implementation": false
+  },
+  "future_presence_capability": {
+    "status": "FUTURE_CAPABILITY_ONLY",
+    "implementation_status": "DEFERRED_NOT_REQUIRED",
+    "current_mvp_dependency": false,
+    "principles": [
+      "Fingerprint/biometric presence is optional future evidence, not current Source of Truth.",
+      "No biometric scan must never auto-create ABSENT.",
+      "Any future integration must map to canonical Student_ID/Staff_ID and preserve domain workflows.",
+      "Core attendance must remain operational without biometric devices.",
+      "Biometric templates/raw biometric data must not be exposed to normal domain modules or AI."
+    ]
+  },
+  "academic_class_master": {
+    "status": "DESIGN_LOCKED",
+    "contract": "docs/02_architecture/CLASS_MASTER_AND_ENROLLMENT.md",
+    "model": "Academic Year -> Grade Level -> Year-Specific Class/Section -> Effective-Dated Enrollment",
+    "section_codes": "CONFIGURABLE_DATA_NOT_ENUM",
+    "implementation_task": "IMP-S2-001"
+  },
+  "authentication_provider_policy": {
+    "google_gmail_sso": "DEFERRED_NOT_CURRENT_DEPENDENCY",
+    "exact_production_login_method": "POLICY_PENDING",
+    "identity_rule": "User account and canonical Staff/Guardian identity remain separate from external login provider"
+  },
+  "academic_schedule_conflict_engine": {
+    "status": "DESIGN_LOCKED",
+    "contract": "docs/02_architecture/SCHEDULE_CONFLICT_AND_CONSTRAINT_ENGINE.md",
+    "teacher_overlap": "HARD_BLOCK",
+    "class_overlap": "HARD_BLOCK",
+    "location_overlap": "POLICY_CONTROLLED",
+    "interval_semantics": "[start,end)",
+    "validation": "PREFLIGHT_PLUS_AUTHORITATIVE_TRANSACTIONAL_RECHECK",
+    "concurrency": "TRANSACTION_SCOPED_RESOURCE_SERIALIZATION_PLUS_RECHECK",
+    "dq_rule": "ACA_DQ_SCHEDULE_CONFLICT",
+    "implementation_task": "IMP-S3-002"
+  },
+  "safe_change_management": {
+    "status": "DESIGN_LOCKED",
+    "contract": "docs/07_implementation/CODEX_CHANGE_MANAGEMENT_AND_SAFE_MAINTENANCE.md",
+    "deployment_contract": "docs/07_implementation/DEPLOYMENT_STAGING_AND_ROLLBACK.md",
+    "source_version_authority": "GIT_RELEASE_HISTORY",
+    "minimum_change_rule": "MINIMUM_NECESSARY_CHANGE",
+    "protected_zone_escalation": true,
+    "applied_migration_policy": "IMMUTABLE_CREATE_NEW_MIGRATION",
+    "change_manifest": "templates/CHANGE_MANIFEST_TEMPLATE.md",
+    "environment_target": "DEVELOPMENT_TO_STAGING_TO_PRODUCTION",
+    "manual_file_by_file_upload": "NON_CANONICAL",
+    "business_user_selects_deploy_files": false,
+    "implementation_dependency": "SPRINT_0_GATE_A",
+    "checkpoint_contract": "docs/07_implementation/CODEX_CHECKPOINT_TIMEBOX_PROTOCOL.md",
+    "checkpoint_mode": "OWNER_SELECTS_NEXT_HORIZON_AFTER_EACH_ATOMIC_STEP",
+    "safe_to_close_signal": "SAFE_TO_CLOSE_YES_NO",
+    "time_estimates": "RANGES_NOT_GUARANTEES"
+  },
+  "codex_handoff": {
+    "status": "COMPLETE_HANDOFF_READY",
+    "start_file": "00_CODEX_HANDOFF_START_HERE.md",
+    "first_prompt": "CODEX_FIRST_PROMPT.txt",
+    "handoff_root": "handoff",
+    "prompt_library": "handoff/01_PROMPTS",
+    "business_owner_guide": "handoff/02_USER_GUIDE/NON_PROGRAMMER_CODEX_OPERATING_GUIDE.md",
+    "current_task": "SOC-MD-06",
+    "owner_selects_source_files": false,
+    "checkpoint_choice_guide": "handoff/02_USER_GUIDE/CHECKPOINT_CHOICE_GUIDE.md",
+    "emergency_checkpoint_prompt": "handoff/01_PROMPTS/20_SAFE_CHECKPOINT_NOW.txt",
+    "quota_efficient_start": "handoff/01_PROMPTS/21_QUOTA_EFFICIENT_START.txt",
+    "quota_efficient_continue": "handoff/01_PROMPTS/22_QUOTA_EFFICIENT_CONTINUE.txt"
+  },
+  "codex_quota_efficiency": {
+    "status": "DESIGN_LOCKED_OPERATIONAL_PROTOCOL",
+    "protocol": "docs/07_implementation/CODEX_QUOTA_EFFICIENCY_PROTOCOL.md",
+    "context_router": "codex/CONTEXT_ROUTER.md",
+    "current_task_context": "codex/CURRENT_TASK_CONTEXT.md",
+    "model_policy": "codex/MODEL_AND_REASONING_POLICY.md",
+    "default_strategy": "MINIMUM_ACTIVE_CONTEXT_LAZY_EXPANSION",
+    "normal_model_when_selectable": "GPT-5.6 Terra",
+    "routine_model_when_selectable": "GPT-5.6 Luna",
+    "hard_escalation_model_when_selectable": "GPT-5.6 Sol",
+    "implementation_progress_effect": "NONE"
+  }
+}

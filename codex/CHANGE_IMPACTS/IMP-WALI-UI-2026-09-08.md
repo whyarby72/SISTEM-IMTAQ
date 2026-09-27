@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Dashboard Wali tidak menyediakan kolom/opsi untuk menuju pengisian kehadiran.
+- Change ID / Task ID: IMP-WALI-UI
+- Date: 2026-09-08
+- Owner module: Academic dashboard + attendance UI
+- Change class: `MODULE_CONTRACT`
+- Affected modules/workstreams: Academic dashboard presentation, class session listing, attendance entry navigation
+- Source-of-truth entities/services affected: `ClassSession` read model and existing attendance routes
+- Cross-module contracts touched: Existing `academic.attendance.show` route only; no contract change
+- Expected file/write scope: Dashboard service/view, Academic dashboard regression test, change records
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: Wali receives links only for already scoped classes; no new write privilege
+- Migration/backward-compatibility impact: None
+- Environment/config impact: None
+- Feature flag requirement: None
+- Policy/management decision required?: No
+- Required regression scope: Dashboard service/view and attendance UI tests
+- Staging/deployment impact: Local UAT only
+- Rollback/feature-disable/compatibility plan: Remove attendance session panel; existing attendance routes remain unchanged
+- Evidence/tests: 20 tests, 65 assertions; browser smoke passed
+- Decision/status: COMPLETE — safe checkpoint

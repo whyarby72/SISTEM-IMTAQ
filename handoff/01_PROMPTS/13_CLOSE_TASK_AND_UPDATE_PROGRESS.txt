@@ -1,0 +1,19 @@
+Close the active task correctly based on repository evidence.
+
+Do not mark DONE unless the Definition of Done items applicable to this task are satisfied and required tests pass.
+
+Update as applicable:
+- codex/TASK_QUEUE.md
+- codex/WORK_LOG.md
+- module STATUS.md
+- PROJECT_STATUS.md
+- NEXT_ACTION.md
+- project_management/CHANGE_IMPACT_REGISTER.md
+- relevant authoritative docs
+- Change Manifest
+
+Run:
+python scripts/check_project_structure.py
+python scripts/update_project_progress.py
+
+Then report CHECKPOINT STATUS including `SAFE_TO_CLOSE`, verified progress from PROJECT_PROGRESS.md, and 2–4 next choices. For any implementation choice, include an estimated checkpoint time range and confidence. Option 1 is the primary recommendation.

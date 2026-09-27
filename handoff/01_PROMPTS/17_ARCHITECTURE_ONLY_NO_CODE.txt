@@ -1,0 +1,21 @@
+ARCHITECTURE / DESIGN ONLY
+
+Question or proposed change:
+[Describe.]
+
+Do not edit application code or migrations.
+
+Analyze against:
+- IMTAQ Core Engine;
+- current architecture decisions;
+- module ownership/contracts;
+- Source of Truth;
+- transaction grain;
+- RBAC/audit/privacy;
+- lifecycle;
+- DQ/reporting;
+- dependencies and policy-pending items.
+
+Label any new statement as DESIGN_ASSUMPTION, POLICY_PENDING, FUTURE or proposed DESIGN_LOCKED as appropriate. Explain conflicts before proposing revisions.
+
+Return an implementable design and identify whether repository documentation should be updated, but do not implement code unless I explicitly authorize it later.

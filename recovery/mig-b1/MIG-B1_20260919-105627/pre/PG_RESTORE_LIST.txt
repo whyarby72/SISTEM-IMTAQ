@@ -1,0 +1,507 @@
+;
+; Archive created at 2026-09-19 10:57:11 WIB
+;     dbname: imtaq
+;     TOC Entries: 496
+;     Compression: gzip
+;     Dump Version: 1.16-0
+;     Format: CUSTOM
+;     Integer: 4 bytes
+;     Offset: 8 bytes
+;     Dumped from database version: 18.6 (Homebrew)
+;     Dumped by pg_dump version: 18.6 (Homebrew)
+;
+;
+; Selected TOC Entries:
+;
+2; 3079 16679 EXTENSION - btree_gist 
+5048; 0 0 COMMENT - EXTENSION btree_gist 
+476; 1255 17528 FUNCTION public prevent_audit_log_mutation() imtaq_app
+255; 1259 17770 TABLE public academic_calendar_events imtaq_app
+276; 1259 20209 TABLE public academic_transcript_lines imtaq_app
+277; 1259 20297 TABLE public academic_transcript_signatories imtaq_app
+275; 1259 20182 TABLE public academic_transcript_versions imtaq_app
+274; 1259 20166 TABLE public academic_transcripts imtaq_app
+249; 1259 17611 TABLE public academic_years imtaq_app
+280; 1259 20387 TABLE public alert_actions imtaq_app
+278; 1259 20334 TABLE public alert_rules imtaq_app
+279; 1259 20356 TABLE public alerts imtaq_app
+266; 1259 19902 TABLE public attendance_period_locks imtaq_app
+244; 1259 17476 TABLE public audit_logs imtaq_app
+226; 1259 16436 TABLE public cache imtaq_app
+227; 1259 16447 TABLE public cache_locks imtaq_app
+254; 1259 17736 TABLE public class_homeroom_assignments imtaq_app
+292; 1259 20763 TABLE public class_session_groups imtaq_app
+260; 1259 17972 TABLE public class_sessions imtaq_app
+251; 1259 17652 TABLE public classes imtaq_app
+245; 1259 17498 TABLE public correction_requests imtaq_app
+232; 1259 16489 TABLE public failed_jobs imtaq_app
+231; 1259 16488 SEQUENCE public failed_jobs_id_seq imtaq_app
+5049; 0 0 SEQUENCE OWNED BY public failed_jobs_id_seq imtaq_app
+250; 1259 17630 TABLE public grade_levels imtaq_app
+248; 1259 17579 TABLE public guardian_contact_channels imtaq_app
+246; 1259 17534 TABLE public guardians imtaq_app
+281; 1259 20408 TABLE public import_batches imtaq_app
+282; 1259 20439 TABLE public import_files imtaq_app
+286; 1259 20545 TABLE public import_lineages imtaq_app
+285; 1259 20520 TABLE public import_mappings imtaq_app
+284; 1259 20496 TABLE public import_row_errors imtaq_app
+283; 1259 20462 TABLE public import_rows imtaq_app
+230; 1259 16474 TABLE public job_batches imtaq_app
+229; 1259 16459 TABLE public jobs imtaq_app
+228; 1259 16458 SEQUENCE public jobs_id_seq imtaq_app
+5050; 0 0 SEQUENCE OWNED BY public jobs_id_seq imtaq_app
+234; 1259 16544 TABLE public locations imtaq_app
+221; 1259 16391 TABLE public migrations imtaq_app
+220; 1259 16390 SEQUENCE public migrations_id_seq imtaq_app
+5051; 0 0 SEQUENCE OWNED BY public migrations_id_seq imtaq_app
+287; 1259 20588 TABLE public monthly_attendance_summaries imtaq_app
+290; 1259 20674 TABLE public monthly_student_attendance_snapshots imtaq_app
+233; 1259 16521 TABLE public organizational_units imtaq_app
+224; 1259 16415 TABLE public password_reset_tokens imtaq_app
+241; 1259 17421 TABLE public permissions imtaq_app
+271; 1259 20080 TABLE public report_card_attendance_lines imtaq_app
+272; 1259 20096 TABLE public report_card_notes imtaq_app
+273; 1259 20142 TABLE public report_card_signatories imtaq_app
+270; 1259 20051 TABLE public report_card_subject_lines imtaq_app
+269; 1259 20016 TABLE public report_card_versions imtaq_app
+268; 1259 19994 TABLE public report_cards imtaq_app
+242; 1259 17433 TABLE public role_permissions imtaq_app
+240; 1259 17407 TABLE public roles imtaq_app
+263; 1259 18090 TABLE public schedule_changes imtaq_app
+291; 1259 20740 TABLE public schedule_rule_groups imtaq_app
+259; 1259 17918 TABLE public schedule_rule_week_numbers imtaq_app
+258; 1259 17889 TABLE public schedule_rules imtaq_app
+267; 1259 19928 TABLE public semester_subject_grades imtaq_app
+256; 1259 17813 TABLE public semesters imtaq_app
+261; 1259 18028 TABLE public session_student_participants imtaq_app
+262; 1259 18061 TABLE public session_teacher_participations imtaq_app
+225; 1259 16424 TABLE public sessions imtaq_app
+235; 1259 16567 TABLE public staff imtaq_app
+236; 1259 16584 TABLE public staff_organizational_assignments imtaq_app
+289; 1259 20649 TABLE public staging_imtaq_attendance_july_2026 imtaq_app
+288; 1259 20631 TABLE public staging_imtaq_students_july_2026 imtaq_app
+264; 1259 19834 TABLE public student_attendance imtaq_app
+253; 1259 17707 TABLE public student_class_enrollments imtaq_app
+247; 1259 17550 TABLE public student_guardian_relationships imtaq_app
+238; 1259 16627 TABLE public student_identifiers imtaq_app
+293; 1259 20798 TABLE public student_session_grooming_notes imtaq_app
+239; 1259 16654 TABLE public student_status_history imtaq_app
+237; 1259 16613 TABLE public students imtaq_app
+252; 1259 17690 TABLE public subjects imtaq_app
+257; 1259 17838 TABLE public teaching_assignments imtaq_app
+243; 1259 17450 TABLE public user_role_assignments imtaq_app
+265; 1259 19874 TABLE public user_staff_links imtaq_app
+223; 1259 16401 TABLE public users imtaq_app
+222; 1259 16400 SEQUENCE public users_id_seq imtaq_app
+5052; 0 0 SEQUENCE OWNED BY public users_id_seq imtaq_app
+4267; 2604 16492 DEFAULT public failed_jobs id imtaq_app
+4266; 2604 16462 DEFAULT public jobs id imtaq_app
+4264; 2604 16394 DEFAULT public migrations id imtaq_app
+4265; 2604 16404 DEFAULT public users id imtaq_app
+5003; 0 17770 TABLE DATA public academic_calendar_events imtaq_app
+5024; 0 20209 TABLE DATA public academic_transcript_lines imtaq_app
+5025; 0 20297 TABLE DATA public academic_transcript_signatories imtaq_app
+5023; 0 20182 TABLE DATA public academic_transcript_versions imtaq_app
+5022; 0 20166 TABLE DATA public academic_transcripts imtaq_app
+4997; 0 17611 TABLE DATA public academic_years imtaq_app
+5028; 0 20387 TABLE DATA public alert_actions imtaq_app
+5026; 0 20334 TABLE DATA public alert_rules imtaq_app
+5027; 0 20356 TABLE DATA public alerts imtaq_app
+5014; 0 19902 TABLE DATA public attendance_period_locks imtaq_app
+4992; 0 17476 TABLE DATA public audit_logs imtaq_app
+4974; 0 16436 TABLE DATA public cache imtaq_app
+4975; 0 16447 TABLE DATA public cache_locks imtaq_app
+5002; 0 17736 TABLE DATA public class_homeroom_assignments imtaq_app
+5040; 0 20763 TABLE DATA public class_session_groups imtaq_app
+5008; 0 17972 TABLE DATA public class_sessions imtaq_app
+4999; 0 17652 TABLE DATA public classes imtaq_app
+4993; 0 17498 TABLE DATA public correction_requests imtaq_app
+4980; 0 16489 TABLE DATA public failed_jobs imtaq_app
+4998; 0 17630 TABLE DATA public grade_levels imtaq_app
+4996; 0 17579 TABLE DATA public guardian_contact_channels imtaq_app
+4994; 0 17534 TABLE DATA public guardians imtaq_app
+5029; 0 20408 TABLE DATA public import_batches imtaq_app
+5030; 0 20439 TABLE DATA public import_files imtaq_app
+5034; 0 20545 TABLE DATA public import_lineages imtaq_app
+5033; 0 20520 TABLE DATA public import_mappings imtaq_app
+5032; 0 20496 TABLE DATA public import_row_errors imtaq_app
+5031; 0 20462 TABLE DATA public import_rows imtaq_app
+4978; 0 16474 TABLE DATA public job_batches imtaq_app
+4977; 0 16459 TABLE DATA public jobs imtaq_app
+4982; 0 16544 TABLE DATA public locations imtaq_app
+4969; 0 16391 TABLE DATA public migrations imtaq_app
+5035; 0 20588 TABLE DATA public monthly_attendance_summaries imtaq_app
+5038; 0 20674 TABLE DATA public monthly_student_attendance_snapshots imtaq_app
+4981; 0 16521 TABLE DATA public organizational_units imtaq_app
+4972; 0 16415 TABLE DATA public password_reset_tokens imtaq_app
+4989; 0 17421 TABLE DATA public permissions imtaq_app
+5019; 0 20080 TABLE DATA public report_card_attendance_lines imtaq_app
+5020; 0 20096 TABLE DATA public report_card_notes imtaq_app
+5021; 0 20142 TABLE DATA public report_card_signatories imtaq_app
+5018; 0 20051 TABLE DATA public report_card_subject_lines imtaq_app
+5017; 0 20016 TABLE DATA public report_card_versions imtaq_app
+5016; 0 19994 TABLE DATA public report_cards imtaq_app
+4990; 0 17433 TABLE DATA public role_permissions imtaq_app
+4988; 0 17407 TABLE DATA public roles imtaq_app
+5011; 0 18090 TABLE DATA public schedule_changes imtaq_app
+5039; 0 20740 TABLE DATA public schedule_rule_groups imtaq_app
+5007; 0 17918 TABLE DATA public schedule_rule_week_numbers imtaq_app
+5006; 0 17889 TABLE DATA public schedule_rules imtaq_app
+5015; 0 19928 TABLE DATA public semester_subject_grades imtaq_app
+5004; 0 17813 TABLE DATA public semesters imtaq_app
+5009; 0 18028 TABLE DATA public session_student_participants imtaq_app
+5010; 0 18061 TABLE DATA public session_teacher_participations imtaq_app
+4973; 0 16424 TABLE DATA public sessions imtaq_app
+4983; 0 16567 TABLE DATA public staff imtaq_app
+4984; 0 16584 TABLE DATA public staff_organizational_assignments imtaq_app
+5037; 0 20649 TABLE DATA public staging_imtaq_attendance_july_2026 imtaq_app
+5036; 0 20631 TABLE DATA public staging_imtaq_students_july_2026 imtaq_app
+5012; 0 19834 TABLE DATA public student_attendance imtaq_app
+5001; 0 17707 TABLE DATA public student_class_enrollments imtaq_app
+4995; 0 17550 TABLE DATA public student_guardian_relationships imtaq_app
+4986; 0 16627 TABLE DATA public student_identifiers imtaq_app
+5041; 0 20798 TABLE DATA public student_session_grooming_notes imtaq_app
+4987; 0 16654 TABLE DATA public student_status_history imtaq_app
+4985; 0 16613 TABLE DATA public students imtaq_app
+5000; 0 17690 TABLE DATA public subjects imtaq_app
+5005; 0 17838 TABLE DATA public teaching_assignments imtaq_app
+4991; 0 17450 TABLE DATA public user_role_assignments imtaq_app
+5013; 0 19874 TABLE DATA public user_staff_links imtaq_app
+4971; 0 16401 TABLE DATA public users imtaq_app
+5053; 0 0 SEQUENCE SET public failed_jobs_id_seq imtaq_app
+5054; 0 0 SEQUENCE SET public jobs_id_seq imtaq_app
+5055; 0 0 SEQUENCE SET public migrations_id_seq imtaq_app
+5056; 0 0 SEQUENCE SET public users_id_seq imtaq_app
+4504; 2606 17812 CONSTRAINT public academic_calendar_events academic_calendar_events_pkey imtaq_app
+4601; 2606 20244 CONSTRAINT public academic_transcript_lines academic_transcript_lines_academic_transcript_version_id_semest imtaq_app
+4603; 2606 20246 CONSTRAINT public academic_transcript_lines academic_transcript_lines_pkey imtaq_app
+4605; 2606 20320 CONSTRAINT public academic_transcript_signatories academic_transcript_signatories_pkey imtaq_app
+4597; 2606 20206 CONSTRAINT public academic_transcript_versions academic_transcript_versions_academic_transcript_id_version_no_ imtaq_app
+4599; 2606 20208 CONSTRAINT public academic_transcript_versions academic_transcript_versions_pkey imtaq_app
+4593; 2606 20181 CONSTRAINT public academic_transcripts academic_transcripts_pkey imtaq_app
+4595; 2606 20179 CONSTRAINT public academic_transcripts academic_transcripts_student_id_transcript_type_unique imtaq_app
+4468; 2606 17627 CONSTRAINT public academic_years academic_years_pkey imtaq_app
+4471; 2606 17629 CONSTRAINT public academic_years academic_years_year_code_unique imtaq_app
+4618; 2606 20407 CONSTRAINT public alert_actions alert_actions_pkey imtaq_app
+4609; 2606 20350 CONSTRAINT public alert_rules alert_rules_pkey imtaq_app
+4611; 2606 20348 CONSTRAINT public alert_rules alert_rules_rule_code_version_no_unique imtaq_app
+4613; 2606 20384 CONSTRAINT public alerts alerts_alert_rule_id_dedup_key_unique imtaq_app
+4616; 2606 20386 CONSTRAINT public alerts alerts_pkey imtaq_app
+4559; 2606 19924 CONSTRAINT public attendance_period_locks attendance_period_locks_class_id_period_start_period_end_unique imtaq_app
+4562; 2606 19927 CONSTRAINT public attendance_period_locks attendance_period_locks_pkey imtaq_app
+4448; 2606 17497 CONSTRAINT public audit_logs audit_logs_pkey imtaq_app
+4379; 2606 16456 CONSTRAINT public cache_locks cache_locks_pkey imtaq_app
+4376; 2606 16445 CONSTRAINT public cache cache_pkey imtaq_app
+4496; 2606 17769 CONSTRAINT public class_homeroom_assignments class_homeroom_assignments_no_overlap imtaq_app
+4498; 2606 17767 CONSTRAINT public class_homeroom_assignments class_homeroom_assignments_pkey imtaq_app
+4672; 2606 20782 CONSTRAINT public class_session_groups class_session_groups_class_session_id_class_id_unique imtaq_app
+4674; 2606 20785 CONSTRAINT public class_session_groups class_session_groups_pkey imtaq_app
+4522; 2606 18027 CONSTRAINT public class_sessions class_sessions_active_no_overlap imtaq_app
+4525; 2606 18017 CONSTRAINT public class_sessions class_sessions_pkey imtaq_app
+4528; 2606 18019 CONSTRAINT public class_sessions class_sessions_session_code_unique imtaq_app
+4478; 2606 17689 CONSTRAINT public classes classes_class_code_unique imtaq_app
+4480; 2606 17687 CONSTRAINT public classes classes_pkey imtaq_app
+4482; 2606 17684 CONSTRAINT public classes classes_year_unit_grade_section_unique imtaq_app
+4451; 2606 17527 CONSTRAINT public correction_requests correction_requests_pkey imtaq_app
+4387; 2606 16504 CONSTRAINT public failed_jobs failed_jobs_pkey imtaq_app
+4389; 2606 16507 CONSTRAINT public failed_jobs failed_jobs_uuid_unique imtaq_app
+4473; 2606 17649 CONSTRAINT public grade_levels grade_levels_organizational_unit_id_level_code_unique imtaq_app
+4475; 2606 17651 CONSTRAINT public grade_levels grade_levels_pkey imtaq_app
+4466; 2606 17607 CONSTRAINT public guardian_contact_channels guardian_contact_channels_pkey imtaq_app
+4454; 2606 17549 CONSTRAINT public guardians guardians_guardian_code_unique imtaq_app
+4456; 2606 17547 CONSTRAINT public guardians guardians_pkey imtaq_app
+4620; 2606 20438 CONSTRAINT public import_batches import_batches_batch_code_unique imtaq_app
+4622; 2606 20436 CONSTRAINT public import_batches import_batches_pkey imtaq_app
+4624; 2606 20459 CONSTRAINT public import_files import_files_id_import_batch_id_unique imtaq_app
+4626; 2606 20457 CONSTRAINT public import_files import_files_import_batch_id_sha256_checksum_unique imtaq_app
+4628; 2606 20461 CONSTRAINT public import_files import_files_pkey imtaq_app
+4644; 2606 20574 CONSTRAINT public import_lineages import_lineages_import_row_id_target_type_target_id_unique imtaq_app
+4646; 2606 20587 CONSTRAINT public import_lineages import_lineages_pkey imtaq_app
+4640; 2606 20542 CONSTRAINT public import_mappings import_mappings_import_batch_id_source_type_source_key_unique imtaq_app
+4642; 2606 20544 CONSTRAINT public import_mappings import_mappings_pkey imtaq_app
+4638; 2606 20519 CONSTRAINT public import_row_errors import_row_errors_pkey imtaq_app
+4630; 2606 20487 CONSTRAINT public import_rows import_rows_id_import_batch_id_import_file_id_unique imtaq_app
+4633; 2606 20485 CONSTRAINT public import_rows import_rows_import_file_id_row_number_unique imtaq_app
+4635; 2606 20495 CONSTRAINT public import_rows import_rows_pkey imtaq_app
+4384; 2606 16487 CONSTRAINT public job_batches job_batches_pkey imtaq_app
+4381; 2606 16472 CONSTRAINT public jobs jobs_pkey imtaq_app
+4396; 2606 16566 CONSTRAINT public locations locations_location_code_unique imtaq_app
+4398; 2606 16564 CONSTRAINT public locations locations_pkey imtaq_app
+4363; 2606 16399 CONSTRAINT public migrations migrations_pkey imtaq_app
+4649; 2606 20621 CONSTRAINT public monthly_attendance_summaries monthly_attendance_summaries_period_class_id_source_checksum_un imtaq_app
+4652; 2606 20624 CONSTRAINT public monthly_attendance_summaries monthly_attendance_summaries_pkey imtaq_app
+4658; 2606 20727 CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_import_row_id_unique imtaq_app
+4661; 2606 20725 CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_period_student_id_source_c imtaq_app
+4663; 2606 20731 CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_pkey imtaq_app
+4391; 2606 16536 CONSTRAINT public organizational_units organizational_units_pkey imtaq_app
+4394; 2606 16538 CONSTRAINT public organizational_units organizational_units_unit_code_unique imtaq_app
+4369; 2606 16423 CONSTRAINT public password_reset_tokens password_reset_tokens_pkey imtaq_app
+4435; 2606 17432 CONSTRAINT public permissions permissions_code_unique imtaq_app
+4437; 2606 17430 CONSTRAINT public permissions permissions_pkey imtaq_app
+4581; 2606 20095 CONSTRAINT public report_card_attendance_lines report_card_attendance_lines_pkey imtaq_app
+4583; 2606 20093 CONSTRAINT public report_card_attendance_lines report_card_attendance_lines_report_card_version_id_status_code imtaq_app
+4585; 2606 20126 CONSTRAINT public report_card_notes report_card_notes_pkey imtaq_app
+4587; 2606 20124 CONSTRAINT public report_card_notes report_card_notes_report_card_version_id_unique imtaq_app
+4589; 2606 20165 CONSTRAINT public report_card_signatories report_card_signatories_pkey imtaq_app
+4591; 2606 20163 CONSTRAINT public report_card_signatories report_card_signatories_report_card_version_id_signatory_role_u imtaq_app
+4577; 2606 20079 CONSTRAINT public report_card_subject_lines report_card_subject_lines_pkey imtaq_app
+4579; 2606 20077 CONSTRAINT public report_card_subject_lines report_card_subject_lines_report_card_version_id_subject_id_uni imtaq_app
+4573; 2606 20050 CONSTRAINT public report_card_versions report_card_versions_pkey imtaq_app
+4575; 2606 20048 CONSTRAINT public report_card_versions report_card_versions_report_card_id_version_no_unique imtaq_app
+4569; 2606 20015 CONSTRAINT public report_cards report_cards_pkey imtaq_app
+4571; 2606 20013 CONSTRAINT public report_cards report_cards_student_id_semester_id_report_type_unique imtaq_app
+4439; 2606 17449 CONSTRAINT public role_permissions role_permissions_pkey imtaq_app
+4431; 2606 17420 CONSTRAINT public roles roles_code_unique imtaq_app
+4433; 2606 17418 CONSTRAINT public roles roles_pkey imtaq_app
+4542; 2606 18139 CONSTRAINT public schedule_changes schedule_changes_change_code_unique imtaq_app
+4544; 2606 18137 CONSTRAINT public schedule_changes schedule_changes_pkey imtaq_app
+4667; 2606 20762 CONSTRAINT public schedule_rule_groups schedule_rule_groups_pkey imtaq_app
+4669; 2606 20759 CONSTRAINT public schedule_rule_groups schedule_rule_groups_schedule_rule_id_class_id_unique imtaq_app
+4520; 2606 17929 CONSTRAINT public schedule_rule_week_numbers schedule_rule_week_numbers_pkey imtaq_app
+4516; 2606 17917 CONSTRAINT public schedule_rules schedule_rules_pkey imtaq_app
+4564; 2606 19991 CONSTRAINT public semester_subject_grades semester_subject_grades_pkey imtaq_app
+4567; 2606 19988 CONSTRAINT public semester_subject_grades semester_subject_grades_student_id_semester_id_subject_id_uniqu imtaq_app
+4506; 2606 17835 CONSTRAINT public semesters semesters_academic_year_id_semester_code_unique imtaq_app
+4508; 2606 17837 CONSTRAINT public semesters semesters_pkey imtaq_app
+4532; 2606 18057 CONSTRAINT public session_student_participants session_student_participants_class_session_id_student_id_unique imtaq_app
+4534; 2606 18060 CONSTRAINT public session_student_participants session_student_participants_pkey imtaq_app
+4538; 2606 18084 CONSTRAINT public session_teacher_participations session_teacher_participations_class_session_id_teacher_staff_i imtaq_app
+4540; 2606 18087 CONSTRAINT public session_teacher_participations session_teacher_participations_pkey imtaq_app
+4372; 2606 16433 CONSTRAINT public sessions sessions_pkey imtaq_app
+4407; 2606 16611 CONSTRAINT public staff_organizational_assignments staff_organizational_assignments_pkey imtaq_app
+4401; 2606 16581 CONSTRAINT public staff staff_pkey imtaq_app
+4404; 2606 16583 CONSTRAINT public staff staff_staff_code_unique imtaq_app
+4656; 2606 20669 CONSTRAINT public staging_imtaq_attendance_july_2026 staging_imtaq_attendance_july_2026_pkey imtaq_app
+4654; 2606 20648 CONSTRAINT public staging_imtaq_students_july_2026 staging_imtaq_students_july_2026_pkey imtaq_app
+4547; 2606 19871 CONSTRAINT public student_attendance student_attendance_pkey imtaq_app
+4549; 2606 19873 CONSTRAINT public student_attendance student_attendance_session_student_participant_id_unique imtaq_app
+4490; 2606 17735 CONSTRAINT public student_class_enrollments student_class_enrollments_no_overlap imtaq_app
+4492; 2606 17733 CONSTRAINT public student_class_enrollments student_class_enrollments_pkey imtaq_app
+4460; 2606 17578 CONSTRAINT public student_guardian_relationships student_guardian_relationships_pkey imtaq_app
+4422; 2606 16650 CONSTRAINT public student_identifiers student_identifiers_pkey imtaq_app
+4676; 2606 20825 CONSTRAINT public student_session_grooming_notes student_session_grooming_notes_pkey imtaq_app
+4678; 2606 20827 CONSTRAINT public student_session_grooming_notes student_session_grooming_notes_session_student_participant_id_u imtaq_app
+4425; 2606 17406 CONSTRAINT public student_status_history student_status_history_no_overlap imtaq_app
+4427; 2606 16678 CONSTRAINT public student_status_history student_status_history_pkey imtaq_app
+4410; 2606 20671 CONSTRAINT public students students_nis_unique imtaq_app
+4412; 2606 20673 CONSTRAINT public students students_nisn_unique imtaq_app
+4414; 2606 16624 CONSTRAINT public students students_pkey imtaq_app
+4416; 2606 16626 CONSTRAINT public students students_student_code_unique imtaq_app
+4484; 2606 17704 CONSTRAINT public subjects subjects_pkey imtaq_app
+4487; 2606 17706 CONSTRAINT public subjects subjects_subject_code_unique imtaq_app
+4510; 2606 17888 CONSTRAINT public teaching_assignments teaching_assignments_assignment_code_unique imtaq_app
+4512; 2606 17886 CONSTRAINT public teaching_assignments teaching_assignments_pkey imtaq_app
+4607; 2606 20318 CONSTRAINT public academic_transcript_signatories transcript_signatories_version_role_unique imtaq_app
+4441; 2606 17475 CONSTRAINT public user_role_assignments user_role_assignments_pkey imtaq_app
+4552; 2606 19897 CONSTRAINT public user_staff_links user_staff_links_pkey imtaq_app
+4554; 2606 19901 CONSTRAINT public user_staff_links user_staff_links_staff_id_unique imtaq_app
+4557; 2606 19899 CONSTRAINT public user_staff_links user_staff_links_user_id_unique imtaq_app
+4365; 2606 16414 CONSTRAINT public users users_email_unique imtaq_app
+4367; 2606 16412 CONSTRAINT public users users_pkey imtaq_app
+4500; 1259 17808 INDEX public academic_calendar_events_academic_year_id_start_at_index imtaq_app
+4501; 1259 17810 INDEX public academic_calendar_events_class_id_start_at_index imtaq_app
+4502; 1259 17809 INDEX public academic_calendar_events_organizational_unit_id_start_at_index imtaq_app
+4469; 1259 17625 INDEX public academic_years_status_starts_on_index imtaq_app
+4614; 1259 20382 INDEX public alerts_alert_rule_id_fingerprint_status_index imtaq_app
+4560; 1259 19925 INDEX public attendance_period_locks_class_id_status_period_start_index imtaq_app
+4444; 1259 17494 INDEX public audit_logs_actor_user_id_occurred_at_index imtaq_app
+4445; 1259 17495 INDEX public audit_logs_correction_request_id_index imtaq_app
+4446; 1259 17493 INDEX public audit_logs_entity_type_entity_id_occurred_at_index imtaq_app
+4374; 1259 16446 INDEX public cache_expiration_index imtaq_app
+4377; 1259 16457 INDEX public cache_locks_expiration_index imtaq_app
+4494; 1259 17764 INDEX public class_homeroom_assignments_class_id_effective_from_index imtaq_app
+4499; 1259 17765 INDEX public class_homeroom_assignments_staff_id_effective_from_index imtaq_app
+4670; 1259 20783 INDEX public class_session_groups_class_id_scope_role_index imtaq_app
+4523; 1259 18014 INDEX public class_sessions_class_id_planned_start_at_index imtaq_app
+4526; 1259 18025 INDEX public class_sessions_schedule_rule_start_unique imtaq_app
+4529; 1259 18015 INDEX public class_sessions_teaching_assignment_id_planned_start_at_index imtaq_app
+4476; 1259 17685 INDEX public classes_academic_year_id_status_index imtaq_app
+4449; 1259 17524 INDEX public correction_requests_entity_type_entity_id_status_index imtaq_app
+4452; 1259 17525 INDEX public correction_requests_requested_by_user_id_status_index imtaq_app
+4385; 1259 16505 INDEX public failed_jobs_connection_queue_failed_at_index imtaq_app
+4462; 1259 17609 INDEX public guardian_active_primary_channel_unique imtaq_app
+4463; 1259 17605 INDEX public guardian_contact_channels_channel_type_normalized_value_index imtaq_app
+4464; 1259 17604 INDEX public guardian_contact_channels_guardian_id_channel_type_active_until imtaq_app
+4647; 1259 20585 INDEX public import_lineages_target_type_target_id_index imtaq_app
+4636; 1259 20517 INDEX public import_row_errors_import_row_id_severity_index imtaq_app
+4631; 1259 20493 INDEX public import_rows_import_batch_id_row_status_index imtaq_app
+4382; 1259 16473 INDEX public jobs_queue_index imtaq_app
+4399; 1259 16562 INDEX public locations_record_status_effective_from_index imtaq_app
+4650; 1259 20622 INDEX public monthly_attendance_summaries_period_status_index imtaq_app
+4659; 1259 20728 INDEX public monthly_student_attendance_snapshots_period_class_id_index imtaq_app
+4664; 1259 20729 INDEX public monthly_student_attendance_snapshots_source_record_id_source_ch imtaq_app
+4392; 1259 16534 INDEX public organizational_units_record_status_effective_from_index imtaq_app
+4545; 1259 18135 INDEX public schedule_changes_source_session_id_status_index imtaq_app
+4665; 1259 20760 INDEX public schedule_rule_groups_class_id_scope_role_index imtaq_app
+4517; 1259 17914 INDEX public schedule_rules_teaching_assignment_id_effective_from_index imtaq_app
+4518; 1259 17915 INDEX public schedule_rules_weekday_workflow_status_index imtaq_app
+4565; 1259 19989 INDEX public semester_subject_grades_semester_id_subject_id_workflow_status_ imtaq_app
+4530; 1259 18058 INDEX public session_student_participants_class_session_id_participant_statu imtaq_app
+4535; 1259 18088 INDEX public session_teacher_expected_primary_unique imtaq_app
+4536; 1259 18085 INDEX public session_teacher_participations_class_session_id_participation_s imtaq_app
+4370; 1259 16435 INDEX public sessions_last_activity_index imtaq_app
+4373; 1259 16434 INDEX public sessions_user_id_index imtaq_app
+4405; 1259 16609 INDEX public staff_organizational_assignments_organizational_unit_id_effecti imtaq_app
+4408; 1259 16608 INDEX public staff_organizational_assignments_staff_id_effective_from_index imtaq_app
+4402; 1259 16579 INDEX public staff_record_status_active_from_index imtaq_app
+4550; 1259 19869 INDEX public student_attendance_workflow_status_updated_at_index imtaq_app
+4488; 1259 17731 INDEX public student_class_enrollments_class_id_effective_from_index imtaq_app
+4493; 1259 17730 INDEX public student_class_enrollments_student_id_effective_from_index imtaq_app
+4457; 1259 17608 INDEX public student_guardian_active_relationship_unique imtaq_app
+4458; 1259 17576 INDEX public student_guardian_relationships_guardian_id_relationship_status_ imtaq_app
+4461; 1259 17575 INDEX public student_guardian_relationships_student_id_relationship_status_i imtaq_app
+4417; 1259 16653 INDEX public student_identifiers_active_nisn_value_unique imtaq_app
+4418; 1259 16651 INDEX public student_identifiers_active_student_type_no_scope_unique imtaq_app
+4419; 1259 16652 INDEX public student_identifiers_active_student_type_scope_unique imtaq_app
+4420; 1259 16648 INDEX public student_identifiers_identifier_type_identifier_value_record_sta imtaq_app
+4423; 1259 16647 INDEX public student_identifiers_student_id_identifier_type_record_status_in imtaq_app
+4428; 1259 16675 INDEX public student_status_history_student_id_effective_from_index imtaq_app
+4429; 1259 16676 INDEX public student_status_history_student_id_status_index imtaq_app
+4485; 1259 17702 INDEX public subjects_status_index imtaq_app
+4513; 1259 17883 INDEX public teaching_assignments_semester_id_class_id_index imtaq_app
+4514; 1259 17884 INDEX public teaching_assignments_teacher_staff_id_effective_from_index imtaq_app
+4442; 1259 17473 INDEX public user_role_assignments_scope_type_scope_key_index imtaq_app
+4443; 1259 17472 INDEX public user_role_assignments_user_id_effective_from_effective_until_in imtaq_app
+4555; 1259 19895 INDEX public user_staff_links_user_id_effective_from_effective_until_index imtaq_app
+4820; 2620 17529 TRIGGER public audit_logs audit_logs_append_only imtaq_app
+4706; 2606 17783 FK CONSTRAINT public academic_calendar_events academic_calendar_events_academic_year_id_foreign imtaq_app
+4707; 2606 17793 FK CONSTRAINT public academic_calendar_events academic_calendar_events_class_id_foreign imtaq_app
+4708; 2606 17798 FK CONSTRAINT public academic_calendar_events academic_calendar_events_created_by_user_id_foreign imtaq_app
+4709; 2606 17788 FK CONSTRAINT public academic_calendar_events academic_calendar_events_organizational_unit_id_foreign imtaq_app
+4710; 2606 17803 FK CONSTRAINT public academic_calendar_events academic_calendar_events_updated_by_user_id_foreign imtaq_app
+4779; 2606 20223 FK CONSTRAINT public academic_transcript_lines academic_transcript_lines_academic_transcript_version_id_foreig imtaq_app
+4780; 2606 20228 FK CONSTRAINT public academic_transcript_lines academic_transcript_lines_semester_id_foreign imtaq_app
+4781; 2606 20238 FK CONSTRAINT public academic_transcript_lines academic_transcript_lines_semester_subject_grade_id_foreign imtaq_app
+4782; 2606 20233 FK CONSTRAINT public academic_transcript_lines academic_transcript_lines_subject_id_foreign imtaq_app
+4783; 2606 20307 FK CONSTRAINT public academic_transcript_signatories academic_transcript_signatories_academic_transcript_version_id_ imtaq_app
+4784; 2606 20312 FK CONSTRAINT public academic_transcript_signatories academic_transcript_signatories_staff_id_foreign imtaq_app
+4774; 2606 20195 FK CONSTRAINT public academic_transcript_versions academic_transcript_versions_academic_transcript_id_foreign imtaq_app
+4775; 2606 20287 FK CONSTRAINT public academic_transcript_versions academic_transcript_versions_approved_by_foreign imtaq_app
+4776; 2606 20200 FK CONSTRAINT public academic_transcript_versions academic_transcript_versions_created_by_foreign imtaq_app
+4777; 2606 20292 FK CONSTRAINT public academic_transcript_versions academic_transcript_versions_published_by_foreign imtaq_app
+4778; 2606 20282 FK CONSTRAINT public academic_transcript_versions academic_transcript_versions_reviewed_by_foreign imtaq_app
+4773; 2606 20173 FK CONSTRAINT public academic_transcripts academic_transcripts_student_id_foreign imtaq_app
+4789; 2606 20401 FK CONSTRAINT public alert_actions alert_actions_actor_user_id_foreign imtaq_app
+4790; 2606 20396 FK CONSTRAINT public alert_actions alert_actions_alert_id_foreign imtaq_app
+4785; 2606 20351 FK CONSTRAINT public alert_rules alert_rules_supersedes_rule_fk imtaq_app
+4786; 2606 20367 FK CONSTRAINT public alerts alerts_alert_rule_id_foreign imtaq_app
+4787; 2606 20372 FK CONSTRAINT public alerts alerts_owner_user_id_foreign imtaq_app
+4788; 2606 20377 FK CONSTRAINT public alerts alerts_resolved_by_foreign imtaq_app
+4746; 2606 19913 FK CONSTRAINT public attendance_period_locks attendance_period_locks_class_id_foreign imtaq_app
+4747; 2606 19918 FK CONSTRAINT public attendance_period_locks attendance_period_locks_locked_by_foreign imtaq_app
+4690; 2606 17488 FK CONSTRAINT public audit_logs audit_logs_actor_user_id_foreign imtaq_app
+4703; 2606 17759 FK CONSTRAINT public class_homeroom_assignments class_homeroom_assignments_assigned_by_user_id_foreign imtaq_app
+4704; 2606 17749 FK CONSTRAINT public class_homeroom_assignments class_homeroom_assignments_class_id_foreign imtaq_app
+4705; 2606 17754 FK CONSTRAINT public class_homeroom_assignments class_homeroom_assignments_staff_id_foreign imtaq_app
+4815; 2606 20776 FK CONSTRAINT public class_session_groups class_session_groups_class_id_foreign imtaq_app
+4816; 2606 20771 FK CONSTRAINT public class_session_groups class_session_groups_class_session_id_foreign imtaq_app
+4721; 2606 17999 FK CONSTRAINT public class_sessions class_sessions_class_id_foreign imtaq_app
+4722; 2606 18009 FK CONSTRAINT public class_sessions class_sessions_location_id_foreign imtaq_app
+4723; 2606 18020 FK CONSTRAINT public class_sessions class_sessions_rescheduled_from_session_id_foreign imtaq_app
+4724; 2606 17994 FK CONSTRAINT public class_sessions class_sessions_schedule_rule_id_foreign imtaq_app
+4725; 2606 18004 FK CONSTRAINT public class_sessions class_sessions_subject_id_foreign imtaq_app
+4726; 2606 17989 FK CONSTRAINT public class_sessions class_sessions_teaching_assignment_id_foreign imtaq_app
+4698; 2606 17668 FK CONSTRAINT public classes classes_academic_year_id_foreign imtaq_app
+4699; 2606 17678 FK CONSTRAINT public classes classes_grade_level_id_foreign imtaq_app
+4700; 2606 17673 FK CONSTRAINT public classes classes_organizational_unit_id_foreign imtaq_app
+4691; 2606 17514 FK CONSTRAINT public correction_requests correction_requests_requested_by_user_id_foreign imtaq_app
+4692; 2606 17519 FK CONSTRAINT public correction_requests correction_requests_reviewed_by_user_id_foreign imtaq_app
+4697; 2606 17643 FK CONSTRAINT public grade_levels grade_levels_organizational_unit_id_foreign imtaq_app
+4695; 2606 17594 FK CONSTRAINT public guardian_contact_channels guardian_contact_channels_guardian_id_foreign imtaq_app
+4696; 2606 17599 FK CONSTRAINT public guardian_contact_channels guardian_contact_channels_verified_by_user_id_foreign imtaq_app
+4791; 2606 20430 FK CONSTRAINT public import_batches import_batches_created_by_user_id_foreign imtaq_app
+4792; 2606 20451 FK CONSTRAINT public import_files import_files_import_batch_id_foreign imtaq_app
+4800; 2606 20558 FK CONSTRAINT public import_lineages import_lineages_import_batch_id_foreign imtaq_app
+4801; 2606 20563 FK CONSTRAINT public import_lineages import_lineages_import_file_id_foreign imtaq_app
+4802; 2606 20575 FK CONSTRAINT public import_lineages import_lineages_import_file_id_import_batch_id_foreign imtaq_app
+4803; 2606 20568 FK CONSTRAINT public import_lineages import_lineages_import_row_id_foreign imtaq_app
+4804; 2606 20580 FK CONSTRAINT public import_lineages import_lineages_import_row_id_import_file_id_import_batch_id_fo imtaq_app
+4798; 2606 20531 FK CONSTRAINT public import_mappings import_mappings_import_batch_id_foreign imtaq_app
+4799; 2606 20536 FK CONSTRAINT public import_mappings import_mappings_reviewed_by_user_id_foreign imtaq_app
+4796; 2606 20507 FK CONSTRAINT public import_row_errors import_row_errors_import_row_id_foreign imtaq_app
+4797; 2606 20512 FK CONSTRAINT public import_row_errors import_row_errors_resolved_by_user_id_foreign imtaq_app
+4793; 2606 20474 FK CONSTRAINT public import_rows import_rows_import_batch_id_foreign imtaq_app
+4794; 2606 20479 FK CONSTRAINT public import_rows import_rows_import_file_id_foreign imtaq_app
+4795; 2606 20488 FK CONSTRAINT public import_rows import_rows_import_file_id_import_batch_id_foreign imtaq_app
+4680; 2606 16557 FK CONSTRAINT public locations locations_organizational_unit_id_foreign imtaq_app
+4805; 2606 20610 FK CONSTRAINT public monthly_attendance_summaries monthly_attendance_summaries_class_id_foreign imtaq_app
+4806; 2606 20615 FK CONSTRAINT public monthly_attendance_summaries monthly_attendance_summaries_import_batch_id_foreign imtaq_app
+4807; 2606 20626 FK CONSTRAINT public monthly_attendance_summaries monthly_attendance_summaries_published_by_user_id_foreign imtaq_app
+4808; 2606 20704 FK CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_class_id_foreign imtaq_app
+4809; 2606 20709 FK CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_import_batch_id_foreign imtaq_app
+4810; 2606 20714 FK CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_import_file_id_foreign imtaq_app
+4811; 2606 20719 FK CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_import_row_id_foreign imtaq_app
+4812; 2606 20699 FK CONSTRAINT public monthly_student_attendance_snapshots monthly_student_attendance_snapshots_student_id_foreign imtaq_app
+4679; 2606 16539 FK CONSTRAINT public organizational_units organizational_units_parent_unit_id_foreign imtaq_app
+4767; 2606 20087 FK CONSTRAINT public report_card_attendance_lines report_card_attendance_lines_report_card_version_id_foreign imtaq_app
+4768; 2606 20113 FK CONSTRAINT public report_card_notes report_card_notes_created_by_foreign imtaq_app
+4769; 2606 20108 FK CONSTRAINT public report_card_notes report_card_notes_report_card_version_id_foreign imtaq_app
+4770; 2606 20118 FK CONSTRAINT public report_card_notes report_card_notes_updated_by_foreign imtaq_app
+4771; 2606 20152 FK CONSTRAINT public report_card_signatories report_card_signatories_report_card_version_id_foreign imtaq_app
+4772; 2606 20157 FK CONSTRAINT public report_card_signatories report_card_signatories_staff_id_foreign imtaq_app
+4764; 2606 20061 FK CONSTRAINT public report_card_subject_lines report_card_subject_lines_report_card_version_id_foreign imtaq_app
+4765; 2606 20071 FK CONSTRAINT public report_card_subject_lines report_card_subject_lines_semester_subject_grade_id_foreign imtaq_app
+4766; 2606 20066 FK CONSTRAINT public report_card_subject_lines report_card_subject_lines_subject_id_foreign imtaq_app
+4758; 2606 20132 FK CONSTRAINT public report_card_versions report_card_versions_approved_by_foreign imtaq_app
+4759; 2606 20037 FK CONSTRAINT public report_card_versions report_card_versions_class_id_foreign imtaq_app
+4760; 2606 20042 FK CONSTRAINT public report_card_versions report_card_versions_created_by_foreign imtaq_app
+4761; 2606 20137 FK CONSTRAINT public report_card_versions report_card_versions_published_by_foreign imtaq_app
+4762; 2606 20032 FK CONSTRAINT public report_card_versions report_card_versions_report_card_id_foreign imtaq_app
+4763; 2606 20127 FK CONSTRAINT public report_card_versions report_card_versions_reviewed_by_foreign imtaq_app
+4756; 2606 20007 FK CONSTRAINT public report_cards report_cards_semester_id_foreign imtaq_app
+4757; 2606 20002 FK CONSTRAINT public report_cards report_cards_student_id_foreign imtaq_app
+4686; 2606 17443 FK CONSTRAINT public role_permissions role_permissions_permission_id_foreign imtaq_app
+4687; 2606 17438 FK CONSTRAINT public role_permissions role_permissions_role_id_foreign imtaq_app
+4732; 2606 18130 FK CONSTRAINT public schedule_changes schedule_changes_applied_by_user_id_foreign imtaq_app
+4733; 2606 18125 FK CONSTRAINT public schedule_changes schedule_changes_approved_by_user_id_foreign imtaq_app
+4734; 2606 18110 FK CONSTRAINT public schedule_changes schedule_changes_original_teacher_id_foreign imtaq_app
+4735; 2606 18105 FK CONSTRAINT public schedule_changes schedule_changes_related_session_id_foreign imtaq_app
+4736; 2606 18115 FK CONSTRAINT public schedule_changes schedule_changes_replacement_teacher_id_foreign imtaq_app
+4737; 2606 18120 FK CONSTRAINT public schedule_changes schedule_changes_requested_by_user_id_foreign imtaq_app
+4738; 2606 18100 FK CONSTRAINT public schedule_changes schedule_changes_source_session_id_foreign imtaq_app
+4813; 2606 20753 FK CONSTRAINT public schedule_rule_groups schedule_rule_groups_class_id_foreign imtaq_app
+4814; 2606 20748 FK CONSTRAINT public schedule_rule_groups schedule_rule_groups_schedule_rule_id_foreign imtaq_app
+4720; 2606 17923 FK CONSTRAINT public schedule_rule_week_numbers schedule_rule_week_numbers_schedule_rule_id_foreign imtaq_app
+4718; 2606 17909 FK CONSTRAINT public schedule_rules schedule_rules_location_id_foreign imtaq_app
+4719; 2606 17904 FK CONSTRAINT public schedule_rules schedule_rules_teaching_assignment_id_foreign imtaq_app
+4748; 2606 19972 FK CONSTRAINT public semester_subject_grades semester_subject_grades_entered_by_foreign imtaq_app
+4749; 2606 19977 FK CONSTRAINT public semester_subject_grades semester_subject_grades_finalized_by_foreign imtaq_app
+4750; 2606 19967 FK CONSTRAINT public semester_subject_grades semester_subject_grades_responsible_staff_id_foreign imtaq_app
+4751; 2606 19952 FK CONSTRAINT public semester_subject_grades semester_subject_grades_semester_id_foreign imtaq_app
+4752; 2606 19962 FK CONSTRAINT public semester_subject_grades semester_subject_grades_source_teaching_assignment_id_foreign imtaq_app
+4753; 2606 19947 FK CONSTRAINT public semester_subject_grades semester_subject_grades_student_id_foreign imtaq_app
+4754; 2606 19957 FK CONSTRAINT public semester_subject_grades semester_subject_grades_subject_id_foreign imtaq_app
+4755; 2606 19982 FK CONSTRAINT public semester_subject_grades semester_subject_grades_updated_by_foreign imtaq_app
+4711; 2606 17829 FK CONSTRAINT public semesters semesters_academic_year_id_foreign imtaq_app
+4727; 2606 18041 FK CONSTRAINT public session_student_participants session_student_participants_class_session_id_foreign imtaq_app
+4728; 2606 18051 FK CONSTRAINT public session_student_participants session_student_participants_removed_by_user_id_foreign imtaq_app
+4729; 2606 18046 FK CONSTRAINT public session_student_participants session_student_participants_student_id_foreign imtaq_app
+4730; 2606 18073 FK CONSTRAINT public session_teacher_participations session_teacher_participations_class_session_id_foreign imtaq_app
+4731; 2606 18078 FK CONSTRAINT public session_teacher_participations session_teacher_participations_teacher_staff_id_foreign imtaq_app
+4681; 2606 16603 FK CONSTRAINT public staff_organizational_assignments staff_organizational_assignments_organizational_unit_id_foreign imtaq_app
+4682; 2606 16598 FK CONSTRAINT public staff_organizational_assignments staff_organizational_assignments_staff_id_foreign imtaq_app
+4739; 2606 19854 FK CONSTRAINT public student_attendance student_attendance_entered_by_foreign imtaq_app
+4740; 2606 19859 FK CONSTRAINT public student_attendance student_attendance_finalized_by_foreign imtaq_app
+4741; 2606 19849 FK CONSTRAINT public student_attendance student_attendance_session_student_participant_id_foreign imtaq_app
+4742; 2606 19864 FK CONSTRAINT public student_attendance student_attendance_updated_by_foreign imtaq_app
+4701; 2606 17725 FK CONSTRAINT public student_class_enrollments student_class_enrollments_class_id_foreign imtaq_app
+4702; 2606 17720 FK CONSTRAINT public student_class_enrollments student_class_enrollments_student_id_foreign imtaq_app
+4693; 2606 17570 FK CONSTRAINT public student_guardian_relationships student_guardian_relationships_guardian_id_foreign imtaq_app
+4694; 2606 17565 FK CONSTRAINT public student_guardian_relationships student_guardian_relationships_student_id_foreign imtaq_app
+4683; 2606 16642 FK CONSTRAINT public student_identifiers student_identifiers_student_id_foreign imtaq_app
+4817; 2606 20814 FK CONSTRAINT public student_session_grooming_notes student_session_grooming_notes_created_by_foreign imtaq_app
+4818; 2606 20809 FK CONSTRAINT public student_session_grooming_notes student_session_grooming_notes_session_student_participant_id_f imtaq_app
+4819; 2606 20819 FK CONSTRAINT public student_session_grooming_notes student_session_grooming_notes_updated_by_foreign imtaq_app
+4684; 2606 16670 FK CONSTRAINT public student_status_history student_status_history_actor_user_id_foreign imtaq_app
+4685; 2606 16665 FK CONSTRAINT public student_status_history student_status_history_student_id_foreign imtaq_app
+4712; 2606 17858 FK CONSTRAINT public teaching_assignments teaching_assignments_class_id_foreign imtaq_app
+4713; 2606 17873 FK CONSTRAINT public teaching_assignments teaching_assignments_created_by_user_id_foreign imtaq_app
+4714; 2606 17853 FK CONSTRAINT public teaching_assignments teaching_assignments_semester_id_foreign imtaq_app
+4715; 2606 17863 FK CONSTRAINT public teaching_assignments teaching_assignments_subject_id_foreign imtaq_app
+4716; 2606 17868 FK CONSTRAINT public teaching_assignments teaching_assignments_teacher_staff_id_foreign imtaq_app
+4717; 2606 17878 FK CONSTRAINT public teaching_assignments teaching_assignments_updated_by_user_id_foreign imtaq_app
+4688; 2606 17467 FK CONSTRAINT public user_role_assignments user_role_assignments_role_id_foreign imtaq_app
+4689; 2606 17462 FK CONSTRAINT public user_role_assignments user_role_assignments_user_id_foreign imtaq_app
+4743; 2606 19890 FK CONSTRAINT public user_staff_links user_staff_links_linked_by_user_id_foreign imtaq_app
+4744; 2606 19885 FK CONSTRAINT public user_staff_links user_staff_links_staff_id_foreign imtaq_app
+4745; 2606 19880 FK CONSTRAINT public user_staff_links user_staff_links_user_id_foreign imtaq_app

@@ -1,0 +1,116 @@
+[class_sessions.status]
+{"key":"CANCELLED","n":91}
+{"key":"COMPLETED","n":82}
+{"key":"PLANNED","n":1097}
+[class_sessions.source]
+{"key":"SCHEDULED","n":1270}
+[class_sessions.scope]
+{"key":"FULL_CLASS","n":1270}
+[teacher.role]
+{"key":"PRIMARY","n":64}
+{"key":"SUBSTITUTE","n":18}
+[teacher.obligation]
+{"key":"REPLACEMENT","n":18}
+{"key":"TEACHING_ASSIGNMENT","n":64}
+[teacher.participation]
+{"key":"EXPECTED","n":82}
+[teacher.attendance]
+{"key":"NULL","n":3}
+{"key":"ABSENT","n":2}
+{"key":"IZIN","n":16}
+{"key":"PRESENT","n":61}
+[student.attendance]
+{"key":"ABSENT","n":6}
+{"key":"IZIN","n":40}
+{"key":"PRESENT","n":1351}
+{"key":"SICK","n":17}
+[student.workflow]
+{"key":"VALIDATED","n":1414}
+[participants.status]
+{"key":"EXPECTED","n":26261}
+[COUNTS]
+{"table":"class_sessions","count":1270}
+{"table":"session_teacher_participations","count":82}
+{"table":"student_attendance","count":1414}
+{"table":"schedule_changes","count":162}
+{"table":"session_student_participants","count":26261}
+[SCHEMA]
+{"table_name":"class_sessions","column_name":"id","data_type":"uuid"}
+{"table_name":"class_sessions","column_name":"session_code","data_type":"character varying"}
+{"table_name":"class_sessions","column_name":"teaching_assignment_id","data_type":"uuid"}
+{"table_name":"class_sessions","column_name":"schedule_rule_id","data_type":"uuid"}
+{"table_name":"class_sessions","column_name":"class_id","data_type":"uuid"}
+{"table_name":"class_sessions","column_name":"subject_id","data_type":"uuid"}
+{"table_name":"class_sessions","column_name":"location_id","data_type":"uuid"}
+{"table_name":"class_sessions","column_name":"planned_start_at","data_type":"timestamp with time zone"}
+{"table_name":"class_sessions","column_name":"planned_end_at","data_type":"timestamp with time zone"}
+{"table_name":"class_sessions","column_name":"actual_start_at","data_type":"timestamp with time zone"}
+{"table_name":"class_sessions","column_name":"actual_end_at","data_type":"timestamp with time zone"}
+{"table_name":"class_sessions","column_name":"session_source","data_type":"character varying"}
+{"table_name":"class_sessions","column_name":"participant_scope","data_type":"character varying"}
+{"table_name":"class_sessions","column_name":"session_status","data_type":"character varying"}
+{"table_name":"class_sessions","column_name":"rescheduled_from_session_id","data_type":"uuid"}
+{"table_name":"class_sessions","column_name":"notes","data_type":"text"}
+{"table_name":"class_sessions","column_name":"version_no","data_type":"integer"}
+{"table_name":"class_sessions","column_name":"created_at","data_type":"timestamp with time zone"}
+{"table_name":"class_sessions","column_name":"updated_at","data_type":"timestamp with time zone"}
+{"table_name":"schedule_changes","column_name":"id","data_type":"uuid"}
+{"table_name":"schedule_changes","column_name":"change_code","data_type":"character varying"}
+{"table_name":"schedule_changes","column_name":"change_type","data_type":"character varying"}
+{"table_name":"schedule_changes","column_name":"source_session_id","data_type":"uuid"}
+{"table_name":"schedule_changes","column_name":"related_session_id","data_type":"uuid"}
+{"table_name":"schedule_changes","column_name":"original_teacher_id","data_type":"uuid"}
+{"table_name":"schedule_changes","column_name":"replacement_teacher_id","data_type":"uuid"}
+{"table_name":"schedule_changes","column_name":"new_start_at","data_type":"timestamp with time zone"}
+{"table_name":"schedule_changes","column_name":"new_end_at","data_type":"timestamp with time zone"}
+{"table_name":"schedule_changes","column_name":"reason","data_type":"text"}
+{"table_name":"schedule_changes","column_name":"requested_by_user_id","data_type":"bigint"}
+{"table_name":"schedule_changes","column_name":"requested_at","data_type":"timestamp with time zone"}
+{"table_name":"schedule_changes","column_name":"approved_by_user_id","data_type":"bigint"}
+{"table_name":"schedule_changes","column_name":"approved_at","data_type":"timestamp with time zone"}
+{"table_name":"schedule_changes","column_name":"applied_by_user_id","data_type":"bigint"}
+{"table_name":"schedule_changes","column_name":"applied_at","data_type":"timestamp with time zone"}
+{"table_name":"schedule_changes","column_name":"status","data_type":"character varying"}
+{"table_name":"schedule_changes","column_name":"created_at","data_type":"timestamp with time zone"}
+{"table_name":"schedule_changes","column_name":"updated_at","data_type":"timestamp with time zone"}
+{"table_name":"session_student_participants","column_name":"id","data_type":"uuid"}
+{"table_name":"session_student_participants","column_name":"class_session_id","data_type":"uuid"}
+{"table_name":"session_student_participants","column_name":"student_id","data_type":"uuid"}
+{"table_name":"session_student_participants","column_name":"participant_basis","data_type":"character varying"}
+{"table_name":"session_student_participants","column_name":"participant_status","data_type":"character varying"}
+{"table_name":"session_student_participants","column_name":"is_required","data_type":"boolean"}
+{"table_name":"session_student_participants","column_name":"removal_reason","data_type":"character varying"}
+{"table_name":"session_student_participants","column_name":"removed_by_user_id","data_type":"bigint"}
+{"table_name":"session_student_participants","column_name":"removed_at","data_type":"timestamp with time zone"}
+{"table_name":"session_student_participants","column_name":"created_at","data_type":"timestamp with time zone"}
+{"table_name":"session_student_participants","column_name":"updated_at","data_type":"timestamp with time zone"}
+{"table_name":"session_teacher_participations","column_name":"id","data_type":"uuid"}
+{"table_name":"session_teacher_participations","column_name":"class_session_id","data_type":"uuid"}
+{"table_name":"session_teacher_participations","column_name":"teacher_staff_id","data_type":"uuid"}
+{"table_name":"session_teacher_participations","column_name":"role","data_type":"character varying"}
+{"table_name":"session_teacher_participations","column_name":"obligation_type","data_type":"character varying"}
+{"table_name":"session_teacher_participations","column_name":"participation_status","data_type":"character varying"}
+{"table_name":"session_teacher_participations","column_name":"attendance_status","data_type":"character varying"}
+{"table_name":"session_teacher_participations","column_name":"reason","data_type":"character varying"}
+{"table_name":"session_teacher_participations","column_name":"schedule_change_id","data_type":"uuid"}
+{"table_name":"session_teacher_participations","column_name":"checkin_at","data_type":"timestamp with time zone"}
+{"table_name":"session_teacher_participations","column_name":"checkout_at","data_type":"timestamp with time zone"}
+{"table_name":"session_teacher_participations","column_name":"notes","data_type":"text"}
+{"table_name":"session_teacher_participations","column_name":"created_at","data_type":"timestamp with time zone"}
+{"table_name":"session_teacher_participations","column_name":"updated_at","data_type":"timestamp with time zone"}
+{"table_name":"student_attendance","column_name":"id","data_type":"uuid"}
+{"table_name":"student_attendance","column_name":"session_student_participant_id","data_type":"uuid"}
+{"table_name":"student_attendance","column_name":"attendance_status","data_type":"character varying"}
+{"table_name":"student_attendance","column_name":"reason_code","data_type":"character varying"}
+{"table_name":"student_attendance","column_name":"permission_event_id","data_type":"uuid"}
+{"table_name":"student_attendance","column_name":"arrival_at","data_type":"timestamp with time zone"}
+{"table_name":"student_attendance","column_name":"departure_at","data_type":"timestamp with time zone"}
+{"table_name":"student_attendance","column_name":"notes","data_type":"text"}
+{"table_name":"student_attendance","column_name":"workflow_status","data_type":"character varying"}
+{"table_name":"student_attendance","column_name":"version_no","data_type":"integer"}
+{"table_name":"student_attendance","column_name":"entered_by","data_type":"bigint"}
+{"table_name":"student_attendance","column_name":"entered_at","data_type":"timestamp with time zone"}
+{"table_name":"student_attendance","column_name":"finalized_by","data_type":"bigint"}
+{"table_name":"student_attendance","column_name":"finalized_at","data_type":"timestamp with time zone"}
+{"table_name":"student_attendance","column_name":"updated_by","data_type":"bigint"}
+{"table_name":"student_attendance","column_name":"updated_at","data_type":"timestamp with time zone"}

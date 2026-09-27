@@ -1,0 +1,33 @@
+CHANGE REQUEST
+
+Requested behavior:
+[Describe the desired feature/change in business language.]
+
+Problem it solves:
+[Why this is needed.]
+
+Users/roles:
+[Who should use/see it.]
+
+Domain/module:
+[If known. If not, determine it from the repository.]
+
+Expected result:
+[Describe the outcome.]
+
+Please do not immediately code. First perform the SISTEM IMTAQ Decision Gate:
+- problem;
+- Source of Truth/data;
+- transaction grain;
+- owner/inputter/validator/approver;
+- who may view;
+- decision enabled;
+- audit/security/privacy;
+- integration impact;
+- whether AI is actually needed.
+
+Then classify change impact using modules/CHANGE_IMPACT_RULES.md and identify protected/shared contracts.
+
+If the request is compatible with existing DESIGN_LOCKED contracts and the relevant task is executable, implement with Minimum Necessary Change. If it requires a management/policy decision, stop that behavior as POLICY_PENDING and tell me exactly what decision is needed.
+
+Do not ask me to identify source files.

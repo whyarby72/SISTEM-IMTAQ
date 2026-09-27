@@ -1,0 +1,10 @@
+REPOSITORY_ROOT=/Users/afradadmedia/DATA/PTAFRADAD/CHATGPTLOCAL/SISTEM-IMTAQ/application/web
+SNAPSHOT_CREATED=2026-09-17T23:24:18Z
+INCLUDED_FILE_COUNT=379
+ARCHIVE=/private/tmp/IMTAQ_SOURCE_ROLLBACK_CR-S_20260918-062414.tar.gz
+ARCHIVE_SHA256=929202d3253f539cbc418a8f44997ce9276795cdd6ae2fe4b2512d6c17f46e2a
+MANIFEST=/private/tmp/IMTAQ_SOURCE_ROLLBACK_CR-S_20260918-062414.sha256
+MANIFEST_SHA256=568294a64733aab7bec3757f7810466b65bea82cca10a31edfc6b41b20042ea3
+EXCLUSIONS=.env and local secret variants; vendor; node_modules; runtime cache/log/session/view files; generated bootstrap cache; uploads; database dumps; credentials; keys; tokens
+GIT=not available; no Git mutation performed
+DATABASE=not queried or modified

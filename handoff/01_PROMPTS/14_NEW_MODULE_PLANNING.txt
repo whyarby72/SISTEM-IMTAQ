@@ -1,0 +1,27 @@
+NEW DOMAIN MODULE PLANNING REQUEST
+
+Module/domain:
+[Example: Tahfizh / Kesantrian / Bahasa.]
+
+Do not implement the module yet.
+
+Use the SISTEM IMTAQ module onboarding/planning gate:
+- domain purpose and process owner;
+- users/roles;
+- canonical Source of Truth;
+- transaction grains;
+- data dictionary;
+- lifecycle/workflow;
+- inputter/validator/approver;
+- RBAC/data scope;
+- KPI/report consumers;
+- audit/privacy/security;
+- Shared Core and cross-module contracts;
+- migration needs;
+- DQ/alerts;
+- UAT;
+- whether AI is necessary.
+
+Update the module planning documents and registry only when the design evidence supports the lifecycle change from NOT_PLANNED toward DESIGN_READY.
+
+Do not copy Academic transactions as a generic solution.

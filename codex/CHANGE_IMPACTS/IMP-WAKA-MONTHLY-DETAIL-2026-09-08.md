@@ -1,0 +1,24 @@
+# Change Impact Record
+
+- Request / problem: Waka Akademik membutuhkan ekspor rincian rekap Juli 2026 per santri dari halaman laporan bulanan.
+- Change ID / Task ID: IMP-WAKA-MONTHLY-DETAIL
+- Date: 2026-09-08
+- Owner module: Academic monthly attendance reporting
+- Change class: MODULE_INTERNAL
+- Affected modules/workstreams: Monthly attendance report presentation and export
+- Source-of-truth entities/services affected: Existing `monthly_student_attendance_snapshots`, read-only
+- Cross-module contracts touched: None
+- Expected file/write scope: Monthly report controller, route, detail view, export service, targeted export test, change records
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: Existing viewer authorization is reused; Wali Kelas remains limited to assigned class.
+- Migration/backward-compatibility impact: None
+- Environment/config impact: None
+- Dependency impact: Added `mpdf/mpdf` and its transitive PDF/font dependencies to support UTF-8 Arabic rendering.
+- Feature flag requirement: None
+- Policy/management decision required?: No
+- Required regression scope: Monthly detail export encoding and existing attendance/report UI
+- Staging/deployment impact: Local UAT only
+- Rollback/feature-disable/compatibility plan: Revert the detail export routes, controller methods, view links, exporter methods, and Composer dependency.
+- Evidence/tests: Targeted PHPUnit, Blade cache, browser smoke on July Kelas 3A detail
+- Encoding note: PDF fallback transliterates Arabic text because the existing lightweight PDF generator has no embedded Arabic shaping font; the web view remains Arabic-native.
+- Decision/status: COMPLETE — safe checkpoint

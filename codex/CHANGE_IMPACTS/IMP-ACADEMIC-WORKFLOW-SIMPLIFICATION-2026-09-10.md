@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Alur penyiapan akademik belum mudah dipahami; mapel belum memiliki menu, shortcut penyiapan jadwal terbatas, dan sesi tanpa roster belum memiliki aksi langsung.
+- Change ID / Task ID: IMP-ACADEMIC-WORKFLOW-SIMPLIFICATION-2026-09-10
+- Date: 2026-09-10
+- Owner module: Academic Admin / Attendance Operations
+- Change class: `MODULE_INTERNAL`
+- Affected modules/workstreams: Academic subjects, schedule preparation, session attendance roster.
+- Source-of-truth entities/services affected: `subjects`, `class_sessions`, `session_student_participants`, `SessionParticipantSnapshotter`.
+- Cross-module contracts touched: None.
+- Expected file/write scope: Academic Admin subject controller/routes/views, schedule create shortcut, attendance exception action, targeted tests, work log.
+- Protected zones touched: None.
+- RBAC/privacy/security impact: Subject management remains limited to Waka Akademik/Super Admin; roster snapshot remains limited to Waka/Super Admin and PLANNED sessions.
+- Migration/backward-compatibility impact: None; no schema change.
+- Environment/config impact: None.
+- Feature flag requirement: None.
+- Policy/management decision required?: No.
+- Required regression scope: ScheduleRuleAdminTest, AttendanceExceptionUiTest, StudentAttendanceCompletenessCheckerTest, full Academic feature suite.
+- Staging/deployment impact: Local UAT only; staging target is not configured.
+- Rollback/feature-disable/compatibility plan: Revert the application commit; no persistent data migration introduced.
+- Evidence/tests: 164 Academic tests / 588 assertions passed; Blade cache passed.
+- Decision/status: Implemented for local UAT.

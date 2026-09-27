@@ -1,0 +1,9 @@
+Read-only semantic behavior check: PASS
+
+- Existing participant fallback remains queryable.
+- New foundation tables are empty and do not become authority automatically.
+- Existing participant eligibility_status values: 0 non-NULL.
+- Existing participant non_eligible_reason values: 0 non-NULL.
+- Existing attendance denominator population was not reclassified.
+- Source certification and lineage population: 0 rows.
+- NON_ELIGIBLE runtime activation: NO.

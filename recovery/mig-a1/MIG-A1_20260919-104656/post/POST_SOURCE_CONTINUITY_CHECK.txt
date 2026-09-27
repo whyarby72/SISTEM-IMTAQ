@@ -1,0 +1,6 @@
+application/web/app/Domains/Academic/Services/SessionParticipantSnapshotter.php: OK
+application/web/app/Domains/Academic/Services/StudentAttendanceDraftService.php: OK
+application/web/app/Domains/Academic/Services/StudentAttendanceFinalizer.php: OK
+application/web/app/Http/Controllers/Academic/StudentAttendanceController.php: OK
+application/web/tests/Feature/Academic/StudentAttendanceFinalizerTest.php: OK
+application/web/tests/Feature/Academic/StudentAttendanceUiTest.php: OK

@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="id">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Data Kelas</title><style>@include('admin.partials.styles')</style></head>
+<body><main><header class="topbar"><a class="brand" href="{{ route('admin.academic.dashboard') }}">SISTEM IMTAQ <small>Admin Akademik</small></a><nav class="nav"><a href="{{ route('admin.academic.dashboard') }}">Ringkasan</a><a href="{{ route('admin.academic.students.index') }}">Santri</a><a class="active" href="{{ route('admin.academic.classes.index') }}">Kelas</a><a href="{{ route('admin.academic.staff.index') }}">Guru/Staf</a><a href="{{ route('admin.academic.schedules.index') }}">Jadwal</a></nav></header>
+    <section class="card"><p class="eyebrow">Data induk</p><div class="actions"><div><h1>Data Kelas</h1><p class="muted">Tambah kelas melalui Admin Akademik.</p></div><a class="button" href="{{ route('admin.academic.classes.create') }}">Tambah kelas</a></div></section>
+    @if (session('status'))<p class="notice">{{ session('status') }}</p>@endif
+    <section class="card"><p class="muted" style="margin:0 0 .6rem">Pada layar kecil, geser tabel ke kiri/kanan untuk melihat semua kolom.</p><div class="table-wrap"><table><thead><tr><th>Kode</th><th>Nama</th><th>Tahun ajaran</th><th>Tingkat</th><th>Status</th></tr></thead><tbody>
+    @forelse ($classes as $class)<tr><td>{{ $class->class_code }}</td><td>@uiLabel($class->display_name)</td><td>@uiLabel($class->academicYear->display_name)</td><td>@uiLabel($class->gradeLevel->display_name)</td><td>{{ $class->status === 'ACTIVE' ? 'Aktif' : 'Tidak aktif' }}</td><td><a href="{{ route('admin.academic.classes.edit', $class) }}">Edit</a></td></tr>@empty<tr><td colspan="6" class="muted">Belum ada kelas.</td></tr>@endforelse
+    </tbody></table></div>{{ $classes->links() }}</section>
+</main><form method="POST" action="{{ route('logout') }}" style="max-width:78rem;margin:0 auto 1rem;text-align:right">@csrf<button class="button" type="submit">Keluar ({{ auth()->user()->roles->pluck('name')->join(' · ') }})</button></form></body></html>

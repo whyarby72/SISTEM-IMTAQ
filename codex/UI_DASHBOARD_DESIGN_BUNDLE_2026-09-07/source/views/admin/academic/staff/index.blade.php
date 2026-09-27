@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="id">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Master Guru</title><style>@include('admin.partials.styles')</style></head>
+<body><main><header class="topbar"><a class="brand" href="{{ route('admin.academic.dashboard') }}">SISTEM IMTAQ <small>Admin Akademik</small></a><nav class="nav"><a href="{{ route('admin.academic.dashboard') }}">Ringkasan</a><a href="{{ route('admin.academic.classes.index') }}">Kelas</a><a class="active" href="{{ route('admin.academic.staff.index') }}">Guru/Staf</a><a href="{{ route('admin.academic.schedules.index') }}">Jadwal</a></nav></header>
+    <section class="card"><p class="eyebrow">Data induk</p><div class="actions"><div><h1>Master Guru/Staf</h1><p class="muted">Tambah identitas guru melalui Admin Akademik.</p></div><a class="button" href="{{ route('admin.academic.staff.create') }}">Tambah guru/staf</a></div></section>
+    @if (session('status'))<p class="notice">{{ session('status') }}</p>@endif
+    <section class="card"><p class="muted" style="margin:0 0 .6rem">Pada layar kecil, geser tabel ke kiri/kanan untuk melihat semua kolom.</p><div class="table-wrap"><table><thead><tr><th>Kode</th><th>Nama</th><th>Mulai aktif</th><th>Status</th></tr></thead><tbody>
+    @forelse ($staff as $person)<tr><td>{{ $person->staff_code }}</td><td>{{ $person->full_name }}</td><td>{{ $person->active_from?->format('d M Y') ?? '—' }}</td><td>{{ $person->record_status === 'ACTIVE' ? 'Aktif' : 'Tidak aktif' }}</td><td><a href="{{ route('admin.academic.staff.edit', $person) }}">Edit</a></td></tr>@empty<tr><td colspan="5" class="muted">Belum ada guru/staf.</td></tr>@endforelse
+    </tbody></table></div>{{ $staff->links() }}</section>
+</main><form method="POST" action="{{ route('logout') }}" style="max-width:78rem;margin:0 auto 1rem;text-align:right">@csrf<button class="button" type="submit">Keluar ({{ auth()->user()->roles->pluck('name')->join(' · ') }})</button></form></body></html>

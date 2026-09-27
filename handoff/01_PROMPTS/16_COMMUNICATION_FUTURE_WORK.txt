@@ -1,0 +1,18 @@
+FUTURE COMMUNICATION WORK — EXPLICITLY AUTHORIZED
+
+Read docs/09_communication/ before implementation.
+
+Requested use case:
+[Announcement / Reminder / Action Request / Parent Delivery / WhatsApp provider.]
+
+Preserve:
+- business event first, communication second;
+- canonical Staff/Guardian/audience resolution;
+- no unmanaged phone list as authority;
+- provider-neutral shared Communication boundary;
+- structured delivery/audit rows;
+- provider failure must not change domain facts;
+- teacher availability CONFIRMED != PRESENT, NO_RESPONSE != ABSENT;
+- Parent delivery only for exact published parent-approved artifacts to authorized Guardian relationships.
+
+Check prerequisites/gates first. If Shared Core/RBAC/queue/consent/provider requirements are not ready, execute or recommend the prerequisite rather than building a direct WhatsApp shortcut.

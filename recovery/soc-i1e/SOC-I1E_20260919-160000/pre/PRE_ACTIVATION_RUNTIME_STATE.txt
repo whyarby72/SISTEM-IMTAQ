@@ -1,0 +1,10 @@
+SOC-I1E PRE-ACTIVATION RUNTIME STATE
+feature gate: OFF
+cutover timestamp: NOT CONFIGURED
+application timezone: Asia/Jakarta
+occurrence versions: 0
+effective pointers: 0
+database migrations: 42 applied / 0 pending
+previous occurrence-related environment keys: ABSENT
+secrets: REDACTED / NOT INCLUDED
+

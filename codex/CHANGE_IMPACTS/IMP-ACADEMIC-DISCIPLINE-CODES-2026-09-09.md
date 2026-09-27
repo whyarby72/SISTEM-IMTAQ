@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Catatan kerapian perlu dibuat terstruktur dengan istilah “Catatan Ketertiban”, pilihan baku, dan aksi massal “Tandai semua rapi”.
+- Change ID / Task ID: `IMP-ACADEMIC-DISCIPLINE-CODES-2026-09-09`
+- Date: 2026-09-09
+- Owner module: Academic / Attendance Operations
+- Change class: `DATABASE_GLOBAL`
+- Affected modules/workstreams: Form pengisian dan pemeriksaan catatan per sesi.
+- Source-of-truth entities/services affected: `student_session_grooming_notes.discipline_code`; attendance tetap tidak berubah.
+- Cross-module contracts touched: Tidak ada.
+- Expected file/write scope: Migration, model/service/controller, view, test, work log, impact, manifest.
+- Protected zones touched: Tidak ada.
+- RBAC/privacy/security impact: Mengikuti otorisasi attendance yang sudah berlaku.
+- Migration/backward-compatibility impact: Migration additive; catatan teks lama tetap dipertahankan sebagai keterangan tambahan.
+- Environment/config impact (names only, no secrets): Tidak ada.
+- Feature flag requirement: Tidak ada.
+- Policy/management decision required?: Tidak.
+- Required regression scope: Validasi pilihan, penyimpanan kode dan catatan tambahan, tombol massal, serta tampilan pemeriksaan.
+- Staging/deployment impact: Migration wajib dijalankan di staging sebelum production.
+- Rollback/feature-disable/compatibility plan: Gunakan forward-fix setelah pilihan baru dipakai; tidak menghapus catatan tersimpan.
+- Evidence/tests: 11 test lulus dengan 65 assertion; Blade cache dan migration syntax check lulus.
+- Decision/status: Implemented locally; staging review required.

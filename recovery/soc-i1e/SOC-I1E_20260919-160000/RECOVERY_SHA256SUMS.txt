@@ -1,0 +1,2 @@
+f4f74dc8dbfdfc94c70ec335771d49b4c0457a5811a85eba9a7ccaebaf929a0a  pre/PRE_ACTIVATION_PILOT.dump
+d3b6e88f18802ab07faeb11db197968a8329ffedea8aa2f230c2029a13a11a5f  pre/PRE_ACTIVATION_schema.sql

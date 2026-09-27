@@ -1,0 +1,2 @@
+[TABLES]
+{"attendance_source_certifications":"attendance_source_certifications","class_lineage_mappings":"class_lineage_mappings"}

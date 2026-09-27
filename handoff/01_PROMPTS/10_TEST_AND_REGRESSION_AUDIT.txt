@@ -1,0 +1,15 @@
+Run a verification/audit pass only. Do not add new business features.
+
+Determine the correct regression scope from the latest changes and modules/CHANGE_IMPACT_RULES.md.
+
+Run:
+- project structural validation;
+- task-specific automated tests;
+- P0 integrity/security tests relevant to the changed area;
+- provider/consumer contract tests for MODULE_CONTRACT changes;
+- cross-module regression for Shared Core/security/global changes;
+- concurrency/idempotency tests where relevant.
+
+Report failures explicitly. Do not mark work DONE while required tests fail.
+
+Return a concise verification report with commands run, pass/fail counts, unresolved issues, and deploy-readiness implication.

@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Waka Akademik perlu melihat hasil kehadiran santri yang sudah disahkan tanpa membuka atau mengubah formulir pengisian Wali Kelas.
+- Change ID / Task ID: IMP-WAKA-REVIEW
+- Date: 2026-09-08
+- Owner module: Academic attendance review
+- Change class: MODULE_INTERNAL
+- Affected modules/workstreams: Academic attendance read-only review
+- Source-of-truth entities/services affected: Existing ClassSession, SessionStudentParticipant, and StudentAttendance read path only
+- Cross-module contracts touched: None
+- Expected file/write scope: Attendance controller, admin dashboard controller/view, route, attendance review view, export service, targeted UI test, change records
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: Adds explicit read-only access for WAKA_AKADEMIK and SUPER_ADMIN; Wali write endpoint remains unchanged.
+- Migration/backward-compatibility impact: None
+- Environment/config impact: None
+- Feature flag requirement: None
+- Policy/management decision required?: No
+- Required regression scope: Attendance UI, review list filters/exports, and negative role access
+- Staging/deployment impact: Local UAT only
+- Rollback/feature-disable/compatibility plan: Revert the review route/controller branch and view branch; existing Wali attendance flow remains intact.
+- Evidence/tests: Targeted PHPUnit, Blade cache, browser smoke as Waka
+- Decision/status: COMPLETE — safe checkpoint

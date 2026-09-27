@@ -1,0 +1,133 @@
+{
+  "version": "1.3",
+  "system": "SISTEM IMTAQ",
+  "north_star": "ONE STUDENT → ONE ID → ONE HISTORY → MANY ACTIVITIES → ONE SOURCE OF TRUTH → MANY REPORTS.",
+  "progress_model": "Eight baseline student-development domains are the system delivery denominator. Shared Core/AI/Communication/Parent Portal/reporting are tracked separately to avoid double counting.",
+  "baseline_domain_count": 8,
+  "modules": [
+    {
+      "code": "ACADEMIC",
+      "name": "Akademik",
+      "path": "modules/academic",
+      "status": "DESIGN_READY",
+      "planning_progress": 100,
+      "implementation_task_queue": "codex/TASK_QUEUE.md",
+      "owner": "Waka Akademik / designated Academic owner",
+      "source_of_truth": "Academic domain transactions linked to Student_ID"
+    },
+    {
+      "code": "TAHFIZH",
+      "name": "Tahfizh",
+      "path": "modules/tahfizh",
+      "status": "NOT_PLANNED",
+      "planning_progress": 0,
+      "implementation_task_queue": null,
+      "owner": "Tahfizh owner — POLICY_PENDING",
+      "source_of_truth": "Future Tahfizh domain transactions linked to Student_ID"
+    },
+    {
+      "code": "KESANTRIAN",
+      "name": "Kesantrian / Adab & Kedisiplinan",
+      "path": "modules/kesantrian",
+      "status": "NOT_PLANNED",
+      "planning_progress": 0,
+      "implementation_task_queue": null,
+      "owner": "Kesantrian owner — POLICY_PENDING",
+      "source_of_truth": "Future Kesantrian domain transactions linked to Student_ID"
+    },
+    {
+      "code": "RUHIYAH",
+      "name": "Ruhiyah / Ibadah Terobservasi",
+      "path": "modules/ruhiyah",
+      "status": "NOT_PLANNED",
+      "planning_progress": 0,
+      "implementation_task_queue": null,
+      "owner": "Ruhiyah owner — POLICY_PENDING",
+      "source_of_truth": "Future observable worship/ruhiyah transactions linked to Student_ID"
+    },
+    {
+      "code": "KEPENGASUHAN",
+      "name": "Kepengasuhan",
+      "path": "modules/kepengasuhan",
+      "status": "NOT_PLANNED",
+      "planning_progress": 0,
+      "implementation_task_queue": null,
+      "owner": "Kepengasuhan owner — POLICY_PENDING",
+      "source_of_truth": "Future restricted coaching/care transactions linked to Student_ID"
+    },
+    {
+      "code": "BAHASA",
+      "name": "Bahasa",
+      "path": "modules/bahasa",
+      "status": "NOT_PLANNED",
+      "planning_progress": 0,
+      "implementation_task_queue": null,
+      "owner": "Bahasa owner — POLICY_PENDING",
+      "source_of_truth": "Future language transactions linked to Student_ID"
+    },
+    {
+      "code": "KEGIATAN_KOMPETENSI",
+      "name": "Kegiatan & Kompetensi",
+      "path": "modules/kegiatan_kompetensi",
+      "status": "NOT_PLANNED",
+      "planning_progress": 0,
+      "implementation_task_queue": null,
+      "owner": "Kegiatan/Kompetensi owner — POLICY_PENDING",
+      "source_of_truth": "Future event/participation/achievement transactions linked to Student_ID"
+    },
+    {
+      "code": "ADMINISTRATIF_LAYANAN",
+      "name": "Administratif & Layanan",
+      "path": "modules/administratif_layanan",
+      "status": "NOT_PLANNED",
+      "planning_progress": 0,
+      "implementation_task_queue": null,
+      "owner": "Administrative service owner — POLICY_PENDING",
+      "source_of_truth": "Future administrative/service transactions linked to canonical master data"
+    }
+  ],
+  "shared_workstreams": [
+    {
+      "code": "SHARED_CORE",
+      "name": "Shared Core",
+      "path": "shared/core",
+      "status": "DESIGN_READY",
+      "notes": "Canonical Student, Guardian, Staff, Organization, identity lifecycle and shared contracts are specified in docs/10_shared_core. Implementation remains incremental through Sprint 0–1."
+    },
+    {
+      "code": "SHARED_PLATFORM",
+      "name": "Shared Platform",
+      "path": "shared/platform",
+      "status": "PRE_IMPLEMENTATION",
+      "notes": "Laravel/PostgreSQL runtime, queues/jobs, logging, backup/recovery, notifications and common infrastructure."
+    },
+    {
+      "code": "SHARED_REPORTING",
+      "name": "Cross-Domain Reporting / Student 360",
+      "path": "shared/reporting",
+      "status": "FUTURE",
+      "notes": "Derived consumer layer only; never a source of truth."
+    },
+    {
+      "code": "SHARED_AI",
+      "name": "IMTAQ AI Assistant",
+      "path": "shared/ai",
+      "status": "DESIGN_READY_FUTURE",
+      "notes": "Provider-neutral optional AI layer; implementation deferred until trustworthy domain foundations exist."
+    },
+    {
+      "code": "SHARED_COMMUNICATION",
+      "name": "Communication & WhatsApp",
+      "path": "shared/communication",
+      "status": "DESIGN_READY_FUTURE",
+      "notes": "Provider-neutral Parent + institutional communication layer: announcements, reminders, action requests, staff/Guardian audience resolution, templates, queues, WhatsApp adapter, structured responses, delivery events and audit. Teacher availability confirmation is readiness context only. Implementation deferred."
+    },
+    {
+      "code": "SHARED_PARENT_PORTAL",
+      "name": "Parent Portal",
+      "path": "shared/parent_portal",
+      "status": "DESIGN_READY_FUTURE",
+      "notes": "Guardian-facing authenticated read surface for exact published parent-approved artifacts. Depends on Shared Core Guardian identity, Shared Platform auth/RBAC/audit and source reporting; implementation deferred."
+    }
+  ]
+}

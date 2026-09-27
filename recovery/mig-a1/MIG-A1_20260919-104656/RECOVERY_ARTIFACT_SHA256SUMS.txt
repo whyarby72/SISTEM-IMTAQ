@@ -1,0 +1,3 @@
+0053443f225ddad7cb09a9f75c7c268723c253430d771ccaba363b07eabfcba0  recovery/mig-a1/MIG-A1_20260919-104656/pre/pilot_pre_migration_a.dump
+cd5f5f6c976837087092386769cc0820e30bb83bfa1db9ab8ee25fef9a0f1872  recovery/mig-a1/MIG-A1_20260919-104656/pre/pilot_pre_migration_a_schema.sql
+64ce1fc1067d91040827005ba1c0d1586ecb6d41584aa8bf6e615c632b782788  recovery/mig-a1/MIG-A1_20260919-104656/post/POST_MIGRATION_SCHEMA.txt

@@ -1,0 +1,8 @@
+"Laporan Kehadiran Bulanan","Juli 2026"
+Kelas,Hadir,Izin,Sakit,Absen,Eligible,Non-eligible,"Tingkat Kehadiran"
+"Kelas 3A",268,26,6,0,300,0,"89,33%"
+"Kelas 3B",348,13,5,2,368,32,"94,57%"
+"Kelas 1",60,0,0,0,60,0,"100,00%"
+"Kelas 2A",289,0,11,0,300,80,"96,33%"
+"Kelas 2B",161,0,7,2,170,30,"94,71%"
+TOTAL,1126,39,29,4,1198,142,"93,99%"

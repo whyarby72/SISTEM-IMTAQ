@@ -1,0 +1,10 @@
+AI-A5 post-change source hashes (SHA-256)
+06e0aabed81b066df8da43743a619c3d524b4262fa6dc88abf5e8e16948249cb  application/web/app/Domains/Academic/AI/AcademicAiOrchestrator.php
+c1b75e468bd4656414d779422915d705b80b730f06be023a6fb66854a92b18c3  application/web/app/Domains/Academic/AI/Contracts/AcademicAiRuntimeResult.php
+25b789add40693388592820c87a0adb4d94e6ddd99de369d006887d8b21839ae  application/web/app/Domains/Academic/AI/Providers/OpenAiResponsesProvider.php
+e4677bc8e6030c97733412ac96f65500df7f3e2a149dec1481f7c764b339d1d3  application/web/app/Domains/Academic/AI/AcademicAiInstructions.php
+19339cf32f0a5726f7472aa296fa938c9e5d42716ef75727fb512834641321c8  application/web/config/academic.php
+73de9e7396ee2bd1122322f2f5a358148e44191c322b94d2a504b87b702ddd2d  application/web/tests/Feature/Academic/AI/AcademicAiRuntimeTest.php
+
+No pre-mutation hash was captured for this turn; the authoritative rollback reference is the existing AI-A4 recovery checkpoint plus this manifest's exact file scope.
+

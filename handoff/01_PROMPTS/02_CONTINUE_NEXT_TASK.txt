@@ -1,0 +1,7 @@
+Continue from durable repository state, not old chat context.
+
+If the previous task is DONE, resolve the next executable task using the relevant task-queue row and dependencies, then create/update codex/CURRENT_TASK_CONTEXT.md for that task. Do not read the entire queue or repository when a targeted row/file is sufficient.
+
+Read AGENTS.md, the updated current task context, NEXT_ACTION.md, and only REQUIRED NOW files. Execute one selected atomic checkpoint using Minimum Necessary Change and targeted tests. Lazy-load extra authority only when triggered.
+
+At checkpoint stop safely, persist the exact resume point, and report SAFE_TO_CLOSE + 2–4 timed choices. At full task closeout update durable status/work-log/progress/Change Manifest as required.

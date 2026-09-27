@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Synchronize active RBAC, Shared Core, AI policy and ADR documentation with the approved management authority policy after P0.
+- Change ID / Task ID: FIX-P1-POLICY-DOC-SYNC-2026-09-11 / P1 Phase 1
+- Date: 2026-09-11
+- Owner module: Governance / Authorization policy documentation
+- Change class: `SECURITY_GLOBAL`
+- Affected modules/workstreams: Academic authorization policy, Shared Core RBAC, AI governance, architecture decisions
+- Source-of-truth entities/services affected: None; documentation only
+- Cross-module contracts touched: Documentation authority contract only; no runtime contract changed
+- Expected file/write scope: Seven active policy documents, `ARCHITECTURE_DECISIONS.md`, this impact/manifest record, and Work Log
+- Protected zones touched: None; archive and application source excluded
+- RBAC/privacy/security impact: Policy clarification only; no authorization behavior or permission rows changed
+- Migration/backward-compatibility impact: None
+- Environment/config impact (names only, no secrets): None
+- Feature flag requirement: None
+- Policy/management decision required?: No; authority policy was explicitly approved before this phase
+- Required regression scope: Repository wording audit; confirm application source, migrations, seeders and tests unchanged
+- Staging/deployment impact: No deployment; documentation checkpoint only
+- Rollback/feature-disable/compatibility plan: Revert documentation commit/files if policy is superseded by a later explicit management decision
+- Evidence/tests: Active policy search; no forbidden source/database files modified
+- Decision/status: COMPLETED; P1 Phase 2 not started

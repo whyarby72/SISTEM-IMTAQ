@@ -1,0 +1,10 @@
+PARTICIPANT_SNAPSHOT_GUARD_PRESENT=YES
+EAGER_SNAPSHOT_ON_SESSION_GENERATION=NO
+
+Evidence:
+- SessionParticipantSnapshotter::ensure() delegates to snapshot() lazily.
+- snapshot() is idempotent through firstOrCreate on (class_session_id, student_id).
+- StudentAttendanceController::show() invokes the guard for the attendance view.
+- StudentAttendanceDraftService and StudentAttendanceFinalizer invoke the guard before attendance operations.
+- No new HELD status or occurrence implementation was added.
+- Future contract remains: HELD requires participant snapshot before effective occurrence; implementation is not started.

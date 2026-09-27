@@ -1,0 +1,71 @@
+[IDENTITY]
+{"db":"imtaq","current_user":"imtaq_app","host":"127.0.0.1","port":5432,"version":"PostgreSQL 18.6 (Homebrew) on aarch64-apple-darwin25.6.0, compiled by Apple clang version 21.0.0 (clang-2100.1.1.101), 64-bit","timezone":"Asia/Jakarta"}
+[MIGRATION_STATE]
+{"applied":41}
+[MIGRATION_STATUS]
+{"migration":"2026_09_11_000020_add_academic_controlled_vocabulary_checks","batch":31}
+{"migration":"2026_09_17_000001_create_attendance_semantic_foundation_tables","batch":32}
+[TABLES]
+{"attendance_source_certifications":"attendance_source_certifications","class_lineage_mappings":"class_lineage_mappings"}
+[PARTICIPANT_COLUMNS]
+{"column_name":"eligibility_status","is_nullable":"YES","column_default":null,"data_type":"character varying"}
+{"column_name":"non_eligible_reason","is_nullable":"YES","column_default":null,"data_type":"character varying"}
+[PARTICIPANT_INDEXES]
+{"indexname":"session_student_participants_eligibility_status_class_session_i","indexdef":"CREATE INDEX session_student_participants_eligibility_status_class_session_i ON public.session_student_participants USING btree (eligibility_status, class_session_id)"}
+[FOUNDATION_CONSTRAINTS]
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_certification_status_not_null","constraint_type":"CHECK"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_certified_by_foreign","constraint_type":"FOREIGN KEY"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_id_not_null","constraint_type":"CHECK"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_metric_not_null","constraint_type":"CHECK"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_period_not_null","constraint_type":"CHECK"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_pkey","constraint_type":"PRIMARY KEY"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_revoked_by_foreign","constraint_type":"FOREIGN KEY"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_scope_key_not_null","constraint_type":"CHECK"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_scope_type_not_null","constraint_type":"CHECK"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_source_reference_not_null","constraint_type":"CHECK"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_source_type_not_null","constraint_type":"CHECK"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_approved_by_foreign","constraint_type":"FOREIGN KEY"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_effective_from_not_null","constraint_type":"CHECK"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_id_not_null","constraint_type":"CHECK"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_mapping_context_not_null","constraint_type":"CHECK"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_pkey","constraint_type":"PRIMARY KEY"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_source_class_reference_not_null","constraint_type":"CHECK"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_status_not_null","constraint_type":"CHECK"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_target_class_id_foreign","constraint_type":"FOREIGN KEY"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_target_class_id_not_null","constraint_type":"CHECK"}
+[FOUNDATION_FKS]
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_certified_by_foreign","column_name":"certified_by","foreign_table_name":"users","foreign_column_name":"id"}
+{"table_name":"attendance_source_certifications","constraint_name":"attendance_source_certifications_revoked_by_foreign","column_name":"revoked_by","foreign_table_name":"users","foreign_column_name":"id"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_approved_by_foreign","column_name":"approved_by","foreign_table_name":"users","foreign_column_name":"id"}
+{"table_name":"class_lineage_mappings","constraint_name":"class_lineage_mappings_target_class_id_foreign","column_name":"target_class_id","foreign_table_name":"classes","foreign_column_name":"id"}
+[COUNT_session_student_participants]
+{"n":26261}
+[COUNT_class_sessions]
+{"n":1270}
+[COUNT_student_attendance]
+{"n":1414}
+[COUNT_session_teacher_participations]
+{"n":82}
+[COUNT_schedule_changes]
+{"n":162}
+[ELIGIBILITY_EFFECT]
+{"total":26261,"eligibility_non_null":0,"non_eligible_reason_non_null":0}
+[FOUNDATION_ROWS]
+{"table_name":"attendance_source_certifications","n":0}
+{"table_name":"class_lineage_mappings","n":0}
+[BUSINESS_STATUS]
+{"key":"participant:EXPECTED","n":26261}
+{"key":"sessions:CANCELLED","n":91}
+{"key":"sessions:COMPLETED","n":82}
+{"key":"sessions:PLANNED","n":1097}
+{"key":"student:ABSENT","n":6}
+{"key":"student:IZIN","n":40}
+{"key":"student:PRESENT","n":1351}
+{"key":"student:SICK","n":17}
+{"key":"teacher:ABSENT","n":2}
+{"key":"teacher:IZIN","n":16}
+{"key":"teacher:NULL","n":3}
+{"key":"teacher:PRESENT","n":61}
+{"key":"workflow:VALIDATED","n":1414}
+[QUERYABILITY]
+{"class_sessions":1270,"student_attendance":1414,"participants":26261,"teacher_participation":82,"certifications":0,"lineage":0,"migrations":41}

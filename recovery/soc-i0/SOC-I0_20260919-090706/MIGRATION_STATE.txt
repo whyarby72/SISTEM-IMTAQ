@@ -1,0 +1,16 @@
+SOC-I0 migration state evidence
+Timestamp: 2026-09-19 09:07:06 Asia/Jakarta
+
+REPOSITORY_MIGRATION_FILE_COUNT=41
+DATABASE_APPLIED_MIGRATION_COUNT=39
+MIGRATION_STATE_ALIGNMENT=PARTIAL
+DATABASE_LATEST_MIGRATION=2026_09_09_000002_add_discipline_code_to_student_session_grooming_notes
+DATABASE_LATEST_BATCH=30
+
+Repository migrations not applied in the verified database:
+- 2026_09_11_000020_add_academic_controlled_vocabulary_checks.php
+- 2026_09_17_000001_create_attendance_semantic_foundation_tables.php
+
+Runtime evidence confirms the related `attendance_source_certifications` and
+`class_lineage_mappings` tables are absent. No migration was executed or proposed
+as part of SOC-I0.

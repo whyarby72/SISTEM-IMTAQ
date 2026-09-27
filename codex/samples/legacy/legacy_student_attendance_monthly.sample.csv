@@ -1,0 +1,5 @@
+source_row_id,legacy_student_key,summary_month,present_days,izin_days,sakit_days,absent_days,source_note
+MONTHLY-0001,LEGACY-STU-001,2026-07,20,1,0,1,ringkasan bulanan; tidak dipecah menjadi sesi
+MONTHLY-0002,LEGACY-STU-002,2026-07,18,2,1,1,izin tetap dihitung per sesi pada sumber detail bila tersedia
+MONTHLY-0003,LEGACY-STU-003,2026-07,15,0,2,5,rekap historis tanpa tanggal sesi
+MONTHLY-0004,LEGACY-STU-004,2026-07,19,0,1,2,angka agregat sumber

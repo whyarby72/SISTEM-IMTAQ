@@ -1,0 +1,5 @@
+Git metadata: NOT AVAILABLE
+AI-A2 accepted recovery checkpoint: recovery/ai-a2/AI-A2_20260920-085400/
+Durable pre-change source snapshot: NOT AVAILABLE because repository has no Git metadata.
+AI-A3 pre-change authority: AI-A2 accepted source and recovery manifest.
+No .env, credential, vendor, runtime cache, or database dump included.

@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="id">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mata Pelajaran</title><style>@include('academic.partials.sidebar-styles')</style></head>
+<body><div class="waka-shell">@include('academic.partials.sidebar', ['activeMenu' => 'subjects'])<main class="waka-content"><header class="waka-topbar"><div><p class="eyebrow">Data induk</p><h1>Mata Pelajaran</h1><p class="muted">Kelola mapel yang dapat dipakai dalam penugasan dan jadwal akademik.</p></div></header>
+<section class="card"><div class="actions"><div><h2 style="margin:0">Daftar mata pelajaran</h2></div><a class="button" href="{{ route('admin.academic.subjects.create') }}">+ Tambah mata pelajaran</a></div></section>
+@if (session('status'))<div class="notice">{{ session('status') }}</div>@endif
+<section class="card"><div class="table-wrap"><table><thead><tr><th>Kode</th><th>Mata pelajaran</th><th>Status</th><th>Aksi</th></tr></thead><tbody>@forelse($subjects as $subject)<tr><td>{{ $subject->subject_code }}</td><td><strong>@uiLabel($subject->subject_name)</strong></td><td>{{ $subject->status === 'ACTIVE' ? 'Aktif' : 'Tidak aktif' }}</td><td><a href="{{ route('admin.academic.subjects.edit', $subject) }}">Edit</a></td></tr>@empty<tr><td colspan="4" class="muted">Belum ada mata pelajaran.</td></tr>@endforelse</tbody></table></div>{{ $subjects->links() }}</section></main></div></body></html>

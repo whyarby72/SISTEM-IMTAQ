@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Correct the P1 controlled-vocabulary migration and synchronize pilot governance documentation with the authoritative management decision.
+- Change ID / Task ID: FIX-P1-R4-CONTROLLED-VOCABULARY-2026-09-12 / P1-R4
+- Date: 2026-09-12
+- Owner module: Academic / governance and PostgreSQL integrity contract
+- Change class: `DATABASE_GLOBAL`, `MODULE_CONTRACT`, `SECURITY_GLOBAL`
+- Affected modules/workstreams: Academic sessions, teacher participation, scheduling writers, RBAC documentation, staging audit/runbook
+- Source-of-truth entities/services affected: `class_sessions.participant_scope`, `session_teacher_participations.role`, `session_teacher_participations.obligation_type`, `ExtraSessionCreator`
+- Cross-module contracts touched: Academic session participant scope and teacher obligation vocabulary
+- Expected file/write scope: one unapplied Academic migration, `ExtraSessionCreator`, focused Academic fixtures/test, active Academic/RBAC docs, staging SQL/runbook, R4 manifest/work log
+- Protected zones touched: PostgreSQL migration source only; no applied database migration or database instance touched
+- RBAC/privacy/security impact: Documentation sync only; no new privilege restriction; WAKA_AKADEMIK remains full Academic authority, SUPER_ADMIN full institution authority, ADMIN_AKADEMIK retired
+- Migration/backward-compatibility impact: The target migration is unapplied in the verified local workflow; corrected in place. If staging reports it applied, stop and use a successor migration instead.
+- Environment/config impact (names only, no secrets): none
+- Feature flag requirement: none
+- Policy/management decision required?: Management decision supplied and authoritative
+- Required regression scope: focused vocabulary/writer tests, full Academic suite, view cache, Pint/lint
+- Staging/deployment impact: PostgreSQL read-only audit, backup/restore, migration rehearsal and concurrency proof remain deferred
+- Rollback/feature-disable/compatibility plan: Do not execute locally. In staging, use verified backup/restore and migration `down()` only if approved; never rewrite business rows.
+- Evidence/tests: `ExtraSessionCreatorTest`, teacher participation/substitution/finalizer tests, active schema and architecture docs, read-only SQL audit
+- Decision/status: READY_FOR_PRE_STAGING_REAUDIT; STAGING DEFERRED BY MANAGEMENT

@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Halaman login masih memakai label `Admin Akademik`, padahal halaman tersebut digunakan oleh tiga role utama.
+- Change ID / Task ID: IMP-WAKA-UI-LOGIN
+- Date: 2026-09-08
+- Owner module: Shared local authentication presentation
+- Change class: `MODULE_INTERNAL`
+- Affected modules/workstreams: Login UI only.
+- Source-of-truth entities/services affected: None
+- Cross-module contracts touched: None
+- Expected file/write scope: Login Blade view and change documentation.
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: None; autentikasi dan redirect tidak berubah.
+- Migration/backward-compatibility impact: None
+- Environment/config impact: None
+- Feature flag requirement: None
+- Policy/management decision required?: No
+- Required regression scope: Local authentication feature tests and Blade cache.
+- Staging/deployment impact: Presentation-only; local verification sufficient for checkpoint.
+- Rollback/feature-disable/compatibility plan: Revert the single login label replacement.
+- Evidence/tests: LocalAuthenticationTest 5/5, Blade cache, and targeted label search.
+- Decision/status: COMPLETE — safe checkpoint.

@@ -1,0 +1,22 @@
+# P0-A Historical Write Protection — Change Impact
+
+- Request / problem: Normal student attendance draft entry could mutate COMPLETED sessions, VALIDATED attendance, and LOCKED periods.
+- Change ID / Task ID: FIX-P0-A-2026-09-11
+- Date: 2026-09-11
+- Owner module: Academic / Student Attendance
+- Change class: `MODULE_CONTRACT`
+- Affected modules/workstreams: Academic attendance draft entry and its HTTP regression coverage.
+- Source-of-truth entities/services affected: `StudentAttendanceDraftService`, `StudentAttendance`, `ClassSession`, `AttendancePeriodLock`.
+- Cross-module contracts touched: None.
+- Expected file/write scope: `application/web/app/Domains/Academic/Services/StudentAttendanceDraftService.php`, `application/web/tests/Feature/Academic/StudentAttendanceDraftServiceTest.php`, and related attendance UI tests only if required.
+- Protected zones touched: None.
+- RBAC/privacy/security impact: Existing Wali Kelas and `canManageAllClasses` authorization preserved.
+- Migration/backward-compatibility impact: No migration; correction workflows remain unchanged.
+- Environment/config impact: None.
+- Feature flag requirement: None.
+- Policy/management decision required?: No; implements approved P0-A integrity contract.
+- Required regression scope: Draft service, attendance UI, open correction, and post-lock correction tests.
+- Staging/deployment impact: Local UAT only; staging target is unavailable.
+- Rollback/feature-disable/compatibility plan: Revert the service/test change through version-controlled review; do not rewrite data.
+- Evidence/tests: 8 DraftService tests/37 assertions, 12 UI tests/84 assertions, 8 correction tests/19 assertions, view cache passed.
+- Decision/status: IMPLEMENTED — Phase 1 complete.

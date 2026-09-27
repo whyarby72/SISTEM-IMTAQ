@@ -1,0 +1,22 @@
+# Change Impact — FIX-WAKA-1H-KPI-EXPORT-DOCUMENTATION-2026-09-12
+
+- Request / problem: Synchronize active attendance KPI and Academic Dashboard CSV documentation with the authoritative WAKA-1C through WAKA-1G semantics.
+- Change ID / Task ID: FIX-WAKA-1H-KPI-EXPORT-DOCUMENTATION-2026-09-12
+- Date: 2026-09-12
+- Owner module: Academic analytics/documentation
+- Change class: `MODULE_CONTRACT`
+- Affected modules/workstreams: Academic KPI dictionary and dashboard export documentation only
+- Source-of-truth entities/services affected: None; runtime semantic services and export implementation are unchanged
+- Cross-module contracts touched: None
+- Expected file/write scope: `docs/02_architecture/BUSINESS_RULES.md`, `docs/04_analytics/KPI_DICTIONARY.md`, this impact record, corresponding Change Manifest, and `codex/WORK_LOG.md`
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: NONE
+- Migration/backward-compatibility impact: No runtime contract change; documents current stable pilot CSV headers and explicitly defers rename/versioning
+- Environment/config impact: NONE
+- Feature flag requirement: NONE
+- Policy/management decision required?: No; current pilot decisions are recorded as documentation
+- Required regression scope: Targeted repository search for stale attendance formulas and documentation diff review; no application tests required
+- Staging/deployment impact: Documentation-only; no staging or deployment operation
+- Rollback/feature-disable/compatibility plan: Revert this documentation change if the authoritative attendance contract changes; do not alter current CSV headers during pilot
+- Evidence/tests: Runtime formulas verified in `AttendanceSemanticMetricsService`; export schema verified in `AcademicDashboardExportService`; active KPI and business-rule documentation were corrected from `ELIGIBLE` to `RESOLVED` for physical/unexcused rates
+- Decision/status: DONE — documentation synchronized; application behavior unchanged

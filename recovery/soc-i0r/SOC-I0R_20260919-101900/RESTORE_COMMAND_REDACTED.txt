@@ -1,0 +1,7 @@
+SOURCE_BACKUP_SHA256=3eae1ece49099cbba3db2f502fa16a4f3bc7fccadf7fdc830453a061ab969849
+DISPOSABLE_DATABASE=imtaq_soc_i0r_20260919_101900
+
+/opt/homebrew/bin/pg_restore --host 127.0.0.1 --port 5432 --username imtaq_app --dbname imtaq_soc_i0r_20260919_101900 --no-owner --no-privileges --exit-on-error <backup-path>
+
+Credentials intentionally omitted.
+Pilot database `imtaq` was never a restore target.

@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Daftar pengisian Wali Kelas tampak mengulang sesi yang sama karena setiap baris hanya menampilkan kelas, waktu, dan tindakan identik.
+- Change ID / Task ID: IMP-WALI-UI-REPEAT
+- Date: 2026-09-08
+- Owner module: Academic dashboard presentation
+- Change class: `MODULE_INTERNAL`
+- Affected modules/workstreams: Wali Kelas dashboard session list
+- Source-of-truth entities/services affected: Existing `ClassSession` read model only
+- Cross-module contracts touched: None; existing attendance route is reused
+- Expected file/write scope: Dashboard service/view, targeted dashboard test, change records
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: None; existing Wali scope and authorization remain authoritative
+- Migration/backward-compatibility impact: None
+- Environment/config impact: None
+- Feature flag requirement: None
+- Policy/management decision required?: No
+- Required regression scope: Academic dashboard service/UI and attendance UI tests
+- Staging/deployment impact: Local UAT only
+- Rollback/feature-disable/compatibility plan: Revert presentation metadata and status mapping; attendance transactions remain intact
+- Evidence/tests: Targeted tests, Blade cache, browser smoke
+- Decision/status: COMPLETE — safe checkpoint

@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Tambahkan catatan kerapian santri per sesi kehadiran, terpisah dari status kehadiran.
+- Change ID / Task ID: `IMP-ACADEMIC-GROOMING-NOTES-2026-09-09`
+- Date: 2026-09-09
+- Owner module: Academic / Attendance Operations
+- Change class: `DATABASE_GLOBAL`
+- Affected modules/workstreams: Halaman pengisian dan pemeriksaan kehadiran santri.
+- Source-of-truth entities/services affected: Entity baru `student_session_grooming_notes`; attendance tetap tidak berubah.
+- Cross-module contracts touched: Tidak ada.
+- Expected file/write scope: Migration, model, relation participant, service, controller/view sesi, test UI, work log, change impact, manifest.
+- Protected zones touched: Tidak ada.
+- RBAC/privacy/security impact: Mengikuti otorisasi Wali Kelas/Waka yang sudah berlaku; identitas pencatat dan audit disimpan.
+- Migration/backward-compatibility impact: Migration additive, tanpa mengubah tabel attendance dan tanpa backfill.
+- Environment/config impact (names only, no secrets): Tidak ada.
+- Feature flag requirement: Tidak ada.
+- Policy/management decision required?: Tidak.
+- Required regression scope: Attendance UI, draft service, Waka authorization, resolver, migration fresh database.
+- Staging/deployment impact: Migration wajib dijalankan melalui prosedur staging sebelum production.
+- Rollback/feature-disable/compatibility plan: Rollback hanya untuk environment yang belum menyimpan catatan; setelah dipakai, gunakan forward-fix agar catatan historis tidak dihapus.
+- Evidence/tests: 11 test lulus dengan 64 assertion; Blade cache lulus; migration syntax check lulus.
+- Decision/status: Implemented locally; staging review required.

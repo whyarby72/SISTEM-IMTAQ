@@ -1,0 +1,29 @@
+BUG / REGRESSION REQUEST
+
+Problem:
+[Describe what is wrong in normal language.]
+
+Expected:
+[What should happen.]
+
+Actual:
+[What happens now.]
+
+Scope/user:
+[Example: Wali Kelas 1B / Admin Academic / all users.]
+
+When noticed:
+[Optional: after which release/change, if known.]
+
+Please diagnose from the current repository. I do not know which file is responsible.
+
+Before editing:
+- reproduce or establish evidence;
+- identify the owning module and impact class;
+- inspect recent relevant changes if available;
+- declare expected write scope/protected zones;
+- check whether the bug is actually a policy/data/config issue.
+
+Apply the smallest safe fix. Do not perform unrelated refactors. Add a regression test that would fail before the fix and pass after it where practical.
+
+Run required tests, produce a Change Manifest, state deployment/rollback implications, and update progress/task evidence only if the task state genuinely changes.

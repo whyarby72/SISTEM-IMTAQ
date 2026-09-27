@@ -1,0 +1,2 @@
+ae822ab165d9bc4d1382d6861f93b445f82674f160cb812abdf9064d3f65d56f  application/web/app/Domains/Academic/AI/Services/AiProviderConfigurationService.php
+bf5086ab26844d40e79db7c20ce1c0b76063522cfd36a8bd8d98bd6f09680a7e  application/web/tests/Feature/Academic/AI/AiProviderConfigurationTest.php

@@ -1,0 +1,18 @@
+SHARED CORE / CROSS-MODULE CHANGE REQUEST
+
+Requested change:
+[Describe the change.]
+
+Reason:
+[Why the shared contract must change.]
+
+Treat this as a protected-zone change. Before editing:
+- identify all provider and consumer modules/contracts;
+- classify impact as SHARED_CORE / MODULE_CONTRACT / CROSS_DOMAIN / DATABASE_GLOBAL / SECURITY_GLOBAL as applicable;
+- list compatibility risks and required regression tests;
+- verify that a module-local solution cannot satisfy the requirement safely;
+- declare migration/backward-compatibility strategy if data contracts change.
+
+Do not implement a shortcut that duplicates Student/Staff/Guardian identity or allows one module to mutate another module's transactions.
+
+Proceed only with a controlled change and complete the Change Impact Register + Change Manifest.

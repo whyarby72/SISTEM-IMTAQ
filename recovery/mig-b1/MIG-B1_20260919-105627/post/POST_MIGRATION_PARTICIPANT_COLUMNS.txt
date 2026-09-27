@@ -1,0 +1,3 @@
+[PARTICIPANT_COLUMNS]
+{"column_name":"eligibility_status","is_nullable":"YES","column_default":null,"data_type":"character varying"}
+{"column_name":"non_eligible_reason","is_nullable":"YES","column_default":null,"data_type":"character varying"}

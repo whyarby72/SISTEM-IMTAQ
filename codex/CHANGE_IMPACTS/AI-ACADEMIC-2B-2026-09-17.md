@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Implement the canonical attendance semantic foundation and explicit source-certification/authority resolver for the future AI Academic Assistant.
+- Change ID / Task ID: `AI-ACADEMIC-2B`
+- Date: `2026-09-17`
+- Owner module: Academic semantic foundation / Shared import governance
+- Change class: `CROSS_DOMAIN`, `DATABASE_GLOBAL`
+- Affected modules/workstreams: Academic attendance, historical import lineage, future AI read boundary
+- Source-of-truth entities/services affected: `ClassSession`, `SessionStudentParticipant`, `StudentAttendance`, monthly attendance summaries, import lineage
+- Cross-module contracts touched: None; new semantic contract boundary only
+- Expected file/write scope: one migration, Academic semantic enums/services/models, one config contract, focused regression tests, change manifest
+- Protected zones touched: Database schema and academic semantic boundary; no applied migration edited and no real database migration executed
+- RBAC/privacy/security impact: No AI access or permission grant implemented; resolver is server-side and does not accept a user-supplied role string
+- Migration/backward-compatibility impact: New additive tables/nullable participant metadata; existing vocabulary and July rows preserved
+- Environment/config impact: Adds `config/academic.php` source precedence only; no secrets
+- Feature flag requirement: AI remains disabled; no AI feature flag activated
+- Policy/management decision required?: Yes, certification of July sources, LATE/EXCUSED semantics, planned-session denominator, and final source precedence remain unresolved
+- Required regression scope: Academic regression, semantic contract tests, import mapping/lineage tests, Auth regression
+- Staging/deployment impact: Migration requires staging rehearsal and backup/rollback review before application
+- Rollback/feature-disable/compatibility plan: Do not certify sources; disable resolver consumers. Revert additive migration only before dependent data exists; otherwise use a forward migration.
+- Evidence/tests: Academic 283 tests / 1199 assertions passed; focused semantic 12 / 54 passed; Auth and selected Shared 34 / 138 passed; three existing fixture-dependent Shared tests blocked by missing external Downloads fixture.
+- Decision/status: Implemented locally; not production/staging certified.

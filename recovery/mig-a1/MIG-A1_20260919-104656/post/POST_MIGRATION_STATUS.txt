@@ -1,0 +1,44 @@
+
+ Migration name .. Batch / Status 
+ 0001_01_01_000000_create_users_table .. [1] Ran 
+ 0001_01_01_000001_create_cache_table .. [1] Ran 
+ 0001_01_01_000002_create_jobs_table .. [1] Ran 
+ 2026_09_02_000001_create_shared_core_staff_organization_tables .. [2] Ran 
+ 2026_09_02_000002_create_students_table .. [3] Ran 
+ 2026_09_02_000003_create_student_identifiers_table .. [4] Ran 
+ 2026_09_02_000004_create_student_status_history_table .. [5] Ran 
+ 2026_09_02_000005_create_rbac_tables .. [6] Ran 
+ 2026_09_02_000006_create_audit_and_correction_tables .. [7] Ran 
+ 2026_09_03_000007_create_guardian_relationship_contact_tables .. [8] Ran 
+ 2026_09_03_000008_create_academic_structure_master_tables .. [9] Ran 
+ 2026_09_03_000009_create_student_class_enrollments_table .. [10] Ran 
+ 2026_09_03_000010_create_class_homeroom_assignments_table .. [11] Ran 
+ 2026_09_03_000011_create_academic_calendar_events_table .. [12] Ran 
+ 2026_09_03_000012_create_semesters_and_teaching_assignments_tables [13] Ran 
+ 2026_09_03_000013_create_schedule_rules_tables .. [14] Ran 
+ 2026_09_03_000014_create_class_sessions_table .. [15] Ran 
+ 2026_09_03_000015_create_session_student_participants_table .. [16] Ran 
+ 2026_09_03_000016_create_session_teacher_participations_table .. [17] Ran 
+ 2026_09_03_000017_create_schedule_changes_table .. [18] Ran 
+ 2026_09_03_000018_create_student_attendance_table .. [19] Ran 
+ 2026_09_03_000019_create_user_staff_links_table .. [20] Ran 
+ 2026_09_03_000020_create_attendance_period_locks_table .. [21] Ran 
+ 2026_09_03_000021_create_semester_subject_grades_table .. [21] Ran 
+ 2026_09_03_000022_create_report_card_snapshot_tables .. [21] Ran 
+ 2026_09_03_000023_create_report_card_notes_table .. [21] Ran 
+ 2026_09_03_000024_add_report_review_publish_fields .. [21] Ran 
+ 2026_09_03_000025_create_transcript_snapshot_tables .. [21] Ran 
+ 2026_09_03_000026_add_transcript_publication_fields .. [22] Ran 
+ 2026_09_03_000027_create_alert_infrastructure_tables .. [23] Ran 
+ 2026_09_03_000028_create_import_infrastructure_tables .. [23] Ran 
+ 2026_09_05_000001_create_monthly_attendance_summaries .. [23] Ran 
+ 2026_09_05_000002_add_publication_metadata_to_monthly_attendance_summaries [24] Ran 
+ 2026_09_05_000003_make_student_code_optional_and_add_identifier_columns [25] Ran 
+ 2026_09_06_000001_create_monthly_student_attendance_snapshots .. [26] Ran 
+ 2026_09_07_000001_create_schedule_rule_groups_table .. [27] Ran 
+ 2026_09_07_000002_create_class_session_groups_table .. [28] Ran 
+ 2026_09_09_000001_create_student_session_grooming_notes_table .. [29] Ran 
+ 2026_09_09_000002_add_discipline_code_to_student_session_grooming_notes [30] Ran 
+ 2026_09_11_000020_add_academic_controlled_vocabulary_checks .. [31] Ran 
+ 2026_09_17_000001_create_attendance_semantic_foundation_tables .. Pending 
+

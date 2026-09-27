@@ -1,0 +1,12 @@
+SAFE CHECKPOINT NOW.
+
+Do not start any new work. Safely finish or recover only the operation already in progress, persist all file/repository state, record Git status and the exact resume point, update the work log/task notes as needed, and stop.
+
+Report explicitly:
+- running process;
+- Git state;
+- test/check state;
+- SAFE_TO_CLOSE = YES or NO;
+- exact resume point.
+
+If SAFE_TO_CLOSE = YES, do not continue to another implementation step until I ask.

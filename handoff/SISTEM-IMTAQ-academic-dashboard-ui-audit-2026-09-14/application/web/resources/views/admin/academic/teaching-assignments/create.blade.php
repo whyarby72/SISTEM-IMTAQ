@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="id">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tambah Penugasan Mengajar</title><style>@include('academic.partials.sidebar-styles')</style></head>
+<body><div class="waka-shell">@include('academic.partials.sidebar', ['activeMenu' => 'schedules'])<main class="waka-content"><section class="card" style="max-width:70rem"><p class="eyebrow">Data akademik</p><h1>Tambah Penugasan Mengajar</h1><p><a class="back" href="{{ route('admin.academic.schedules.create') }}">Kembali ke Tambah Jadwal</a></p><p class="muted">Buat kombinasi kelas, mata pelajaran, dan guru yang belum tersedia. Setelah disimpan, penugasan dapat dipilih pada form jadwal.</p>
+@if ($errors->any())<div class="error"><ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+<form class="schedule-form" method="post" action="{{ route('admin.academic.teaching-assignments.store') }}">@csrf
+<label>Semester<select name="semester_id" required><option value="">Pilih semester</option>@foreach ($semesters as $semester)<option value="{{ $semester->id }}" @selected(old('semester_id') === $semester->id)>Semester {{ ['I', 'II', 'III', 'IV'][$semester->sequence_no - 1] ?? $semester->sequence_no }} {{ $semester->academicYear?->year_code }}</option>@endforeach</select></label>
+<label>Kelas<select name="class_id" required><option value="">Pilih kelas</option>@foreach ($classes as $class)<option value="{{ $class->id }}" @selected(old('class_id') === $class->id)>@uiLabel($class->display_name)</option>@endforeach</select></label>
+<label>Mata pelajaran<select name="subject_id" required><option value="">Pilih mata pelajaran</option>@foreach ($subjects as $subject)<option value="{{ $subject->id }}" @selected(old('subject_id') === $subject->id)>@uiLabel($subject->subject_name)</option>@endforeach</select></label>
+<label>Guru/Asatidzah<select name="teacher_staff_id" required><option value="">Pilih guru</option>@foreach ($teachers as $teacher)<option value="{{ $teacher->id }}" @selected(old('teacher_staff_id') === $teacher->id)>{{ $teacher->full_name }}</option>@endforeach</select></label>
+<label>Berlaku mulai<input type="date" name="effective_from" value="{{ old('effective_from') }}" required></label><label>Berlaku sampai<input type="date" name="effective_until" value="{{ old('effective_until') }}"></label>
+<button class="button" type="submit">Simpan penugasan</button></form></section></main></div></body></html>

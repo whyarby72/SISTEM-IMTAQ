@@ -1,0 +1,65 @@
+[IDENTITY]
+{"db":"imtaq","current_user":"imtaq_app","host":"127.0.0.1","port":5432,"version":"PostgreSQL 18.6 (Homebrew) on aarch64-apple-darwin25.6.0, compiled by Apple clang version 21.0.0 (clang-2100.1.1.101), 64-bit","timezone":"Asia/Jakarta"}
+[MIGRATION_STATE]
+{"applied":40}
+[APPLIED_TARGETS]
+{"migration":"2026_09_11_000020_add_academic_controlled_vocabulary_checks","batch":31}
+[PENDING_B_OBJECTS]
+{"attendance_source_certifications":null,"class_lineage_mappings":null}
+[PENDING_B_COLUMNS]
+{"table_name":"monthly_attendance_summaries","column_name":"non_eligible_reason"}
+{"table_name":"monthly_student_attendance_snapshots","column_name":"non_eligible_reason"}
+{"table_name":"staging_imtaq_attendance_july_2026","column_name":"non_eligible_reason"}
+[PENDING_B_SESSION_PARTICIPANT_COLUMNS]
+[CONSTRAINTS]
+{"conname":"chk_class_sessions_participant_scope","convalidated":true,"definition":"CHECK (((participant_scope)::text = ANY ((ARRAY['FULL_CLASS'::character varying, 'SELECTED_STUDENTS'::character varying])::text[])))"}
+{"conname":"chk_class_sessions_session_source","convalidated":true,"definition":"CHECK (((session_source)::text = ANY ((ARRAY['SCHEDULED'::character varying, 'EXTRA'::character varying, 'RESCHEDULED'::character varying, 'AD_HOC'::character varying])::text[])))"}
+{"conname":"chk_class_sessions_session_status","convalidated":true,"definition":"CHECK (((session_status)::text = ANY ((ARRAY['PLANNED'::character varying, 'CONFIRMED'::character varying, 'COMPLETED'::character varying, 'CANCELLED'::character varying, 'RESCHEDULED'::character varying])::text[])))"}
+{"conname":"chk_session_teacher_participations_attendance_status","convalidated":true,"definition":"CHECK (((attendance_status IS NULL) OR ((attendance_status)::text = ANY ((ARRAY['PRESENT'::character varying, 'ABSENT'::character varying, 'SICK'::character varying, 'IZIN'::character varying, 'OTHER'::character varying])::text[]))))"}
+{"conname":"chk_session_teacher_participations_obligation_type","convalidated":true,"definition":"CHECK (((obligation_type)::text = ANY ((ARRAY['TEACHING_ASSIGNMENT'::character varying, 'REPLACEMENT'::character varying])::text[])))"}
+{"conname":"chk_session_teacher_participations_participation_status","convalidated":true,"definition":"CHECK (((participation_status)::text = 'EXPECTED'::text))"}
+{"conname":"chk_session_teacher_participations_role","convalidated":true,"definition":"CHECK (((role)::text = ANY ((ARRAY['PRIMARY'::character varying, 'SUBSTITUTE'::character varying])::text[])))"}
+{"conname":"chk_student_attendance_attendance_status","convalidated":true,"definition":"CHECK (((attendance_status IS NULL) OR ((attendance_status)::text = ANY ((ARRAY['PRESENT'::character varying, 'ABSENT'::character varying, 'SICK'::character varying, 'IZIN'::character varying, 'LATE'::character varying, 'EXCUSED'::character varying])::text[]))))"}
+{"conname":"chk_student_attendance_workflow_status","convalidated":true,"definition":"CHECK (((workflow_status)::text = ANY ((ARRAY['DRAFT'::character varying, 'VALIDATED'::character varying])::text[])))"}
+[COUNT_class_sessions]
+{"n":1270}
+[COUNT_session_teacher_participations]
+{"n":82}
+[COUNT_student_attendance]
+{"n":1414}
+[COUNT_schedule_changes]
+{"n":162}
+[COUNT_session_student_participants]
+{"n":26261}
+[class_sessions.status]
+{"key":"CANCELLED","n":91}
+{"key":"COMPLETED","n":82}
+{"key":"PLANNED","n":1097}
+[class_sessions.source]
+{"key":"SCHEDULED","n":1270}
+[class_sessions.scope]
+{"key":"FULL_CLASS","n":1270}
+[teacher.role]
+{"key":"PRIMARY","n":64}
+{"key":"SUBSTITUTE","n":18}
+[teacher.obligation]
+{"key":"REPLACEMENT","n":18}
+{"key":"TEACHING_ASSIGNMENT","n":64}
+[teacher.participation]
+{"key":"EXPECTED","n":82}
+[teacher.attendance]
+{"key":"NULL","n":3}
+{"key":"ABSENT","n":2}
+{"key":"IZIN","n":16}
+{"key":"PRESENT","n":61}
+[student.attendance]
+{"key":"ABSENT","n":6}
+{"key":"IZIN","n":40}
+{"key":"PRESENT","n":1351}
+{"key":"SICK","n":17}
+[student.workflow]
+{"key":"VALIDATED","n":1414}
+[participants.status]
+{"key":"EXPECTED","n":26261}
+[QUERYABILITY]
+{"n":1414}

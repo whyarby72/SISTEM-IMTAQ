@@ -1,0 +1,21 @@
+FUTURE AI WORK — EXPLICITLY AUTHORIZED
+
+This prompt reopens AI work only for the requested scope.
+
+Read docs/08_ai/ completely before implementation.
+
+Current AI constraints:
+- OpenAI API is the selected provider;
+- self-hosted/local AI is outside current target;
+- Core/domain transactions must work without AI;
+- initial AI access is SUPER_ADMIN only through permissions;
+- AI READ before DRAFT/ACTION;
+- AI cannot bypass underlying RBAC/data scope/resource state;
+- validated data/business rules remain Source of Truth;
+- API key is backend-only secret;
+- domain modules do not call OpenAI directly.
+
+Requested AI use case:
+[Describe.]
+
+Perform the AI Decision Gate and evaluation/privacy/cost analysis first. Do not implement arbitrary SQL or generic database-write tools.

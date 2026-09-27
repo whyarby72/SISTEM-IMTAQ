@@ -1,0 +1,13 @@
+Mulai dari minimum active context. Jangan bulk-read repository.
+
+Baca:
+1. AGENTS.md
+2. codex/CURRENT_TASK_CONTEXT.md
+3. NEXT_ACTION.md
+4. hanya file REQUIRED NOW yang disebut current task context.
+
+Verifikasi current task lalu kerjakan hanya atomic checkpoint pertama yang aman. Gunakan Minimum Necessary Change. Jangan memuat dokumen future/unrelated kecuali ada trigger konkret melalui codex/CONTEXT_ROUTER.md.
+
+Gunakan targeted search/read dan targeted tests selama atomic step; broader regression hanya pada gate yang diwajibkan. Jangan mengulang ringkasan arsitektur yang tidak diperlukan.
+
+Setelah atomic result selesai, berhenti. Laporkan singkat: hasil, scope perubahan, test/check, SAFE_TO_CLOSE, resume point, progress yang benar-benar berubah, lalu 2–4 pilihan checkpoint berikutnya dengan estimasi waktu. Option 1 adalah rekomendasi utama. Tunggu nomor saya.

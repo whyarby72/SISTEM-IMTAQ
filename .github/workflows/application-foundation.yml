@@ -1,0 +1,44 @@
+name: Application foundation
+
+on:
+  push:
+    paths:
+      - 'application/web/**'
+      - 'scripts/check_project_structure.py'
+      - '.github/workflows/application-foundation.yml'
+  pull_request:
+    paths:
+      - 'application/web/**'
+      - 'scripts/check_project_structure.py'
+      - '.github/workflows/application-foundation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: application/web
+
+    steps:
+      - name: Checkout approved revision
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_sqlite
+          coverage: none
+
+      - name: Validate Composer manifest
+        run: composer validate --strict
+
+      - name: Install locked dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run foundation verification
+        run: ./scripts/verify-foundation.sh

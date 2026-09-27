@@ -1,0 +1,7 @@
+Use minimum active context: read AGENTS.md, codex/CURRENT_TASK_CONTEXT.md, NEXT_ACTION.md, then only REQUIRED NOW files named by the task context. Do not bulk-read the repository.
+
+Verify the current executable task. Implement only one coherent atomic checkpoint using Minimum Necessary Change. Expand context only for a concrete trigger through codex/CONTEXT_ROUTER.md. Use targeted reads and targeted tests; do not repeat unchanged architecture summaries.
+
+Do not ask me which files to edit/upload and do not jump to later/future work.
+
+At the safe checkpoint report result, changed scope, test/check, SAFE_TO_CLOSE, exact resume point, progress only if it changed, and 2–4 timed next-checkpoint choices. Option 1 is primary. Wait for my selection.

@@ -1,0 +1,12 @@
+Resume from the repository, not conversational memory. Do not bulk-read the bundle.
+
+Read:
+- AGENTS.md
+- codex/CURRENT_TASK_CONTEXT.md
+- NEXT_ACTION.md
+- Git status/diff if available
+- the last relevant WORK_LOG/checkpoint entry only if needed to resolve partial work
+
+Inspect uncommitted/partial changes before editing. Re-read only files that changed or are required by the current task context. Offer checkpoint horizons before new work unless I already selected one.
+
+Do not start a new task until the current task has verified closeout.

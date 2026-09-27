@@ -1,0 +1,4 @@
+20a279fc8d517c712b044137b5dc70f12e05cf3be79702358479a9fb006cb026  application/web/resources/views/academic/partials/sidebar.blade.php
+56aa391abbe148b5b1992efd2eec4f791a2ef4244b3859531e2ccfe606168624  application/web/app/Http/Controllers/Admin/AiProviderConfigurationController.php
+e36c6afc7ff2d9b443ce15028f24ff78a8554c8ed2ad76d829dfa594b957b578  application/web/resources/views/admin/system/ai-provider/index.blade.php
+71ca1ccafeb6e26612bf72f33886d0e51ab1bedda70ada1214b4ebbf4e5fc37c  application/web/tests/Feature/Academic/AI/AiProviderConfigurationTest.php

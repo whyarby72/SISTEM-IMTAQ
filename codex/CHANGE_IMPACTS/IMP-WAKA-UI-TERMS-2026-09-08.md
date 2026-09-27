@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Halaman akademik selain dashboard utama masih memakai label `Admin Akademik`, padahal akses operasional utama menggunakan Waka Akademik.
+- Change ID / Task ID: IMP-WAKA-UI-TERMS
+- Date: 2026-09-08
+- Owner module: Academic admin presentation
+- Change class: `MODULE_INTERNAL`
+- Affected modules/workstreams: Tampilan halaman Struktur, Kelas, Guru/Staf, Jadwal, dan Santri.
+- Source-of-truth entities/services affected: None
+- Cross-module contracts touched: None
+- Expected file/write scope: Lima Blade view akademik dan dokumentasi change record.
+- Protected zones touched: NONE
+- RBAC/privacy/security impact: None; label UI tidak mengubah authorization.
+- Migration/backward-compatibility impact: None
+- Environment/config impact: None
+- Feature flag requirement: None
+- Policy/management decision required?: No
+- Required regression scope: Feature tests Admin akademik dan Blade cache.
+- Staging/deployment impact: Presentation-only; local verification sufficient for checkpoint.
+- Rollback/feature-disable/compatibility plan: Revert lima penggantian label pada view.
+- Evidence/tests: Targeted Admin tests, Blade cache, dan pencarian label lama.
+- Decision/status: COMPLETE — safe checkpoint.

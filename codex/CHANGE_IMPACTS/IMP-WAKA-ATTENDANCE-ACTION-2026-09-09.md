@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem: Tambahkan tombol “Isi Kehadiran” pada setiap baris temuan agar pengguna dapat membuka sesi terkait.
+- Change ID / Task ID: `IMP-WAKA-ATTENDANCE-ACTION-2026-09-09`
+- Date: 2026-09-09
+- Owner module: Academic / Waka Akademik UI
+- Change class: `MODULE_INTERNAL`
+- Affected modules/workstreams: Monitor pengecualian kehadiran dan halaman pengisian sesi.
+- Source-of-truth entities/services affected: Tidak ada perubahan; tetap memakai route dan service attendance yang ada.
+- Cross-module contracts touched: Tidak ada.
+- Expected file/write scope: `application/web/resources/views/academic/attendance/exceptions.blade.php`, test UI terkait, work log, change manifest.
+- Protected zones touched: None.
+- RBAC/privacy/security impact: Tidak mengubah otorisasi; penyimpanan tetap divalidasi oleh workflow Wali Kelas.
+- Migration/backward-compatibility impact: Tidak ada migration dan tidak ada perubahan data historis.
+- Environment/config impact (names only, no secrets): Tidak ada.
+- Feature flag requirement: Tidak ada.
+- Policy/management decision required?: Tidak.
+- Required regression scope: Attendance exception UI test dan cache Blade.
+- Staging/deployment impact: Perubahan view biasa; tetap perlu smoke test halaman pengecualian dan tautan sesi.
+- Rollback/feature-disable/compatibility plan: Hapus kolom aksi/tautan dari view; tidak ada data yang perlu dipulihkan.
+- Evidence/tests: `php artisan test tests/Feature/Academic/AttendanceExceptionUiTest.php --compact`, `php artisan view:cache`.
+- Decision/status: Implemented locally; ready for review.

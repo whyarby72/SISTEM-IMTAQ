@@ -1,0 +1,5 @@
+Git metadata: NOT AVAILABLE
+Durable pre-change snapshot for AI-A2-specific new files: ABSENT_BEFORE_AI_A2
+Durable pre-change snapshot for config/AppServiceProvider: NOT_AVAILABLE_NO_GIT
+AI-A1 baseline files extended by AI-A2: see PRE_AI_A1_BASELINE_HASHES.sha256
+No source/database snapshot was created by copying secrets, .env, vendor, or runtime data.

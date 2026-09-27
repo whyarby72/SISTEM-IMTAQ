@@ -1,0 +1,7 @@
+Ambil alih repository SISTEM IMTAQ ini tanpa membuat ulang proyek.
+
+Gunakan mode hemat-kuota: baca hanya `AGENTS.md`, `codex/CURRENT_TASK_CONTEXT.md`, `NEXT_ACTION.md`, lalu file **REQUIRED NOW** yang disebut current task context. Jangan bulk-read repository atau dokumen future/unrelated.
+
+Verifikasi current task `IMP-S0-001`, lalu implementasikan hanya atomic checkpoint pertama yang aman di `application/web/`. Ikuti Minimum Necessary Change, safe-maintenance, secret discipline, dan checkpoint protocol. Jangan implementasikan fitur sprint berikutnya, Google SSO, AI/OpenAI, WhatsApp, Parent Portal, biometric, atau future domains.
+
+Setelah atomic result selesai: jalankan check/test yang relevan, berhenti, tampilkan `SAFE_TO_CLOSE = YES/NO`, exact resume point, progress yang benar-benar berubah, dan 2–4 pilihan checkpoint berikutnya dengan estimasi waktu. Option 1 = rekomendasi utama. Tunggu nomor saya sebelum lanjut.

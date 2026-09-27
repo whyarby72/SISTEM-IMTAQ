@@ -1,0 +1,19 @@
+Prepare the current verified code as a staging/release candidate. Do not deploy directly to production unless the deployment contract and my explicit instruction allow it.
+
+Read:
+- docs/07_implementation/DEPLOYMENT_STAGING_AND_ROLLBACK.md
+- latest Change Manifest(s)
+- Git status/log/tag/release conventions
+- migration/config/secret changes
+
+Verify:
+- clean/known Git revision;
+- required tests passing;
+- migrations reviewed;
+- secrets excluded from repository;
+- persistent storage not overwritten;
+- staging configuration documented;
+- smoke-test plan;
+- rollback/feature-disable path.
+
+Produce a staging-release checklist/result and identify the exact revision/release candidate.

@@ -1,0 +1,22 @@
+# Change Impact Record
+
+- Request / problem:
+- Change ID / Task ID:
+- Date:
+- Owner module:
+- Change class: `MODULE_INTERNAL | MODULE_CONTRACT | SHARED_CORE | CROSS_DOMAIN | DATABASE_GLOBAL | SECURITY_GLOBAL | AI_PLATFORM | COMMUNICATION_PLATFORM | PARENT_PORTAL`
+- Affected modules/workstreams:
+- Source-of-truth entities/services affected:
+- Cross-module contracts touched:
+- Expected file/write scope:
+- Protected zones touched:
+- RBAC/privacy/security impact:
+- Migration/backward-compatibility impact:
+- Environment/config impact (names only, no secrets):
+- Feature flag requirement:
+- Policy/management decision required?:
+- Required regression scope:
+- Staging/deployment impact:
+- Rollback/feature-disable/compatibility plan:
+- Evidence/tests:
+- Decision/status:

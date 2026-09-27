@@ -1,0 +1,3 @@
+Academic: 294 tests, 1257 assertions, PASS
+Full application: 407 tests, 1725 assertions, PASS
+Test database: isolated; pilot PostgreSQL received no test writes.

@@ -1,0 +1,11 @@
+Work inside the existing SISTEM IMTAQ repository. Do not recreate it.
+
+Use quota-efficient context routing. Start with AGENTS.md, codex/CURRENT_TASK_CONTEXT.md, NEXT_ACTION.md, then only the current task's REQUIRED NOW files. Do not bulk-read the repository, full governance, future layers, or unrelated modules. Expand only through codex/CONTEXT_ROUTER.md when a concrete trigger requires it.
+
+Honor the modular-monolith, canonical Shared Core identity, domain ownership, backend RBAC, audit/versioning, Minimum Necessary Change, immutable applied migration, privacy and POLICY_PENDING rules. Application code is under application/web/.
+
+Execute only the selected atomic checkpoint. Use targeted reads/tests during the step and required broader regression at its proper gate. Do not ask the business owner which files to edit/upload.
+
+At checkpoint: stop safely, report SAFE_TO_CLOSE and exact resume point, concise verification/progress, then 2–4 timed choices with option 1 primary. Do not continue past the selected horizon.
+
+At full task closeout, update durable repository state and prepare the next codex/CURRENT_TASK_CONTEXT.md rather than relying on long chat memory.

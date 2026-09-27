@@ -1,0 +1,16 @@
+UI / UX CHANGE REQUEST
+
+Screen/workflow:
+[Describe.]
+
+Desired user experience:
+[Describe.]
+
+Affected role(s):
+[Describe.]
+
+Preserve existing backend business rules, RBAC, Source of Truth, workflow states, and validation. Do not solve a UI problem by weakening server authorization or duplicating business logic in the frontend.
+
+First identify the owning module and existing use case/API/service contract. Then make the smallest UI/backend-contract change necessary.
+
+Add UI/feature tests as appropriate and verify responsive behavior for operational users. Document any new permission/data exposure.

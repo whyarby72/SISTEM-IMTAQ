@@ -1,0 +1,5 @@
+Lanjutkan current task dari repository state dan resume point terakhir. Jangan membaca ulang seluruh bundle atau percakapan lama.
+
+Baca ulang hanya codex/CURRENT_TASK_CONTEXT.md dan file yang berubah/relevan sejak checkpoint terakhir. Kerjakan hanya checkpoint horizon yang saya pilih. Gunakan targeted tests dan Minimum Necessary Change.
+
+Berhenti kembali pada safe checkpoint dan tampilkan SAFE_TO_CLOSE + pilihan checkpoint berikutnya. Jangan melompat task.

@@ -1,0 +1,22 @@
+# P0 HTTP Regression Hardening — Change Impact
+
+- Request / problem: Prove P0-A/P0-B cannot be bypassed through application HTTP paths and preserve correction/cancellation workflows.
+- Change ID / Task ID: FIX-P0-HTTP-2026-09-11
+- Date: 2026-09-11
+- Owner module: Academic / Student Attendance
+- Change class: `MODULE_CONTRACT`
+- Affected modules/workstreams: Attendance draft/finalize HTTP handlers and Feature regression tests.
+- Source-of-truth entities/services affected: `StudentAttendanceController`, `StudentAttendanceDraftService`, `StudentAttendanceFinalizer`, `TeacherAttendanceService`.
+- Cross-module contracts touched: None.
+- Expected file/write scope: Controller error translation, relevant Academic Feature tests, and change records.
+- Protected zones touched: None.
+- RBAC/privacy/security impact: Existing authorization preserved.
+- Migration/backward-compatibility impact: No migration; correction and cancellation semantics preserved.
+- Environment/config impact: None.
+- Feature flag requirement: None.
+- Policy/management decision required?: No.
+- Required regression scope: P0-A/P0-B HTTP bypass, teacher service state guard, correction, cancellation, substitution.
+- Staging/deployment impact: Local UAT only.
+- Rollback/feature-disable/compatibility plan: Revert controller/test-only integration hardening; no data rewrite.
+- Evidence/tests: 48 tests/250 assertions passed; Blade cache passed.
+- Decision/status: IMPLEMENTED — Phase 3 complete.

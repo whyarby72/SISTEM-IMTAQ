@@ -1,0 +1,22 @@
+# P0-B Teacher Finalization Gate — Change Impact
+
+- Request / problem: Student attendance finalization could bypass missing or unresolved teacher attendance.
+- Change ID / Task ID: FIX-P0-B-2026-09-11
+- Date: 2026-09-11
+- Owner module: Academic / Student Attendance
+- Change class: `MODULE_CONTRACT`
+- Affected modules/workstreams: Student attendance finalization and teacher attendance service boundary.
+- Source-of-truth entities/services affected: `StudentAttendanceFinalizer`, `TeacherAttendanceService`, `SessionTeacherParticipation`.
+- Cross-module contracts touched: None.
+- Expected file/write scope: finalizer, teacher attendance service, and relevant Academic Feature tests only.
+- Protected zones touched: None.
+- RBAC/privacy/security impact: Existing RBAC preserved; Waka and Wali scopes unchanged.
+- Migration/backward-compatibility impact: No migration; existing teacher taxonomy and correction workflow unchanged.
+- Environment/config impact: None.
+- Feature flag requirement: None.
+- Policy/management decision required?: No; implements approved P0-B contract.
+- Required regression scope: finalizer, teacher attendance, UI, cancellation/substitution behavior.
+- Staging/deployment impact: Local UAT only; staging target unavailable.
+- Rollback/feature-disable/compatibility plan: Revert reviewed service/test changes; no data rewrite required.
+- Evidence/tests: 28 tests/133 assertions passed; Blade cache passed.
+- Decision/status: IMPLEMENTED — Phase 2 complete.

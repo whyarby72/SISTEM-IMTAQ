@@ -1,0 +1,5 @@
+STATUS ONLY. Make no repository changes and run no unnecessary long commands.
+
+Read only codex/CURRENT_TASK_CONTEXT.md, NEXT_ACTION.md, the relevant current task-queue row if needed, and PROJECT_PROGRESS.md only if I asked for percentages. Use Git status if needed.
+
+Report current task/state, blockers, SAFE_TO_CLOSE if meaningful, and concise next options. Do not summarize the full architecture.
