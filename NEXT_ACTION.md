@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE = READY_FOR_EXECUTION`
+**Execution state:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE = COMPLETED / PASS_WITH_PENDING_DECISION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
 ## Current CI runtime-authority task
@@ -19,7 +19,9 @@ Decision options:
 - B: PHP 8.3 compatibility remains an intentional requirement.
 - C: HOLD until hosting/runtime authority is established.
 
-Codex may analyze and recommend, but must not infer owner approval and must not implement runtime/dependency/CI changes.
+Codex analyzed and recommended Option C/HOLD; no owner approval for Option A or B was inferred, and no runtime/dependency/CI changes were implemented.
+
+**Decision artifact:** `codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md`
 
 
 ## Current AI track — AI Academic Assistant
@@ -131,4 +133,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_D2_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D2A-HOSTING-RUNTIME-AUTHORITY`

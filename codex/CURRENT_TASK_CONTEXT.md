@@ -1,10 +1,14 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS_WITH_PENDING_DECISION`
 **Current phase:** `CI / RUNTIME AUTHORITY GOVERNANCE`  
 **Task branch:** `chore/CI-PHP-CONTRACT-D2-runtime-authority-gate`  
 **State-basis before D2:** `1c8450081d7178336fbe6238be67f3291b2f3cea`
+
+**Decision:** `OPTION_C / HOLD — PENDING_OWNER_DECISION`
+
+**Next task:** `CI-PHP-CONTRACT-D2A-HOSTING-RUNTIME-AUTHORITY`
 
 ## Problem
 
