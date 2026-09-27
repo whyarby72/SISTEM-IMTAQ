@@ -4,11 +4,13 @@ on:
   push:
     paths:
       - 'application/web/**'
+      - 'NEXT_ACTION.md'
       - 'scripts/check_project_structure.py'
       - '.github/workflows/application-foundation.yml'
   pull_request:
     paths:
       - 'application/web/**'
+      - 'NEXT_ACTION.md'
       - 'scripts/check_project_structure.py'
       - '.github/workflows/application-foundation.yml'
 

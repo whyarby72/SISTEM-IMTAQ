@@ -28,7 +28,8 @@
     "codex/DIAGNOSTICS/CI-PHP-CONTRACT-D1-2026-09-27.md",
     "codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md",
     "codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md",
-    "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md"
+    "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md",
+    "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2R-2026-09-28.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "FAIL_VERIFIED_RUN_36353770932_FOUNDATION_ROUTING",
@@ -39,6 +40,7 @@
     "r1r_constraint_correction": "COMPLETED / PASS",
     "r2_implementation": "IMPLEMENTED / PHP_COMPOSER_PATH_PASS / FOUNDATION_ROUTING_FAIL",
     "r2_package_drift_guard": "PASS / 119 ENTRIES UNCHANGED",
+    "r2r_local_routing_repair": "PASS / SOC-MD-06",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION"
