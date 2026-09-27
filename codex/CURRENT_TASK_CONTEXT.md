@@ -1,56 +1,56 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`  
-**State:** `HOLD / CI_UNVERIFIED`
-**Current phase:** `CI / RUNTIME ALIGNMENT IMPLEMENTATION`  
-**Branch:** `chore/ci-php-r2-align-ci-php84`  
-**State-basis before R2:** `e7d712aee6aac0d16e81c5de3660ee4d824f476d`
+**Task:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `CI / FOUNDATION ROUTING REPAIR`  
+**Branch:** `chore/ci-php-r2r-foundation-routing-repair`  
+**State-basis before R2R:** `523ddc3030c539eb98d0a0388affac7aa060758f`
 
-## Approved runtime authority
+## Verified R2 outcome
 
-- PHP family: `8.4.x`
-- minimum: `8.4.1`
-- Composer root target: `~8.4.1`
-- scope: CI, staging target, production target
+Exact R2 implementation commit:
+`e4387589a60c1e6609536d22b262bc7ba0ffbdaf`
 
-## Problem
+Exact GitHub Actions run:
+`36353770932`
 
-Current workflow still uses PHP `8.3`, while the lockfile contains packages requiring PHP `>=8.4.1`. GitHub Actions therefore fails at locked dependency installation before tests.
+Verified steps:
+- PHP setup: PASS
+- approved PHP range assertion: PASS
+- Composer validation: PASS
+- locked dependency install: PASS
+- foundation verification: FAIL
 
-## REQUIRED NOW
+Therefore `CI_PHP_LOCKFILE_COMPATIBILITY` is no longer the active CI cause.
 
-1. `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R2.md`
-2. `codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md`
-3. `codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md`
-4. `.github/workflows/application-foundation.yml`
-5. `application/web/composer.json`
-6. `application/web/composer.lock`
-7. `PROJECT_STATE.json`
-8. `NEXT_ACTION.md`
-9. `AGENTS.md`
+Active blocker:
+`FOUNDATION_ROUTING_NEXT_ACTION_ID`
 
-## Authorized implementation
+## Required now
 
-- CI PHP `8.3 -> 8.4`
-- executable PHP range guard: `>=8.4.1 && <8.5.0`
-- composer root PHP `^8.3 -> ~8.4.1`
-- controlled lockfile regeneration with package-version drift guard
-- repository verification and exact-current GitHub Actions verification
-- evidence/state closeout
+1. `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR.md`
+2. `NEXT_ACTION.md`
+3. `codex/TASK_QUEUE.md`
+4. `scripts/check_project_structure.py`
+5. `.github/workflows/application-foundation.yml`
+6. `PROJECT_STATE.json`
+7. `codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md`
 
-## Critical guard
+## Repair
 
-No dependency version upgrade/downgrade is authorized by default.
-
-If package name/version set changes unexpectedly during lock regeneration:
-`STOP = R2_HOLD_UNEXPECTED_DEPENDENCY_DRIFT`
-
-## Forbidden
-
-No application/business source, database/migration, provider/OpenAI, deployment, hosting, Laravel-version, or main-merge changes.
+- restore queue-compatible marker in `NEXT_ACTION.md`:
+  `**Next task ID:** `SOC-MD-06``
+- add `NEXT_ACTION.md` to foundation workflow path filters
+- preserve all R2 PHP/Composer/runtime changes unchanged
+- reconcile stale evidence that exact Actions was unverified
 
 ## Exit
 
-Push implementation/evidence. Stop for ChatGPT audit.
+Obtain exact repair-commit Actions evidence.
 
-If exact-current CI passes, the PHP/lockfile blocker may be marked resolved and the next track returns to Academic web completion/review.
+If CI passes:
+- close routing blocker;
+- close PHP/lockfile blocker;
+- set next product track to Academic web completion/review;
+- preserve canonical governance gate `SOC-MD-06`;
+- STOP for ChatGPT audit.
