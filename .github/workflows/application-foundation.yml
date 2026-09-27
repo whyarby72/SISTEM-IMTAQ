@@ -30,9 +30,12 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: mbstring, pdo_sqlite
           coverage: none
+
+      - name: Assert approved PHP runtime range
+        run: php -r 'if (version_compare(PHP_VERSION, "8.4.1", "<") || version_compare(PHP_VERSION, "8.5.0", ">=")) { fwrite(STDERR, "PHP runtime must be >= 8.4.1 and < 8.5.0; found ".PHP_VERSION."\n"); exit(1); } echo "PHP runtime ".PHP_VERSION." is within the approved 8.4.x range.\n";'
 
       - name: Validate Composer manifest
         run: composer validate --strict

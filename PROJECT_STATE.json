@@ -31,7 +31,8 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36301085559",
     "codex/DIAGNOSTICS/CI-PHP-CONTRACT-D1-2026-09-27.md",
     "codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md",
-    "codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md"
+    "codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md",
+    "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "FAIL",
@@ -40,6 +41,8 @@
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
     "r1_runtime_alignment_design": "COMPLETED / DESIGN_ONLY / R1R_CORRECTED",
     "r1r_constraint_correction": "COMPLETED / PASS",
+    "r2_implementation": "IMPLEMENTED / CI_PENDING",
+    "r2_package_drift_guard": "PASS / 119 ENTRIES UNCHANGED",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE"
   },
@@ -49,6 +52,12 @@
       "status": "UNRESOLVED",
       "evidence": "GitHub Actions run 36301085559 fails at Composer install: runner PHP 8.3.35 while lockfile packages require PHP >=8.4.1.",
       "owner": "CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84"
+    },
+    {
+      "id": "FOUNDATION_ROUTING_NEXT_ACTION_ID",
+      "status": "UNRESOLVED",
+      "evidence": "verify-foundation.sh reaches PHPUnit successfully but repository structure verification reports NEXT_ACTION has no task id.",
+      "owner": "REPOSITORY_STATE_ROUTING"
     }
   ],
   "evidence_debt": [

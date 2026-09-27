@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `IMPLEMENTED / CI_PENDING`
 **Current phase:** `CI / RUNTIME ALIGNMENT IMPLEMENTATION`  
 **Branch:** `chore/ci-php-r2-align-ci-php84`  
 **State-basis before R2:** `e7d712aee6aac0d16e81c5de3660ee4d824f476d`
