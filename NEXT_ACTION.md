@@ -1,22 +1,30 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-R1R = COMPLETED / PASS`
+**Execution state:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84 = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
-## Current CI design-correction task
+## Current CI runtime-alignment implementation task
 
-**Task:** `CI-PHP-CONTRACT-R1R`  
-**Type:** `DESIGN_PRECISION_CORRECTION`  
-**Branch:** `chore/ci-php-r1r-constraint-correction`  
-**State-basis:** `1b4b1caf16635d0331651db30abc7e730d49267d`
+**Task:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`  
+**Type:** `CONTROLLED_IMPLEMENTATION`  
+**Branch:** `chore/ci-php-r2-align-ci-php84`  
+**State-basis:** `e7d712aee6aac0d16e81c5de3660ee4d824f476d`  
+**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R2.md`
 
-Correct the R1 Composer design from `^8.4.1` to `~8.4.1` so it matches the owner-approved PHP 8.4.x family with minimum 8.4.1.
+Approved implementation:
 
-Also reconcile stale R1 repository-state acceptance IDs.
+- CI PHP `8.3 -> 8.4`
+- enforce actual runtime `>=8.4.1 && <8.5.0`
+- Composer root PHP `^8.3 -> ~8.4.1`
+- controlled lockfile regeneration
+- no package-version drift without HOLD
+- exact-current GitHub Actions verification
 
-No CI, Composer manifest/lockfile, application, dependency, runtime, database, provider, or deployment mutation is allowed.
+No application/business source, database/migration, provider/OpenAI, deployment, hosting, Laravel-version, or main-merge changes are authorized.
 
-After PASS, next task is `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`.
+After R2:
+- if exact-current CI passes, resolve `CI_PHP_LOCKFILE_COMPATIBILITY` and return to Academic web completion/review;
+- if CI reaches verification but another failure appears, record the new blocker rather than hiding it.
 
 
 ## Current AI track — AI Academic Assistant
@@ -128,4 +136,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`
+**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_R2_FROM_REPOSITORY`
