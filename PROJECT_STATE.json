@@ -1,21 +1,26 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "7fb40baa1331d9239fc545b5ff0fa7119e69adee",
+  "repo_commit": "1c8450081d7178336fbe6238be67f3291b2f3cea",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/CI-PHP-CONTRACT-D1R-evidence-correction",
+  "active_branch": "chore/CI-PHP-CONTRACT-D2-runtime-authority-gate",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "CI-PHP-CONTRACT-D1R",
+  "current_task_id": "CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "D1R-AC-01",
-    "D1R-AC-02",
-    "D1R-AC-03",
-    "D1R-AC-04",
-    "D1R-AC-05",
-    "D1R-AC-06"
+    "D2-AC-01",
+    "D2-AC-02",
+    "D2-AC-03",
+    "D2-AC-04",
+    "D2-AC-05",
+    "D2-AC-06",
+    "D2-AC-07",
+    "D2-AC-08",
+    "D2-AC-09",
+    "D2-AC-10",
+    "D2-AC-11"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -46,5 +51,5 @@
   "next_task": "CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-27"
+  "updated_at": "2026-09-27T17:10:00+07:00"
 }
