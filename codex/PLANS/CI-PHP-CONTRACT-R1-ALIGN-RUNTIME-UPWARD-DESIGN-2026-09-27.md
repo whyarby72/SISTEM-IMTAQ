@@ -1,8 +1,8 @@
 # CI-PHP-CONTRACT-R1 — Align Runtime Upward Design
 
-Status: `COMPLETED / DESIGN_ONLY`  
+Status: `COMPLETED / DESIGN_ONLY / R1R_CORRECTED`
 Date: `2026-09-27`  
-Branch: `chore/ci-php-d2a-runtime-approval`  
+Branch: `chore/ci-php-r1r-constraint-correction`
 Owner decision: `PHP 8.4.x; minimum 8.4.1`  
 Decision source: `codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md`
 
@@ -27,7 +27,7 @@ The next implementation task may modify only:
      approved 8.4.x patch instead;
    - preserve the existing extensions, install command, and verification step.
 2. `application/web/composer.json`
-   - tighten the root PHP requirement from `^8.3` to `^8.4.1` so the package
+   - tighten the root PHP requirement from `^8.3` to `~8.4.1` so the package
      declaration truthfully rejects unsupported PHP 8.3 runtimes;
    - do not change Laravel or unrelated package constraints.
 3. `application/web/composer.lock`
@@ -56,11 +56,13 @@ the channel expression. A PHP 8.4 runtime below 8.4.1 is not acceptable.
 
 ## Composer declaration decision
 
-`composer.json` should be tightened from `^8.3` to `^8.4.1`.
+`composer.json` should be tightened from `^8.3` to `~8.4.1`.
 
 Rationale:
 
 - the owner-approved minimum is 8.4.1;
+- `~8.4.1` means `>=8.4.1` and `<8.5.0`, matching the approved PHP 8.4.x
+  family;
 - the locked Symfony 8.1 packages require 8.4.1;
 - leaving `^8.3` would falsely advertise PHP 8.3 support and permit the same
   class of lock/runtime mismatch to recur.

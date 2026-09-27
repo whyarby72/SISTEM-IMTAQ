@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `CI-PHP-CONTRACT-R1R` Runtime Constraint Precision Correction  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS`
 **Branch:** `chore/ci-php-r1r-constraint-correction`  
 **State-basis:** `1b4b1caf16635d0331651db30abc7e730d49267d`
 
@@ -22,6 +22,10 @@ Correct it to:
 so the declared support range remains within PHP 8.4.x while enforcing minimum 8.4.1.
 
 Also reconcile `PROJECT_STATE.json` acceptance IDs from stale D2 IDs to R1R IDs.
+
+R1R correction is complete: the proposed Composer constraint is `~8.4.1`,
+which means `>=8.4.1` and `<8.5.0`. The next implementation task remains
+`CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`.
 
 ## Required now
 

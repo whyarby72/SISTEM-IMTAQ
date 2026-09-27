@@ -31,7 +31,8 @@
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
-    "r1_runtime_alignment_design": "COMPLETED / DESIGN_ONLY",
+    "r1_runtime_alignment_design": "COMPLETED / DESIGN_ONLY / R1R_CORRECTED",
+    "r1r_constraint_correction": "COMPLETED / PASS",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE"
   },
@@ -48,7 +49,7 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "CI-PHP-CONTRACT-R1R",
+  "next_task": "CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
   "updated_at": "2026-09-27"
