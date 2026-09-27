@@ -1,10 +1,12 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "0a7b3cceaae4c25181e874e548add308d1715c82",
+  "repo_commit": "da5b15dfee1c257be3d262270dc2ba27001977bf",
+  "repo_commit_semantics": "STATE_BASIS_COMMIT",
+  "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "IMTAQ-REPO-ADOPTION-A3",
+  "current_task_id": "IMTAQ-REPO-ADOPTION-A3R",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [

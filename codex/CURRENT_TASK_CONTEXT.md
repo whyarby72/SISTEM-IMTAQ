@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `IMTAQ-REPO-ADOPTION-A3R` State Commit Semantics Correction  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS`
 **Current phase:** `EXISTING_REPO_ADOPTION / REPOSITORY STATE REMEDIATION`  
 **Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`  
 **Baseline main:** `957f062815147a0cc2ea2200fd82692c3447f3e1`  
@@ -9,7 +9,7 @@
 
 ## Why A3R exists
 
-A3 completed its substantive state reconciliation, but some state artifacts still label the earlier preparation commit `0a7b3cce...` as if it were the A3 closeout/current-state commit.
+A3R corrected the commit semantics in repository-state artifacts without changing application or business source.
 
 A3R corrects only commit semantics. It must distinguish:
 
@@ -25,6 +25,8 @@ Do not create a self-referential state file that tries to contain the SHA of the
 3. `TEST_MATRIX.csv`
 4. `NEXT_ACTION.md`
 5. `EVIDENCE_INDEX.json` only if the same commit-semantics issue affects it.
+
+A3R is complete. The next diagnostic task is `CI-PHP-CONTRACT-D1`.
 
 Do not bulk-read the repository.
 
