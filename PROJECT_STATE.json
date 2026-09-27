@@ -29,10 +29,11 @@
     "codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md",
     "codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md",
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md",
-    "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2R-2026-09-28.md"
+    "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2R-2026-09-28.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36355381623"
   ],
   "latest_test_state": {
-    "exact_current_ci": "FAIL_VERIFIED_RUN_36353770932_FOUNDATION_ROUTING",
+    "exact_current_ci": "FAIL_VERIFIED_RUN_36355381623_SQLITE_MIGRATION_COMPATIBILITY",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -41,6 +42,7 @@
     "r2_implementation": "IMPLEMENTED / PHP_COMPOSER_PATH_PASS / FOUNDATION_ROUTING_FAIL",
     "r2_package_drift_guard": "PASS / 119 ENTRIES UNCHANGED",
     "r2r_local_routing_repair": "PASS / SOC-MD-06",
+    "r2r_exact_actions": "PASS_WITH_NEW_BLOCKER / RUN_36355381623",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION"
@@ -48,15 +50,21 @@
   "blockers": [
     {
       "id": "CI_PHP_LOCKFILE_COMPATIBILITY",
-      "status": "RESOLVED_PENDING_FINAL_CI_GREEN",
+      "status": "RESOLVED",
       "evidence": "Exact GitHub Actions run 36353770932 on implementation commit e4387589a60c1e6609536d22b262bc7ba0ffbdaf passed PHP setup, runtime guard, Composer validate, and locked dependency install; failure moved to foundation routing.",
       "owner": "CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR"
     },
     {
       "id": "FOUNDATION_ROUTING_NEXT_ACTION_ID",
-      "status": "UNRESOLVED",
+      "status": "RESOLVED",
       "evidence": "verify-foundation.sh reaches PHPUnit successfully but repository structure verification reports NEXT_ACTION has no task id.",
       "owner": "CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR"
+    },
+    {
+      "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
+      "status": "UNRESOLVED",
+      "evidence": "Exact repair run 36355381623 reaches PHPUnit but reports 489 failed, 3 passed, 17 warnings, 53 assertions; SQLite rejects ALTER TABLE students ALTER COLUMN student_code DROP NOT NULL at database/migrations/2026_09_05_000003_make_student_code_optional_and_add_identifier_columns.php:16.",
+      "owner": "SEPARATE_TEST_RUNTIME_COMPATIBILITY_REMEDIATION"
     }
   ],
   "evidence_debt": [

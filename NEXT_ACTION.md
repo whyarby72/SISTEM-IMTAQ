@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR = READY_FOR_EXECUTION`
+**Execution state:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR = PASS_WITH_NEW_BLOCKER`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -20,7 +20,10 @@ R2R must:
 - add `NEXT_ACTION.md` to the foundation workflow path filters;
 - obtain fresh exact-current GitHub Actions evidence.
 
-After CI green, return to Academic web completion/review while preserving the canonical governance gate `SOC-MD-06`.
+CI run `36355381623` passed PHP/Composer/install and the routing check, then
+failed in PHPUnit on SQLite migration compatibility. Resolve that blocker in a
+separately authorized task before returning to Academic web completion/review;
+preserve the canonical governance gate `SOC-MD-06`.
 
 
 ## Current AI track — AI Academic Assistant

@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR`  
-**State:** `IMPLEMENTED / CI_PENDING`
+**State:** `PASS_WITH_NEW_BLOCKER`
 **Current phase:** `CI / FOUNDATION ROUTING REPAIR`  
 **Branch:** `chore/ci-php-r2r-foundation-routing-repair`  
 **State-basis before R2R:** `523ddc3030c539eb98d0a0388affac7aa060758f`

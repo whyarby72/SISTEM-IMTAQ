@@ -36,7 +36,16 @@ provider, OpenAI, dependency, runtime, or deployment change is included.
 - `SOC-MD-06` present in `codex/TASK_QUEUE.md`: PASS.
 - `python3 scripts/check_project_structure.py`: PASS expected after repair.
 - PHP/Composer/runtime diff guard: PASS; no R2 implementation lines changed.
-- Exact repair-commit GitHub Actions result: pending push and run.
+- Exact repair-commit GitHub Actions result: FAIL, run `36355381623` on
+  commit `659f6b3947e85c2f50cbc6dcfdc506aaf4b8705b`.
+- PHP setup, approved range guard, Composer validation, and locked install:
+  PASS.
+- `Run foundation verification`: reached and failed in PHPUnit after the
+  routing checker passed.
+- New independent blocker: 489 tests failed, 3 passed, 17 warnings, and 53
+  assertions. SQLite rejects `ALTER TABLE students ALTER COLUMN student_code
+  DROP NOT NULL` in
+  `database/migrations/2026_09_05_000003_make_student_code_optional_and_add_identifier_columns.php:16`.
 
 ## Safety
 
@@ -46,10 +55,10 @@ provider, OpenAI, dependency, runtime, or deployment change is included.
 
 ## Closeout rule
 
-If exact repair-commit Actions passes foundation verification, mark
-`FOUNDATION_ROUTING_NEXT_ACTION_ID` resolved, record the exact run, reconcile
-the PHP/lockfile blocker as resolved, and route the next product track to
-`ACADEMIC_WEB_COMPLETION_REVIEW` while preserving `SOC-MD-06`.
+The routing blocker and PHP/lockfile blocker are substantively resolved by the
+run evidence, but R2R is `PASS_WITH_NEW_BLOCKER`, not fully PASS. Do not route
+to `ACADEMIC_WEB_COMPLETION_REVIEW` until the new SQLite compatibility blocker
+is separately resolved and verified. Preserve `SOC-MD-06`.
 
 If a new independent failure appears, record it exactly and stop without
 claiming CI PASS.
