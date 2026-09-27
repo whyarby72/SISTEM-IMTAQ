@@ -1,60 +1,32 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`  
-**State:** `COMPLETED / PASS_WITH_PENDING_DECISION`
-**Current phase:** `CI / RUNTIME AUTHORITY GOVERNANCE`  
-**Task branch:** `chore/CI-PHP-CONTRACT-D2-runtime-authority-gate`  
-**State-basis before D2:** `1c8450081d7178336fbe6238be67f3291b2f3cea`
+**Task:** `CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN`  
+**State:** `READY_FOR_EXECUTION`  
+**Branch:** `chore/ci-php-d2a-runtime-approval`
 
-**Decision:** `OPTION_C / HOLD — PENDING_OWNER_DECISION`
+Owner-approved runtime authority:
 
-**Next task:** `CI-PHP-CONTRACT-D2A-HOSTING-RUNTIME-AUTHORITY`
+- PHP family: `8.4.x`
+- minimum: `8.4.1`
+- applies to: CI, staging target, production target
 
-## Problem
+R1 is design only. Determine the minimum safe CI/runtime-alignment change and verification plan. Do not modify workflow, Composer manifests/lockfile, dependencies, application source, runtime installation, database, provider state, or deployment.
 
-D1/D1R proved a real runtime/dependency conflict:
+Required output:
 
-- CI PHP: `8.3`
-- local development PHP observed by D1: `8.5.10`
-- root Composer PHP: `^8.3`
-- lock platform PHP: `^8.3`
-- 17 locked Symfony 8.1 packages require PHP `>=8.4.1`
-- staging/production runtime authority: unresolved
-- blocker: `CI_PHP_LOCKFILE_COMPATIBILITY`
+`codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md`
 
-D2 must establish explicit runtime authority or return HOLD. It must not implement the fix.
+The plan must define:
+- exact proposed write scope;
+- CI PHP target expression;
+- whether composer.json should remain `^8.3` or be tightened;
+- whether composer.lock should change;
+- regression/test commands;
+- rollback;
+- staging prerequisites;
+- one implementation task ID.
 
-## REQUIRED NOW
+Recommended implementation task:
+`CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`
 
-1. `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE.md`
-2. `codex/DIAGNOSTICS/CI-PHP-CONTRACT-D1-2026-09-27.md`
-3. `PROJECT_STATE.json`
-4. `NEXT_ACTION.md`
-5. `docs/07_implementation/DEPLOYMENT_STAGING_AND_ROLLBACK.md`
-6. `docs/00_governance/POLICY_PENDING_REGISTER.md`
-7. `project_management/DECISION_LOG.md`
-8. `project_management/TECHNICAL_DECISIONS.md`
-9. `AGENTS.md`
-
-Use targeted reads only.
-
-## Decision options
-
-- Option A: canonical target runtime becomes PHP >=8.4.1.
-- Option B: PHP 8.3 compatibility remains an intentional requirement.
-- Option C: HOLD until hosting/staging/production authority is established.
-
-Do not infer owner approval.
-
-## Expected writes
-
-- `codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md`
-- repository state/evidence routing only as allowed by the D2 task contract.
-
-## Forbidden
-
-No Composer/lockfile/dependency/CI/runtime/application/database/provider/deployment mutation.
-
-## Exit
-
-Commit/push the D2 decision artifact and state. Record explicit owner decision if actually obtained; otherwise record `PENDING_OWNER_DECISION` and stop for ChatGPT audit.
+Commit and push the design artifact, then STOP for ChatGPT audit.
