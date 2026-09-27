@@ -1,22 +1,29 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "1b4b1caf16635d0331651db30abc7e730d49267d",
+  "repo_commit": "e7d712aee6aac0d16e81c5de3660ee4d824f476d",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/ci-php-r1r-constraint-correction",
+  "active_branch": "chore/ci-php-r2-align-ci-php84",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "CI-PHP-CONTRACT-R1R",
+  "current_task_id": "CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "R1R-AC-01",
-    "R1R-AC-02",
-    "R1R-AC-03",
-    "R1R-AC-04",
-    "R1R-AC-05",
-    "R1R-AC-06",
-    "R1R-AC-07"
+    "R2-AC-01",
+    "R2-AC-02",
+    "R2-AC-03",
+    "R2-AC-04",
+    "R2-AC-05",
+    "R2-AC-06",
+    "R2-AC-07",
+    "R2-AC-08",
+    "R2-AC-09",
+    "R2-AC-10",
+    "R2-AC-11",
+    "R2-AC-12",
+    "R2-AC-13",
+    "R2-AC-14"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -52,5 +59,5 @@
   "next_task": "CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-27"
+  "updated_at": "2026-09-27T19:28:00+07:00"
 }
