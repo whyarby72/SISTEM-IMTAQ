@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `IMTAQ-REPO-ADOPTION-A3 = READY_FOR_EXECUTION`
+**Execution state:** `IMTAQ-REPO-ADOPTION-A3 = COMPLETED / PASS`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
 ## Current repository-adoption task
@@ -11,7 +11,7 @@
 **Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`  
 **Task contract:** `codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3.md`
 
-A3 reconciles the durable repository state and adds only the missing minimum machine-readable continuation artifacts: `PROJECT_STATE.json`, `TEST_MATRIX.csv`, and `EVIDENCE_INDEX.json`. It must not modify application/business source.
+A3 reconciled the durable repository state and added only the minimum machine-readable continuation artifacts: `PROJECT_STATE.json`, `TEST_MATRIX.csv`, and `EVIDENCE_INDEX.json`. It did not modify application/business source.
 
 Exact baseline CI currently fails in GitHub Actions run `36301085559` during Composer install because the workflow uses PHP 8.3 while the lockfile contains packages requiring PHP >=8.4.1. A3 records this as blocker `CI_PHP_LOCKFILE_COMPATIBILITY`; it must not repair or choose the PHP/dependency strategy.
 
@@ -126,4 +126,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_IMTAQ_REPO_ADOPTION_A3_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D1`

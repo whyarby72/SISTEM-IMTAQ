@@ -1,0 +1,40 @@
+{
+  "index_version": "1.0",
+  "repo": "whyarby72/SISTEM-IMTAQ",
+  "indexed_at": "2026-09-27T00:00:00+07:00",
+  "entries": [
+    {
+      "id": "a3-baseline-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36301085559",
+      "commit": "957f062815147a0cc2ea2200fd82692c3447f3e1",
+      "status": "FAIL",
+      "summary": "Application foundation fails during Composer install due to PHP/lockfile compatibility.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "a3-p3-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
+      "status": "PASS",
+      "summary": "P3 stateless verification continuation replay patch and historical regression evidence.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "a3-p3-recovery",
+      "kind": "recovery_checkpoint",
+      "ref": "recovery/ai-provider-context-p3/AI-PROVIDER-CONTEXT-P3_20260926-150000/README_RECOVERY.md",
+      "status": "PASS",
+      "summary": "Recovery boundary and validation summary for P3; live retry not run.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "a3-contract-map",
+      "kind": "repository_contract",
+      "ref": "codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3.md",
+      "status": "ACTIVE",
+      "summary": "A3 acceptance criteria and repository-state artifact contract.",
+      "sensitivity": "non_secret"
+    }
+  ]
+}

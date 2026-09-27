@@ -1,0 +1,10 @@
+id,category,scope,evidence_type,subject,status,commit_or_run,source_ref,notes
+A3-T01,CI,exact baseline commit,github_actions,Application foundation,FAIL,36301085559,https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36301085559,"Composer install fails on PHP 8.3.35 because lockfile packages require PHP >=8.4.1; unresolved blocker CI_PHP_LOCKFILE_COMPATIBILITY"
+A3-T02,Regression,historical P3 closeout,change_manifest,Provider focused tests,PASS,2026-09-26,codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md,"30/30 tests and 254 assertions; historical evidence, not exact-current CI"
+A3-T03,Regression,historical P3 closeout,change_manifest,AI provider suite,PASS,2026-09-26,codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md,"65/65 tests and 380 assertions; historical evidence, not exact-current CI"
+A3-T04,Regression,historical P3 closeout,change_manifest,Academic suite,PASS,2026-09-26,codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md,"396/396 tests and 1723 assertions; historical evidence, not exact-current CI"
+A3-T05,Regression,historical P3 closeout,change_manifest,Full suite,PASS,2026-09-26,codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md,"509/509 tests and 2191 assertions; historical evidence, not exact-current CI"
+A3-T06,Static,repository state,inspection,Branch and baseline parity,PASS,0a7b3cceaae4c25181e874e548add308d1715c82,PROJECT_STATE.json,"Current branch and commit are recorded in repository state"
+A3-T07,Static,repository state,inspection,Application protected-zone diff,PASS,0a7b3cceaae4c25181e874e548add308d1715c82,PROJECT_STATE.json,"No A3 changes under application/web/app, application/web/database, or application/web/routes"
+A3-T08,Replay,post-A3 exact verification,not_yet_replayed,CI after PHP/dependency contract decision,NOT_YET_REPLAYED,N/A,PROJECT_STATE.json,"Must wait for CI-PHP-CONTRACT-D1; A3 does not choose or implement the fix"
+A3-T09,Live,provider verification,not_authorized,Controlled real-provider verification,NOT_RUN,N/A,PROJECT_STATE.json,"No live OpenAI request is authorized in A3"

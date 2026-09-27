@@ -1,10 +1,11 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `IMTAQ-REPO-ADOPTION-A3` Repository State Reconciliation  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS`
 **Current phase:** `EXISTING_REPO_ADOPTION / REPOSITORY STATE`  
-**Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`  
+**Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`
 **Baseline main:** `957f062815147a0cc2ea2200fd82692c3447f3e1`
+**A3 closeout commit:** `0a7b3cceaae4c25181e874e548add308d1715c82`
 
 ## Current baseline
 
@@ -20,6 +21,9 @@ The exact baseline GitHub Actions run for the baseline commit currently fails du
 2. `NEXT_ACTION.md`
 3. `AGENTS.md`
 4. Existing equivalents referenced by the A3 task only as needed.
+
+A3 state artifacts are complete: `PROJECT_STATE.json`, `TEST_MATRIX.csv`, and
+`EVIDENCE_INDEX.json`. The next diagnostic task is `CI-PHP-CONTRACT-D1`.
 
 Do not bulk-read the repository. Expand context only when a concrete A3 acceptance criterion requires it.
 
