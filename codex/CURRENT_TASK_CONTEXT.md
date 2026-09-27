@@ -1,10 +1,12 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `CI-PHP-CONTRACT-D1` PHP Runtime / Lockfile Compatibility Diagnosis  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS_WITH_BLOCKER`
 **Current phase:** `REPOSITORY-CENTERED CI CONTRACT DIAGNOSIS`  
 **Task branch:** `chore/CI-PHP-CONTRACT-D1-diagnosis`  
 **State-basis commit before D1:** `6d3493bc9c8a1d013a4df944a06da6bfb3969f44`
+
+**D1 diagnosis:** `CANDIDATE_C / HOLD — STAGING_PRODUCTION_RUNTIME_AUTHORITY_UNRESOLVED`
 
 ## Problem
 
@@ -41,6 +43,9 @@ D1 is diagnosis only. It must determine whether the supported outcome is:
 8. `docs/07_implementation/DEPLOYMENT_STAGING_AND_ROLLBACK.md`
 9. `NEXT_ACTION.md`
 10. `AGENTS.md`
+
+D1 diagnosis is complete. The next narrow task is
+`CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`.
 
 Use targeted reads/searches only. Do not bulk-read the repository.
 

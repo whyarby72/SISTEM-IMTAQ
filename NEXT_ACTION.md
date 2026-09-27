@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-D1 = READY_FOR_EXECUTION`
+**Execution state:** `CI-PHP-CONTRACT-D1 = COMPLETED / PASS_WITH_BLOCKER`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
 ## Current CI contract task
@@ -22,7 +22,7 @@ Known conflict:
 
 D1 must determine whether runtime authority supports PHP >=8.4.1, PHP 8.3 compatibility must be preserved, or the decision remains blocked by unresolved staging/production runtime authority.
 
-After D1, route only to a narrow remediation/decision task. Do not implement the fix inside D1.
+After D1, route only to `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`. Do not implement the PHP/dependency fix inside D1.
 
 
 ## Current AI track — AI Academic Assistant
@@ -134,4 +134,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_D1_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE`

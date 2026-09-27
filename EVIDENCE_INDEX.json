@@ -35,6 +35,14 @@
       "status": "ACTIVE",
       "summary": "A3 acceptance criteria and repository-state artifact contract.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "d1-ci-php-contract-diagnosis",
+      "kind": "diagnostic",
+      "ref": "codex/DIAGNOSTICS/CI-PHP-CONTRACT-D1-2026-09-27.md",
+      "status": "PASS_WITH_BLOCKER",
+      "summary": "Read-only diagnosis confirms locked Symfony 8.1 packages require PHP >=8.4.1 while CI runs PHP 8.3; staging/production runtime authority remains unresolved.",
+      "sensitivity": "non_secret"
     }
   ]
 }

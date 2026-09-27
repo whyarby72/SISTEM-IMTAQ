@@ -28,11 +28,13 @@
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
     "recovery/ai-provider-context-p3/AI-PROVIDER-CONTEXT-P3_20260926-150000/README_RECOVERY.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36301085559"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36301085559",
+    "codex/DIAGNOSTICS/CI-PHP-CONTRACT-D1-2026-09-27.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "FAIL",
     "historical_local_regression": "PASS",
+    "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE"
   },
@@ -41,7 +43,7 @@
       "id": "CI_PHP_LOCKFILE_COMPATIBILITY",
       "status": "UNRESOLVED",
       "evidence": "GitHub Actions run 36301085559 fails at Composer install: runner PHP 8.3.35 while lockfile packages require PHP >=8.4.1.",
-      "owner": "CI-PHP-CONTRACT-D1"
+      "owner": "CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE"
     }
   ],
   "evidence_debt": [
@@ -49,8 +51,8 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "CI-PHP-CONTRACT-D1",
+  "next_task": "CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-GATE",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-27T15:39:00+07:00"
+  "updated_at": "2026-09-27"
 }
