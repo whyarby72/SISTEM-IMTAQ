@@ -1,6 +1,6 @@
 # CI-PHP-CONTRACT-D2 — Runtime Authority Decision Gate
 
-Status: `PASS_WITH_PENDING_DECISION`  
+Status: `CLOSED / OWNER_DECISION_RECORDED`  
 Date: `2026-09-27`  
 Repository: `whyarby72/SISTEM-IMTAQ`  
 Branch: `chore/CI-PHP-CONTRACT-D2-runtime-authority-gate`  
@@ -61,26 +61,34 @@ Therefore:
 
 ## Decision gate
 
-`RECOMMENDATION = OPTION_C / HOLD`
+`RECOMMENDATION_AT_D2_CLOSE = OPTION_C / HOLD`
 
-`DECISION_STATUS = PENDING_OWNER_DECISION`
+`DECISION_STATUS = APPROVED_BY_PROJECT_OWNER`
 
-`SELECTED_OPTION = NONE`
+`SELECTED_OPTION = OPTION_A`
 
-`OWNER_DECISION = NOT_OBTAINED`
+`OWNER_DECISION = PHP_8_4_X_MINIMUM_8_4_1`
 
-No owner or management instruction in this task selects Option A or Option B. The current workflow setting alone is not institutional authority, and the local PHP version is not deployment authority. D2 therefore must not infer either option.
+After D2 closeout, the project owner explicitly selected Option A. Canonical target runtime authority is therefore PHP 8.4.x with minimum PHP 8.4.1 for CI, staging, and production targets. This records a target-runtime authority decision; it does not prove that staging/production infrastructure is already provisioned or compatible.
 
 ## Blocker and next task
 
 `CI_PHP_LOCKFILE_COMPATIBILITY = UNRESOLVED`
 
+Owner-approved runtime target:
+
+- PHP family: `8.4.x`
+- minimum: `8.4.1`
+- applies to: `CI`, `STAGING_TARGET`, `PRODUCTION_TARGET`
+- hosting/provider selection: `IMPLEMENTATION_PENDING`
+- actual staging/production provisioning: `IMPLEMENTATION_PENDING`
+
 Recommended next task:
 
-`CI-PHP-CONTRACT-D2A-HOSTING-RUNTIME-AUTHORITY`
+`CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN`
 
-Scope: obtain and record explicit staging/production runtime authority or an owner decision selecting Option A or B. Do not implement Composer, lockfile, CI, PHP, dependency, or deployment changes in that task unless separately authorized.
+Scope: design the minimum safe CI/runtime-alignment change for the approved PHP 8.4.x target. Do not implement Composer, lockfile, dependency, deployment, or production changes unless separately authorized.
 
 ## Safety boundary
 
-D2 made no changes to Composer manifests/lockfile, CI workflow, PHP/Composer installation, dependencies/vendor, application/business source, database, migrations, provider state, OpenAI, hosting, staging, production, or deployment. This artifact records analysis and an explicit pending decision only.
+D2 made no changes to Composer manifests/lockfile, CI workflow, PHP/Composer installation, dependencies/vendor, application/business source, database, migrations, provider state, OpenAI, hosting, staging, production, or deployment. This artifact records the D2 analysis plus the subsequent explicit project-owner selection of Option A. No runtime, dependency, CI, application, database, provider, or deployment mutation is performed by this decision-record update.
