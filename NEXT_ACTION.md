@@ -1,30 +1,26 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84 = HOLD / CI_UNVERIFIED`
+**Execution state:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
+**Next task ID:** `SOC-MD-06`
 
-## Current CI runtime-alignment implementation task
+## Current CI foundation-routing repair task
 
-**Task:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`  
-**Type:** `CONTROLLED_IMPLEMENTATION`  
-**Branch:** `chore/ci-php-r2-align-ci-php84`  
-**State-basis:** `e7d712aee6aac0d16e81c5de3660ee4d824f476d`  
-**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R2.md`
+**Task:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR`  
+**Type:** `NARROW_REPOSITORY_ROUTING_REPAIR`  
+**Branch:** `chore/ci-php-r2r-foundation-routing-repair`  
+**State-basis:** `523ddc3030c539eb98d0a0388affac7aa060758f`  
+**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR.md`
 
-Approved implementation:
+Verified R2 Actions run `36353770932` passed PHP setup, runtime guard, Composer validation, and locked dependency installation. It failed only at foundation verification because repository routing did not expose the queue-compatible `Next task ID` marker.
 
-- CI PHP `8.3 -> 8.4`
-- enforce actual runtime `>=8.4.1 && <8.5.0`
-- Composer root PHP `^8.3 -> ~8.4.1`
-- controlled lockfile regeneration
-- no package-version drift without HOLD
-- exact-current GitHub Actions verification
+R2R must:
+- preserve R2 PHP/Composer/runtime changes unchanged;
+- ensure the canonical queue marker is `SOC-MD-06`;
+- add `NEXT_ACTION.md` to the foundation workflow path filters;
+- obtain fresh exact-current GitHub Actions evidence.
 
-No application/business source, database/migration, provider/OpenAI, deployment, hosting, Laravel-version, or main-merge changes are authorized.
-
-After R2:
-- if exact-current CI passes, resolve `CI_PHP_LOCKFILE_COMPATIBILITY` and return to Academic web completion/review;
-- if CI reaches verification but another failure appears, record the new blocker rather than hiding it.
+After CI green, return to Academic web completion/review while preserving the canonical governance gate `SOC-MD-06`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -136,4 +132,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_R2_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_R2R_FROM_REPOSITORY`
