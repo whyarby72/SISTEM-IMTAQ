@@ -4,6 +4,7 @@ Date: 2026-09-28
 Task: `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`
 Branch: `chore/ci-php-r2-align-ci-php84`
 Baseline: `c86df2102bd7f6f0fb898a0887ee69882f2eb4b2`
+Implementation commit: `e4387589a60c1e6609536d22b262bc7ba0ffbdaf`
 
 ## Scope
 
@@ -44,7 +45,9 @@ deployment, hosting, Laravel-version, or unrelated workflow change was made.
 - `./scripts/verify-foundation.sh`: reaches and passes Composer validation,
   config clear, route listing, and PHPUnit, then reports the existing
   repository-structure routing failure: `NEXT_ACTION has no task id`.
-- Exact implementation-commit GitHub Actions result: pending push and CI run.
+- Exact implementation-commit GitHub Actions result: NOT VERIFIED. `gh
+  auth status` reports the configured `whyarby72` token is invalid. No token
+  was requested, exposed, or entered manually.
 
 ## Safety and rollback
 
@@ -52,11 +55,14 @@ deployment, hosting, Laravel-version, or unrelated workflow change was made.
   OpenAI request was performed.
 - Rollback is a normal Git revert of the implementation commit; no database
   rollback is required.
-- R2 remains `PASS_WITH_NEW_BLOCKER` unless exact-current GitHub Actions
-  reaches foundation verification and passes all required checks.
+- R2 remains `HOLD / CI_UNVERIFIED`; the PHP/lockfile implementation is
+  present, but exact-current GitHub Actions cannot be called PASS without
+  authenticated evidence.
 
 ## Required follow-up
 
-Record the exact implementation commit and GitHub Actions run after push.
-If CI reaches verification/tests and exposes an independent failure, record it
-as a new blocker; do not mark the PHP/lockfile alignment fully PASS.
+Restore read-only GitHub Actions access, inspect the workflow for exact
+implementation commit `e4387589a60c1e6609536d22b262bc7ba0ffbdaf`, and record
+its run URL/status. If CI reaches verification/tests and exposes an independent
+failure, record it as a new blocker; do not mark the PHP/lockfile alignment
+fully PASS.

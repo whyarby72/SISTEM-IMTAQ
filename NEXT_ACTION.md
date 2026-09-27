@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84 = IMPLEMENTED / CI_PENDING`
+**Execution state:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84 = HOLD / CI_UNVERIFIED`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
 ## Current CI runtime-alignment implementation task

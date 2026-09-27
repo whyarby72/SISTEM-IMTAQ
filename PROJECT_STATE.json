@@ -41,7 +41,7 @@
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
     "r1_runtime_alignment_design": "COMPLETED / DESIGN_ONLY / R1R_CORRECTED",
     "r1r_constraint_correction": "COMPLETED / PASS",
-    "r2_implementation": "IMPLEMENTED / CI_PENDING",
+    "r2_implementation": "IMPLEMENTED / CI_UNVERIFIED",
     "r2_package_drift_guard": "PASS / 119 ENTRIES UNCHANGED",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE"
@@ -58,6 +58,12 @@
       "status": "UNRESOLVED",
       "evidence": "verify-foundation.sh reaches PHPUnit successfully but repository structure verification reports NEXT_ACTION has no task id.",
       "owner": "REPOSITORY_STATE_ROUTING"
+    },
+    {
+      "id": "GITHUB_ACTIONS_EXACT_COMMIT_UNVERIFIED",
+      "status": "UNRESOLVED",
+      "evidence": "gh auth status reports the configured GitHub token is invalid; exact implementation commit e4387589a60c1e6609536d22b262bc7ba0ffbdaf cannot be read through GitHub Actions API.",
+      "owner": "GITHUB_AUTHENTICATION"
     }
   ],
   "evidence_debt": [
