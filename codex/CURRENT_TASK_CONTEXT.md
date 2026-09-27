@@ -1,57 +1,69 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `IMTAQ-REPO-ADOPTION-A3` Repository State Reconciliation  
-**State:** `COMPLETED / PASS`
-**Current phase:** `EXISTING_REPO_ADOPTION / REPOSITORY STATE`  
-**Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`
-**Baseline main:** `957f062815147a0cc2ea2200fd82692c3447f3e1`
-**A3 closeout commit:** `0a7b3cceaae4c25181e874e548add308d1715c82`
+**Task:** `IMTAQ-REPO-ADOPTION-A3R` State Commit Semantics Correction  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `EXISTING_REPO_ADOPTION / REPOSITORY STATE REMEDIATION`  
+**Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`  
+**Baseline main:** `957f062815147a0cc2ea2200fd82692c3447f3e1`  
+**A3 state-basis commit:** `da5b15dfee1c257be3d262270dc2ba27001977bf`
 
-## Current baseline
+## Why A3R exists
 
-SISTEM IMTAQ is an existing private GitHub repository at `whyarby72/SISTEM-IMTAQ`. The existing Laravel/PostgreSQL application under `application/web/` is authoritative and must be preserved.
+A3 completed its substantive state reconciliation, but some state artifacts still label the earlier preparation commit `0a7b3cce...` as if it were the A3 closeout/current-state commit.
 
-`AI-PROVIDER-CONTEXT-P3` is already present in repository evidence as `COMPLETED / PASS`. Do not rerun or rebuild P3 in A3.
+A3R corrects only commit semantics. It must distinguish:
 
-The exact baseline GitHub Actions run for the baseline commit currently fails during Composer dependency installation because the workflow uses PHP 8.3 while the lockfile includes packages requiring PHP >=8.4.1. A3 records this blocker only; it does not decide or implement the fix.
+- repository state-basis commit = `da5b15dfee1c257be3d262270dc2ba27001977bf`;
+- exact current branch HEAD = resolve from Git branch ref at audit/task start time.
+
+Do not create a self-referential state file that tries to contain the SHA of the commit that contains itself.
 
 ## REQUIRED NOW
 
-1. `codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3.md`
-2. `NEXT_ACTION.md`
-3. `AGENTS.md`
-4. Existing equivalents referenced by the A3 task only as needed.
+1. `codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3R.md`
+2. `PROJECT_STATE.json`
+3. `TEST_MATRIX.csv`
+4. `NEXT_ACTION.md`
+5. `EVIDENCE_INDEX.json` only if the same commit-semantics issue affects it.
 
-A3 state artifacts are complete: `PROJECT_STATE.json`, `TEST_MATRIX.csv`, and
-`EVIDENCE_INDEX.json`. The next diagnostic task is `CI-PHP-CONTRACT-D1`.
-
-Do not bulk-read the repository. Expand context only when a concrete A3 acceptance criterion requires it.
+Do not bulk-read the repository.
 
 ## Expected writes
 
-A3 may create only the minimum machine-readable state layer:
+Only repository-state metadata necessary for A3R:
 
 - `PROJECT_STATE.json`
 - `TEST_MATRIX.csv`
-- `EVIDENCE_INDEX.json`
-
-A3 may update existing routing/state documents only where necessary to remove factual contradictions.
+- `codex/CURRENT_TASK_CONTEXT.md`
+- `NEXT_ACTION.md`
+- `EVIDENCE_INDEX.json` only if required.
 
 ## Boundaries
 
 - No application/business source mutation.
-- No framework/dependency change.
-- No PHP/Composer compatibility fix in A3.
+- No framework/dependency/Composer/PHP change.
+- No CI compatibility fix.
 - No migration or database write.
 - No live OpenAI request.
 - No provider/DRAFT/ACTIVE/active-pointer mutation.
 - No Public Academic AI activation.
 - No deployment.
 - Universal Repo Factory remains `CANDIDATE / REFERENCE ONLY`.
-- `WEB_FULLSTACK_SERVICE_API` remains a candidate adapter, not activated.
+- `WEB_FULLSTACK_SERVICE_API` remains candidate only.
+
+## Known unresolved blocker
+
+`CI_PHP_LOCKFILE_COMPATIBILITY`
+
+A3R must preserve this blocker unchanged. Do not solve it here.
 
 ## Exit
 
-When all A3 acceptance criteria pass, commit/push the repository-state changes and set the next diagnostic task to `CI-PHP-CONTRACT-D1`.
+When A3R acceptance criteria pass:
 
-ChatGPT will reconcile the resulting commit/evidence directly from GitHub; routine file/log copy-paste by the owner is not required.
+- mark `IMTAQ-REPO-ADOPTION-A3R = COMPLETED / PASS`;
+- commit and push to this same branch;
+- keep `CI-PHP-CONTRACT-D1` as the next task;
+- stop for ChatGPT repository audit.
+
+ChatGPT will read the resulting evidence directly from GitHub.
