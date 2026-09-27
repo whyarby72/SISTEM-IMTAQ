@@ -1,71 +1,79 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `IMTAQ-REPO-ADOPTION-A3R` State Commit Semantics Correction  
-**State:** `COMPLETED / PASS`
-**Current phase:** `EXISTING_REPO_ADOPTION / REPOSITORY STATE REMEDIATION`  
-**Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`  
-**Baseline main:** `957f062815147a0cc2ea2200fd82692c3447f3e1`  
-**A3 state-basis commit:** `da5b15dfee1c257be3d262270dc2ba27001977bf`
+**Task:** `CI-PHP-CONTRACT-D1` PHP Runtime / Lockfile Compatibility Diagnosis  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `REPOSITORY-CENTERED CI CONTRACT DIAGNOSIS`  
+**Task branch:** `chore/CI-PHP-CONTRACT-D1-diagnosis`  
+**State-basis commit before D1:** `6d3493bc9c8a1d013a4df944a06da6bfb3969f44`
 
-## Why A3R exists
+## Problem
 
-A3R corrected the commit semantics in repository-state artifacts without changing application or business source.
+The exact baseline GitHub Actions workflow fails before tests at Composer dependency installation.
 
-A3R corrects only commit semantics. It must distinguish:
+Known evidence:
 
-- repository state-basis commit = `da5b15dfee1c257be3d262270dc2ba27001977bf`;
-- exact current branch HEAD = resolve from Git branch ref at audit/task start time.
+- GitHub Actions run `36301085559`
+- CI PHP `8.3.35`
+- `application/web/composer.json` PHP constraint `^8.3`
+- `application/web/composer.lock.platform.php` `^8.3`
+- locked Symfony 8.1 packages require PHP `>=8.4.1`
+- workflow `.github/workflows/application-foundation.yml` pins PHP `8.3`
 
-Do not create a self-referential state file that tries to contain the SHA of the commit that contains itself.
-
-## REQUIRED NOW
-
-1. `codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3R.md`
-2. `PROJECT_STATE.json`
-3. `TEST_MATRIX.csv`
-4. `NEXT_ACTION.md`
-5. `EVIDENCE_INDEX.json` only if the same commit-semantics issue affects it.
-
-A3R is complete. The next diagnostic task is `CI-PHP-CONTRACT-D1`.
-
-Do not bulk-read the repository.
-
-## Expected writes
-
-Only repository-state metadata necessary for A3R:
-
-- `PROJECT_STATE.json`
-- `TEST_MATRIX.csv`
-- `codex/CURRENT_TASK_CONTEXT.md`
-- `NEXT_ACTION.md`
-- `EVIDENCE_INDEX.json` only if required.
-
-## Boundaries
-
-- No application/business source mutation.
-- No framework/dependency/Composer/PHP change.
-- No CI compatibility fix.
-- No migration or database write.
-- No live OpenAI request.
-- No provider/DRAFT/ACTIVE/active-pointer mutation.
-- No Public Academic AI activation.
-- No deployment.
-- Universal Repo Factory remains `CANDIDATE / REFERENCE ONLY`.
-- `WEB_FULLSTACK_SERVICE_API` remains candidate only.
-
-## Known unresolved blocker
+The unresolved blocker is:
 
 `CI_PHP_LOCKFILE_COMPATIBILITY`
 
-A3R must preserve this blocker unchanged. Do not solve it here.
+D1 is diagnosis only. It must determine whether the supported outcome is:
+
+- runtime target moved to PHP >=8.4.1;
+- PHP 8.3 compatibility remains intentional and lockfile is incompatible;
+- or runtime authority is still insufficient to choose.
+
+## REQUIRED NOW
+
+1. `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-D1.md`
+2. `PROJECT_STATE.json`
+3. `TEST_MATRIX.csv`
+4. `EVIDENCE_INDEX.json`
+5. `.github/workflows/application-foundation.yml`
+6. `application/web/composer.json`
+7. `application/web/composer.lock`
+8. `docs/07_implementation/DEPLOYMENT_STAGING_AND_ROLLBACK.md`
+9. `NEXT_ACTION.md`
+10. `AGENTS.md`
+
+Use targeted reads/searches only. Do not bulk-read the repository.
+
+## Expected writes
+
+Diagnosis/evidence only:
+
+- `codex/DIAGNOSTICS/CI-PHP-CONTRACT-D1-2026-09-27.md`
+- repository-state/evidence artifacts only if factual state changes:
+  - `PROJECT_STATE.json`
+  - `TEST_MATRIX.csv`
+  - `EVIDENCE_INDEX.json`
+  - `codex/CURRENT_TASK_CONTEXT.md`
+  - `NEXT_ACTION.md`
+
+## Forbidden
+
+No changes to:
+
+- `application/web/composer.json`
+- `application/web/composer.lock`
+- `.github/workflows/application-foundation.yml`
+- application/business source
+- PHP/Composer installation
+- dependencies/vendor
+- migrations/database
+- OpenAI/provider state
+- deployment
+
+Do not run `composer update`.
 
 ## Exit
 
-When A3R acceptance criteria pass:
+Produce a read-only diagnosis, one explicit decision gate, and one narrow recommended next task.
 
-- mark `IMTAQ-REPO-ADOPTION-A3R = COMPLETED / PASS`;
-- commit and push to this same branch;
-- keep `CI-PHP-CONTRACT-D1` as the next task;
-- stop for ChatGPT repository audit.
-
-ChatGPT will read the resulting evidence directly from GitHub.
+Commit and push diagnostic/state evidence to this D1 branch, then stop for ChatGPT audit.
