@@ -1,34 +1,42 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN`  
-**State:** `COMPLETED / DESIGN_ONLY`
-**Branch:** `chore/ci-php-d2a-runtime-approval`
+**Task:** `CI-PHP-CONTRACT-R1R` Runtime Constraint Precision Correction  
+**State:** `READY_FOR_EXECUTION`  
+**Branch:** `chore/ci-php-r1r-constraint-correction`  
+**State-basis:** `1b4b1caf16635d0331651db30abc7e730d49267d`
 
-Owner-approved runtime authority:
+Owner-approved runtime authority remains:
 
 - PHP family: `8.4.x`
 - minimum: `8.4.1`
-- applies to: CI, staging target, production target
+- scope: CI, staging target, production target
 
-R1 is design only. Determine the minimum safe CI/runtime-alignment change and verification plan. Do not modify workflow, Composer manifests/lockfile, dependencies, application source, runtime installation, database, provider state, or deployment.
+## Required correction
 
-Required output:
+The R1 plan currently proposes Composer PHP `^8.4.1`.
 
-`codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md`
+Correct it to:
 
-The plan must define:
-- exact proposed write scope;
-- CI PHP target expression;
-- whether composer.json should remain `^8.3` or be tightened;
-- whether composer.lock should change;
-- regression/test commands;
-- rollback;
-- staging prerequisites;
-- one implementation task ID.
+`~8.4.1`
 
-Recommended implementation task:
-`CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`
+so the declared support range remains within PHP 8.4.x while enforcing minimum 8.4.1.
 
-Plan status: `COMPLETED`
+Also reconcile `PROJECT_STATE.json` acceptance IDs from stale D2 IDs to R1R IDs.
 
-Commit and push the design artifact, then STOP for ChatGPT audit.
+## Required now
+
+1. `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R1R.md`
+2. `codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md`
+3. `PROJECT_STATE.json`
+4. `NEXT_ACTION.md`
+
+## Boundaries
+
+Design/state correction only. No CI workflow, Composer manifest/lockfile, application, dependency, runtime, database, provider, or deployment mutation.
+
+## Exit
+
+After PASS:
+- next task = `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`
+- commit/push this branch
+- STOP for ChatGPT audit.
