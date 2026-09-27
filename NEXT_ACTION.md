@@ -1,20 +1,22 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN = COMPLETED / DESIGN_ONLY`
+**Execution state:** `CI-PHP-CONTRACT-R1R = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
-## Current CI runtime-alignment design task
+## Current CI design-correction task
 
-**Task:** `CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN`
-**Type:** `RUNTIME_ALIGNMENT_DESIGN_ONLY`
-**Branch:** `chore/ci-php-d2a-runtime-approval`
-**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R1.md`
+**Task:** `CI-PHP-CONTRACT-R1R`  
+**Type:** `DESIGN_PRECISION_CORRECTION`  
+**Branch:** `chore/ci-php-r1r-constraint-correction`  
+**State-basis:** `1b4b1caf16635d0331651db30abc7e730d49267d`
 
-R1 records the owner-approved PHP 8.4.x target (minimum 8.4.1) and defines the minimum safe implementation scope. No CI/dependency remediation is implemented in R1.
+Correct the R1 Composer design from `^8.4.1` to `~8.4.1` so it matches the owner-approved PHP 8.4.x family with minimum 8.4.1.
 
-Owner decision is recorded in D2: PHP 8.4.x with minimum 8.4.1 for CI, staging target, and production target. R1 designs the minimum safe implementation and does not implement runtime/dependency/CI changes.
+Also reconcile stale R1 repository-state acceptance IDs.
 
-**Decision artifact:** `codex/DECISIONS/CI-PHP-CONTRACT-D2-RUNTIME-AUTHORITY-2026-09-27.md`
+No CI, Composer manifest/lockfile, application, dependency, runtime, database, provider, or deployment mutation is allowed.
+
+After PASS, next task is `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -126,4 +128,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84`
+**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_R1R_FROM_REPOSITORY`
