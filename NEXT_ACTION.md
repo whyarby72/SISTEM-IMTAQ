@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `IMTAQ-REPO-ADOPTION-A3 = COMPLETED / PASS`
+**Execution state:** `IMTAQ-REPO-ADOPTION-A3R = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 
 ## Current repository-adoption task
@@ -9,13 +9,14 @@
 **Repository:** `whyarby72/SISTEM-IMTAQ`  
 **Baseline main commit:** `957f062815147a0cc2ea2200fd82692c3447f3e1`  
 **Task branch:** `chore/IMTAQ-REPO-ADOPTION-A3-state-reconciliation`  
-**Task contract:** `codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3.md`
+**A3 state-basis commit:** `da5b15dfee1c257be3d262270dc2ba27001977bf`  
+**Task contract:** `codex/TASK_CONTEXTS/IMTAQ-REPO-ADOPTION-A3R.md`
 
-A3 reconciled the durable repository state and added only the minimum machine-readable continuation artifacts: `PROJECT_STATE.json`, `TEST_MATRIX.csv`, and `EVIDENCE_INDEX.json`. It did not modify application/business source.
+A3R corrects repository-state commit semantics only. `PROJECT_STATE.json` and related evidence must describe the A3 state-basis commit `da5b15...`, while exact current branch HEAD remains Git branch-ref authority. Do not chase self-referential commit SHAs into the same state file.
 
-Exact baseline CI currently fails in GitHub Actions run `36301085559` during Composer install because the workflow uses PHP 8.3 while the lockfile contains packages requiring PHP >=8.4.1. A3 records this as blocker `CI_PHP_LOCKFILE_COMPATIBILITY`; it must not repair or choose the PHP/dependency strategy.
+The CI blocker `CI_PHP_LOCKFILE_COMPATIBILITY` remains unresolved and must not be repaired in A3R.
 
-After A3 PASS, next diagnostic task: `CI-PHP-CONTRACT-D1`.
+After A3R PASS, next diagnostic task remains: `CI-PHP-CONTRACT-D1`.
 
 ## Current AI track — AI Academic Assistant
 
@@ -126,4 +127,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `CI-PHP-CONTRACT-D1`
+**NEXT_ATOMIC_TASK:** `EXECUTE_IMTAQ_REPO_ADOPTION_A3R_FROM_REPOSITORY`
