@@ -1,26 +1,22 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "1c8450081d7178336fbe6238be67f3291b2f3cea",
+  "repo_commit": "1b4b1caf16635d0331651db30abc7e730d49267d",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/ci-php-d2a-runtime-approval",
+  "active_branch": "chore/ci-php-r1r-constraint-correction",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN",
+  "current_task_id": "CI-PHP-CONTRACT-R1R",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "D2-AC-01",
-    "D2-AC-02",
-    "D2-AC-03",
-    "D2-AC-04",
-    "D2-AC-05",
-    "D2-AC-06",
-    "D2-AC-07",
-    "D2-AC-08",
-    "D2-AC-09",
-    "D2-AC-10",
-    "D2-AC-11"
+    "R1R-AC-01",
+    "R1R-AC-02",
+    "R1R-AC-03",
+    "R1R-AC-04",
+    "R1R-AC-05",
+    "R1R-AC-06",
+    "R1R-AC-07"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -52,7 +48,7 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "CI-PHP-CONTRACT-R2-ALIGN-CI-TO-PHP84",
+  "next_task": "CI-PHP-CONTRACT-R1R",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
   "updated_at": "2026-09-27"
