@@ -225,7 +225,7 @@ disposable PostgreSQL target.
 | FDB-D1-AC-07 | PASS — future implementation file scope explicit. |
 | FDB-D1-AC-08 | PASS — no implementation or database mutation performed. |
 | FDB-D1-AC-09 | PASS — next task is `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN`. |
-| FDB-D1-AC-10 | PENDING UNTIL COMMIT/PUSH — repository closeout follows this artifact. |
+| FDB-D1-AC-10 | PASS — commit `415d929a98eb837689934ab884fe4ba68232e366` is pushed and local/upstream SHAs match. |
 
 ## Closeout
 
