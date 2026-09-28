@@ -1,71 +1,67 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN`  
-**State:** `COMPLETED / DESIGN_ONLY / PASS`
-**Current phase:** `CI / POSTGRESQL EPHEMERAL TEST DESIGN`  
-**Branch:** `chore/foundation-db-r1-postgres-ephemeral-ci-design`  
-**State-basis:** `bcdd1280d9976020250659baa9a064e278f2e70b`
+**Task:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `CI / POSTGRESQL EPHEMERAL TEST IMPLEMENTATION`  
+**Branch:** `chore/foundation-db-r2-postgres-ephemeral-ci`  
+**State-basis:** `9332bd21cb1cc28942ae8c10c28cd2b80600fd30`
 
 ## Authority
 
 FOUNDATION-DB-D1:
 `CLOSED / ACCEPTED / OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`
 
-Decision artifact:
-`codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
+FOUNDATION-DB-R1:
+`CLOSED / ACCEPTED / DESIGN_ONLY / PASS`
 
-## Problem
-
-The full suite currently forces SQLite although PostgreSQL is the technical baseline and applied migrations contain PostgreSQL-specific DDL.
-
-Exact failing CI evidence:
-- run `36355381623`
-- PHP/Composer/routing PASS
-- PHPUnit/foundation FAIL on SQLite migration compatibility
+Plan:
+`codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
 
 ## Required now
 
-1. `codex/TASK_CONTEXTS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN.md`
-2. `codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
+1. `codex/TASK_CONTEXTS/FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION.md`
+2. `codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
 3. `.github/workflows/application-foundation.yml`
 4. `application/web/phpunit.xml`
 5. `application/web/tests/TestCase.php`
-6. `application/web/config/database.php`
-7. targeted migration/extension evidence only
-8. `docs/02_architecture/POSTGRESQL_SCHEMA.md`
-9. `docs/07_implementation/CODEX_CHANGE_MANAGEMENT_AND_SAFE_MAINTENANCE.md`
-10. `modules/CHANGE_IMPACT_RULES.md`
-11. `PROJECT_STATE.json`
-12. `NEXT_ACTION.md`
+6. `application/web/composer.json`
+7. `application/web/scripts/verify-foundation.sh`
+8. targeted applied migration/extension evidence only
+9. `PROJECT_STATE.json`
+10. `NEXT_ACTION.md`
 
-## Output
+## Authorized implementation
 
-Create:
-`codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
+- PostgreSQL 18.6 disposable GitHub Actions service
+- `pdo_pgsql`
+- PostgreSQL test environment wiring
+- fail-closed test database identity guard
+- remove SQLite full-suite forcing
+- migration-from-zero on disposable PostgreSQL only
+- targeted guard regression
+- full required regression and exact GitHub Actions verification
+- closeout evidence/state
 
-Design must lock:
-- PostgreSQL major version;
-- CI service and health check;
-- disposable DB identity/credentials;
-- fail-closed database guard;
-- phpunit.xml contract;
-- TestCase.php contract;
-- extension requirements;
-- migration-from-zero strategy;
-- local developer workflow;
-- exact R2 file scope;
-- regression and rollback.
+## Critical safety
 
-## Boundary
+Applied migrations are immutable.
 
-DESIGN ONLY.
+Never touch pilot/staging/production database or credentials.
 
-Do not edit migrations, workflow implementation, test harness implementation, DB config, application source, PHP/Composer/dependencies, provider state, deployment, or any database.
+Guard naming semantics:
+- CI: exactly `imtaq_ci_test`
+- local: `^imtaq_test_[a-z0-9][a-z0-9_-]*$`
+- exact `imtaq` and names containing pilot/staging/production/prod/live are rejected.
+
+`application/web/config/database.php` is not authorized. If it becomes required:
+STOP = `R2_HOLD_DATABASE_CONFIG_SCOPE_EXPANSION_REQUIRED`.
 
 ## Exit
 
-After PASS:
-- next implementation task = `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`
-- implementation remains NOT_AUTHORIZED
-- commit/push design + state/evidence
-- STOP for ChatGPT audit.
+Push implementation/evidence and verify exact-current GitHub Actions.
+
+If CI green:
+- close `FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY`
+- next product track = `ACADEMIC_WEB_COMPLETION_REVIEW`
+
+STOP for ChatGPT audit.
