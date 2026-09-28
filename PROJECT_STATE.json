@@ -1,25 +1,19 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "2d183ded78b6e3da4358ab499caad4d2beddea20",
+  "repo_commit": "14c63b854fa17d8cc1f757104fa1d79438cfd9a3",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/foundation-tz-d1-timezone-storage-authority",
+  "active_branch": "chore/foundation-tz-d1a-option-a-approval",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY",
+  "current_task_id": "FOUNDATION-TZ-D1A-OPTION-A-OWNER-APPROVAL",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "FTZ-D1-AC-01",
-    "FTZ-D1-AC-02",
-    "FTZ-D1-AC-03",
-    "FTZ-D1-AC-04",
-    "FTZ-D1-AC-05",
-    "FTZ-D1-AC-06",
-    "FTZ-D1-AC-07",
-    "FTZ-D1-AC-08",
-    "FTZ-D1-AC-09",
-    "FTZ-D1-AC-10"
+    "FTZ-D1A-AC-01",
+    "FTZ-D1A-AC-02",
+    "FTZ-D1A-AC-03",
+    "FTZ-D1A-AC-04"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -54,7 +48,8 @@
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION",
     "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / FINAL_HEAD_RUN_36402569265 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS",
     "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
-    "foundation_tz_d1": "COMPLETED / DESIGN_ONLY / OPTION_A_RECOMMENDED / OWNER_DECISION_PENDING"
+    "foundation_tz_d1": "CLOSED / OPTION_A / APPROVED_BY_PROJECT_OWNER",
+    "foundation_tz_d1a": "COMPLETED / OWNER_DECISION_RECORDED"
   },
   "blockers": [
     {
@@ -73,7 +68,7 @@
       "id": "FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION",
       "status": "UNRESOLVED",
       "evidence": "Exact-current final HEAD run 36402569265 on 349ef67ac6e9e6a2d02a25e137084b00fe820c21 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero and schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions in foundation PHPUnit. R3 isolated five time-sensitive failures as TZ-C pending timezone/storage authority; 11 other failures are independently classified test fixture/assertion debt.",
-      "owner": "CHATGPT_AND_PROJECT_OWNER_TIME_AUTHORITY_DECISION"
+      "owner": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION"
     },
     {
       "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
@@ -86,9 +81,18 @@
     "Controlled real-provider verification remains pending and was not run by A3.",
     "CI-only disposable PostgreSQL credential value was visible in Actions log output; classify and remediate without using persistent-environment secrets."
   ],
-  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_task": "RETURN_TO_CHATGPT_FOR_FOUNDATION_TZ_D1_AUDIT",
+  "next_owner": "CODEX",
+  "next_task": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T17:30:00+07:00"
+  "updated_at": "2026-09-28T16:52:00+07:00",
+  "timezone_authority": {
+    "status": "APPROVED_BY_PROJECT_OWNER",
+    "selected_option": "OPTION_A",
+    "business_timezone": "Asia/Jakarta",
+    "technical_session_timezone": "UTC",
+    "persistence_semantics": "TIMESTAMPTZ_ABSOLUTE_INSTANT",
+    "local_semantics": "TIMEZONE_AWARE_BOUNDARIES",
+    "historical_mass_rewrite_authorized": false
+  }
 }
