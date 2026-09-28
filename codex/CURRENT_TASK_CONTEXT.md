@@ -1,67 +1,76 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`  
-**State:** `COMPLETED / PASS_WITH_NEW_BLOCKER`
-**Current phase:** `CI / POSTGRESQL EPHEMERAL TEST IMPLEMENTATION`  
-**Branch:** `chore/foundation-db-r2-postgres-ephemeral-ci`  
-**State-basis:** `9332bd21cb1cc28942ae8c10c28cd2b80600fd30`
+**Task:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `CI / POSTGRESQL FULL-SUITE REGRESSION DIAGNOSIS`  
+**Branch:** `chore/foundation-db-r3-postgres-regression-diagnosis`  
+**State-basis:** `349ef67ac6e9e6a2d02a25e137084b00fe820c21`
 
-## Authority
+## Accepted R2 outcome
 
-FOUNDATION-DB-D1:
-`CLOSED / ACCEPTED / OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`
+`FOUNDATION-DB-R2 = COMPLETED / PASS_WITH_NEW_BLOCKER`
 
-FOUNDATION-DB-R1:
-`CLOSED / ACCEPTED / DESIGN_ONLY / PASS`
+Resolved:
+- PostgreSQL 18.6 ephemeral CI authority
+- pdo_pgsql foundation lane
+- fail-closed disposable test DB identity guard
+- migration-from-zero on PostgreSQL
+- btree_gist/schema preflight
+- FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY
 
-Plan:
-`codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
+Exact-current CI:
+- run: `36402569265`
+- head: `349ef67ac6e9e6a2d02a25e137084b00fe820c21`
+- result: FAIL at foundation PHPUnit
+- summary: `16 failed, 15 passed, 490 warnings, 2171 assertions`
+
+Active blocker:
+`FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION`
 
 ## Required now
 
-1. `codex/TASK_CONTEXTS/FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION.md`
-2. `codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
-3. `.github/workflows/application-foundation.yml`
-4. `application/web/phpunit.xml`
-5. `application/web/tests/TestCase.php`
-6. `application/web/composer.json`
-7. `application/web/scripts/verify-foundation.sh`
-8. targeted applied migration/extension evidence only
+1. `codex/TASK_CONTEXTS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS.md`
+2. exact Actions run `36402569265`
+3. all exact failing test files/lines from the run
+4. corresponding Academic services/models
+5. canonical audit schema/model
+6. canonical AI provider credential schema/model
+7. class-session schema/constraints
+8. timezone/app configuration
 9. `PROJECT_STATE.json`
 10. `NEXT_ACTION.md`
 
-## Authorized implementation
+## Output
 
-- PostgreSQL 18.6 disposable GitHub Actions service
-- `pdo_pgsql`
-- PostgreSQL test environment wiring
-- fail-closed test database identity guard
-- remove SQLite full-suite forcing
-- migration-from-zero on disposable PostgreSQL only
-- targeted guard regression
-- full required regression and exact GitHub Actions verification
-- closeout evidence/state
+Create:
 
-## Critical safety
+`codex/DIAGNOSTICS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS-2026-09-28.md`
 
-Applied migrations are immutable.
+Every exact failure must be classified as one of:
+- TEST_FIXTURE
+- TEST_ASSERTION
+- APPLICATION_DEFECT
+- CONTRACT_GAP
 
-Never touch pilot/staging/production database or credentials.
+Timezone/Today/Dashboard failures require explicit:
+- TZ-A fixture/clock mismatch
+- TZ-B application defect
+- TZ-C contract gap
 
-Guard naming semantics:
-- CI: exactly `imtaq_ci_test`
-- local: `^imtaq_test_[a-z0-9][a-z0-9_-]*$`
-- exact `imtaq` and names containing pilot/staging/production/prod/live are rejected.
+Also classify:
+`CI_EPHEMERAL_CREDENTIAL_LOG_VISIBILITY`
 
-`application/web/config/database.php` is not authorized. If it becomes required:
-STOP = `R2_HOLD_DATABASE_CONFIG_SCOPE_EXPANSION_REQUIRED`.
+## Boundary
+
+DIAGNOSIS ONLY.
+
+Do not modify tests, application source, workflow implementation, PHPUnit/TestCase,
+database config, migrations, constraints, dependencies, provider state, or any
+persistent database.
 
 ## Exit
 
-Push implementation/evidence and verify exact-current GitHub Actions.
-
-If CI green:
-- close `FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY`
-- next product track = `ACADEMIC_WEB_COMPLETION_REVIEW`
-
+Commit/push diagnosis + routing/evidence only.
+Set one recommended next task or HOLD.
+`IMPLEMENTATION_AUTHORIZATION = NOT_AUTHORIZED`.
 STOP for ChatGPT audit.
