@@ -1,10 +1,10 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / DIAGNOSIS_ONLY / PASS`
 **Current phase:** `CI / POSTGRESQL FULL-SUITE REGRESSION DIAGNOSIS`  
 **Branch:** `chore/foundation-db-r3-postgres-regression-diagnosis`  
-**State-basis:** `349ef67ac6e9e6a2d02a25e137084b00fe820c21`
+**State-basis:** `35bed6d7657b7ff21eaabb2e1e81feefc61158a9`
 
 ## Accepted R2 outcome
 
@@ -74,3 +74,14 @@ Commit/push diagnosis + routing/evidence only.
 Set one recommended next task or HOLD.
 `IMPLEMENTATION_AUTHORIZATION = NOT_AUTHORIZED`.
 STOP for ChatGPT audit.
+
+## R3 closeout
+
+The exact current run `36402569265` is reconciled in the diagnostic artifact.
+All 16 failures have one primary classification. The five time-sensitive
+failures are held at TZ-C pending an authoritative timezone/storage rule.
+PostgreSQL constraints remain authoritative. No source, test, workflow,
+migration, database, provider, or dependency mutation was performed.
+
+Recommended next task after ChatGPT audit:
+`FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`.

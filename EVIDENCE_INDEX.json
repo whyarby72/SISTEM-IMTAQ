@@ -68,6 +68,23 @@
       "status": "PASS_WITH_NEW_BLOCKER",
       "summary": "PostgreSQL 18.6 service, pdo_pgsql, identity guard, migration-from-zero, btree_gist/schema assertions pass; full suite reports 16 failed, 15 passed, 490 warnings, 2171 assertions due to PostgreSQL fixture/assertion compatibility issues.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "foundation-db-r3-exact-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36402569265",
+      "commit": "349ef67ac6e9e6a2d02a25e137084b00fe820c21",
+      "status": "FAIL_DIAGNOSED",
+      "summary": "Exact current PostgreSQL 18.6 foundation run: 16 failed, 15 passed, 490 warnings, 2171 assertions; failures are classified in the R3 diagnostic.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "foundation-db-r3-diagnostic",
+      "kind": "diagnostic",
+      "ref": "codex/DIAGNOSTICS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS-2026-09-28.md",
+      "status": "COMPLETED_DIAGNOSIS_ONLY",
+      "summary": "All 16 failures individually classified; timezone failures held at TZ-C; PostgreSQL constraints protected; CI credential log visibility routed to R4.",
+      "sensitivity": "non_secret"
     }
   ]
 }

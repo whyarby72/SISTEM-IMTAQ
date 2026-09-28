@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS = READY_FOR_EXECUTION`
+**Execution state:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS = COMPLETED / DIAGNOSIS_ONLY / PASS`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -9,7 +9,7 @@
 **Task:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS`  
 **Type:** `READ_ONLY_REGRESSION_DIAGNOSIS`  
 **Branch:** `chore/foundation-db-r3-postgres-regression-diagnosis`  
-**State-basis:** `349ef67ac6e9e6a2d02a25e137084b00fe820c21`  
+**State-basis:** `35bed6d7657b7ff21eaabb2e1e81feefc61158a9`
 **Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS.md`
 
 Accepted R2 outcome:
@@ -18,7 +18,7 @@ Accepted R2 outcome:
 - exact-current final HEAD run: `36402569265`
 - exact-current result: `16 failed, 15 passed, 490 warnings, 2171 assertions`
 
-R3 must classify every exact failure as:
+R3 classified every exact failure as:
 - TEST_FIXTURE
 - TEST_ASSERTION
 - APPLICATION_DEFECT
@@ -34,6 +34,16 @@ database config, migration, constraint, provider, deployment, or persistent
 database mutation is authorized.
 
 The canonical queue gate remains `SOC-MD-06`.
+
+R3 closeout artifact:
+`codex/DIAGNOSTICS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS-2026-09-28.md`
+
+The 16 failures are fully inventoried. Five time-sensitive failures remain
+TZ-C pending an authoritative timezone/storage rule. The CI-only disposable
+credential is visible in the Actions step environment log and is routed to R4
+remediation. PostgreSQL constraints remain authoritative and untouched.
+
+**Recommended next task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`
 
 
 ## Current AI track — AI Academic Assistant
@@ -145,4 +155,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R3_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R3_AUDIT`
