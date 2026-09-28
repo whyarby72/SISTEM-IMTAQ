@@ -1,36 +1,35 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY = COMPLETED / DESIGN_ONLY`
+**Execution state:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Completed foundation test-database authority task
+## Current PostgreSQL ephemeral CI design task
 
-**Task:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY`  
-**Type:** `DATABASE_GLOBAL_DIAGNOSIS_AND_DESIGN`  
-**Branch:** `chore/foundation-db-d1-test-database-authority`  
-**State-basis:** `feb9e1be7e8dc0240752f55e613af484233e8d25`  
-**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY.md`
+**Task:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN`  
+**Type:** `DATABASE_GLOBAL_IMPLEMENTATION_DESIGN`  
+**Branch:** `chore/foundation-db-r1-postgres-ephemeral-ci-design`  
+**State-basis:** `bcdd1280d9976020250659baa9a064e278f2e70b`  
+**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN.md`
 
-Exact CI run `36355381623` confirms PHP/Composer/routing are no longer the active failures. PHPUnit fails because the full test harness forces SQLite while an applied migration contains PostgreSQL-specific DDL.
+D1 is closed/accepted with `OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`.
 
-D1 must compare:
-- ephemeral PostgreSQL as authoritative full-suite CI database;
-- an explicit SQLite portability layer;
-- HOLD if authority/scope is insufficient.
+R1 must produce an exact implementation-ready design for:
+- explicit PostgreSQL major version;
+- disposable CI PostgreSQL service and health check;
+- CI-only database identity/credentials;
+- fail-closed test database guard;
+- phpunit.xml/TestCase.php contract;
+- migration-from-zero strategy;
+- required PostgreSQL extensions;
+- safe local full-suite workflow;
+- exact R2 write scope, regression, and rollback.
 
-Applied migrations remain immutable. No migration, test-harness, workflow, DB configuration, application, dependency, provider, or deployment implementation is authorized in D1.
+Applied migrations remain immutable.
 
-Decision artifact: `codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
-Decision: `OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`
+No workflow/test-harness/database/application implementation is authorized in R1.
+
 The canonical queue gate remains `SOC-MD-06`.
-
-## Next atomic task
-
-**Task:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN`
-**State:** `PENDING_OWNER_AUTHORIZATION`
-**Boundary:** design only until separately authorized; do not modify the
-test harness, workflow, database configuration, migrations, or databases.
 
 
 ## Current AI track — AI Academic Assistant
@@ -142,4 +141,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_D1_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R1_FROM_REPOSITORY`
