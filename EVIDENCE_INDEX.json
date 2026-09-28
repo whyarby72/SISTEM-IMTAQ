@@ -1,7 +1,7 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-09-27T00:00:00+07:00",
+  "indexed_at": "2026-09-29T05:03:00+07:00",
   "entries": [
     {
       "id": "a3-baseline-ci",
@@ -90,16 +90,16 @@
       "id": "foundation-tz-d1-decision",
       "kind": "decision_gate",
       "ref": "codex/DECISIONS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY-2026-09-28.md",
-      "status": "OWNER_DECISION_PENDING",
-      "summary": "Timezone/storage authority decision design completed; Option A is the candidate recommendation and is not self-ratified.",
+      "status": "APPROVED_BY_PROJECT_OWNER",
+      "summary": "Timezone/storage authority ratified as Option A: Asia/Jakarta business semantics, UTC technical/PostgreSQL session baseline, timestamptz absolute instants, timezone-aware boundaries.",
       "sensitivity": "non_secret"
     },
     {
       "id": "foundation-db-r4-change-manifest",
       "kind": "change_manifest",
       "ref": "codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md",
-      "status": "IMPLEMENTED_EXTERNAL_CI_PENDING",
-      "summary": "R4 PostgreSQL test/config/security remediation applied within approved scope; disposable CI replay remains the authoritative verification gate.",
+      "status": "STOPPED_TZ_B_APPLICATION_DEFECT_CANDIDATE_RESOLVED_BY_B1",
+      "summary": "R4 remediated PostgreSQL fixture/assertion/config debt and correctly stopped at the remaining Today TZ-B boundary defect; B1 subsequently resolved that defect.",
       "sensitivity": "non_secret"
     },
     {
@@ -113,10 +113,18 @@
     {
       "id": "foundation-tz-b1-exact-ci",
       "kind": "github_actions_run",
-      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36483663711",
-      "commit": "4e1a770eba8edc9536971c620202029f75d65ee7",
-      "status": "PASS",
-      "summary": "PostgreSQL 18.6 readiness, UTC session, identity guard, migration-from-zero, schema/extension checks, foundation verification, and verify-foundation passed; 506 warnings, 15 passed, 2202 assertions; no failed tests.",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36484084952",
+      "commit": "dfaf585c299aa83fccef7be95d746f943242c192",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final-head PostgreSQL 18.6 foundation run passed UTC session, identity guard, migration-from-zero, schema/extension checks, Today boundary regression, and verify-foundation; 15 passed, 506 warnings, 2202 assertions, 0 failed. No DB_PASSWORD or disposable password credential is configured.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-web-completion-review-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md",
+      "status": "READY_FOR_EXECUTION",
+      "summary": "Read-only evidence-based completion review for the Academic Web implementation after foundation stabilization; no implementation or production cutover is authorized.",
       "sensitivity": "non_secret"
     }
   ]

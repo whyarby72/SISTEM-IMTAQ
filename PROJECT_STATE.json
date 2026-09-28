@@ -1,27 +1,27 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "62406f14c2fc2b201de8a13cfad107e1d3506114",
+  "repo_commit": "dfaf585c299aa83fccef7be95d746f943242c192",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "fix/foundation-tz-b1-today-query-boundary",
+  "active_branch": "chore/academic-web-completion-review-routing",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION",
+  "current_task_id": "ACADEMIC_WEB_COMPLETION_REVIEW",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "FTZ-B1-AC-01",
-    "FTZ-B1-AC-02",
-    "FTZ-B1-AC-03",
-    "FTZ-B1-AC-04",
-    "FTZ-B1-AC-05",
-    "FTZ-B1-AC-06",
-    "FTZ-B1-AC-07",
-    "FTZ-B1-AC-08",
-    "FTZ-B1-AC-09",
-    "FTZ-B1-AC-10",
-    "FTZ-B1-AC-11",
-    "FTZ-B1-AC-12"
+    "AWCR-AC-01",
+    "AWCR-AC-02",
+    "AWCR-AC-03",
+    "AWCR-AC-04",
+    "AWCR-AC-05",
+    "AWCR-AC-06",
+    "AWCR-AC-07",
+    "AWCR-AC-08",
+    "AWCR-AC-09",
+    "AWCR-AC-10",
+    "AWCR-AC-11",
+    "AWCR-AC-12"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -40,10 +40,12 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36413293700",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36413692676",
     "codex/CHANGE_MANIFESTS/FOUNDATION-TZ-B1-2026-09-29.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36483663711"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36483663711",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36484084952",
+    "codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "FAIL_VERIFIED_RUN_36413692676_TZ_B_TODAY_BOUNDARY",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36484084952_FINAL_HEAD_DFAF585C",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -64,7 +66,9 @@
     "foundation_tz_d1": "CLOSED / OPTION_A / APPROVED_BY_PROJECT_OWNER",
     "foundation_tz_d1a": "COMPLETED / OWNER_DECISION_RECORDED",
     "foundation_db_r4": "STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE / FINAL_HEAD_RUN_36413692676",
-    "foundation_tz_b1": "COMPLETED / PASS / RUN_36483663711"
+    "foundation_tz_b1": "COMPLETED / PASS / FINAL_HEAD_RUN_36484084952",
+    "foundation_stabilization": "CLOSED / PASS / FINAL_HEAD_RUN_36484084952",
+    "academic_web_completion_review": "READY_FOR_EXECUTION / REVIEW_ONLY"
   },
   "blockers": [
     {
@@ -82,7 +86,7 @@
     {
       "id": "FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION",
       "status": "RESOLVED",
-      "evidence": "B1 exact final-head run 36483663711 on 4e1a770eba8edc9536971c620202029f75d65ee7 passes the Today boundary regression and full foundation verification after converting Asia/Jakarta local-day boundaries to copied UTC query instants.",
+      "evidence": "Exact final-head GitHub Actions run 36484084952 on dfaf585c299aa83fccef7be95d746f943242c192 passed PostgreSQL 18.6 readiness, UTC session, identity guard, migration-from-zero, schema/extension checks, and foundation verification; 15 passed, 506 warnings, 2202 assertions, 0 failed.",
       "owner": "FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION"
     },
     {
@@ -93,15 +97,13 @@
     }
   ],
   "evidence_debt": [
-    "Controlled real-provider verification remains pending and was not run by A3.",
-    "CI disposable PostgreSQL credential visibility was resolved by CI-only trust authentication; exact run 36483663711 contains no disposable password or DB_PASSWORD value.",
-    "R4 credential masking occurs after service initialization; exact run 36413692676 still shows the disposable POSTGRES_PASSWORD in the docker create command. B1 must eliminate the credential from the disposable service."
+    "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
+  "next_owner": "CODEX",
   "next_task": "ACADEMIC_WEB_COMPLETION_REVIEW",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-29T04:15:00+07:00",
+  "updated_at": "2026-09-29T05:03:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

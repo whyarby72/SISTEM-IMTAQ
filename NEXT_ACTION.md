@@ -1,42 +1,36 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION = COMPLETED / PASS`
+**Execution state:** `ACADEMIC_WEB_COMPLETION_REVIEW = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current Academic Today query-boundary remediation
+## Current Academic Web completion review
 
-**Task:** `FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION`  
-**Type:** `NARROW_ACADEMIC_APPLICATION_DEFECT_REMEDIATION`  
-**Branch:** `fix/foundation-tz-b1-today-query-boundary`  
-**State-basis:** `62406f14c2fc2b201de8a13cfad107e1d3506114`  
-**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION.md`
+**Task:** `ACADEMIC_WEB_COMPLETION_REVIEW`  
+**Type:** `READ_ONLY_PRODUCT_COMPLETION_REVIEW`  
+**Branch:** `chore/academic-web-completion-review-routing`  
+**State-basis:** `dfaf585c299aa83fccef7be95d746f943242c192`  
+**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md`
 
-Owner-approved time contract:
-- business timezone: `Asia/Jakarta`;
-- technical/PostgreSQL session: `UTC`;
-- timestamptz: absolute instant;
-- local-day query boundaries must be converted to absolute instants before SQL binding.
+Foundation stabilization is closed on exact final-head evidence:
+- GitHub Actions run `36484084952`
+- head `dfaf585c299aa83fccef7be95d746f943242c192`
+- PostgreSQL 18.6 / UTC session / identity guard / migration-from-zero / schema checks: PASS
+- foundation suite: `15 passed, 506 warnings, 2202 assertions, 0 failed`
+- `verify-foundation`: PASS
+- Today timezone boundary: RESOLVED
+- disposable CI credential visibility: RESOLVED
 
-Exact-current final R4 evidence:
-- run `36413692676`
-- final R4 head `62406f14c2fc2b201de8a13cfad107e1d3506114`
-- 1 failed / 15 passed / 505 warnings / 2202 assertions
-- sole blocker: Today local-day boundary query.
+The review must determine evidence-based Academic Web completion across:
+student attendance, teacher attendance, schedule/session workflows, semester
+grades, report cards, transcripts/history, role views/reporting, RBAC/audit,
+data quality, UI usability, and remaining governance gaps.
 
-B1 may modify only:
-- AcademicTodaySessionService query-boundary normalization;
-- its focused test;
-- CI disposable PostgreSQL credential elimination;
-- evidence/state.
+This is NOT production cutover readiness. `IMP-S12-007` remains NOT_STARTED
+unless separately authorized.
 
-B1 must not modify dashboard service, migrations, schema, DB config,
-persistent data, provider/OpenAI, deployment, or unrelated source.
-
-If final branch HEAD CI is green:
-- resolve the PostgreSQL full-suite blocker;
-- resolve CI credential-log visibility;
-- route next product track to `ACADEMIC_WEB_COMPLETION_REVIEW`.
+No application source, test, migration, schema, provider, database, deployment,
+or production-state mutation is authorized by this review.
 
 Canonical queue gate remains `SOC-MD-06`.
 
@@ -150,4 +144,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_TZ_B1_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WEB_COMPLETION_REVIEW_FROM_REPOSITORY`

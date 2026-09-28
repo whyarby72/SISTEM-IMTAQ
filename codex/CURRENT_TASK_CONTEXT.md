@@ -1,72 +1,68 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION`  
-**State:** `COMPLETED / PASS`
-**Current phase:** `ACADEMIC / TODAY TIME-BOUNDARY REMEDIATION`  
-**Branch:** `fix/foundation-tz-b1-today-query-boundary`  
-**State-basis:** `62406f14c2fc2b201de8a13cfad107e1d3506114`
+**Task:** `ACADEMIC_WEB_COMPLETION_REVIEW`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `ACADEMIC WEB / COMPLETION REVIEW`  
+**Branch:** `chore/academic-web-completion-review-routing`  
+**State-basis:** `dfaf585c299aa83fccef7be95d746f943242c192`
 
-## Authority
+## Foundation entry gate
 
-Project Owner approved:
+Foundation stabilization is CLOSED / PASS.
 
-`OPTION_A — ASIA_JAKARTA_BUSINESS / UTC_TECHNICAL_SESSION / TIMEZONE_AWARE_BOUNDARIES`
+Exact final-head evidence:
+- run: `36484084952`
+- head: `dfaf585c299aa83fccef7be95d746f943242c192`
+- PostgreSQL 18.6: PASS
+- UTC technical session: PASS
+- test DB identity guard: PASS
+- migration-from-zero: PASS
+- schema/extension checks: PASS
+- foundation suite: `15 passed, 506 warnings, 2202 assertions, 0 failed`
+- verify-foundation: PASS
+- Today TZ-B boundary: RESOLVED
+- CI disposable credential visibility: RESOLVED
 
-R4 stopped correctly at:
+## Review objective
 
-`R4_TZ_B_APPLICATION_DEFECT_CANDIDATE`
+Determine the actual, evidence-backed completion state of the Academic Web
+product before any new implementation sprint is authorized.
 
-Exact-current final-head evidence before B1:
-- run: `36413692676`
-- head: `62406f14c2fc2b201de8a13cfad107e1d3506114`
-- result: `1 failed, 15 passed, 505 warnings, 2202 assertions`
-- remaining failure:
-  `AcademicTodaySessionServiceTest::test_today_boundaries_are_start_inclusive_and_next_day_exclusive`
+Primary scope:
+- student attendance;
+- teacher attendance;
+- teaching schedule/session lifecycle;
+- substitution/swap/reschedule/cancellation;
+- semester grades;
+- report card;
+- transcript/academic history;
+- operational/management views and exports;
+- RBAC, audit trail, correction/locking, data quality;
+- responsive web usability for current authorized Academic roles.
 
-## Proven defect boundary
+## Important distinction
 
-The local business day is Asia/Jakarta, but the SQL comparison runs under an
-explicit UTC PostgreSQL session.
+This review is product-completion review, NOT production-cutover readiness.
 
-B1 is authorized to convert local Jakarta start/end-of-day boundaries to copied
-UTC instants before binding them to the `timestamptz` query.
+`IMP-S12-007 Production cutover readiness review` remains NOT_STARTED and must
+not be self-activated.
 
-Business semantics stay Asia/Jakarta.
+Canonical queue gate remains:
+`SOC-MD-06`.
 
-## Additional security debt
-
-The R4 masking step does not cover service-container creation because GitHub
-initializes services before normal job steps. The literal disposable password
-still appears in the docker-create log.
-
-B1 is authorized to remove that credential entirely and use
-`POSTGRES_HOST_AUTH_METHOD=trust` only for the GitHub-hosted disposable CI
-service.
+Public Academic AI remains OFF.
 
 ## Required contract
 
-`codex/TASK_CONTEXTS/FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION.md`
+`codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md`
 
-## Critical boundaries
+## Boundary
 
-Authorized source:
-- `AcademicTodaySessionService.php` query-boundary normalization only.
+REVIEW ONLY.
 
-Authorized test:
-- `AcademicTodaySessionServiceTest.php`.
-
-Authorized workflow:
-- disposable PostgreSQL credential elimination only.
-
-Do not modify dashboard service, migrations, schema, DB config, persistent data,
-provider/OpenAI, deployment, or unrelated source.
+No source/test/schema/migration/database/provider/deployment mutation.
 
 ## Exit
 
-If final branch HEAD exact GitHub Actions is green:
-- resolve the PostgreSQL full-suite blocker;
-- resolve credential-log visibility;
-- mark the boundary defect resolved;
-- route next product track to `ACADEMIC_WEB_COMPLETION_REVIEW`.
-
-STOP for ChatGPT audit.
+Create the review artifact, reconcile evidence/state only, propose the smallest
+next task or explicit governance HOLD, commit/push, then STOP for ChatGPT audit.
