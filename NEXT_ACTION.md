@@ -1,41 +1,44 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION = STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE`
+**Execution state:** `FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current PostgreSQL regression remediation
+## Current Academic Today query-boundary remediation
 
-**Task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`  
-**Type:** `CONTROLLED_TEST_CONFIG_SECURITY_REMEDIATION`  
-**Branch:** `chore/foundation-db-r4-postgres-regression-remediation`  
-**State-basis:** `132f4dbe3f17c5890d149be8ce08711c4118ca3d`
-**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION.md`
+**Task:** `FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION`  
+**Type:** `NARROW_ACADEMIC_APPLICATION_DEFECT_REMEDIATION`  
+**Branch:** `fix/foundation-tz-b1-today-query-boundary`  
+**State-basis:** `62406f14c2fc2b201de8a13cfad107e1d3506114`  
+**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION.md`
 
 Owner-approved time contract:
-- business timezone `Asia/Jakarta`;
-- technical/PostgreSQL session baseline `UTC`;
-- aware boundaries;
-- `timestamptz` = absolute instant.
+- business timezone: `Asia/Jakarta`;
+- technical/PostgreSQL session: `UTC`;
+- timestamptz: absolute instant;
+- local-day query boundaries must be converted to absolute instants before SQL binding.
 
-R4 may:
-- fix 11 diagnosed test fixture/assertion failures;
-- enforce supported UTC DB-session configuration;
-- convert/replay five timezone-aware fixtures;
-- remediate disposable CI credential log visibility;
-- run full PostgreSQL regression.
+Exact-current final R4 evidence:
+- run `36413692676`
+- final R4 head `62406f14c2fc2b201de8a13cfad107e1d3506114`
+- 1 failed / 15 passed / 505 warnings / 2202 assertions
+- sole blocker: Today local-day boundary query.
 
-R4 may NOT modify Academic business services. Any residual timezone failure
-after aware replay must STOP for separate source-defect analysis.
+B1 may modify only:
+- AcademicTodaySessionService query-boundary normalization;
+- its focused test;
+- CI disposable PostgreSQL credential elimination;
+- evidence/state.
+
+B1 must not modify dashboard service, migrations, schema, DB config,
+persistent data, provider/OpenAI, deployment, or unrelated source.
+
+If final branch HEAD CI is green:
+- resolve the PostgreSQL full-suite blocker;
+- resolve CI credential-log visibility;
+- route next product track to `ACADEMIC_WEB_COMPLETION_REVIEW`.
 
 Canonical queue gate remains `SOC-MD-06`.
-
-R4 change manifest: `codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md`.
-Local static validation passed. Exact Actions run `36413293700` completed its
-disposable PostgreSQL replay but retained one TZ-C boundary failure; R4 stops
-without modifying Academic business services.
-
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_R4_AUDIT`
 
 
 ## Current AI track — AI Academic Assistant
@@ -147,4 +150,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R4_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_TZ_B1_FROM_REPOSITORY`
