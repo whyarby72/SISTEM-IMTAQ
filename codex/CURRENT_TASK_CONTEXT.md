@@ -1,87 +1,80 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS`  
-**State:** `COMPLETED / DIAGNOSIS_ONLY / PASS`
-**Current phase:** `CI / POSTGRESQL FULL-SUITE REGRESSION DIAGNOSIS`  
-**Branch:** `chore/foundation-db-r3-postgres-regression-diagnosis`  
-**State-basis:** `35bed6d7657b7ff21eaabb2e1e81feefc61158a9`
+**Task:** `FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `CI / TIMEZONE & TIMESTAMP AUTHORITY`  
+**Branch:** `chore/foundation-tz-d1-timezone-storage-authority`  
+**State-basis:** `861ad624086141b1b1fedd3073ee3b886ce46ac9`
 
-## Accepted R2 outcome
+## Accepted R3 outcome
 
-`FOUNDATION-DB-R2 = COMPLETED / PASS_WITH_NEW_BLOCKER`
+`FOUNDATION-DB-R3 = CLOSED / ACCEPTED / DIAGNOSIS_ONLY / PASS`
 
-Resolved:
-- PostgreSQL 18.6 ephemeral CI authority
-- pdo_pgsql foundation lane
-- fail-closed disposable test DB identity guard
-- migration-from-zero on PostgreSQL
-- btree_gist/schema preflight
-- FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY
-
-Exact-current CI:
+Exact-current CI remains:
 - run: `36402569265`
-- head: `349ef67ac6e9e6a2d02a25e137084b00fe820c21`
-- result: FAIL at foundation PHPUnit
-- summary: `16 failed, 15 passed, 490 warnings, 2171 assertions`
+- exact CI head: `349ef67ac6e9e6a2d02a25e137084b00fe820c21`
+- result: `16 failed, 15 passed, 490 warnings, 2171 assertions`
 
-Active blocker:
-`FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION`
+R3 classification:
+- 7 TEST_FIXTURE
+- 4 TEST_ASSERTION
+- 5 CONTRACT_GAP / TZ-C
+
+## Active authority gap
+
+Five Today/dashboard failures cannot be safely remediated until the repository
+defines one authoritative contract for:
+
+- institutional/business timezone;
+- naive local input interpretation;
+- timestamptz persistence semantics;
+- PostgreSQL session timezone;
+- local-day query boundaries;
+- operational-state comparison;
+- display/report timezone.
 
 ## Required now
 
-1. `codex/TASK_CONTEXTS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS.md`
-2. exact Actions run `36402569265`
-3. all exact failing test files/lines from the run
-4. corresponding Academic services/models
-5. canonical audit schema/model
-6. canonical AI provider credential schema/model
-7. class-session schema/constraints
-8. timezone/app configuration
-9. `PROJECT_STATE.json`
-10. `NEXT_ACTION.md`
+1. `codex/TASK_CONTEXTS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY.md`
+2. R3 diagnostic
+3. `application/web/config/app.php`
+4. `application/web/config/database.php`
+5. `ClassSession` model
+6. Today/dashboard services
+7. five TZ-C tests
+8. PostgreSQL/schema/testing governance docs
+9. targeted repository timestamp convention search
+10. `PROJECT_STATE.json`
+11. `NEXT_ACTION.md`
+
+## Candidate recommendation
+
+Evaluate:
+
+`OPTION_A — ASIA_JAKARTA_BUSINESS / UTC_TECHNICAL / AWARE_BOUNDARIES`
+
+Do not self-ratify it.
 
 ## Output
 
 Create:
 
-`codex/DIAGNOSTICS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS-2026-09-28.md`
+`codex/DECISIONS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY-2026-09-28.md`
 
-Every exact failure must be classified as one of:
-- TEST_FIXTURE
-- TEST_ASSERTION
-- APPLICATION_DEFECT
-- CONTRACT_GAP
+Required closeout:
 
-Timezone/Today/Dashboard failures require explicit:
-- TZ-A fixture/clock mismatch
-- TZ-B application defect
-- TZ-C contract gap
-
-Also classify:
-`CI_EPHEMERAL_CREDENTIAL_LOG_VISIBILITY`
+- `RECOMMENDED_OPTION = <A|B|C>`
+- `OWNER_DECISION_STATUS = PENDING_CHATGPT_AND_PROJECT_OWNER_AUDIT`
+- `IMPLEMENTATION_AUTHORIZATION = NOT_AUTHORIZED`
 
 ## Boundary
 
-DIAGNOSIS ONLY.
+DECISION/DESIGN ONLY.
 
-Do not modify tests, application source, workflow implementation, PHPUnit/TestCase,
-database config, migrations, constraints, dependencies, provider state, or any
-persistent database.
+Do not modify source, tests, config, workflow, migrations, schema, data,
+dependencies, provider state, deployment, or main.
 
 ## Exit
 
-Commit/push diagnosis + routing/evidence only.
-Set one recommended next task or HOLD.
-`IMPLEMENTATION_AUTHORIZATION = NOT_AUTHORIZED`.
+Commit/push decision + state/evidence only.
 STOP for ChatGPT audit.
-
-## R3 closeout
-
-The exact current run `36402569265` is reconciled in the diagnostic artifact.
-All 16 failures have one primary classification. The five time-sensitive
-failures are held at TZ-C pending an authoritative timezone/storage rule.
-PostgreSQL constraints remain authoritative. No source, test, workflow,
-migration, database, provider, or dependency mutation was performed.
-
-Recommended next task after ChatGPT audit:
-`FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`.
