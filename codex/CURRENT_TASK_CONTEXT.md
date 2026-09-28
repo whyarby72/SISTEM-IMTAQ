@@ -1,73 +1,72 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`  
-**State:** `STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE`
-**Current phase:** `CI / POSTGRESQL REGRESSION REMEDIATION`  
-**Branch:** `chore/foundation-db-r4-postgres-regression-remediation`  
-**State-basis:** `132f4dbe3f17c5890d149be8ce08711c4118ca3d`
+**Task:** `FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `ACADEMIC / TODAY TIME-BOUNDARY REMEDIATION`  
+**Branch:** `fix/foundation-tz-b1-today-query-boundary`  
+**State-basis:** `62406f14c2fc2b201de8a13cfad107e1d3506114`
 
-## Owner authority
+## Authority
 
 Project Owner approved:
 
 `OPTION_A — ASIA_JAKARTA_BUSINESS / UTC_TECHNICAL_SESSION / TIMEZONE_AWARE_BOUNDARIES`
 
-Decision artifact:
-`codex/DECISIONS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY-2026-09-28.md`
+R4 stopped correctly at:
 
-## Active blocker
+`R4_TZ_B_APPLICATION_DEFECT_CANDIDATE`
 
-`FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION`
+Exact-current final-head evidence before B1:
+- run: `36413692676`
+- head: `62406f14c2fc2b201de8a13cfad107e1d3506114`
+- result: `1 failed, 15 passed, 505 warnings, 2202 assertions`
+- remaining failure:
+  `AcademicTodaySessionServiceTest::test_today_boundaries_are_start_inclusive_and_next_day_exclusive`
 
-Exact-current evidence:
-- implementation replay run `36413293700` on `a7f7483c4304f1823e2b7166c4cca777c837e29b`
-- 1 failed / 15 passed / 505 warnings / 2202 assertions
-- 7 TEST_FIXTURE
-- 4 TEST_ASSERTION
-- 5 prior TZ-C
+## Proven defect boundary
 
-## Authorized R4 work
+The local business day is Asia/Jakarta, but the SQL comparison runs under an
+explicit UTC PostgreSQL session.
 
-- fix the 11 test-only PostgreSQL regressions;
-- enforce PostgreSQL technical session timezone UTC via supported DB config;
-- convert the five prior TZ-C fixtures/clocks to explicit Asia/Jakarta-aware values;
-- replay those five BEFORE any business-source change;
-- remediate CI disposable credential log visibility;
-- run focused/full PostgreSQL regression;
-- record exact Actions evidence or external-audit-pending status.
+B1 is authorized to convert local Jakarta start/end-of-day boundaries to copied
+UTC instants before binding them to the `timestamptz` query.
 
-## Critical stop rule
+Business semantics stay Asia/Jakarta.
 
-Do not modify:
-- AcademicTodaySessionService.php
-- AcademicRoleDashboardService.php
-- any other business source
-- migrations/schema/constraints
-- persistent pilot data
+## Additional security debt
 
-If any of the five timezone tests still fail after aware fixtures + UTC session enforcement:
-STOP as `R4_TZ_B_APPLICATION_DEFECT_CANDIDATE` or residual TZ-C.
-Do not patch services in R4.
+The R4 masking step does not cover service-container creation because GitHub
+initializes services before normal job steps. The literal disposable password
+still appears in the docker-create log.
+
+B1 is authorized to remove that credential entirely and use
+`POSTGRES_HOST_AUTH_METHOD=trust` only for the GitHub-hosted disposable CI
+service.
 
 ## Required contract
 
-`codex/TASK_CONTEXTS/FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION.md`
+`codex/TASK_CONTEXTS/FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION.md`
+
+## Critical boundaries
+
+Authorized source:
+- `AcademicTodaySessionService.php` query-boundary normalization only.
+
+Authorized test:
+- `AcademicTodaySessionServiceTest.php`.
+
+Authorized workflow:
+- disposable PostgreSQL credential elimination only.
+
+Do not modify dashboard service, migrations, schema, DB config, persistent data,
+provider/OpenAI, deployment, or unrelated source.
 
 ## Exit
 
-If exact CI green:
-- resolve PostgreSQL full-suite blocker;
+If final branch HEAD exact GitHub Actions is green:
+- resolve the PostgreSQL full-suite blocker;
 - resolve credential-log visibility;
-- classify prior TZ-C as TZ-A if replay passed without business-source change;
-- next product track = `ACADEMIC_WEB_COMPLETION_REVIEW`.
+- mark the boundary defect resolved;
+- route next product track to `ACADEMIC_WEB_COMPLETION_REVIEW`.
 
 STOP for ChatGPT audit.
-
-## R4 implementation checkpoint
-
-Change manifest:
-`codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md`.
-
-Local static checks pass. Exact disposable PostgreSQL replay is blocked by the
-remaining TZ-C boundary failure; the local database guard correctly prevented
-any use of pilot `imtaq`.
