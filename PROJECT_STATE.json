@@ -1,29 +1,25 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "9332bd21cb1cc28942ae8c10c28cd2b80600fd30",
+  "repo_commit": "349ef67ac6e9e6a2d02a25e137084b00fe820c21",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/foundation-db-r2-postgres-ephemeral-ci",
+  "active_branch": "chore/foundation-db-r3-postgres-regression-diagnosis",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION",
+  "current_task_id": "FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "FDB-R2-AC-01",
-    "FDB-R2-AC-02",
-    "FDB-R2-AC-03",
-    "FDB-R2-AC-04",
-    "FDB-R2-AC-05",
-    "FDB-R2-AC-06",
-    "FDB-R2-AC-07",
-    "FDB-R2-AC-08",
-    "FDB-R2-AC-09",
-    "FDB-R2-AC-10",
-    "FDB-R2-AC-11",
-    "FDB-R2-AC-12",
-    "FDB-R2-AC-13",
-    "FDB-R2-AC-14"
+    "FDB-R3-AC-01",
+    "FDB-R3-AC-02",
+    "FDB-R3-AC-03",
+    "FDB-R3-AC-04",
+    "FDB-R3-AC-05",
+    "FDB-R3-AC-06",
+    "FDB-R3-AC-07",
+    "FDB-R3-AC-08",
+    "FDB-R3-AC-09",
+    "FDB-R3-AC-10"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -36,10 +32,11 @@
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2R-2026-09-28.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36355381623",
     "codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md",
-    "codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md"
+    "codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36402569265"
   ],
   "latest_test_state": {
-    "exact_current_ci": "FAIL_VERIFIED_RUN_36355381623_SQLITE_MIGRATION_COMPATIBILITY",
+    "exact_current_ci": "FAIL_VERIFIED_RUN_36402569265_POSTGRES_FULL_SUITE_REGRESSION",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -55,7 +52,8 @@
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION",
-    "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / RUN_36401882253 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS"
+    "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / FINAL_HEAD_RUN_36402569265 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS",
+    "foundation_db_r3": "READY_FOR_EXECUTION / DIAGNOSIS_ONLY"
   },
   "blockers": [
     {
@@ -73,8 +71,8 @@
     {
       "id": "FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION",
       "status": "UNRESOLVED",
-      "evidence": "Exact R2 run 36401882253 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero, btree_gist/schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions; failures include JSONB scalar comparison, missing audit_logs.created_at, secret_last4 length, exclusion constraint fixture conflicts, and session-status CHECK conflicts.",
-      "owner": "RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R2_AUDIT"
+      "evidence": "Exact-current final HEAD run 36402569265 on 349ef67ac6e9e6a2d02a25e137084b00fe820c21 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero and schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions in foundation PHPUnit.",
+      "owner": "FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS"
     },
     {
       "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
@@ -84,11 +82,11 @@
     }
   ],
   "evidence_debt": [
-    "Exact-current CI must be replayed after a separately approved PHP/dependency contract decision.",
-    "Controlled real-provider verification remains pending and was not run by A3."
+    "Controlled real-provider verification remains pending and was not run by A3.",
+    "CI-only disposable PostgreSQL credential value was visible in Actions log output; classify and remediate without using persistent-environment secrets."
   ],
-  "next_owner": "CHATGPT",
-  "next_task": "RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R2_AUDIT",
+  "next_owner": "CODEX",
+  "next_task": "FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
   "updated_at": "2026-09-28T16:20:00+07:00"
