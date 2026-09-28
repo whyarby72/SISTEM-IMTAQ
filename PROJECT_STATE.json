@@ -1,25 +1,25 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "35bed6d7657b7ff21eaabb2e1e81feefc61158a9",
+  "repo_commit": "861ad624086141b1b1fedd3073ee3b886ce46ac9",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/foundation-db-r3-postgres-regression-diagnosis",
+  "active_branch": "chore/foundation-tz-d1-timezone-storage-authority",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS",
+  "current_task_id": "FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "FDB-R3-AC-01",
-    "FDB-R3-AC-02",
-    "FDB-R3-AC-03",
-    "FDB-R3-AC-04",
-    "FDB-R3-AC-05",
-    "FDB-R3-AC-06",
-    "FDB-R3-AC-07",
-    "FDB-R3-AC-08",
-    "FDB-R3-AC-09",
-    "FDB-R3-AC-10"
+    "FTZ-D1-AC-01",
+    "FTZ-D1-AC-02",
+    "FTZ-D1-AC-03",
+    "FTZ-D1-AC-04",
+    "FTZ-D1-AC-05",
+    "FTZ-D1-AC-06",
+    "FTZ-D1-AC-07",
+    "FTZ-D1-AC-08",
+    "FTZ-D1-AC-09",
+    "FTZ-D1-AC-10"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -53,7 +53,8 @@
     "database_write": "NONE",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION",
     "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / FINAL_HEAD_RUN_36402569265 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS",
-    "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265"
+    "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
+    "foundation_tz_d1": "READY_FOR_EXECUTION / DECISION_DESIGN_ONLY"
   },
   "blockers": [
     {
@@ -71,8 +72,8 @@
     {
       "id": "FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION",
       "status": "UNRESOLVED",
-      "evidence": "Exact-current final HEAD run 36402569265 on 349ef67ac6e9e6a2d02a25e137084b00fe820c21 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero and schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions in foundation PHPUnit.",
-      "owner": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION"
+      "evidence": "Exact-current final HEAD run 36402569265 on 349ef67ac6e9e6a2d02a25e137084b00fe820c21 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero and schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions in foundation PHPUnit. R3 isolated five time-sensitive failures as TZ-C pending timezone/storage authority; 11 other failures are independently classified test fixture/assertion debt.",
+      "owner": "FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY"
     },
     {
       "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
@@ -85,9 +86,9 @@
     "Controlled real-provider verification remains pending and was not run by A3.",
     "CI-only disposable PostgreSQL credential value was visible in Actions log output; classify and remediate without using persistent-environment secrets."
   ],
-  "next_owner": "CHATGPT",
-  "next_task": "RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R3_AUDIT",
+  "next_owner": "CODEX",
+  "next_task": "FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T17:05:00+07:00"
+  "updated_at": "2026-09-28T16:52:00+07:00"
 }
