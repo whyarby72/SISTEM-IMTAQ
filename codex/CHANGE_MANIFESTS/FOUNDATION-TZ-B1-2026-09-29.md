@@ -27,11 +27,13 @@
 
 ## Exact CI evidence
 
-- Pending on the pushed implementation commit.
-- Required evidence: focused Today tests, UTC session, identity guard,
-  migrate-from-zero, schema/extension checks, Academic/full foundation suite,
-  and absence of `POSTGRES_PASSWORD`, disposable password literals, and
-  `DB_PASSWORD` values in Actions logs.
+- Exact Actions: [run 36483663711](https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36483663711), commit `4e1a770eba8edc9536971c620202029f75d65ee7` — PASS.
+- Foundation verification: `506 warnings, 15 passed, 2202 assertions`; no
+  failed tests. PostgreSQL 18.6 readiness, UTC session, identity guard,
+  migrate-from-zero, schema/extension checks, and `verify-foundation` passed.
+- Service initialization log contains `POSTGRES_HOST_AUTH_METHOD=trust` and no
+  `POSTGRES_PASSWORD`; no disposable password literal or `DB_PASSWORD` value
+  was present.
 
 ## Safety
 
@@ -40,3 +42,10 @@
 - Dashboard service: unchanged.
 - Migration/schema/dependency/database/provider/OpenAI mutation: NONE.
 - Pilot/staging/production database or credentials: untouched.
+
+## Closeout
+
+- `FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION = RESOLVED`.
+- `CI_EPHEMERAL_CREDENTIAL_LOG_VISIBILITY = RESOLVED`.
+- `TZ-B_TODAY_BOUNDARY = RESOLVED`.
+- `NEXT_PRODUCT_TRACK = ACADEMIC_WEB_COMPLETION_REVIEW`.

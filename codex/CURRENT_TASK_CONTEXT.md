@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION`  
-**State:** `IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING`
+**State:** `COMPLETED / PASS`
 **Current phase:** `ACADEMIC / TODAY TIME-BOUNDARY REMEDIATION`  
 **Branch:** `fix/foundation-tz-b1-today-query-boundary`  
 **State-basis:** `62406f14c2fc2b201de8a13cfad107e1d3506114`
