@@ -7,8 +7,8 @@
 - **Baseline:** `2d183ded78b6e3da4358ab499caad4d2beddea20`
 - **Mode:** decision/design only
 - **RECOMMENDED_OPTION:** `A`
-- **OWNER_DECISION_STATUS:** `PENDING_CHATGPT_AND_PROJECT_OWNER_AUDIT`
-- **IMPLEMENTATION_AUTHORIZATION:** `NOT_AUTHORIZED`
+- **OWNER_DECISION_STATUS:** `APPROVED_BY_PROJECT_OWNER`
+- **IMPLEMENTATION_AUTHORIZATION:** `AUTHORIZED_FOR_SEPARATE_R4_TASK`
 - **Next atomic task after approval:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`
 
 No application source, test, configuration, workflow, migration, schema,
@@ -269,6 +269,36 @@ ChatGPT review.
 
 `RECOMMENDED_OPTION = A`
 
-`OWNER_DECISION_STATUS = PENDING_CHATGPT_AND_PROJECT_OWNER_AUDIT`
+`OWNER_DECISION_STATUS = APPROVED_BY_PROJECT_OWNER`
 
-`IMPLEMENTATION_AUTHORIZATION = NOT_AUTHORIZED`
+`IMPLEMENTATION_AUTHORIZATION = AUTHORIZED_FOR_SEPARATE_R4_TASK`
+
+
+## Project Owner ratification — 2026-09-28
+
+The Project Owner explicitly selected **Option A** after ChatGPT audit.
+
+`SELECTED_OPTION = OPTION_A`
+
+`OWNER_DECISION = ASIA_JAKARTA_BUSINESS__UTC_TECHNICAL_SESSION__TIMEZONE_AWARE_BOUNDARIES`
+
+Ratified authority:
+
+- institutional/business timezone: `Asia/Jakarta`;
+- naive human academic schedule input must be interpreted explicitly as
+  `Asia/Jakarta` at the application/domain boundary;
+- persisted PostgreSQL `timestamptz` represents an absolute instant;
+- PostgreSQL/application technical session baseline: explicit `UTC`;
+- local-day, Today, schedule-window, reporting-day, and display semantics:
+  `Asia/Jakarta`;
+- offset-aware integration timestamps preserve their instant;
+- offset-less integration timestamps must declare a source timezone or be
+  rejected rather than inferred from the database session;
+- tests for business timestamps must be timezone-aware or use explicit offsets;
+- no applied migration edit and no historical timestamp mass rewrite is
+  authorized by this decision.
+
+Implementation is authorized only through a separately scoped R4 task. Any
+residual Today/dashboard failure after timezone-aware fixture replay must be
+treated as a possible application defect and must not be patched silently
+without an evidence-based scope update.
