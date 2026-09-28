@@ -1,51 +1,39 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION = COMPLETED / PASS_WITH_NEW_BLOCKER`
+**Execution state:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current PostgreSQL ephemeral CI implementation task
+## Current PostgreSQL full-suite regression diagnosis
 
-**Task:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`  
-**Type:** `CONTROLLED_DATABASE_GLOBAL_TEST_INFRA_IMPLEMENTATION`  
-**Branch:** `chore/foundation-db-r2-postgres-ephemeral-ci`  
-**State-basis:** `9332bd21cb1cc28942ae8c10c28cd2b80600fd30`  
-**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION.md`
+**Task:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS`  
+**Type:** `READ_ONLY_REGRESSION_DIAGNOSIS`  
+**Branch:** `chore/foundation-db-r3-postgres-regression-diagnosis`  
+**State-basis:** `349ef67ac6e9e6a2d02a25e137084b00fe820c21`  
+**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS.md`
 
-Authorized scope:
-- PostgreSQL 18.6 disposable CI service;
-- `pdo_pgsql`;
-- fail-closed disposable test DB identity guard;
-- remove SQLite full-suite forcing from PHPUnit/TestCase;
-- migration-from-zero on the verified disposable PostgreSQL target only;
-- targeted guard tests + required regressions;
-- exact GitHub Actions verification.
+Accepted R2 outcome:
+- PostgreSQL 18.6 ephemeral CI: implemented
+- SQLite migration blocker: RESOLVED
+- exact-current final HEAD run: `36402569265`
+- exact-current result: `16 failed, 15 passed, 490 warnings, 2171 assertions`
 
-Applied migrations remain immutable.
+R3 must classify every exact failure as:
+- TEST_FIXTURE
+- TEST_ASSERTION
+- APPLICATION_DEFECT
+- CONTRACT_GAP
 
-No pilot/staging/production database, credentials, business source, Composer/PHP contract, provider/OpenAI, deployment, or main merge is authorized.
+Today/Dashboard timezone failures require explicit TZ-A / TZ-B / TZ-C conclusion.
 
-If exact-current CI is green:
-- resolve `FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY`;
-- route product work to `ACADEMIC_WEB_COMPLETION_REVIEW`;
-- preserve canonical queue gate `SOC-MD-06`.
+R3 also diagnoses:
+`CI_EPHEMERAL_CREDENTIAL_LOG_VISIBILITY`
 
-## Exact R2 result
+No tests, application source, workflow implementation, PHPUnit/TestCase,
+database config, migration, constraint, provider, deployment, or persistent
+database mutation is authorized.
 
-GitHub Actions run `36401882253` on commit
-`ecb4b3509c4bb312b4ff1e7cffd861e1ff47da36` passed PostgreSQL 18.6 service
-readiness, `pdo_pgsql`, fail-closed identity guard, migration-from-zero,
-`btree_gist`, and schema assertions. Full PHPUnit then reported:
-
-`16 failed, 15 passed, 490 warnings, 2171 assertions`
-
-The SQLite migration incompatibility is resolved. A new PostgreSQL suite
-regression blocker remains: existing fixtures/assertions conflict with JSONB
-typing, audit timestamp columns, `secret_last4` length, exclusion
-constraints, and session-status CHECK constraints. Do not mark CI PASS or
-start the next product track until ChatGPT audits this blocker.
-
-**Next action:** `RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R2_AUDIT`
+The canonical queue gate remains `SOC-MD-06`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -157,4 +145,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R2_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R3_FROM_REPOSITORY`
