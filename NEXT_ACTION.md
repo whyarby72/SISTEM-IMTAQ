@@ -1,39 +1,26 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY = COMPLETED / DECISION_DESIGN_ONLY / PASS`
+**Execution state:** `FOUNDATION-TZ-D1A-OPTION-A-OWNER-APPROVAL = COMPLETED / OWNER_DECISION_RECORDED`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current timezone & timestamp storage authority task
+## Approved timezone & timestamp authority
 
-**Task:** `FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY`  
-**Type:** `CROSS_DOMAIN_TIME_AUTHORITY_DECISION_DESIGN`  
-**Branch:** `chore/foundation-tz-d1-timezone-storage-authority`  
-**State-basis:** `2d183ded78b6e3da4358ab499caad4d2beddea20`
-**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY.md`
+**Decision:** `OPTION_A`  
+**Owner status:** `APPROVED_BY_PROJECT_OWNER`  
+**State-basis:** `14c63b854fa17d8cc1f757104fa1d79438cfd9a3`
 
-R3 is closed/accepted. Exact-current PostgreSQL CI still has 16 failures:
-- 7 TEST_FIXTURE
-- 4 TEST_ASSERTION
-- 5 CONTRACT_GAP / TZ-C
+Ratified contract:
+- business timezone: `Asia/Jakarta`;
+- technical/PostgreSQL session baseline: `UTC`;
+- persisted `timestamptz`: absolute instant;
+- local-day/Today/report/display: timezone-aware `Asia/Jakarta`;
+- tests and boundary inputs: offset/timezone-aware;
+- applied migrations immutable;
+- historical mass timestamp rewrite not authorized.
 
-D1 evaluated the authority gap only:
-- OPTION A: Asia/Jakarta business time + UTC technical/session baseline + timezone-aware boundaries;
-- OPTION B: Asia/Jakarta business time + Asia/Jakarta PostgreSQL session;
-- OPTION C: HOLD.
-
-Candidate recommendation is Option A, but D1 must not self-ratify it.
-
-No source, test, config, workflow, migration, schema, database, provider,
-deployment, or main-branch implementation is authorized.
-
-Canonical queue gate remains `SOC-MD-06`.
-
-Decision artifact: `codex/DECISIONS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY-2026-09-28.md`
-Candidate recommendation: `OPTION_A` (not self-ratified).
-Owner decision status: `PENDING_CHATGPT_AND_PROJECT_OWNER_AUDIT`.
-Implementation authorization: `NOT_AUTHORIZED`.
-No source, runtime, database, migration, schema, or provider mutation was performed.
+Next controlled implementation:
+`FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`
 
 
 ## Current AI track — AI Academic Assistant
@@ -145,4 +132,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_FOUNDATION_TZ_D1_AUDIT`
+**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R4_FROM_REPOSITORY`
