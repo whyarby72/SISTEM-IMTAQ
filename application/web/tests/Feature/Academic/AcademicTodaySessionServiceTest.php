@@ -241,7 +241,7 @@ class AcademicTodaySessionServiceTest extends TestCase
         $start = is_string($start) ? Carbon::parse($start, 'Asia/Jakarta') : $start;
         $end = is_string($end) ? Carbon::parse($end, 'Asia/Jakarta') : $end;
 
-        return ClassSession::create(['session_code' => 'TODAY-'.str()->uuid(), 'teaching_assignment_id' => $assignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => $start, 'planned_end_at' => $end, 'session_source' => $source, 'participant_scope' => 'FULL_CLASS', 'session_status' => $status]);
+        return ClassSession::create(['session_code' => 'TODAY-'.str()->uuid(), 'teaching_assignment_id' => $assignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => $start->utc(), 'planned_end_at' => $end->utc(), 'session_source' => $source, 'participant_scope' => 'FULL_CLASS', 'session_status' => $status]);
     }
 
     private function userWithRole(string $roleCode): User

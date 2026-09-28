@@ -11,7 +11,7 @@
 - Added a CI assertion that the PostgreSQL technical session timezone is UTC.
 - Removed the literal disposable password from the job-level environment and inject it after an early Actions mask.
 - Corrected the 11 diagnosed fixture/assertion regressions without changing migrations, constraints, or business services.
-- Converted the five TZ-C fixture/clock paths to explicit Asia/Jakarta-aware values.
+- Converted the five TZ-C fixture/clock paths to explicit Asia/Jakarta-aware values and normalized persisted fixture instants to UTC before Eloquent formatting.
 
 Protected migrations, schema constraints, Academic business services, dependencies, provider state, persistent data, and deployment were not changed.
 
@@ -23,6 +23,7 @@ Protected migrations, schema constraints, Academic business services, dependenci
 - Local PHPUnit: environment-blocked by the fail-closed guard because no disposable PostgreSQL service is available and `.env` resolves to protected pilot `imtaq`; no pilot connection/write was attempted.
 - Pint: changed dashboard test formatted; unrelated existing findings remain in `tests/Support/TestDatabaseIdentityGuard.php`.
 - Exact disposable PostgreSQL CI: pending on the pushed implementation commit.
+- First exact CI replay reached the full suite but exposed six remaining TZ fixture instant-shift assertions; the UTC persistence normalization is the targeted follow-up.
 
 ## Safety
 
