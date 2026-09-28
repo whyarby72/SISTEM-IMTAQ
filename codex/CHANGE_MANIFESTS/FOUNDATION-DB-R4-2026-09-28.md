@@ -22,8 +22,8 @@ Protected migrations, schema constraints, Academic business services, dependenci
 - `git diff --check`: PASS.
 - Local PHPUnit: environment-blocked by the fail-closed guard because no disposable PostgreSQL service is available and `.env` resolves to protected pilot `imtaq`; no pilot connection/write was attempted.
 - Pint: changed dashboard test formatted; unrelated existing findings remain in `tests/Support/TestDatabaseIdentityGuard.php`.
-- Exact disposable PostgreSQL CI: pending on the pushed implementation commit.
-- First exact CI replay reached the full suite but exposed six remaining TZ fixture instant-shift assertions; the UTC persistence normalization is the targeted follow-up.
+- Exact disposable PostgreSQL CI: the first replay exposed six TZ fixture instant-shift assertions; UTC persistence normalization reduced the second replay to one boundary assertion presentation mismatch. The final replay is pending on this focused assertion correction.
+- The remaining boundary assertion now compares the hydrated instant in the Asia/Jakarta display timezone; no business service was changed.
 
 ## Safety
 

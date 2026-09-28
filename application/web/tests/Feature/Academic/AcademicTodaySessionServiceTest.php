@@ -116,7 +116,10 @@ class AcademicTodaySessionServiceTest extends TestCase
         $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 12:00:00'));
 
         $this->assertSame(1, $result['active_total']);
-        $this->assertSame('2026-09-12 00:00:00', $result['items'][0]['planned_start_at']->toDateTimeString());
+        $this->assertSame(
+            '2026-09-12 00:00:00',
+            $result['items'][0]['planned_start_at']->setTimezone('Asia/Jakarta')->toDateTimeString()
+        );
     }
 
     public function test_completed_keeps_completed_precedence_when_planned_end_is_in_future(): void
