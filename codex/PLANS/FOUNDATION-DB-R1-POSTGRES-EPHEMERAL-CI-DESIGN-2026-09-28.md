@@ -325,7 +325,7 @@ path.
 | FDB-R1-AC-07 | PASS — local disposable PostgreSQL workflow specified. |
 | FDB-R1-AC-08 | PASS — exact R2 scope and regression plan specified. |
 | FDB-R1-AC-09 | PASS — routing reconciled to `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`. |
-| FDB-R1-AC-10 | PENDING UNTIL COMMIT/PUSH — final repository parity is verified at closeout. |
+| FDB-R1-AC-10 | PASS — commit `16e6193` is pushed and local/upstream parity is verified at closeout. |
 
 ## Closeout
 
