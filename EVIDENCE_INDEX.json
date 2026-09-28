@@ -85,6 +85,14 @@
       "status": "COMPLETED_DIAGNOSIS_ONLY",
       "summary": "All 16 failures individually classified; timezone failures held at TZ-C; PostgreSQL constraints protected; CI credential log visibility routed to R4.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "foundation-tz-d1-decision",
+      "kind": "decision_gate",
+      "ref": "codex/DECISIONS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY-2026-09-28.md",
+      "status": "OWNER_DECISION_PENDING",
+      "summary": "Timezone/storage authority decision design completed; Option A is the candidate recommendation and is not self-ratified.",
+      "sensitivity": "non_secret"
     }
   ]
 }
