@@ -46,7 +46,7 @@ class AcademicAiRuntimeTest extends TestCase
 
     public function test_openai_transport_sends_store_false_auto_choice_no_parallel_and_client_trace(): void
     {
-        $credential = AiProviderCredential::create(['provider' => 'openai', 'label' => 'test', 'encrypted_secret' => 'test-only-not-a-real-key', 'secret_last4' => 'a-key', 'status' => 'VERIFIED']);
+        $credential = AiProviderCredential::create(['provider' => 'openai', 'label' => 'test', 'encrypted_secret' => 'test-only-not-a-real-key', 'secret_last4' => 'akey', 'status' => 'VERIFIED']);
         $configuration = AiProviderConfiguration::create(['provider' => 'openai', 'credential_id' => $credential->id, 'model' => 'test-model', 'max_output_tokens' => 800, 'status' => 'ACTIVE']);
         AiProviderActiveConfiguration::create(['provider' => 'openai', 'configuration_id' => $configuration->id, 'runtime_enabled' => true]);
         Http::fake(fn ($request) => Http::response(['id' => 'resp_1', 'model' => 'test-model', 'output' => [['type' => 'message', 'content' => [['type' => 'output_text', 'text' => 'ok']]]]], 200, ['x-request-id' => 'req_1']));

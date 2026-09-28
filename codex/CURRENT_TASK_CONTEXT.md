@@ -1,10 +1,10 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING`
 **Current phase:** `CI / POSTGRESQL REGRESSION REMEDIATION`  
 **Branch:** `chore/foundation-db-r4-postgres-regression-remediation`  
-**State-basis:** `4d54283f3c8aec7cb04f203837fed746c2b71104`
+**State-basis:** `132f4dbe3f17c5890d149be8ce08711c4118ca3d`
 
 ## Owner authority
 
@@ -62,3 +62,11 @@ If exact CI green:
 - next product track = `ACADEMIC_WEB_COMPLETION_REVIEW`.
 
 STOP for ChatGPT audit.
+
+## R4 implementation checkpoint
+
+Change manifest:
+`codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md`.
+
+Local static checks pass. Full PostgreSQL replay is pending on disposable CI;
+the local database guard correctly prevented any use of pilot `imtaq`.

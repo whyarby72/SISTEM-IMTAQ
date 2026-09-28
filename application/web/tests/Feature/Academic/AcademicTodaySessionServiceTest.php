@@ -17,6 +17,7 @@ use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Authorization\Models\Role;
 use App\Shared\Platform\Authorization\Models\UserRoleAssignment;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
@@ -28,11 +29,11 @@ class AcademicTodaySessionServiceTest extends TestCase
     public function test_today_window_and_open_state_classification_are_deterministic(): void
     {
         [$class, $subject, $user] = $this->fixture();
-        $this->makeSession($class, $subject, '2026-09-12 10:00:00', '2026-09-12 11:00:00', 'PLANNED');
-        $this->makeSession($class, $subject, '2026-09-12 12:00:00', '2026-09-12 13:00:00', 'CONFIRMED');
-        $this->makeSession($class, $subject, '2026-09-12 13:00:00', '2026-09-12 14:00:00', 'PLANNED');
+        $this->makeSession($class, $subject, Carbon::parse('2026-09-12 10:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 11:00:00', 'Asia/Jakarta'), 'PLANNED');
+        $this->makeSession($class, $subject, Carbon::parse('2026-09-12 12:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 13:00:00', 'Asia/Jakarta'), 'CONFIRMED');
+        $this->makeSession($class, $subject, Carbon::parse('2026-09-12 13:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 14:00:00', 'Asia/Jakarta'), 'PLANNED');
 
-        $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 10:30:00'));
+        $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 10:30:00', 'Asia/Jakarta'));
 
         $this->assertSame('2026-09-12', $result['date']);
         $this->assertSame('Asia/Jakarta', $result['timezone']);
@@ -43,10 +44,10 @@ class AcademicTodaySessionServiceTest extends TestCase
     public function test_completed_and_overdue_states_are_distinguished(): void
     {
         [$class, $subject, $user] = $this->fixture();
-        $this->makeSession($class, $subject, '2026-09-12 07:00:00', '2026-09-12 08:00:00', 'COMPLETED');
-        $this->makeSession($class, $subject, '2026-09-12 08:00:00', '2026-09-12 09:00:00', 'PLANNED');
+        $this->makeSession($class, $subject, Carbon::parse('2026-09-12 07:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 08:00:00', 'Asia/Jakarta'), 'COMPLETED');
+        $this->makeSession($class, $subject, Carbon::parse('2026-09-12 08:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 09:00:00', 'Asia/Jakarta'), 'PLANNED');
 
-        $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 10:00:00'));
+        $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 10:00:00', 'Asia/Jakarta'));
 
         $this->assertSame(2, $result['active_total']);
         $this->assertSame(1, $result['completed_count']);
@@ -132,10 +133,11 @@ class AcademicTodaySessionServiceTest extends TestCase
     public function test_planned_and_confirmed_share_timestamp_classification_but_keep_raw_status(): void
     {
         [$class, $subject, $user] = $this->fixture();
-        $this->makeSession($class, $subject, '2026-09-12 08:00:00', '2026-09-12 11:00:00', 'PLANNED');
-        $this->makeSession($class, $subject, '2026-09-12 08:00:00', '2026-09-12 11:00:00', 'CONFIRMED');
+        $secondClass = $this->secondClass();
+        $this->makeSession($class, $subject, Carbon::parse('2026-09-12 08:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 11:00:00', 'Asia/Jakarta'), 'PLANNED');
+        $this->makeSession($secondClass, $subject, Carbon::parse('2026-09-12 08:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 11:00:00', 'Asia/Jakarta'), 'CONFIRMED');
 
-        $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 09:00:00'));
+        $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 09:00:00', 'Asia/Jakarta'));
 
         $this->assertSame(['PLANNED', 'CONFIRMED'], collect($result['items'])->pluck('raw_session_status')->all());
         $this->assertSame(['IN_PROGRESS', 'IN_PROGRESS'], collect($result['items'])->pluck('operational_state')->all());
@@ -168,12 +170,8 @@ class AcademicTodaySessionServiceTest extends TestCase
     public function test_unknown_raw_status_is_not_silently_treated_as_active(): void
     {
         [$class, $subject, $user] = $this->fixture();
-        $this->makeSession($class, $subject, '2026-09-12 10:00:00', '2026-09-12 11:00:00', 'UNKNOWN');
-
-        $result = app(AcademicTodaySessionService::class)->forUser($user, Carbon::parse('2026-09-12 09:00:00'));
-
-        $this->assertSame(0, $result['active_total']);
-        $this->assertCount(0, $result['items']);
+        $this->expectException(QueryException::class);
+        $this->makeSession($class, $subject, Carbon::parse('2026-09-12 10:00:00', 'Asia/Jakarta'), Carbon::parse('2026-09-12 11:00:00', 'Asia/Jakarta'), 'UNKNOWN');
     }
 
     public function test_empty_today_has_zero_counts_and_no_items(): void
@@ -231,13 +229,17 @@ class AcademicTodaySessionServiceTest extends TestCase
     {
         $base = AcademicClass::query()->where('class_code', 'TODAY-A')->firstOrFail();
         $class = AcademicClass::create(['class_code' => 'TODAY-B', 'academic_year_id' => $base->academic_year_id, 'organizational_unit_id' => $base->organizational_unit_id, 'grade_level_id' => $base->grade_level_id, 'section_code' => 'B', 'display_name' => 'Kelas Today B']);
+        $baseAssignment = TeachingAssignment::query()->where('class_id', $base->id)->firstOrFail();
+        TeachingAssignment::create(['assignment_code' => 'TODAY-TA-B', 'semester_id' => $baseAssignment->semester_id, 'class_id' => $class->id, 'subject_id' => $baseAssignment->subject_id, 'teacher_staff_id' => $baseAssignment->teacher_staff_id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
 
         return $class;
     }
 
-    private function makeSession(AcademicClass $class, Subject $subject, string $start, string $end, string $status, string $source = 'SCHEDULED'): ClassSession
+    private function makeSession(AcademicClass $class, Subject $subject, Carbon|string $start, Carbon|string $end, string $status, string $source = 'SCHEDULED'): ClassSession
     {
         $assignment = TeachingAssignment::query()->where('class_id', $class->id)->firstOrFail();
+        $start = is_string($start) ? Carbon::parse($start, 'Asia/Jakarta') : $start;
+        $end = is_string($end) ? Carbon::parse($end, 'Asia/Jakarta') : $end;
 
         return ClassSession::create(['session_code' => 'TODAY-'.str()->uuid(), 'teaching_assignment_id' => $assignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => $start, 'planned_end_at' => $end, 'session_source' => $source, 'participant_scope' => 'FULL_CLASS', 'session_status' => $status]);
     }

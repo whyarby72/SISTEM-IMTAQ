@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION = READY_FOR_EXECUTION`
+**Execution state:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION = IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -9,7 +9,7 @@
 **Task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`  
 **Type:** `CONTROLLED_TEST_CONFIG_SECURITY_REMEDIATION`  
 **Branch:** `chore/foundation-db-r4-postgres-regression-remediation`  
-**State-basis:** `4d54283f3c8aec7cb04f203837fed746c2b71104`  
+**State-basis:** `132f4dbe3f17c5890d149be8ce08711c4118ca3d`
 **Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION.md`
 
 Owner-approved time contract:
@@ -29,6 +29,10 @@ R4 may NOT modify Academic business services. Any residual timezone failure
 after aware replay must STOP for separate source-defect analysis.
 
 Canonical queue gate remains `SOC-MD-06`.
+
+R4 change manifest: `codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md`.
+Local static validation passed; disposable PostgreSQL replay and exact Actions
+verification remain pending.
 
 
 ## Current AI track — AI Academic Assistant

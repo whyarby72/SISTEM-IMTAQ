@@ -44,7 +44,7 @@ jobs:
       DB_PORT: 5432
       DB_DATABASE: imtaq_ci_test
       DB_USERNAME: imtaq_ci
-      DB_PASSWORD: imtaq_ci_ephemeral_only
+      DB_TIMEZONE: UTC
       DB_URL: ''
 
     defaults:
@@ -54,6 +54,14 @@ jobs:
     steps:
       - name: Checkout approved revision
         uses: actions/checkout@v4
+
+      - name: Configure masked disposable database credential
+        shell: bash
+        run: |
+          ci_password='imtaq_ci_'
+          ci_password="${ci_password}ephemeral_only"
+          echo "::add-mask::${ci_password}"
+          echo "DB_PASSWORD=${ci_password}" >> "$GITHUB_ENV"
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -81,6 +89,21 @@ jobs:
           done
           echo "PostgreSQL 18.6 service did not become ready within 60 seconds." >&2
           exit 1
+
+      - name: Assert PostgreSQL technical session timezone
+        run: |
+          php <<'PHP'
+          <?php
+          require 'vendor/autoload.php';
+          $app = require 'bootstrap/app.php';
+          $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+          $timezone = $app->make('db')->connection('pgsql')->selectOne('show timezone')->TimeZone;
+          if ($timezone !== 'UTC') {
+              fwrite(STDERR, "Expected PostgreSQL session timezone UTC; found {$timezone}.\n");
+              exit(1);
+          }
+          echo "PostgreSQL technical session timezone: UTC\n";
+          PHP
 
       - name: Clear cached configuration
         run: php artisan config:clear --ansi

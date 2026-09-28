@@ -58,7 +58,7 @@
     "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
     "foundation_tz_d1": "CLOSED / OPTION_A / APPROVED_BY_PROJECT_OWNER",
     "foundation_tz_d1a": "COMPLETED / OWNER_DECISION_RECORDED",
-    "foundation_db_r4": "READY_FOR_EXECUTION / OWNER_AUTHORIZED"
+    "foundation_db_r4": "IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING"
   },
   "blockers": [
     {
@@ -77,7 +77,7 @@
       "id": "FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION",
       "status": "UNRESOLVED",
       "evidence": "Exact-current final HEAD run 36402569265 on 349ef67ac6e9e6a2d02a25e137084b00fe820c21 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero and schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions in foundation PHPUnit. R3 isolated five time-sensitive failures as TZ-C pending timezone/storage authority; 11 other failures are independently classified test fixture/assertion debt.",
-      "owner": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION"
+      "owner": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION_EXTERNAL_CI"
     },
     {
       "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
@@ -91,10 +91,10 @@
     "CI-only disposable PostgreSQL credential value was visible in Actions log output; classify and remediate without using persistent-environment secrets."
   ],
   "next_owner": "CODEX",
-  "next_task": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION",
+  "next_task": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION_EXTERNAL_CI",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T16:52:00+07:00",
+  "updated_at": "2026-09-28T18:30:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

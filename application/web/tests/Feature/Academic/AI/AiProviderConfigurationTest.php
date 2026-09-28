@@ -497,7 +497,7 @@ class AiProviderConfigurationTest extends TestCase
         $this->assertFalse($requests[1][0]->data()['store']);
         $this->assertSame('none', $requests[1][0]->data()['tool_choice']);
         $this->assertArrayNotHasKey('previous_response_id', $requests[1][0]->data());
-        $this->assertStringNotContainsString('synthetic-reasoning-marker', json_encode(DB::table('audit_logs')->latest('created_at')->first()));
+        $this->assertStringNotContainsString('synthetic-reasoning-marker', json_encode(DB::table('audit_logs')->latest('occurred_at')->first()));
     }
 
     public function test_invalid_input_provider_error_uses_precise_failure_category(): void
@@ -520,7 +520,7 @@ class AiProviderConfigurationTest extends TestCase
         }
 
         $this->assertSame('DRAFT', $configuration->fresh()->status);
-        $this->assertStringNotContainsString('must not be persisted', json_encode(DB::table('audit_logs')->latest('created_at')->first()));
+        $this->assertStringNotContainsString('must not be persisted', json_encode(DB::table('audit_logs')->latest('occurred_at')->first()));
     }
 
     public function test_d3_final_responses_request_contract_is_exact_and_strict(): void
@@ -576,7 +576,7 @@ class AiProviderConfigurationTest extends TestCase
             $this->assertSame('SCHEMA_REJECTED', $exception->category);
         }
 
-        $audit = DB::table('audit_logs')->where('action', 'AI_PROVIDER_CONFIGURATION_VERIFICATION_FAILED')->latest('created_at')->first();
+        $audit = DB::table('audit_logs')->where('action', 'AI_PROVIDER_CONFIGURATION_VERIFICATION_FAILED')->latest('occurred_at')->first();
         $serialized = json_encode($audit);
         $metadata = json_decode((string) $audit->technical_metadata, true);
         $this->assertSame('invalid_request_error', $metadata['provider_error_type']);

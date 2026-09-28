@@ -52,8 +52,9 @@ class SubstitutionServiceTest extends TestCase
     public function test_substitution_rejects_replacement_teacher_conflict_before_mutation(): void
     {
         [$session, , $replacement] = $this->fixtures();
-        $otherAssignment = TeachingAssignment::create(['assignment_code' => 'TA-SUB-CONFLICT', 'semester_id' => $session->teachingAssignment->semester_id, 'class_id' => $session->class_id, 'subject_id' => $session->subject_id, 'teacher_staff_id' => $replacement->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
-        ClassSession::create(['session_code' => 'SESSION-SUB-CONFLICT', 'teaching_assignment_id' => $otherAssignment->id, 'class_id' => $session->class_id, 'subject_id' => $session->subject_id, 'planned_start_at' => '2026-07-06 08:30:00', 'planned_end_at' => '2026-07-06 09:00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
+        $otherClass = AcademicClass::create(['class_code' => 'CLASS-SUB-CONFLICT', 'academic_year_id' => $session->academicClass->academic_year_id, 'organizational_unit_id' => $session->academicClass->organizational_unit_id, 'grade_level_id' => $session->academicClass->grade_level_id, 'section_code' => 'B', 'display_name' => 'Kelas Konflik']);
+        $otherAssignment = TeachingAssignment::create(['assignment_code' => 'TA-SUB-CONFLICT', 'semester_id' => $session->teachingAssignment->semester_id, 'class_id' => $otherClass->id, 'subject_id' => $session->subject_id, 'teacher_staff_id' => $replacement->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
+        ClassSession::create(['session_code' => 'SESSION-SUB-CONFLICT', 'teaching_assignment_id' => $otherAssignment->id, 'class_id' => $otherClass->id, 'subject_id' => $session->subject_id, 'planned_start_at' => '2026-07-06 08:30:00', 'planned_end_at' => '2026-07-06 09:00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
 
         $this->expectException(ScheduleConflictException::class);
         app(SubstitutionService::class)->applySubstitution($session, $replacement, null, 'Conflict test');
@@ -127,8 +128,10 @@ class SubstitutionServiceTest extends TestCase
 
     private function additionalSession(ClassSession $source, string $start, string $end, ?Staff $teacher = null): array
     {
-        $assignment = TeachingAssignment::create(['assignment_code' => 'TA-OTHER-'.str()->uuid(), 'semester_id' => $source->teachingAssignment->semester_id, 'class_id' => $source->class_id, 'subject_id' => $source->subject_id, 'teacher_staff_id' => ($teacher ?? $source->teachingAssignment->teacher)->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
-        $session = ClassSession::create(['session_code' => 'SESSION-OTHER-'.str()->uuid(), 'teaching_assignment_id' => $assignment->id, 'class_id' => $source->class_id, 'subject_id' => $source->subject_id, 'planned_start_at' => '2026-07-06 '.$start, 'planned_end_at' => '2026-07-06 '.$end, 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
+        $sourceClass = $source->academicClass;
+        $otherClass = AcademicClass::create(['class_code' => 'CLASS-SUB-OTHER-'.str()->random(8), 'academic_year_id' => $sourceClass->academic_year_id, 'organizational_unit_id' => $sourceClass->organizational_unit_id, 'grade_level_id' => $sourceClass->grade_level_id, 'section_code' => 'X', 'display_name' => 'Kelas Lain']);
+        $assignment = TeachingAssignment::create(['assignment_code' => 'TA-OTHER-'.str()->uuid(), 'semester_id' => $source->teachingAssignment->semester_id, 'class_id' => $otherClass->id, 'subject_id' => $source->subject_id, 'teacher_staff_id' => ($teacher ?? $source->teachingAssignment->teacher)->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
+        $session = ClassSession::create(['session_code' => 'SESSION-OTHER-'.str()->uuid(), 'teaching_assignment_id' => $assignment->id, 'class_id' => $otherClass->id, 'subject_id' => $source->subject_id, 'planned_start_at' => '2026-07-06 '.$start, 'planned_end_at' => '2026-07-06 '.$end, 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
 
         return [$session, $assignment];
     }

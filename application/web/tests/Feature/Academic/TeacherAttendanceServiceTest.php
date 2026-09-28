@@ -117,6 +117,8 @@ class TeacherAttendanceServiceTest extends TestCase
         [$session, $participation, $homeroom] = $this->fixtures('MISMATCH');
         $otherSession = $session->replicate(['id']);
         $otherSession->session_code = 'SESSION-TA-002';
+        $otherSession->planned_start_at = '2026-07-06 10:00:00';
+        $otherSession->planned_end_at = '2026-07-06 11:00:00';
         $otherSession->save();
 
         $this->expectException(InvalidArgumentException::class);

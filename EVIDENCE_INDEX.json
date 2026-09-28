@@ -93,6 +93,14 @@
       "status": "OWNER_DECISION_PENDING",
       "summary": "Timezone/storage authority decision design completed; Option A is the candidate recommendation and is not self-ratified.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "foundation-db-r4-change-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md",
+      "status": "IMPLEMENTED_EXTERNAL_CI_PENDING",
+      "summary": "R4 PostgreSQL test/config/security remediation applied within approved scope; disposable CI replay remains the authoritative verification gate.",
+      "sensitivity": "non_secret"
     }
   ]
 }

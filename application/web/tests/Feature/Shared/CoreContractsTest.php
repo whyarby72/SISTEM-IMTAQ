@@ -10,6 +10,7 @@ use App\Shared\Platform\Authorization\Models\UserRoleAssignment;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class CoreContractsTest extends TestCase
@@ -60,6 +61,6 @@ class CoreContractsTest extends TestCase
         $this->assertSame('Safe Name', $audit->new_values['full_name']);
         $this->assertSame('[REDACTED]', $audit->new_values['api_key']);
         $this->assertSame('[REDACTED]', $audit->new_values['nested']['access_token']);
-        $this->assertDatabaseMissing('audit_logs', ['new_values' => '%do-not-store%']);
+        $this->assertFalse(DB::table('audit_logs')->whereJsonContains('new_values->api_key', 'do-not-store')->exists());
     }
 }

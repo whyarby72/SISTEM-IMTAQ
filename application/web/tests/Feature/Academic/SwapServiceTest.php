@@ -37,8 +37,7 @@ class SwapServiceTest extends TestCase
     public function test_swap_rejects_resulting_teacher_conflict_without_partial_change(): void
     {
         [$first, $second, , $secondTeacher] = $this->fixtures();
-        $otherAssignment = TeachingAssignment::create(['assignment_code' => 'TA-SWAP-CONFLICT', 'semester_id' => $second->teachingAssignment->semester_id, 'class_id' => $second->class_id, 'subject_id' => $second->subject_id, 'teacher_staff_id' => $secondTeacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
-        ClassSession::create(['session_code' => 'SESSION-SWAP-CONFLICT', 'teaching_assignment_id' => $otherAssignment->id, 'class_id' => $second->class_id, 'subject_id' => $second->subject_id, 'planned_start_at' => '2026-07-06 08:30:00', 'planned_end_at' => '2026-07-06 09:00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
+        $this->conflictingSession($second, $secondTeacher, 'SESSION-SWAP-CONFLICT', '08:30:00', '09:00:00');
 
         try {
             app(SwapService::class)->applySwap($first, $second, null, 'Conflict test');
@@ -54,8 +53,7 @@ class SwapServiceTest extends TestCase
     public function test_swap_rejects_expected_substitute_overlap_without_partial_change(): void
     {
         [$first, $second, $firstTeacher, $secondTeacher] = $this->fixtures();
-        $otherAssignment = TeachingAssignment::create(['assignment_code' => 'TA-SWAP-SUBSTITUTE-CONFLICT', 'semester_id' => $second->teachingAssignment->semester_id, 'class_id' => $first->class_id, 'subject_id' => $second->subject_id, 'teacher_staff_id' => $firstTeacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
-        $other = ClassSession::create(['session_code' => 'SESSION-SWAP-SUBSTITUTE-CONFLICT', 'teaching_assignment_id' => $otherAssignment->id, 'class_id' => $first->class_id, 'subject_id' => $second->subject_id, 'planned_start_at' => '2026-07-06 08:30:00', 'planned_end_at' => '2026-07-06 09:30:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
+        $other = $this->conflictingSession($first, $firstTeacher, 'SESSION-SWAP-SUBSTITUTE-CONFLICT', '08:30:00', '09:30:00');
         SessionTeacherParticipation::create(['class_session_id' => $other->id, 'teacher_staff_id' => $secondTeacher->id, 'role' => 'SUBSTITUTE', 'obligation_type' => 'REPLACEMENT', 'participation_status' => 'EXPECTED']);
 
         $this->expectException(ScheduleConflictException::class);
@@ -82,5 +80,14 @@ class SwapServiceTest extends TestCase
         SessionTeacherParticipation::create(['class_session_id' => $second->id, 'teacher_staff_id' => $secondTeacher->id, 'role' => 'PRIMARY', 'obligation_type' => 'TEACHING_ASSIGNMENT']);
 
         return [$first, $second, $firstTeacher, $secondTeacher];
+    }
+
+    private function conflictingSession(ClassSession $source, Staff $teacher, string $code, string $start, string $end): ClassSession
+    {
+        $sourceClass = $source->academicClass;
+        $class = AcademicClass::create(['class_code' => 'CLASS-SWAP-CONFLICT-'.str()->random(8), 'academic_year_id' => $sourceClass->academic_year_id, 'organizational_unit_id' => $sourceClass->organizational_unit_id, 'grade_level_id' => $sourceClass->grade_level_id, 'section_code' => 'X', 'display_name' => 'Kelas Konflik']);
+        $assignment = TeachingAssignment::create(['assignment_code' => 'TA-SWAP-CONFLICT-'.str()->uuid(), 'semester_id' => $source->teachingAssignment->semester_id, 'class_id' => $class->id, 'subject_id' => $source->subject_id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
+
+        return ClassSession::create(['session_code' => $code, 'teaching_assignment_id' => $assignment->id, 'class_id' => $class->id, 'subject_id' => $source->subject_id, 'planned_start_at' => '2026-07-06 '.$start, 'planned_end_at' => '2026-07-06 '.$end, 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
     }
 }

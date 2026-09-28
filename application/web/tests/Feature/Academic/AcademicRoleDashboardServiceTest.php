@@ -224,10 +224,10 @@ class AcademicRoleDashboardServiceTest extends TestCase
         StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'entered_by' => $waka->id, 'entered_at' => '2026-07-10 09:00:00', 'finalized_by' => $waka->id, 'finalized_at' => '2026-07-10 09:05:00', 'updated_by' => $waka->id, 'updated_at' => '2026-07-10 09:05:00']);
         $this->assertNotNull($second);
 
-        Carbon::setTestNow('2026-07-10 12:00:00');
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
         try {
             $today = app(AcademicRoleDashboardService::class)
-                ->forUser($waka, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay())['today_attendance'];
+                ->forUser($waka, Carbon::parse('2026-07-01', 'Asia/Jakarta'), Carbon::parse('2026-07-31 23:59:59', 'Asia/Jakarta'))['today_attendance'];
         } finally {
             Carbon::setTestNow();
         }
@@ -584,12 +584,16 @@ class AcademicRoleDashboardServiceTest extends TestCase
         $pastSession = ClassSession::where('class_id', $first->id)->firstOrFail();
         $pastParticipant = SessionStudentParticipant::create(['class_session_id' => $pastSession->id, 'student_id' => $student->id, 'participant_basis' => 'ROSTER']);
         StudentAttendance::create(['session_student_participant_id' => $pastParticipant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'entered_by' => $waka->id, 'entered_at' => '2026-07-10 09:00:00', 'finalized_by' => $waka->id, 'finalized_at' => '2026-07-10 09:05:00', 'updated_by' => $waka->id, 'updated_at' => '2026-07-10 09:05:00']);
-        ClassSession::create(['session_code' => 'DASH-FUTURE', 'teaching_assignment_id' => $assignment->id, 'class_id' => $first->id, 'subject_id' => $pastSession->subject_id, 'planned_start_at' => '2026-07-11 08:00:00', 'planned_end_at' => '2026-07-11 09:00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
+        ClassSession::create(['session_code' => 'DASH-FUTURE', 'teaching_assignment_id' => $assignment->id, 'class_id' => $first->id, 'subject_id' => $pastSession->subject_id, 'planned_start_at' => Carbon::parse('2026-07-11 08:00:00', 'Asia/Jakarta'), 'planned_end_at' => Carbon::parse('2026-07-11 09:00:00', 'Asia/Jakarta'), 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
 
-        Carbon::setTestNow('2026-07-10 12:00:00');
+        $pastSession->update([
+            'planned_start_at' => Carbon::parse('2026-07-10 08:00:00', 'Asia/Jakarta'),
+            'planned_end_at' => Carbon::parse('2026-07-10 09:00:00', 'Asia/Jakarta'),
+        ]);
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
         try {
             $dashboard = app(AcademicRoleDashboardService::class)
-                ->forUser($waka, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay());
+                ->forUser($waka, Carbon::parse('2026-07-01', 'Asia/Jakarta'), Carbon::parse('2026-07-31 23:59:59', 'Asia/Jakarta'));
         } finally {
             Carbon::setTestNow();
         }
@@ -604,13 +608,13 @@ class AcademicRoleDashboardServiceTest extends TestCase
     {
         [$first, $second, $wali] = $this->fixture();
         $assignment = TeachingAssignment::where('class_id', $second->id)->firstOrFail();
-        $session = ClassSession::create(['session_code' => 'DASH-JOINT-WALI', 'teaching_assignment_id' => $assignment->id, 'class_id' => $second->id, 'subject_id' => $assignment->subject_id, 'planned_start_at' => '2026-07-10 10:00:00', 'planned_end_at' => '2026-07-10 11:00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'COMPLETED']);
+        $session = ClassSession::create(['session_code' => 'DASH-JOINT-WALI', 'teaching_assignment_id' => $assignment->id, 'class_id' => $second->id, 'subject_id' => $assignment->subject_id, 'planned_start_at' => Carbon::parse('2026-07-10 10:00:00', 'Asia/Jakarta'), 'planned_end_at' => Carbon::parse('2026-07-10 11:00:00', 'Asia/Jakarta'), 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'COMPLETED']);
         ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $first->id, 'scope_role' => 'JOINT_SCOPE']);
 
-        Carbon::setTestNow('2026-07-10 12:00:00');
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
         try {
             $dashboard = app(AcademicRoleDashboardService::class)
-                ->forUser($wali, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay());
+                ->forUser($wali, Carbon::parse('2026-07-01', 'Asia/Jakarta'), Carbon::parse('2026-07-31 23:59:59', 'Asia/Jakarta'));
         } finally {
             Carbon::setTestNow();
         }
@@ -731,14 +735,14 @@ class AcademicRoleDashboardServiceTest extends TestCase
         $assignment = TeachingAssignment::create(['assignment_code' => 'DASH-TA', 'semester_id' => $semester->id, 'class_id' => $first->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
         TeachingAssignment::create(['assignment_code' => 'DASH-TA-B', 'semester_id' => $semester->id, 'class_id' => $second->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
         foreach ([[$first, $assignment], [$second, TeachingAssignment::where('assignment_code', 'DASH-TA-B')->firstOrFail()]] as [$class, $classAssignment]) {
-            ClassSession::create(['session_code' => 'DASH-SESSION-'.$class->class_code, 'teaching_assignment_id' => $classAssignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => '2026-07-10 08:00:00', 'planned_end_at' => '2026-07-10 09:00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'COMPLETED']);
+            ClassSession::create(['session_code' => 'DASH-SESSION-'.$class->class_code, 'teaching_assignment_id' => $classAssignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => Carbon::parse('2026-07-10 08:00:00', 'Asia/Jakarta'), 'planned_end_at' => Carbon::parse('2026-07-10 09:00:00', 'Asia/Jakarta'), 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'COMPLETED']);
         }
         if ($withPilotClass) {
             $pilotYear = AcademicYear::create(['year_code' => '2026-DASH-PILOT', 'display_name' => '2026/2027 Pilot', 'starts_on' => '2026-07-01', 'ends_on' => '2027-06-30']);
             $pilotSemester = Semester::create(['academic_year_id' => $pilotYear->id, 'semester_code' => 'ODD-PILOT', 'display_name' => 'Ganjil Pilot', 'sequence_no' => 1, 'starts_on' => '2026-07-01', 'ends_on' => '2026-12-31']);
             $pilotClass = AcademicClass::create(['class_code' => 'DASH-PILOT', 'academic_year_id' => $pilotYear->id, 'organizational_unit_id' => $unit->id, 'grade_level_id' => $level->id, 'section_code' => 'P', 'display_name' => 'Kelas Pilot']);
             $pilotAssignment = TeachingAssignment::create(['assignment_code' => 'DASH-TA-PILOT', 'semester_id' => $pilotSemester->id, 'class_id' => $pilotClass->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
-            ClassSession::create(['session_code' => 'DASH-SESSION-PILOT', 'teaching_assignment_id' => $pilotAssignment->id, 'class_id' => $pilotClass->id, 'subject_id' => $subject->id, 'planned_start_at' => '2026-07-10 08:00:00', 'planned_end_at' => '2026-07-10 09:00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'COMPLETED']);
+            ClassSession::create(['session_code' => 'DASH-SESSION-PILOT', 'teaching_assignment_id' => $pilotAssignment->id, 'class_id' => $pilotClass->id, 'subject_id' => $subject->id, 'planned_start_at' => Carbon::parse('2026-07-10 08:00:00', 'Asia/Jakarta'), 'planned_end_at' => Carbon::parse('2026-07-10 09:00:00', 'Asia/Jakarta'), 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'COMPLETED']);
         }
         $wali = User::factory()->create();
         $waka = User::factory()->create();
