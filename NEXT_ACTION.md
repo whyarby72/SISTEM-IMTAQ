@@ -1,49 +1,33 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS = COMPLETED / DIAGNOSIS_ONLY / PASS`
+**Execution state:** `FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current PostgreSQL full-suite regression diagnosis
+## Current timezone & timestamp storage authority task
 
-**Task:** `FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS`  
-**Type:** `READ_ONLY_REGRESSION_DIAGNOSIS`  
-**Branch:** `chore/foundation-db-r3-postgres-regression-diagnosis`  
-**State-basis:** `35bed6d7657b7ff21eaabb2e1e81feefc61158a9`
-**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS.md`
+**Task:** `FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY`  
+**Type:** `CROSS_DOMAIN_TIME_AUTHORITY_DECISION_DESIGN`  
+**Branch:** `chore/foundation-tz-d1-timezone-storage-authority`  
+**State-basis:** `861ad624086141b1b1fedd3073ee3b886ce46ac9`  
+**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-TZ-D1-TIMEZONE-STORAGE-AUTHORITY.md`
 
-Accepted R2 outcome:
-- PostgreSQL 18.6 ephemeral CI: implemented
-- SQLite migration blocker: RESOLVED
-- exact-current final HEAD run: `36402569265`
-- exact-current result: `16 failed, 15 passed, 490 warnings, 2171 assertions`
+R3 is closed/accepted. Exact-current PostgreSQL CI still has 16 failures:
+- 7 TEST_FIXTURE
+- 4 TEST_ASSERTION
+- 5 CONTRACT_GAP / TZ-C
 
-R3 classified every exact failure as:
-- TEST_FIXTURE
-- TEST_ASSERTION
-- APPLICATION_DEFECT
-- CONTRACT_GAP
+D1 resolves the authority gap only. It must evaluate:
+- OPTION A: Asia/Jakarta business time + UTC technical/session baseline + timezone-aware boundaries;
+- OPTION B: Asia/Jakarta business time + Asia/Jakarta PostgreSQL session;
+- OPTION C: HOLD.
 
-Today/Dashboard timezone failures require explicit TZ-A / TZ-B / TZ-C conclusion.
+Candidate recommendation is Option A, but D1 must not self-ratify it.
 
-R3 also diagnoses:
-`CI_EPHEMERAL_CREDENTIAL_LOG_VISIBILITY`
+No source, test, config, workflow, migration, schema, database, provider,
+deployment, or main-branch implementation is authorized.
 
-No tests, application source, workflow implementation, PHPUnit/TestCase,
-database config, migration, constraint, provider, deployment, or persistent
-database mutation is authorized.
-
-The canonical queue gate remains `SOC-MD-06`.
-
-R3 closeout artifact:
-`codex/DIAGNOSTICS/FOUNDATION-DB-R3-POSTGRES-REGRESSION-DIAGNOSIS-2026-09-28.md`
-
-The 16 failures are fully inventoried. Five time-sensitive failures remain
-TZ-C pending an authoritative timezone/storage rule. The CI-only disposable
-credential is visible in the Actions step environment log and is routed to R4
-remediation. PostgreSQL constraints remain authoritative and untouched.
-
-**Recommended next task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`
+Canonical queue gate remains `SOC-MD-06`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -155,4 +139,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R3_AUDIT`
+**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_TZ_D1_FROM_REPOSITORY`
