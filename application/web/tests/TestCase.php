@@ -6,6 +6,7 @@ use App\Providers\AppServiceProvider;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Tests\Support\TestDatabaseIdentityGuard;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -13,13 +14,9 @@ abstract class TestCase extends BaseTestCase
     {
         $app = parent::createApplication();
 
-        // Test data must never use the pilot PostgreSQL connection, even when
-        // a developer has a cached application configuration locally.
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite.database', ':memory:');
-        $app['config']->set('database.connections.sqlite.url', null);
         $app['config']->set('app.env', 'testing');
         $app->instance('env', 'testing');
+        TestDatabaseIdentityGuard::assertSafe($app);
         $app['config']->set('session.driver', 'array');
         $app['config']->set('cache.default', 'array');
         $app['config']->set('cache.limiter', 'array');

@@ -21,6 +21,32 @@ jobs:
   foundation:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:18.6
+        env:
+          POSTGRES_DB: imtaq_ci_test
+          POSTGRES_USER: imtaq_ci
+          # Disposable CI-only value; never reused outside this job service.
+          POSTGRES_PASSWORD: imtaq_ci_ephemeral_only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U imtaq_ci -d imtaq_ci_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 24
+
+    env:
+      APP_ENV: testing
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: imtaq_ci_test
+      DB_USERNAME: imtaq_ci
+      DB_PASSWORD: imtaq_ci_ephemeral_only
+      DB_URL: ''
+
     defaults:
       run:
         working-directory: application/web
@@ -33,7 +59,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mbstring, pdo_sqlite
+          extensions: mbstring, pdo_pgsql
           coverage: none
 
       - name: Assert approved PHP runtime range
@@ -44,6 +70,57 @@ jobs:
 
       - name: Install locked dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Assert PostgreSQL service readiness
+        run: |
+          for attempt in $(seq 1 30); do
+            if pg_isready -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USERNAME" -d "$DB_DATABASE" >/dev/null 2>&1; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "PostgreSQL 18.6 service did not become ready within 60 seconds." >&2
+          exit 1
+
+      - name: Clear cached configuration
+        run: php artisan config:clear --ansi
+
+      - name: Assert disposable PostgreSQL identity before migration
+        run: |
+          php <<'PHP'
+          <?php
+          require 'vendor/autoload.php';
+          $app = require 'bootstrap/app.php';
+          $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+          $metadata = Tests\Support\TestDatabaseIdentityGuard::assertSafe($app);
+          echo 'Safe PostgreSQL test database: '.$metadata['database'].'; server '.$metadata['server_version'].PHP_EOL;
+          PHP
+
+      - name: Replay migrations from zero on disposable PostgreSQL
+        run: php artisan migrate:fresh --database=pgsql --force
+
+      - name: Assert PostgreSQL schema extensions and identity
+        run: |
+          php <<'PHP'
+          <?php
+          require 'vendor/autoload.php';
+          $app = require 'bootstrap/app.php';
+          $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+          $metadata = Tests\Support\TestDatabaseIdentityGuard::assertSafe($app);
+          $database = $app->make('db')->connection('pgsql');
+          $extensions = array_map(static fn ($row) => $row->extname, $database->select('select extname from pg_extension'));
+          if (! in_array('btree_gist', $extensions, true)) {
+              fwrite(STDERR, "Required PostgreSQL extension btree_gist is missing.\n");
+              exit(1);
+          }
+          $constraintRow = $database->selectOne("select count(*) as count from pg_constraint where contype = 'x'");
+          $exclusionConstraints = (int) ($constraintRow->count ?? 0);
+          if ($exclusionConstraints < 1) {
+              fwrite(STDERR, "Expected PostgreSQL exclusion constraints were not found.\n");
+              exit(1);
+          }
+          echo 'PostgreSQL schema assertions passed for '.$metadata['database'].'.'.PHP_EOL;
+          PHP
 
       - name: Run foundation verification
         run: ./scripts/verify-foundation.sh
