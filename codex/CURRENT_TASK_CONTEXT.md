@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`  
-**State:** `IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING`
+**State:** `STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE`
 **Current phase:** `CI / POSTGRESQL REGRESSION REMEDIATION`  
 **Branch:** `chore/foundation-db-r4-postgres-regression-remediation`  
 **State-basis:** `132f4dbe3f17c5890d149be8ce08711c4118ca3d`
@@ -20,8 +20,8 @@ Decision artifact:
 `FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION`
 
 Exact-current evidence:
-- run `36402569265`
-- 16 failed / 15 passed / 490 warnings / 2171 assertions
+- implementation replay run `36413293700` on `a7f7483c4304f1823e2b7166c4cca777c837e29b`
+- 1 failed / 15 passed / 505 warnings / 2202 assertions
 - 7 TEST_FIXTURE
 - 4 TEST_ASSERTION
 - 5 prior TZ-C
@@ -68,5 +68,6 @@ STOP for ChatGPT audit.
 Change manifest:
 `codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md`.
 
-Local static checks pass. Full PostgreSQL replay is pending on disposable CI;
-the local database guard correctly prevented any use of pilot `imtaq`.
+Local static checks pass. Exact disposable PostgreSQL replay is blocked by the
+remaining TZ-C boundary failure; the local database guard correctly prevented
+any use of pilot `imtaq`.

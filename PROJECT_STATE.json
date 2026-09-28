@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "4d54283f3c8aec7cb04f203837fed746c2b71104",
+  "repo_commit": "a7f7483c4304f1823e2b7166c4cca777c837e29b",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "chore/foundation-db-r4-postgres-regression-remediation",
@@ -35,7 +35,9 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36355381623",
     "codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md",
     "codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36402569265"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36402569265",
+    "codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36413293700"
   ],
   "latest_test_state": {
     "exact_current_ci": "FAIL_VERIFIED_RUN_36402569265_POSTGRES_FULL_SUITE_REGRESSION",
@@ -58,7 +60,7 @@
     "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
     "foundation_tz_d1": "CLOSED / OPTION_A / APPROVED_BY_PROJECT_OWNER",
     "foundation_tz_d1a": "COMPLETED / OWNER_DECISION_RECORDED",
-    "foundation_db_r4": "IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING"
+    "foundation_db_r4": "STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE / RUN_36413293700"
   },
   "blockers": [
     {
@@ -75,9 +77,9 @@
     },
     {
       "id": "FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION",
-      "status": "UNRESOLVED",
-      "evidence": "Exact-current final HEAD run 36402569265 on 349ef67ac6e9e6a2d02a25e137084b00fe820c21 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero and schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions in foundation PHPUnit. R3 isolated five time-sensitive failures as TZ-C pending timezone/storage authority; 11 other failures are independently classified test fixture/assertion debt.",
-      "owner": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION_EXTERNAL_CI"
+      "status": "BLOCKED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE",
+      "evidence": "Exact run 36413293700 on a7f7483c4304f1823e2b7166c4cca777c837e29b passes PostgreSQL 18.6 readiness, UTC session, identity guard, migration-from-zero, and schema checks, but foundation verification reports 1 failed, 15 passed, 505 warnings, 2202 assertions. The remaining TZ-C boundary failure returns 2026-09-13 00:00:00 where the test expects 2026-09-12 00:00:00 after Asia/Jakarta presentation conversion; R4 stops without changing Academic business services.",
+      "owner": "CHATGPT_AND_PROJECT_OWNER"
     },
     {
       "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
@@ -90,11 +92,11 @@
     "Controlled real-provider verification remains pending and was not run by A3.",
     "CI-only disposable PostgreSQL credential value was visible in Actions log output; classify and remediate without using persistent-environment secrets."
   ],
-  "next_owner": "CODEX",
-  "next_task": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION_EXTERNAL_CI",
+  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
+  "next_task": "RETURN_TO_CHATGPT_FOR_R4_AUDIT",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T18:30:00+07:00",
+  "updated_at": "2026-09-28T18:40:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

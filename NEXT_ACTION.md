@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION = IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING`
+**Execution state:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION = STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -31,8 +31,11 @@ after aware replay must STOP for separate source-defect analysis.
 Canonical queue gate remains `SOC-MD-06`.
 
 R4 change manifest: `codex/CHANGE_MANIFESTS/FOUNDATION-DB-R4-2026-09-28.md`.
-Local static validation passed; disposable PostgreSQL replay and exact Actions
-verification remain pending.
+Local static validation passed. Exact Actions run `36413293700` completed its
+disposable PostgreSQL replay but retained one TZ-C boundary failure; R4 stops
+without modifying Academic business services.
+
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_R4_AUDIT`
 
 
 ## Current AI track — AI Academic Assistant
