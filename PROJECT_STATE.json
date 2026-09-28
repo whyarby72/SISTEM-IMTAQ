@@ -1,19 +1,27 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "14c63b854fa17d8cc1f757104fa1d79438cfd9a3",
+  "repo_commit": "4d54283f3c8aec7cb04f203837fed746c2b71104",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/foundation-tz-d1a-option-a-approval",
+  "active_branch": "chore/foundation-db-r4-postgres-regression-remediation",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "FOUNDATION-TZ-D1A-OPTION-A-OWNER-APPROVAL",
+  "current_task_id": "FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "FTZ-D1A-AC-01",
-    "FTZ-D1A-AC-02",
-    "FTZ-D1A-AC-03",
-    "FTZ-D1A-AC-04"
+    "FDB-R4-AC-01",
+    "FDB-R4-AC-02",
+    "FDB-R4-AC-03",
+    "FDB-R4-AC-04",
+    "FDB-R4-AC-05",
+    "FDB-R4-AC-06",
+    "FDB-R4-AC-07",
+    "FDB-R4-AC-08",
+    "FDB-R4-AC-09",
+    "FDB-R4-AC-10",
+    "FDB-R4-AC-11",
+    "FDB-R4-AC-12"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -49,7 +57,8 @@
     "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / FINAL_HEAD_RUN_36402569265 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS",
     "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
     "foundation_tz_d1": "CLOSED / OPTION_A / APPROVED_BY_PROJECT_OWNER",
-    "foundation_tz_d1a": "COMPLETED / OWNER_DECISION_RECORDED"
+    "foundation_tz_d1a": "COMPLETED / OWNER_DECISION_RECORDED",
+    "foundation_db_r4": "READY_FOR_EXECUTION / OWNER_AUTHORIZED"
   },
   "blockers": [
     {
