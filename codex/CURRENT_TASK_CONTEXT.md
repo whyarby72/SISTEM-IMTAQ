@@ -1,68 +1,71 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY`  
+**Task:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN`  
 **State:** `READY_FOR_EXECUTION`  
-**Current phase:** `CI / TEST DATABASE AUTHORITY`  
-**Branch:** `chore/foundation-db-d1-test-database-authority`  
-**State-basis before D1:** `feb9e1be7e8dc0240752f55e613af484233e8d25`
+**Current phase:** `CI / POSTGRESQL EPHEMERAL TEST DESIGN`  
+**Branch:** `chore/foundation-db-r1-postgres-ephemeral-ci-design`  
+**State-basis:** `bcdd1280d9976020250659baa9a064e278f2e70b`
 
-## Verified trigger
+## Authority
 
-Exact GitHub Actions run:
-`36355381623`
+FOUNDATION-DB-D1:
+`CLOSED / ACCEPTED / OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`
 
-Repair commit:
-`659f6b3947e85c2f50cbc6dcfdc506aaf4b8705b`
+Decision artifact:
+`codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
 
-Verified sequence:
-- PHP setup: PASS
-- PHP 8.4.x guard: PASS
-- Composer validate/install: PASS
-- repository routing: PASS
-- PHPUnit/foundation: FAIL
+## Problem
 
-Failure root:
-SQLite rejects PostgreSQL-style
-`ALTER TABLE students ALTER COLUMN student_code DROP NOT NULL`.
+The full suite currently forces SQLite although PostgreSQL is the technical baseline and applied migrations contain PostgreSQL-specific DDL.
 
-## Architectural tension
-
-- repository architecture baseline: PostgreSQL;
-- full test harness currently forces SQLite `:memory:`;
-- failing migration contains PostgreSQL-specific SQL;
-- applied migration history is immutable.
+Exact failing CI evidence:
+- run `36355381623`
+- PHP/Composer/routing PASS
+- PHPUnit/foundation FAIL on SQLite migration compatibility
 
 ## Required now
 
-1. `codex/TASK_CONTEXTS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY.md`
-2. `application/web/phpunit.xml`
-3. `application/web/tests/TestCase.php`
-4. `application/web/config/database.php`
-5. `application/web/database/migrations/2026_09_05_000003_make_student_code_optional_and_add_identifier_columns.php`
-6. `docs/02_architecture/POSTGRESQL_SCHEMA.md`
-7. `docs/07_implementation/CODEX_CHANGE_MANAGEMENT_AND_SAFE_MAINTENANCE.md`
-8. `modules/CHANGE_IMPACT_RULES.md`
-9. `.github/workflows/application-foundation.yml`
-10. `PROJECT_STATE.json`
-11. `NEXT_ACTION.md`
+1. `codex/TASK_CONTEXTS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN.md`
+2. `codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
+3. `.github/workflows/application-foundation.yml`
+4. `application/web/phpunit.xml`
+5. `application/web/tests/TestCase.php`
+6. `application/web/config/database.php`
+7. targeted migration/extension evidence only
+8. `docs/02_architecture/POSTGRESQL_SCHEMA.md`
+9. `docs/07_implementation/CODEX_CHANGE_MANAGEMENT_AND_SAFE_MAINTENANCE.md`
+10. `modules/CHANGE_IMPACT_RULES.md`
+11. `PROJECT_STATE.json`
+12. `NEXT_ACTION.md`
 
 ## Output
 
 Create:
-`codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
+`codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
 
-Decision must be one of:
-- `OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`
-- `OPTION_B_SQLITE_PORTABILITY_RECOMMENDED`
-- `HOLD_AUTHORITY_OR_SCOPE_REQUIRED`
+Design must lock:
+- PostgreSQL major version;
+- CI service and health check;
+- disposable DB identity/credentials;
+- fail-closed database guard;
+- phpunit.xml contract;
+- TestCase.php contract;
+- extension requirements;
+- migration-from-zero strategy;
+- local developer workflow;
+- exact R2 file scope;
+- regression and rollback.
 
 ## Boundary
 
-Diagnosis/design only.
+DESIGN ONLY.
 
-Do not edit migrations, test harness, workflow, DB config, business source, PHP/Composer, dependencies, provider state, or any database.
+Do not edit migrations, workflow implementation, test harness implementation, DB config, application source, PHP/Composer/dependencies, provider state, deployment, or any database.
 
 ## Exit
 
-Commit/push decision artifact and state/evidence only.
-STOP for ChatGPT audit.
+After PASS:
+- next implementation task = `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`
+- implementation remains NOT_AUTHORIZED
+- commit/push design + state/evidence
+- STOP for ChatGPT audit.
