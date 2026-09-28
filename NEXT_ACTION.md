@@ -4,42 +4,31 @@
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current PostgreSQL ephemeral CI design task
+## Current PostgreSQL ephemeral CI implementation task
 
-**Task:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN`  
-**Type:** `DATABASE_GLOBAL_IMPLEMENTATION_DESIGN`  
-**Branch:** `chore/foundation-db-r1-postgres-ephemeral-ci-design`  
-**State-basis:** `bcdd1280d9976020250659baa9a064e278f2e70b`  
-**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN.md`
+**Task:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`  
+**Type:** `CONTROLLED_DATABASE_GLOBAL_TEST_INFRA_IMPLEMENTATION`  
+**Branch:** `chore/foundation-db-r2-postgres-ephemeral-ci`  
+**State-basis:** `9332bd21cb1cc28942ae8c10c28cd2b80600fd30`  
+**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION.md`
 
-D1 is closed/accepted with `OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`.
-
-R1 must produce an exact implementation-ready design for:
-- explicit PostgreSQL major version;
-- disposable CI PostgreSQL service and health check;
-- CI-only database identity/credentials;
-- fail-closed test database guard;
-- phpunit.xml/TestCase.php contract;
-- migration-from-zero strategy;
-- required PostgreSQL extensions;
-- safe local full-suite workflow;
-- exact R2 write scope, regression, and rollback.
+Authorized scope:
+- PostgreSQL 18.6 disposable CI service;
+- `pdo_pgsql`;
+- fail-closed disposable test DB identity guard;
+- remove SQLite full-suite forcing from PHPUnit/TestCase;
+- migration-from-zero on the verified disposable PostgreSQL target only;
+- targeted guard tests + required regressions;
+- exact GitHub Actions verification.
 
 Applied migrations remain immutable.
 
-No workflow/test-harness/database/application implementation is authorized in R1.
+No pilot/staging/production database, credentials, business source, Composer/PHP contract, provider/OpenAI, deployment, or main merge is authorized.
 
-The canonical queue gate remains `SOC-MD-06`.
-
-## Next atomic task
-
-**Task:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`
-**State:** `PENDING_IMPLEMENTATION_AUTHORIZATION`
-**Plan:** `codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
-
-R2 may not begin until implementation authorization is explicitly recorded.
-The R1 boundary remains closed: no workflow, test harness, database config,
-migration, application, dependency, or database changes were made.
+If exact-current CI is green:
+- resolve `FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY`;
+- route product work to `ACADEMIC_WEB_COMPLETION_REVIEW`;
+- preserve canonical queue gate `SOC-MD-06`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -151,4 +140,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R1_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_R2_FROM_REPOSITORY`
