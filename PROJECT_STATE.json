@@ -32,6 +32,7 @@
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2R-2026-09-28.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36355381623",
     "codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md"
+    ,"codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "FAIL_VERIFIED_RUN_36355381623_SQLITE_MIGRATION_COMPATIBILITY",
@@ -45,6 +46,7 @@
     "r2r_local_routing_repair": "PASS / SOC-MD-06",
     "r2r_exact_actions": "PASS_WITH_NEW_BLOCKER / RUN_36355381623",
     "foundation_db_d1": "COMPLETED / DESIGN_ONLY / OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED",
+    "foundation_db_r1": "COMPLETED / DESIGN_ONLY / PASS",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION"
@@ -74,8 +76,8 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN",
+  "next_task": "FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T09:49:00+07:00"
+  "updated_at": "2026-09-28T10:20:00+07:00"
 }

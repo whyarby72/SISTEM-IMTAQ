@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN = READY_FOR_EXECUTION`
+**Execution state:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN = COMPLETED / DESIGN_ONLY / PASS`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -30,6 +30,16 @@ Applied migrations remain immutable.
 No workflow/test-harness/database/application implementation is authorized in R1.
 
 The canonical queue gate remains `SOC-MD-06`.
+
+## Next atomic task
+
+**Task:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`
+**State:** `PENDING_IMPLEMENTATION_AUTHORIZATION`
+**Plan:** `codex/PLANS/FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN-2026-09-28.md`
+
+R2 may not begin until implementation authorization is explicitly recorded.
+The R1 boundary remains closed: no workflow, test harness, database config,
+migration, application, dependency, or database changes were made.
 
 
 ## Current AI track — AI Academic Assistant
