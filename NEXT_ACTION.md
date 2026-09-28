@@ -1,10 +1,10 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY = READY_FOR_EXECUTION`
+**Execution state:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY = COMPLETED / DESIGN_ONLY`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current foundation test-database authority task
+## Completed foundation test-database authority task
 
 **Task:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY`  
 **Type:** `DATABASE_GLOBAL_DIAGNOSIS_AND_DESIGN`  
@@ -21,7 +21,16 @@ D1 must compare:
 
 Applied migrations remain immutable. No migration, test-harness, workflow, DB configuration, application, dependency, provider, or deployment implementation is authorized in D1.
 
+Decision artifact: `codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
+Decision: `OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`
 The canonical queue gate remains `SOC-MD-06`.
+
+## Next atomic task
+
+**Task:** `FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN`
+**State:** `PENDING_OWNER_AUTHORIZATION`
+**Boundary:** design only until separately authorized; do not modify the
+test harness, workflow, database configuration, migrations, or databases.
 
 
 ## Current AI track — AI Academic Assistant

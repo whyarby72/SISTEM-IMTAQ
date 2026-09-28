@@ -6,7 +6,7 @@
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "chore/foundation-db-d1-test-database-authority",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY",
+  "current_task_id": "FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
@@ -31,6 +31,7 @@
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md",
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2R-2026-09-28.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36355381623"
+    ,"codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "FAIL_VERIFIED_RUN_36355381623_SQLITE_MIGRATION_COMPATIBILITY",
@@ -43,6 +44,7 @@
     "r2_package_drift_guard": "PASS / 119 ENTRIES UNCHANGED",
     "r2r_local_routing_repair": "PASS / SOC-MD-06",
     "r2r_exact_actions": "PASS_WITH_NEW_BLOCKER / RUN_36355381623",
+    "foundation_db_d1": "COMPLETED / DESIGN_ONLY / OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION"
@@ -72,8 +74,8 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY",
+  "next_task": "FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T06:54:00+07:00"
+  "updated_at": "2026-09-28T07:30:00+07:00"
 }
