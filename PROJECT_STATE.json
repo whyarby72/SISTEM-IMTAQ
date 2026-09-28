@@ -1,25 +1,25 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "feb9e1be7e8dc0240752f55e613af484233e8d25",
+  "repo_commit": "bcdd1280d9976020250659baa9a064e278f2e70b",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/foundation-db-d1-test-database-authority",
+  "active_branch": "chore/foundation-db-r1-postgres-ephemeral-ci-design",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
   "current_task_id": "FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "FDB-D1-AC-01",
-    "FDB-D1-AC-02",
-    "FDB-D1-AC-03",
-    "FDB-D1-AC-04",
-    "FDB-D1-AC-05",
-    "FDB-D1-AC-06",
-    "FDB-D1-AC-07",
-    "FDB-D1-AC-08",
-    "FDB-D1-AC-09",
-    "FDB-D1-AC-10"
+    "FDB-R1-AC-01",
+    "FDB-R1-AC-02",
+    "FDB-R1-AC-03",
+    "FDB-R1-AC-04",
+    "FDB-R1-AC-05",
+    "FDB-R1-AC-06",
+    "FDB-R1-AC-07",
+    "FDB-R1-AC-08",
+    "FDB-R1-AC-09",
+    "FDB-R1-AC-10"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -30,8 +30,8 @@
     "codex/PLANS/CI-PHP-CONTRACT-R1-ALIGN-RUNTIME-UPWARD-DESIGN-2026-09-27.md",
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md",
     "codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2R-2026-09-28.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36355381623"
-    ,"codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36355381623",
+    "codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "FAIL_VERIFIED_RUN_36355381623_SQLITE_MIGRATION_COMPATIBILITY",
@@ -77,5 +77,5 @@
   "next_task": "FOUNDATION-DB-R1-POSTGRES-EPHEMERAL-CI-DESIGN",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T07:30:00+07:00"
+  "updated_at": "2026-09-28T09:49:00+07:00"
 }
