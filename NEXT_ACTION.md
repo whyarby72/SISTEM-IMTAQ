@@ -1,29 +1,27 @@
 # NEXT ACTION
 
-**Execution state:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR = PASS_WITH_NEW_BLOCKER`
+**Execution state:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Current CI foundation-routing repair task
+## Current foundation test-database authority task
 
-**Task:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR`  
-**Type:** `NARROW_REPOSITORY_ROUTING_REPAIR`  
-**Branch:** `chore/ci-php-r2r-foundation-routing-repair`  
-**State-basis:** `523ddc3030c539eb98d0a0388affac7aa060758f`  
-**Task contract:** `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR.md`
+**Task:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY`  
+**Type:** `DATABASE_GLOBAL_DIAGNOSIS_AND_DESIGN`  
+**Branch:** `chore/foundation-db-d1-test-database-authority`  
+**State-basis:** `feb9e1be7e8dc0240752f55e613af484233e8d25`  
+**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY.md`
 
-Verified R2 Actions run `36353770932` passed PHP setup, runtime guard, Composer validation, and locked dependency installation. It failed only at foundation verification because repository routing did not expose the queue-compatible `Next task ID` marker.
+Exact CI run `36355381623` confirms PHP/Composer/routing are no longer the active failures. PHPUnit fails because the full test harness forces SQLite while an applied migration contains PostgreSQL-specific DDL.
 
-R2R must:
-- preserve R2 PHP/Composer/runtime changes unchanged;
-- ensure the canonical queue marker is `SOC-MD-06`;
-- add `NEXT_ACTION.md` to the foundation workflow path filters;
-- obtain fresh exact-current GitHub Actions evidence.
+D1 must compare:
+- ephemeral PostgreSQL as authoritative full-suite CI database;
+- an explicit SQLite portability layer;
+- HOLD if authority/scope is insufficient.
 
-CI run `36355381623` passed PHP/Composer/install and the routing check, then
-failed in PHPUnit on SQLite migration compatibility. Resolve that blocker in a
-separately authorized task before returning to Academic web completion/review;
-preserve the canonical governance gate `SOC-MD-06`.
+Applied migrations remain immutable. No migration, test-harness, workflow, DB configuration, application, dependency, provider, or deployment implementation is authorized in D1.
+
+The canonical queue gate remains `SOC-MD-06`.
 
 
 ## Current AI track — AI Academic Assistant
@@ -135,4 +133,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_CI_PHP_CONTRACT_R2R_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_FOUNDATION_DB_D1_FROM_REPOSITORY`
