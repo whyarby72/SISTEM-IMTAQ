@@ -42,7 +42,8 @@
     "codex/CHANGE_MANIFESTS/FOUNDATION-TZ-B1-2026-09-29.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36483663711",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36484084952",
-    "codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md"
+    "codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md",
+    "codex/REVIEWS/ACADEMIC-WEB-COMPLETION-REVIEW-2026-09-29.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "PASS_VERIFIED_RUN_36484084952_FINAL_HEAD_DFAF585C",
@@ -68,7 +69,7 @@
     "foundation_db_r4": "STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE / FINAL_HEAD_RUN_36413692676",
     "foundation_tz_b1": "COMPLETED / PASS / FINAL_HEAD_RUN_36484084952",
     "foundation_stabilization": "CLOSED / PASS / FINAL_HEAD_RUN_36484084952",
-    "academic_web_completion_review": "READY_FOR_EXECUTION / REVIEW_ONLY"
+    "academic_web_completion_review": "COMPLETED / REVIEW_ONLY / PASS / 4_OF_10_COMPLETE_EVIDENCED"
   },
   "blockers": [
     {
@@ -99,11 +100,11 @@
   "evidence_debt": [
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CODEX",
-  "next_task": "ACADEMIC_WEB_COMPLETION_REVIEW",
+  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
+  "next_task": "ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-29T05:03:00+07:00",
+  "updated_at": "2026-09-29T06:00:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

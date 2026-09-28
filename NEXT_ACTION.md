@@ -1,8 +1,12 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC_WEB_COMPLETION_REVIEW = READY_FOR_EXECUTION`
+**Execution state:** `ACADEMIC_WEB_COMPLETION_REVIEW = COMPLETED / REVIEW_ONLY / PASS`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
+
+Review artifact: `codex/REVIEWS/ACADEMIC-WEB-COMPLETION-REVIEW-2026-09-29.md`.
+Denominator-derived completion: `4 / 10 = 40%`.
+**NEXT_ATOMIC_TASK:** `ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`
 
 ## Current Academic Web completion review
 

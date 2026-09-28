@@ -123,8 +123,16 @@
       "id": "academic-web-completion-review-task",
       "kind": "task_context",
       "ref": "codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md",
-      "status": "READY_FOR_EXECUTION",
-      "summary": "Read-only evidence-based completion review for the Academic Web implementation after foundation stabilization; no implementation or production cutover is authorized.",
+      "status": "COMPLETED_REVIEW_ONLY_PASS",
+      "summary": "Evidence-based Academic Web completion review completed with explicit denominator 10, 4 complete evidenced capabilities (40%), backend-vs-UI gaps, governance separation, and one recommended grade workflow design task; no implementation or production cutover authorized.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-web-completion-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WEB-COMPLETION-REVIEW-2026-09-29.md",
+      "status": "COMPLETED_REVIEW_ONLY_PASS",
+      "summary": "Explicit 10-item denominator; 4 complete evidenced, 6 partial; no production-readiness claim; next task is ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN.",
       "sensitivity": "non_secret"
     }
   ]
