@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION = READY_FOR_EXECUTION`
+**Execution state:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION = COMPLETED / PASS_WITH_NEW_BLOCKER`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -29,6 +29,23 @@ If exact-current CI is green:
 - resolve `FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY`;
 - route product work to `ACADEMIC_WEB_COMPLETION_REVIEW`;
 - preserve canonical queue gate `SOC-MD-06`.
+
+## Exact R2 result
+
+GitHub Actions run `36401882253` on commit
+`ecb4b3509c4bb312b4ff1e7cffd861e1ff47da36` passed PostgreSQL 18.6 service
+readiness, `pdo_pgsql`, fail-closed identity guard, migration-from-zero,
+`btree_gist`, and schema assertions. Full PHPUnit then reported:
+
+`16 failed, 15 passed, 490 warnings, 2171 assertions`
+
+The SQLite migration incompatibility is resolved. A new PostgreSQL suite
+regression blocker remains: existing fixtures/assertions conflict with JSONB
+typing, audit timestamp columns, `secret_last4` length, exclusion
+constraints, and session-status CHECK constraints. Do not mark CI PASS or
+start the next product track until ChatGPT audits this blocker.
+
+**Next action:** `RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R2_AUDIT`
 
 
 ## Current AI track — AI Academic Assistant

@@ -51,9 +51,11 @@
     "r2r_exact_actions": "PASS_WITH_NEW_BLOCKER / RUN_36355381623",
     "foundation_db_d1": "COMPLETED / DESIGN_ONLY / OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED",
     "foundation_db_r1": "COMPLETED / DESIGN_ONLY / PASS",
+    "foundation_db_r2": "COMPLETED / PASS_WITH_NEW_BLOCKER / RUN_36401882253",
     "live_openai_verification": "NOT_RUN",
     "database_write": "NONE",
-    "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION"
+    "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION",
+    "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / RUN_36401882253 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS"
   },
   "blockers": [
     {
@@ -69,8 +71,14 @@
       "owner": "CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR"
     },
     {
-      "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
+      "id": "FOUNDATION_POSTGRESQL_FULL_SUITE_REGRESSION",
       "status": "UNRESOLVED",
+      "evidence": "Exact R2 run 36401882253 passes PostgreSQL 18.6 readiness, identity guard, migration-from-zero, btree_gist/schema assertions, then reports 16 failed, 15 passed, 490 warnings, 2171 assertions; failures include JSONB scalar comparison, missing audit_logs.created_at, secret_last4 length, exclusion constraint fixture conflicts, and session-status CHECK conflicts.",
+      "owner": "RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R2_AUDIT"
+    },
+    {
+      "id": "FOUNDATION_SQLITE_MIGRATION_COMPATIBILITY",
+      "status": "RESOLVED",
       "evidence": "Exact repair run 36355381623 reaches PHPUnit but reports 489 failed, 3 passed, 17 warnings, 53 assertions; SQLite rejects ALTER TABLE students ALTER COLUMN student_code DROP NOT NULL at database/migrations/2026_09_05_000003_make_student_code_optional_and_add_identifier_columns.php:16.",
       "owner": "FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION"
     }
@@ -79,9 +87,9 @@
     "Exact-current CI must be replayed after a separately approved PHP/dependency contract decision.",
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CODEX",
-  "next_task": "FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION",
+  "next_owner": "CHATGPT",
+  "next_task": "RETURN_TO_CHATGPT_FOR_FOUNDATION_DB_R2_AUDIT",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T15:52:00+07:00"
+  "updated_at": "2026-09-28T16:20:00+07:00"
 }

@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `FOUNDATION-DB-R2-POSTGRES-EPHEMERAL-CI-IMPLEMENTATION`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS_WITH_NEW_BLOCKER`
 **Current phase:** `CI / POSTGRESQL EPHEMERAL TEST IMPLEMENTATION`  
 **Branch:** `chore/foundation-db-r2-postgres-ephemeral-ci`  
 **State-basis:** `9332bd21cb1cc28942ae8c10c28cd2b80600fd30`
