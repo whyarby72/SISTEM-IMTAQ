@@ -21,10 +21,12 @@ class AcademicTodaySessionService
 
         $startOfToday = $clock->copy()->startOfDay();
         $startOfNextDay = $startOfToday->copy()->addDay();
+        $queryStart = $startOfToday->copy()->utc();
+        $queryEnd = $startOfNextDay->copy()->utc();
         $sessions = ClassSession::query()
             ->with(['academicClass', 'teachingAssignment.subject', 'scopeGroups.academicClass'])
-            ->where('planned_start_at', '>=', $startOfToday)
-            ->where('planned_start_at', '<', $startOfNextDay)
+            ->where('planned_start_at', '>=', $queryStart)
+            ->where('planned_start_at', '<', $queryEnd)
             ->orderBy('planned_start_at')
             ->get();
 

@@ -101,6 +101,14 @@
       "status": "IMPLEMENTED_EXTERNAL_CI_PENDING",
       "summary": "R4 PostgreSQL test/config/security remediation applied within approved scope; disposable CI replay remains the authoritative verification gate.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "foundation-tz-b1-change-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/FOUNDATION-TZ-B1-2026-09-29.md",
+      "status": "IMPLEMENTED_EXTERNAL_CI_PENDING",
+      "summary": "Today query boundaries now bind copied UTC instants while preserving Asia/Jakarta business-day semantics; disposable CI credential removed via CI-only trust authentication.",
+      "sensitivity": "non_secret"
     }
   ]
 }

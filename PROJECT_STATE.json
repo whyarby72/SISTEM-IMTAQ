@@ -62,7 +62,7 @@
     "foundation_tz_d1": "CLOSED / OPTION_A / APPROVED_BY_PROJECT_OWNER",
     "foundation_tz_d1a": "COMPLETED / OWNER_DECISION_RECORDED",
     "foundation_db_r4": "STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE / FINAL_HEAD_RUN_36413692676",
-    "foundation_tz_b1": "READY_FOR_EXECUTION / OWNER_AUTHORIZED"
+    "foundation_tz_b1": "IMPLEMENTED / LOCAL_STATIC_PASS / EXTERNAL_CI_PENDING"
   },
   "blockers": [
     {
@@ -96,7 +96,7 @@
     "R4 credential masking occurs after service initialization; exact run 36413692676 still shows the disposable POSTGRES_PASSWORD in the docker create command. B1 must eliminate the credential from the disposable service."
   ],
   "next_owner": "CODEX",
-  "next_task": "FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION",
+  "next_task": "FOUNDATION-TZ-B1-TODAY-QUERY-BOUNDARY-REMEDIATION_EXTERNAL_CI",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
   "updated_at": "2026-09-29T03:49:00+07:00",

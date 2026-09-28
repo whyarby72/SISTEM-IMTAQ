@@ -27,8 +27,9 @@ jobs:
         env:
           POSTGRES_DB: imtaq_ci_test
           POSTGRES_USER: imtaq_ci
-          # Disposable CI-only value; never reused outside this job service.
-          POSTGRES_PASSWORD: imtaq_ci_ephemeral_only
+          # CI-only disposable service; never copy trust auth to self-hosted,
+          # pilot, staging, or production environments.
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         options: >-
@@ -54,14 +55,6 @@ jobs:
     steps:
       - name: Checkout approved revision
         uses: actions/checkout@v4
-
-      - name: Configure masked disposable database credential
-        shell: bash
-        run: |
-          ci_password='imtaq_ci_'
-          ci_password="${ci_password}ephemeral_only"
-          echo "::add-mask::${ci_password}"
-          echo "DB_PASSWORD=${ci_password}" >> "$GITHUB_ENV"
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
