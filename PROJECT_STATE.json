@@ -1,25 +1,25 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "523ddc3030c539eb98d0a0388affac7aa060758f",
+  "repo_commit": "feb9e1be7e8dc0240752f55e613af484233e8d25",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/ci-php-r2r-foundation-routing-repair",
+  "active_branch": "chore/foundation-db-d1-test-database-authority",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR",
+  "current_task_id": "FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "R2R-AC-01",
-    "R2R-AC-02",
-    "R2R-AC-03",
-    "R2R-AC-04",
-    "R2R-AC-05",
-    "R2R-AC-06",
-    "R2R-AC-07",
-    "R2R-AC-08",
-    "R2R-AC-09",
-    "R2R-AC-10"
+    "FDB-D1-AC-01",
+    "FDB-D1-AC-02",
+    "FDB-D1-AC-03",
+    "FDB-D1-AC-04",
+    "FDB-D1-AC-05",
+    "FDB-D1-AC-06",
+    "FDB-D1-AC-07",
+    "FDB-D1-AC-08",
+    "FDB-D1-AC-09",
+    "FDB-D1-AC-10"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -72,8 +72,8 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR",
+  "next_task": "FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-28T05:04:00+07:00"
+  "updated_at": "2026-09-28T06:54:00+07:00"
 }
