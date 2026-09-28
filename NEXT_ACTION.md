@@ -1,26 +1,34 @@
 # NEXT ACTION
 
-**Execution state:** `FOUNDATION-TZ-D1A-OPTION-A-OWNER-APPROVAL = COMPLETED / OWNER_DECISION_RECORDED`
+**Execution state:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-## Approved timezone & timestamp authority
+## Current PostgreSQL regression remediation
 
-**Decision:** `OPTION_A`  
-**Owner status:** `APPROVED_BY_PROJECT_OWNER`  
-**State-basis:** `14c63b854fa17d8cc1f757104fa1d79438cfd9a3`
+**Task:** `FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`  
+**Type:** `CONTROLLED_TEST_CONFIG_SECURITY_REMEDIATION`  
+**Branch:** `chore/foundation-db-r4-postgres-regression-remediation`  
+**State-basis:** `4d54283f3c8aec7cb04f203837fed746c2b71104`  
+**Task contract:** `codex/TASK_CONTEXTS/FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION.md`
 
-Ratified contract:
-- business timezone: `Asia/Jakarta`;
-- technical/PostgreSQL session baseline: `UTC`;
-- persisted `timestamptz`: absolute instant;
-- local-day/Today/report/display: timezone-aware `Asia/Jakarta`;
-- tests and boundary inputs: offset/timezone-aware;
-- applied migrations immutable;
-- historical mass timestamp rewrite not authorized.
+Owner-approved time contract:
+- business timezone `Asia/Jakarta`;
+- technical/PostgreSQL session baseline `UTC`;
+- aware boundaries;
+- `timestamptz` = absolute instant.
 
-Next controlled implementation:
-`FOUNDATION-DB-R4-POSTGRES-REGRESSION-REMEDIATION`
+R4 may:
+- fix 11 diagnosed test fixture/assertion failures;
+- enforce supported UTC DB-session configuration;
+- convert/replay five timezone-aware fixtures;
+- remediate disposable CI credential log visibility;
+- run full PostgreSQL regression.
+
+R4 may NOT modify Academic business services. Any residual timezone failure
+after aware replay must STOP for separate source-defect analysis.
+
+Canonical queue gate remains `SOC-MD-06`.
 
 
 ## Current AI track — AI Academic Assistant
