@@ -1,56 +1,68 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR`  
-**State:** `PASS_WITH_NEW_BLOCKER`
-**Current phase:** `CI / FOUNDATION ROUTING REPAIR`  
-**Branch:** `chore/ci-php-r2r-foundation-routing-repair`  
-**State-basis before R2R:** `523ddc3030c539eb98d0a0388affac7aa060758f`
+**Task:** `FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `CI / TEST DATABASE AUTHORITY`  
+**Branch:** `chore/foundation-db-d1-test-database-authority`  
+**State-basis before D1:** `feb9e1be7e8dc0240752f55e613af484233e8d25`
 
-## Verified R2 outcome
-
-Exact R2 implementation commit:
-`e4387589a60c1e6609536d22b262bc7ba0ffbdaf`
+## Verified trigger
 
 Exact GitHub Actions run:
-`36353770932`
+`36355381623`
 
-Verified steps:
+Repair commit:
+`659f6b3947e85c2f50cbc6dcfdc506aaf4b8705b`
+
+Verified sequence:
 - PHP setup: PASS
-- approved PHP range assertion: PASS
-- Composer validation: PASS
-- locked dependency install: PASS
-- foundation verification: FAIL
+- PHP 8.4.x guard: PASS
+- Composer validate/install: PASS
+- repository routing: PASS
+- PHPUnit/foundation: FAIL
 
-Therefore `CI_PHP_LOCKFILE_COMPATIBILITY` is no longer the active CI cause.
+Failure root:
+SQLite rejects PostgreSQL-style
+`ALTER TABLE students ALTER COLUMN student_code DROP NOT NULL`.
 
-Active blocker:
-`FOUNDATION_ROUTING_NEXT_ACTION_ID`
+## Architectural tension
+
+- repository architecture baseline: PostgreSQL;
+- full test harness currently forces SQLite `:memory:`;
+- failing migration contains PostgreSQL-specific SQL;
+- applied migration history is immutable.
 
 ## Required now
 
-1. `codex/TASK_CONTEXTS/CI-PHP-CONTRACT-R2R-FOUNDATION-ROUTING-REPAIR.md`
-2. `NEXT_ACTION.md`
-3. `codex/TASK_QUEUE.md`
-4. `scripts/check_project_structure.py`
-5. `.github/workflows/application-foundation.yml`
-6. `PROJECT_STATE.json`
-7. `codex/CHANGE_MANIFESTS/CI-PHP-CONTRACT-R2-2026-09-27.md`
+1. `codex/TASK_CONTEXTS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY.md`
+2. `application/web/phpunit.xml`
+3. `application/web/tests/TestCase.php`
+4. `application/web/config/database.php`
+5. `application/web/database/migrations/2026_09_05_000003_make_student_code_optional_and_add_identifier_columns.php`
+6. `docs/02_architecture/POSTGRESQL_SCHEMA.md`
+7. `docs/07_implementation/CODEX_CHANGE_MANAGEMENT_AND_SAFE_MAINTENANCE.md`
+8. `modules/CHANGE_IMPACT_RULES.md`
+9. `.github/workflows/application-foundation.yml`
+10. `PROJECT_STATE.json`
+11. `NEXT_ACTION.md`
 
-## Repair
+## Output
 
-- restore queue-compatible marker in `NEXT_ACTION.md`:
-  `**Next task ID:** `SOC-MD-06``
-- add `NEXT_ACTION.md` to foundation workflow path filters
-- preserve all R2 PHP/Composer/runtime changes unchanged
-- reconcile stale evidence that exact Actions was unverified
+Create:
+`codex/DECISIONS/FOUNDATION-DB-D1-TEST-DATABASE-AUTHORITY-2026-09-28.md`
+
+Decision must be one of:
+- `OPTION_A_POSTGRES_EPHEMERAL_RECOMMENDED`
+- `OPTION_B_SQLITE_PORTABILITY_RECOMMENDED`
+- `HOLD_AUTHORITY_OR_SCOPE_REQUIRED`
+
+## Boundary
+
+Diagnosis/design only.
+
+Do not edit migrations, test harness, workflow, DB config, business source, PHP/Composer, dependencies, provider state, or any database.
 
 ## Exit
 
-Obtain exact repair-commit Actions evidence.
-
-If CI passes:
-- close routing blocker;
-- close PHP/lockfile blocker;
-- set next product track to Academic web completion/review;
-- preserve canonical governance gate `SOC-MD-06`;
-- STOP for ChatGPT audit.
+Commit/push decision artifact and state/evidence only.
+STOP for ChatGPT audit.
