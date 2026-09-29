@@ -167,6 +167,14 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Final-head repository workflow after Wali Daily Workflow Readiness review completed successfully; application source remained unchanged.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-provisioning-verification",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION-2026-09-30.md",
+      "status": "COMPLETED_READ_ONLY_PROVISIONING_GAP_FOUND",
+      "summary": "PILOT identity and PostgreSQL read-only guard passed; official Wali classes have rosters, but primary teacher participation is missing for available sessions and official 3B lacks schedule/session provisioning.",
+      "sensitivity": "non_secret"
     }
   ]
 }
