@@ -1,55 +1,66 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK`  
-**State:** `COMPLETED / REVIEW_ONLY / APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
-**Current phase:** `ACADEMIC / WALI KELAS DAILY OPERATIONAL READINESS`  
-**Branch:** `chore/academic-wali-daily-workflow-readiness-check`  
-**State-basis:** `bc5b242aa505b588ed8caf485b68ae5af095f476`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `ACADEMIC / WALI KELAS PILOT PROVISIONING VERIFICATION`  
+**Branch:** `chore/academic-wali-pilot-provisioning-verification`  
+**State-basis:** `467133e28c10cf6072468bc624bb2e82dd6ec172`
 
-## Why this task
+## Entry gate
 
-The Academic Web Completion Review established that attendance and scheduling
-are complete-evidenced, while overall Academic Web completion is 4/10
-end-to-end capabilities.
+The preceding Wali daily workflow review is closed:
 
-The Project Owner requested a focused operational check before Wali Kelas uses
-daily attendance in practice.
+`APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
 
-## Exact journey
+Application behavior is already evidenced. This task verifies only whether the
+actual pilot environment contains the operational data needed for Wali Kelas
+attendance use.
 
-`sign in → dashboard → authorized class/session → attendance entry → teacher attendance → finalize → dashboard monitoring → correction/escalation`
+Exact current repository run:
+- GitHub Actions run `36635904656`
+- head `467133e28c10cf6072468bc624bb2e82dd6ec172`
+- conclusion `SUCCESS`
+
+## Verification target
+
+Read-only pilot verification of:
+- user ↔ staff linkage;
+- effective WALI_KELAS role;
+- effective homeroom/class assignment;
+- active academic year/class;
+- current teaching schedule / generated sessions;
+- session participant roster/snapshot;
+- teacher participation/obligation;
+- attendance-period lock state;
+- Waka correction/escalation authority.
+
+## Safety boundary
+
+PILOT READ-ONLY ONLY.
+
+No write, seed, migrate, correction, attendance entry, session generation,
+login side-effect test, or configuration mutation is authorized.
+
+If the environment cannot be proven to be the intended pilot target, STOP.
 
 ## Required contract
 
-`codex/TASK_CONTEXTS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK.md`
+`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION.md`
 
-## Important distinction
+## Product queue
 
-Separate:
-- application workflow readiness;
-- operational pilot provisioning;
-- production readiness.
-
-Do not infer live provisioning from source/tests alone.
-
-## Existing next product task
-
-If no Wali daily blocker is found, return to:
+If pilot provisioning passes, return to:
 
 `ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`
 
-## Boundary
+If a provisioning gap exists, recommend one smallest provisioning-remediation
+task; do not fix it in this task.
 
-REVIEW ONLY.
-
-No source/test/view/route/schema/database/provider/deployment mutation.
 Public Academic AI remains OFF.
 `IMP-S12-007` remains NOT_STARTED.
 Canonical queue gate remains `SOC-MD-06`.
 
 ## Exit
 
-Readiness review artifact: `codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md`.
-Application workflow has no Wali daily blocker; live pilot provisioning was not
-verified. Next task: `ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`.
-Review/evidence only, then STOP for ChatGPT audit.
+Create the verification artifact, update evidence/state only, commit/push, then
+STOP for ChatGPT audit.

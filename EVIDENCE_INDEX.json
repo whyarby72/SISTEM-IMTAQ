@@ -1,7 +1,7 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-09-29T05:03:00+07:00",
+  "indexed_at": "2026-09-30T05:15:00+07:00",
   "entries": [
     {
       "id": "a3-baseline-ci",
@@ -149,6 +149,23 @@
       "ref": "codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md",
       "status": "COMPLETED_REVIEW_ONLY_APPLICATION_READY_PROVISIONING_NOT_VERIFIED",
       "summary": "No Wali daily application blocker found; decision separates application readiness from unverified pilot provisioning and production readiness.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-provisioning-verification-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION.md",
+      "status": "READY_FOR_EXECUTION",
+      "summary": "Read-only verification of actual pilot provisioning for Wali Kelas daily attendance; environment identity and read-only transaction guards are mandatory; no provisioning mutation is authorized.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-readiness-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36635904656",
+      "commit": "467133e28c10cf6072468bc624bb2e82dd6ec172",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final-head repository workflow after Wali Daily Workflow Readiness review completed successfully; application source remained unchanged.",
       "sensitivity": "non_secret"
     }
   ]

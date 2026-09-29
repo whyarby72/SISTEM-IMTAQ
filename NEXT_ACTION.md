@@ -1,27 +1,34 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK = COMPLETED / REVIEW_ONLY / APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
+**Execution state:** `ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-Academic Web completion baseline: `4 / 10 = 40% COMPLETE_EVIDENCED`.\nFocused Wali Kelas daily operational readiness check is now active.\n**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_DAILY_WORKFLOW_READINESS_CHECK_FROM_REPOSITORY`
+Academic Web completion baseline: `4 / 10 = 40% COMPLETE_EVIDENCED`.
+Wali application workflow: `APPLICATION_READY_PROVISIONING_NOT_VERIFIED`.
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PROVISIONING_VERIFICATION_FROM_REPOSITORY`
 
-## Current Wali Kelas daily workflow readiness check
+## Current Wali Kelas pilot provisioning verification
 
-**Task:** `ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK`  
-**Type:** `READ_ONLY_OPERATIONAL_READINESS_REVIEW`  
-**Branch:** `chore/academic-wali-daily-workflow-readiness-check`  
-**State-basis:** `bc5b242aa505b588ed8caf485b68ae5af095f476`  
-**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK.md`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION`  
+**Type:** `READ_ONLY_PILOT_DATA_VERIFICATION`  
+**Branch:** `chore/academic-wali-pilot-provisioning-verification`  
+**State-basis:** `467133e28c10cf6072468bc624bb2e82dd6ec172`  
+**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION.md`
 
-Review the operational journey:
+Application workflow readiness is already evidenced.
 
-`sign in → Wali scope → dashboard → session → attendance draft → teacher attendance → finalize → dashboard monitoring → correction/escalation`
+This task verifies actual pilot provisioning only:
+user/staff/role → homeroom → active class/roster → schedule/session →
+participant snapshot → teacher participation → lock/correction authority.
 
-Application readiness must be separated from unverified live pilot provisioning.
-No pilot/staging/production data mutation is authorized.
+Pilot database inspection is authorized READ-ONLY only.
+No attendance transaction, provisioning write, migration, seeding, or
+production/staging access is authorized.
 
-If no Wali daily blocker is found, return to:
+If pilot identity cannot be proven, STOP before business-data queries.
+
+If provisioning passes, return to:
 `ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`.
 
 Production readiness is not assessed.
@@ -140,4 +147,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
 **Readiness review:** `codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md`
 **Decision:** `APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PROVISIONING_VERIFICATION_FROM_REPOSITORY`
