@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS / 10_OF_10_EXPECTED_PRIMARY`
 **Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION PROVISIONING`  
 **Branch:** `fix/academic-wali-pilot-primary-teacher-k1`  
 **State-basis:** `2c2dccfb2961fd211b6c496514929919a3e9219a`
@@ -54,7 +54,9 @@ production/staging mutation.
 
 ## Exit
 
-On PASS, create the change manifest and set next task to a read-only
-post-write provisioning re-verification.
+Change manifest: `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K1-2026-09-30.md`.
+Exactly 10 Kelas 1 expected PRIMARY records were provisioned through the
+canonical service and independently verified. Next task is the read-only
+post-write provisioning re-verification. STOP for ChatGPT audit.
 
 STOP for ChatGPT audit.

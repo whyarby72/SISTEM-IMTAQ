@@ -189,8 +189,16 @@
       "id": "academic-wali-pilot-primary-teacher-k1-task",
       "kind": "task_context",
       "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS.md",
-      "status": "READY_FOR_EXECUTION",
-      "summary": "Controlled PILOT provisioning of at most 10 expected PRIMARY teacher participation rows for official Kelas 1 only, using TeacherParticipationRecorder::ensurePrimary with strict preflight/postflight and no source changes.",
+      "status": "COMPLETED_PASS_10_OF_10_EXPECTED_PRIMARY",
+      "summary": "Controlled PILOT provisioning completed for exactly 10 Kelas 1 reportable sessions using TeacherParticipationRecorder::ensurePrimary with strict preflight/postflight and no source changes.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k1-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K1-2026-09-30.md",
+      "status": "COMPLETED_PASS_10_OF_10_EXPECTED_PRIMARY",
+      "summary": "Exactly 10 expected PRIMARY participation rows were created through the canonical service; independent read-only postflight passed and non-target/cancelled/attendance-status counts were unchanged.",
       "sensitivity": "non_secret"
     }
   ]

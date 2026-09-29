@@ -52,7 +52,8 @@
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION.md",
     "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION-2026-09-30.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36642953383",
-    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS.md"
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS.md",
+    "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K1-2026-09-30.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "PASS_VERIFIED_RUN_36642953383_FINAL_HEAD_2C2DCCF",
@@ -81,7 +82,7 @@
     "academic_web_completion_review": "COMPLETED / REVIEW_ONLY / PASS / 4_OF_10_COMPLETE_EVIDENCED",
     "academic_wali_daily_workflow_readiness": "COMPLETED / REVIEW_ONLY / APPLICATION_READY_PROVISIONING_NOT_VERIFIED",
     "academic_wali_pilot_provisioning_verification": "COMPLETED / READ_ONLY / PROVISIONING_GAP_FOUND",
-    "academic_wali_pilot_primary_teacher_k1": "READY_FOR_EXECUTION / CONTROLLED_PILOT_DATA_WRITE"
+    "academic_wali_pilot_primary_teacher_k1": "COMPLETED / PASS / 10_OF_10_EXPECTED_PRIMARY"
   },
   "blockers": [
     {
@@ -113,10 +114,10 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS",
+  "next_task": "ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-30T06:26:00+07:00",
+  "updated_at": "2026-09-30T07:00:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",
