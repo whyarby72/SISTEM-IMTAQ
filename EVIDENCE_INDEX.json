@@ -134,6 +134,22 @@
       "status": "COMPLETED_REVIEW_ONLY_PASS",
       "summary": "Explicit 10-item denominator; 4 complete evidenced, 6 partial; no production-readiness claim; next task is ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-daily-workflow-readiness-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK.md",
+      "status": "COMPLETED_REVIEW_ONLY_APPLICATION_READY_PROVISIONING_NOT_VERIFIED",
+      "summary": "Application Wali daily attendance workflow is evidenced end to end; live pilot provisioning and production readiness were intentionally not verified.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-daily-workflow-readiness",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md",
+      "status": "COMPLETED_REVIEW_ONLY_APPLICATION_READY_PROVISIONING_NOT_VERIFIED",
+      "summary": "No Wali daily application blocker found; decision separates application readiness from unverified pilot provisioning and production readiness.",
+      "sensitivity": "non_secret"
     }
   ]
 }
