@@ -1,41 +1,31 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC_WEB_COMPLETION_REVIEW = COMPLETED / REVIEW_ONLY / PASS`
+**Execution state:** `ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-Review artifact: `codex/REVIEWS/ACADEMIC-WEB-COMPLETION-REVIEW-2026-09-29.md`.
-Denominator-derived completion: `4 / 10 = 40%`.
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`
+Academic Web completion baseline: `4 / 10 = 40% COMPLETE_EVIDENCED`.\nFocused Wali Kelas daily operational readiness check is now active.\n**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_DAILY_WORKFLOW_READINESS_CHECK_FROM_REPOSITORY`
 
-## Current Academic Web completion review
+## Current Wali Kelas daily workflow readiness check
 
-**Task:** `ACADEMIC_WEB_COMPLETION_REVIEW`  
-**Type:** `READ_ONLY_PRODUCT_COMPLETION_REVIEW`  
-**Branch:** `chore/academic-web-completion-review-routing`  
-**State-basis:** `dfaf585c299aa83fccef7be95d746f943242c192`  
-**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md`
+**Task:** `ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK`  
+**Type:** `READ_ONLY_OPERATIONAL_READINESS_REVIEW`  
+**Branch:** `chore/academic-wali-daily-workflow-readiness-check`  
+**State-basis:** `bc5b242aa505b588ed8caf485b68ae5af095f476`  
+**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK.md`
 
-Foundation stabilization is closed on exact final-head evidence:
-- GitHub Actions run `36484084952`
-- head `dfaf585c299aa83fccef7be95d746f943242c192`
-- PostgreSQL 18.6 / UTC session / identity guard / migration-from-zero / schema checks: PASS
-- foundation suite: `15 passed, 506 warnings, 2202 assertions, 0 failed`
-- `verify-foundation`: PASS
-- Today timezone boundary: RESOLVED
-- disposable CI credential visibility: RESOLVED
+Review the operational journey:
 
-The review must determine evidence-based Academic Web completion across:
-student attendance, teacher attendance, schedule/session workflows, semester
-grades, report cards, transcripts/history, role views/reporting, RBAC/audit,
-data quality, UI usability, and remaining governance gaps.
+`sign in → Wali scope → dashboard → session → attendance draft → teacher attendance → finalize → dashboard monitoring → correction/escalation`
 
-This is NOT production cutover readiness. `IMP-S12-007` remains NOT_STARTED
-unless separately authorized.
+Application readiness must be separated from unverified live pilot provisioning.
+No pilot/staging/production data mutation is authorized.
 
-No application source, test, migration, schema, provider, database, deployment,
-or production-state mutation is authorized by this review.
+If no Wali daily blocker is found, return to:
+`ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`.
 
+Production readiness is not assessed.
+`IMP-S12-007` remains NOT_STARTED.
 Canonical queue gate remains `SOC-MD-06`.
 
 
@@ -148,4 +138,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **VERIFICATION_INPUT_COMPATIBILITY:** `ONE-ITEM-MESSAGE-LIST + FORCED_RESOLVE_STUDENT`
 **VERIFICATION_CONTINUATION:** `STATELESS_REPLAY + NO_PREVIOUS_RESPONSE_ID`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
-**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WEB_COMPLETION_REVIEW_FROM_REPOSITORY`
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_DAILY_WORKFLOW_READINESS_CHECK_FROM_REPOSITORY`
