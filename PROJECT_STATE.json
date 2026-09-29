@@ -1,27 +1,29 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "467133e28c10cf6072468bc624bb2e82dd6ec172",
+  "repo_commit": "2c2dccfb2961fd211b6c496514929919a3e9219a",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/academic-wali-pilot-provisioning-verification",
+  "active_branch": "fix/academic-wali-pilot-primary-teacher-k1",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION",
+  "current_task_id": "ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "AWPV-AC-01",
-    "AWPV-AC-02",
-    "AWPV-AC-03",
-    "AWPV-AC-04",
-    "AWPV-AC-05",
-    "AWPV-AC-06",
-    "AWPV-AC-07",
-    "AWPV-AC-08",
-    "AWPV-AC-09",
-    "AWPV-AC-10",
-    "AWPV-AC-11",
-    "AWPV-AC-12"
+    "AWPTP1-AC-01",
+    "AWPTP1-AC-02",
+    "AWPTP1-AC-03",
+    "AWPTP1-AC-04",
+    "AWPTP1-AC-05",
+    "AWPTP1-AC-06",
+    "AWPTP1-AC-07",
+    "AWPTP1-AC-08",
+    "AWPTP1-AC-09",
+    "AWPTP1-AC-10",
+    "AWPTP1-AC-11",
+    "AWPTP1-AC-12",
+    "AWPTP1-AC-13",
+    "AWPTP1-AC-14"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -48,10 +50,12 @@
     "codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36635904656",
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION.md",
-    "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION-2026-09-30.md"
+    "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION-2026-09-30.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36642953383",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36635904656_FINAL_HEAD_467133E",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36642953383_FINAL_HEAD_2C2DCCF",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -76,7 +80,8 @@
     "foundation_stabilization": "CLOSED / PASS / FINAL_HEAD_RUN_36484084952",
     "academic_web_completion_review": "COMPLETED / REVIEW_ONLY / PASS / 4_OF_10_COMPLETE_EVIDENCED",
     "academic_wali_daily_workflow_readiness": "COMPLETED / REVIEW_ONLY / APPLICATION_READY_PROVISIONING_NOT_VERIFIED",
-    "academic_wali_pilot_provisioning_verification": "COMPLETED / READ_ONLY / PROVISIONING_GAP_FOUND"
+    "academic_wali_pilot_provisioning_verification": "COMPLETED / READ_ONLY / PROVISIONING_GAP_FOUND",
+    "academic_wali_pilot_primary_teacher_k1": "READY_FOR_EXECUTION / CONTROLLED_PILOT_DATA_WRITE"
   },
   "blockers": [
     {
@@ -107,11 +112,11 @@
   "evidence_debt": [
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
+  "next_owner": "CODEX",
   "next_task": "ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-30T06:00:00+07:00",
+  "updated_at": "2026-09-30T06:26:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

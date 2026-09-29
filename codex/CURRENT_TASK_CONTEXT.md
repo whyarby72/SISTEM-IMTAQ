@@ -1,69 +1,60 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION`  
-**State:** `COMPLETED / READ_ONLY / PROVISIONING_GAP_FOUND`
-**Current phase:** `ACADEMIC / WALI KELAS PILOT PROVISIONING VERIFICATION`  
-**Branch:** `chore/academic-wali-pilot-provisioning-verification`  
-**State-basis:** `467133e28c10cf6072468bc624bb2e82dd6ec172`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION PROVISIONING`  
+**Branch:** `fix/academic-wali-pilot-primary-teacher-k1`  
+**State-basis:** `2c2dccfb2961fd211b6c496514929919a3e9219a`
 
-## Entry gate
+## Entry evidence
 
-The preceding Wali daily workflow review is closed:
+The read-only pilot provisioning verification is CLOSED / ACCEPTED:
 
-`APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
+- target PILOT proven;
+- PostgreSQL read-only guard passed;
+- decision: `PROVISIONING_GAP_FOUND`;
+- Kelas 1: 20 active students, 11 sessions in the verified horizon, 10 reportable;
+- Kelas 1 primary teacher participation: 0/10 reportable sessions;
+- other shared gap: official Kelas 3B has no usable schedule/session;
+- final-head repository CI: run `36642953383` = SUCCESS.
 
-Application behavior is already evidenced. This task verifies only whether the
-actual pilot environment contains the operational data needed for Wali Kelas
-attendance use.
+## This atomic task
 
-Exact current repository run:
-- GitHub Actions run `36635904656`
-- head `467133e28c10cf6072468bc624bb2e82dd6ec172`
-- conclusion `SUCCESS`
+Provision only the missing expected PRIMARY teacher participation records for
+official class:
 
-## Verification target
+`IMTAQ-2026-1`
 
-Read-only pilot verification of:
-- user ↔ staff linkage;
-- effective WALI_KELAS role;
-- effective homeroom/class assignment;
-- active academic year/class;
-- current teaching schedule / generated sessions;
-- session participant roster/snapshot;
-- teacher participation/obligation;
-- attendance-period lock state;
-- Waka correction/escalation authority.
+Verified business horizon:
 
-## Safety boundary
+`[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
 
-PILOT READ-ONLY ONLY.
+Expected write budget: maximum 10 new participation rows.
 
-No write, seed, migrate, correction, attendance entry, session generation,
-login side-effect test, or configuration mutation is authorized.
+## Canonical write path
 
-If the environment cannot be proven to be the intended pilot target, STOP.
+Use the existing domain service:
+
+`App\Domains\Academic\Services\TeacherParticipationRecorder::ensurePrimary()`
+
+Do not insert rows directly and do not infer teacher identity from display names.
+Teacher authority comes from each session's canonical `teachingAssignment.teacher_staff_id`.
+
+## Boundary
+
+CONTROLLED PILOT DATA WRITE ONLY.
+
+No source, test, route, view, migration, schema, schedule, session, roster,
+attendance-status, correction, lock, account, role, provider, deployment, or
+production/staging mutation.
 
 ## Required contract
 
-`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION.md`
-
-## Product queue
-
-If pilot provisioning passes, return to:
-
-`ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN`
-
-If a provisioning gap exists, recommend one smallest provisioning-remediation
-task; do not fix it in this task.
-
-Public Academic AI remains OFF.
-`IMP-S12-007` remains NOT_STARTED.
-Canonical queue gate remains `SOC-MD-06`.
+`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS.md`
 
 ## Exit
 
-Verification artifact: `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION-2026-09-30.md`.
-PILOT identity and read-only transaction were proven. Provisioning gaps remain;
-no gap was fixed. Next smallest remediation is
-`ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS`.
-Commit/push evidence only, then STOP for ChatGPT audit.
+On PASS, create the change manifest and set next task to a read-only
+post-write provisioning re-verification.
+
+STOP for ChatGPT audit.
