@@ -1,27 +1,27 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "dfaf585c299aa83fccef7be95d746f943242c192",
+  "repo_commit": "bc5b242aa505b588ed8caf485b68ae5af095f476",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/academic-web-completion-review-routing",
+  "active_branch": "chore/academic-wali-daily-workflow-readiness-check",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC_WEB_COMPLETION_REVIEW",
+  "current_task_id": "ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "AWCR-AC-01",
-    "AWCR-AC-02",
-    "AWCR-AC-03",
-    "AWCR-AC-04",
-    "AWCR-AC-05",
-    "AWCR-AC-06",
-    "AWCR-AC-07",
-    "AWCR-AC-08",
-    "AWCR-AC-09",
-    "AWCR-AC-10",
-    "AWCR-AC-11",
-    "AWCR-AC-12"
+    "AWDR-AC-01",
+    "AWDR-AC-02",
+    "AWDR-AC-03",
+    "AWDR-AC-04",
+    "AWDR-AC-05",
+    "AWDR-AC-06",
+    "AWDR-AC-07",
+    "AWDR-AC-08",
+    "AWDR-AC-09",
+    "AWDR-AC-10",
+    "AWDR-AC-11",
+    "AWDR-AC-12"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -43,7 +43,8 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36483663711",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36484084952",
     "codex/TASK_CONTEXTS/ACADEMIC-WEB-COMPLETION-REVIEW.md",
-    "codex/REVIEWS/ACADEMIC-WEB-COMPLETION-REVIEW-2026-09-29.md"
+    "codex/REVIEWS/ACADEMIC-WEB-COMPLETION-REVIEW-2026-09-29.md",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "PASS_VERIFIED_RUN_36484084952_FINAL_HEAD_DFAF585C",
@@ -69,7 +70,8 @@
     "foundation_db_r4": "STOPPED / R4_TZ_B_APPLICATION_DEFECT_CANDIDATE / FINAL_HEAD_RUN_36413692676",
     "foundation_tz_b1": "COMPLETED / PASS / FINAL_HEAD_RUN_36484084952",
     "foundation_stabilization": "CLOSED / PASS / FINAL_HEAD_RUN_36484084952",
-    "academic_web_completion_review": "COMPLETED / REVIEW_ONLY / PASS / 4_OF_10_COMPLETE_EVIDENCED"
+    "academic_web_completion_review": "COMPLETED / REVIEW_ONLY / PASS / 4_OF_10_COMPLETE_EVIDENCED",
+    "academic_wali_daily_workflow_readiness": "READY_FOR_EXECUTION / REVIEW_ONLY"
   },
   "blockers": [
     {
@@ -100,11 +102,11 @@
   "evidence_debt": [
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_task": "ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN",
+  "next_owner": "CODEX",
+  "next_task": "ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-CHECK",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-29T06:00:00+07:00",
+  "updated_at": "2026-09-29T10:26:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",
