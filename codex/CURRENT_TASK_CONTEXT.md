@@ -1,74 +1,50 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`  
-**State:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
-**Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION K2A`  
+**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
+**State:** `READY_FOR_EXECUTION`
+**Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION K2B`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**State-basis:** `754d5346128804f11772ae99f4c45a60916c37a7`
+**Entry basis:** `b200948c51823d4698126aeb25250bfa5be7f02f`
 
 ## Entry evidence
 
-Post-K1 read-only re-verification is CLOSED / ACCEPTED:
+`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A` completed read-only:
 
+- PILOT identity proven;
+- `transaction_read_only=on`;
 - K1 = 10/10 expected PRIMARY;
-- K1 attendance/correction facts = 0;
-- non-target teacher participation baseline remained 83;
-- K2A = 12 reportable sessions, 0/12 expected PRIMARY, 12/12 authoritative teaching assignments;
-- K2B = 12 missing PRIMARY;
-- K3A = 14 missing PRIMARY;
-- K3B = no usable schedule/session;
-- exact final-head CI run `36658209160` = SUCCESS.
+- K2A = 12/12 expected PRIMARY with canonical semantics;
+- K2B = 12 reportable sessions, 0/12 expected PRIMARY;
+- K3A = 14 reportable sessions, 0/14 expected PRIMARY;
+- K3B = 0 usable schedule rules and 0 sessions;
+- current locks = 0;
+- Waka authority = 1 effective role / 1 linked staff;
+- final CI run `36660752193` = SUCCESS on exact HEAD.
 
-## This atomic task
+## Next task
 
-Provision only official class:
-
-`IMTAQ-2026-2A`
-
-Frozen horizon:
+Provision only official class `IMTAQ-2026-2B` after a mandatory read-only
+preflight over the frozen horizon:
 
 `[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
 
-Maximum write budget: 12 new expected PRIMARY participation rows.
+Use only `TeacherParticipationRecorder::ensurePrimary()` and only after
+proving the target PILOT, read-only transaction guard, exact target set,
+authoritative teaching assignments, zero existing expected PRIMARY, zero
+conflicts, no lock blocker, and K1/K2A stability.
 
-## Canonical write path
-
-`TeacherParticipationRecorder::ensurePrimary()`
-
-Teacher authority comes only from each session's canonical teaching assignment.
-
-## Boundary
-
-CONTROLLED PILOT DATA WRITE ONLY.
-
-No source/test/schema/config/session/schedule/roster/attendance/correction/lock/
-account/role/other-class/staging/production mutation.
-
-## Required contract
-
-`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md`
-
-## Exit
-
-On PASS, create the K2A change manifest and route a read-only
-`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`, then STOP for ChatGPT
-audit.
+No K3A/K3B, attendance, correction, lock, schedule, roster, account, role,
+staging, production, AI/provider, source, migration, schema, or config
+mutation is authorized.
 
 Public Academic AI remains OFF.
-`IMP-S12-007` remains NOT_STARTED.
-Canonical queue gate remains `SOC-MD-06`.
+`IMP-S12-007` remains `NOT_STARTED`.
+Canonical queue marker remains `SOC-MD-06`.
 
-## Completed evidence
+## Required task context
 
-The K2A preflight and controlled write passed. The authorized PILOT identity
-and read-only guard were proven; 12/12 K2A reportable sessions had authoritative
-teaching assignments, 0/12 existing PRIMARY, and no lock blocker. Exactly 12
-rows were created through `TeacherParticipationRecorder::ensurePrimary()`.
-Independent read-only postflight verified 12/12 K2A, K1 10/10, unchanged 2B,
-3A, and 3B counts, with no attendance or correction facts.
+`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
 
-Change manifest:
-`codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2A-2026-09-30.md`
+## Required entry evidence
 
-Next atomic task:
-`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`
+`codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`

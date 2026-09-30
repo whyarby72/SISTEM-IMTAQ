@@ -244,11 +244,36 @@
       "sensitivity": "non_secret"
     },
     {
+      "id": "academic-wali-pilot-primary-teacher-k2a-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36660752193",
+      "commit": "b200948c51823d4698126aeb25250bfa5be7f02f",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final-head Application foundation workflow completed successfully on the exact K2A evidence commit.",
+      "sensitivity": "non_secret"
+    },
+    {
       "id": "academic-wali-pilot-primary-teacher-k2a-manifest",
       "kind": "change_manifest",
       "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2A-2026-09-30.md",
       "status": "COMPLETED_PASS_12_OF_12_EXPECTED_PRIMARY",
       "summary": "Exactly 12 K2A expected PRIMARY obligations were created through the canonical service; attendance_status, student attendance, correction, K1, and other-class postconditions passed.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-reverify-after-k2a-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md",
+      "status": "COMPLETED_READ_ONLY_K2A_REMEDIATION_VERIFIED_REMAINING_GAPS",
+      "summary": "Read-only PILOT re-verification passed K1 10/10 and K2A 12/12 with zero attendance/correction facts; K2B/K3A primary gaps and K3B schedule/session gap remain.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-reverify-after-k2a-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A.md",
+      "status": "COMPLETED_READ_ONLY_K2A_REMEDIATION_VERIFIED_REMAINING_GAPS",
+      "summary": "Exact task context and frozen-horizon read-only verification recorded; no database mutation occurred.",
       "sensitivity": "non_secret"
     }
   ]

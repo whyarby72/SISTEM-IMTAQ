@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A = COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
+**Execution state:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A = COMPLETED / READ_ONLY / K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -15,16 +15,18 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 
 **K2A change manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2A-2026-09-30.md`
 **K2A result:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`
+**K2A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
+**K2A re-verification decision:** `K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
+**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
 
-## Current controlled K2A teacher-participation provisioning
+## Current controlled K2B teacher-participation provisioning
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`  
-**Selected class:** `IMTAQ-2026-2A`  
+**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
+**Selected class:** `IMTAQ-2026-2B`
 **Type:** `CONTROLLED_PILOT_DATA_PROVISIONING`  
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**State-basis:** `754d5346128804f11772ae99f4c45a60916c37a7`  
-**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md`
+**State-basis:** `b200948c51823d4698126aeb25250bfa5be7f02f`
+**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
 
 Verified frozen-horizon baseline:
 - 12 reportable sessions;
@@ -33,14 +35,14 @@ Verified frozen-horizon baseline:
 - 0 conflicts;
 - 0 current lock blockers.
 
-Authorized write budget: maximum 12 expected PRIMARY rows, K2A only, through
+Authorized write budget: maximum 12 expected PRIMARY rows, K2B only, through
 `TeacherParticipationRecorder::ensurePrimary()`.
 
-K1 must remain 10/10. 2B/3A/3B must remain untouched.
+K1 must remain 10/10. K2A must remain 12/12. 3A/3B must remain untouched.
 
-Completed with 12/12 expected PRIMARY and independent postflight PASS. Next
-task is read-only:
-`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`.
+K2A re-verification completed with 12/12 expected PRIMARY and independent
+read-only postflight PASS. Next task is K2B provisioning after its own
+read-only preflight.
 
 Production readiness is not assessed.
 `IMP-S12-007` remains NOT_STARTED.
@@ -158,4 +160,3 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
 **Readiness review:** `codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md`
 **Decision:** `APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
-**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PRIMARY_TEACHER_K2A_FROM_REPOSITORY`
