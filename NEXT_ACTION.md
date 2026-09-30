@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A = COMPLETED / READ_ONLY / K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
+**Execution state:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -17,6 +17,7 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **K2A result:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
 **K2A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
 **K2A re-verification decision:** `K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
+**K2B task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
 **NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
 
 ## Current controlled K2B teacher-participation provisioning
@@ -27,6 +28,7 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
 **State-basis:** `b200948c51823d4698126aeb25250bfa5be7f02f`
 **Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
+**Final evidence CI:** `36690800125` = SUCCESS on `35ae1ba64ea49941fd5cf22053af0bf83cac93df`
 
 Verified frozen-horizon baseline:
 - 12 reportable sessions;

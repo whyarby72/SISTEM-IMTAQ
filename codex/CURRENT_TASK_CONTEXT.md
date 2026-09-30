@@ -3,15 +3,14 @@
 **Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
 **State:** `READY_FOR_EXECUTION`
 **Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION K2B`
-**Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**Entry basis:** `b200948c51823d4698126aeb25250bfa5be7f02f`
+**Branch:** `chore/academic-wali-pilot-primary-k2a`
+**Entry basis:** `35ae1ba64ea49941fd5cf22053af0bf83cac93df`
+**Final evidence CI:** `36690800125` = SUCCESS on exact HEAD
 
 ## Entry evidence
 
-`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A` completed read-only:
+K2A post-write re-verification is CLOSED / ACCEPTED:
 
-- PILOT identity proven;
-- `transaction_read_only=on`;
 - K1 = 10/10 expected PRIMARY;
 - K2A = 12/12 expected PRIMARY with canonical semantics;
 - K2B = 12 reportable sessions, 0/12 expected PRIMARY;
@@ -19,32 +18,36 @@
 - K3B = 0 usable schedule rules and 0 sessions;
 - current locks = 0;
 - Waka authority = 1 effective role / 1 linked staff;
-- final CI run `36660752193` = SUCCESS on exact HEAD.
+- Public Academic AI = OFF;
+- `IMP-S12-007` = `NOT_STARTED`;
+- canonical queue marker = `SOC-MD-06`.
 
-## Next task
+## Current executable task
 
-Provision only official class `IMTAQ-2026-2B` after a mandatory read-only
-preflight over the frozen horizon:
+Prepare for controlled PILOT provisioning of official class `IMTAQ-2026-2B`
+over:
 
 `[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
 
-Use only `TeacherParticipationRecorder::ensurePrimary()` and only after
-proving the target PILOT, read-only transaction guard, exact target set,
-authoritative teaching assignments, zero existing expected PRIMARY, zero
-conflicts, no lock blocker, and K1/K2A stability.
+Before any write, prove exact current HEAD, PILOT identity,
+`BEGIN TRANSACTION READ ONLY`, `transaction_read_only=on`, exactly 12
+reportable sessions, 12/12 authoritative teaching assignments, existing
+PRIMARY 0/12, conflicts 0, lock blockers 0, K1 10/10, K2A 12/12, and K3A/K3B
+unchanged.
 
-No K3A/K3B, attendance, correction, lock, schedule, roster, account, role,
-staging, production, AI/provider, source, migration, schema, or config
-mutation is authorized.
+The only future write path is:
+`App\Domains\Academic\Services\TeacherParticipationRecorder::ensurePrimary()`
+with a maximum of 12 K2B-only rows and required semantics
+`PRIMARY/TEACHING_ASSIGNMENT/EXPECTED/attendance_status=NULL`.
 
-Public Academic AI remains OFF.
-`IMP-S12-007` remains `NOT_STARTED`.
-Canonical queue marker remains `SOC-MD-06`.
+No database write is authorized by this routing checkpoint. No source, test,
+migration, schema, config, schedule, roster, account, role, AI/provider,
+staging, production, deployment, or main-merge change is authorized.
 
-## Required task context
+## Required contract
 
 `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
 
-## Required entry evidence
+## Next task after successful write
 
-`codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
+`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B`

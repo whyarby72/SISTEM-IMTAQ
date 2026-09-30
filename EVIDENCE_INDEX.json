@@ -269,11 +269,28 @@
       "sensitivity": "non_secret"
     },
     {
+      "id": "academic-wali-pilot-k2a-evidence-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36690800125",
+      "commit": "35ae1ba64ea49941fd5cf22053af0bf83cac93df",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final evidence CI completed successfully on the exact post-K2A evidence commit used for K2B routing reconciliation.",
+      "sensitivity": "non_secret"
+    },
+    {
       "id": "academic-wali-pilot-reverify-after-k2a-task",
       "kind": "task_context",
       "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A.md",
       "status": "COMPLETED_READ_ONLY_K2A_REMEDIATION_VERIFIED_REMAINING_GAPS",
       "summary": "Exact task context and frozen-horizon read-only verification recorded; no database mutation occurred.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k2b-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md",
+      "status": "READY_FOR_EXECUTION",
+      "summary": "Explicit K2B controlled PILOT provisioning contract with 14 acceptance IDs, mandatory read-only preflight, canonical service-only write, and independent postflight requirements.",
       "sensitivity": "non_secret"
     }
   ]
