@@ -1,62 +1,52 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS`  
-**State:** `COMPLETED / PASS / 10_OF_10_EXPECTED_PRIMARY`
-**Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION PROVISIONING`  
-**Branch:** `fix/academic-wali-pilot-primary-teacher-k1`  
-**State-basis:** `2c2dccfb2961fd211b6c496514929919a3e9219a`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `ACADEMIC / PILOT POST-WRITE REVERIFICATION`  
+**Branch:** `chore/academic-wali-pilot-provisioning-reverify-after-k1`  
+**State-basis:** `d04fd53e7d68558dfdc38a0600a4e849299e83f6`
 
-## Entry evidence
+## Entry checkpoint
 
-The read-only pilot provisioning verification is CLOSED / ACCEPTED:
+Controlled Kelas 1 provisioning is CLOSED / ACCEPTED:
 
-- target PILOT proven;
-- PostgreSQL read-only guard passed;
-- decision: `PROVISIONING_GAP_FOUND`;
-- Kelas 1: 20 active students, 11 sessions in the verified horizon, 10 reportable;
-- Kelas 1 primary teacher participation: 0/10 reportable sessions;
-- other shared gap: official Kelas 3B has no usable schedule/session;
-- final-head repository CI: run `36642953383` = SUCCESS.
+- 11 sessions;
+- 10 reportable;
+- 10/10 expected PRIMARY after write;
+- one cancelled session untouched;
+- attendance_status rows created = 0;
+- non-target participation = unchanged in recorded postflight;
+- final-head CI run `36646931993` = SUCCESS.
 
-## This atomic task
+## This task
 
-Provision only the missing expected PRIMARY teacher participation records for
-official class:
+Read-only independent re-verification of:
+- Kelas 1 remediation integrity;
+- absence of K1 write side effects;
+- current PRIMARY gaps for 2A/2B/3A;
+- 3B schedule/session gap;
+- lock/escalation readiness.
 
-`IMTAQ-2026-1`
-
-Verified business horizon:
+Use the exact frozen comparison horizon:
 
 `[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
 
-Expected write budget: maximum 10 new participation rows.
+## Required contract
 
-## Canonical write path
-
-Use the existing domain service:
-
-`App\Domains\Academic\Services\TeacherParticipationRecorder::ensurePrimary()`
-
-Do not insert rows directly and do not infer teacher identity from display names.
-Teacher authority comes from each session's canonical `teachingAssignment.teacher_staff_id`.
+`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1.md`
 
 ## Boundary
 
-CONTROLLED PILOT DATA WRITE ONLY.
+PILOT READ-ONLY ONLY.
 
-No source, test, route, view, migration, schema, schedule, session, roster,
-attendance-status, correction, lock, account, role, provider, deployment, or
-production/staging mutation.
+No database write, source change, session generation, provisioning, attendance
+transaction, correction, deployment, or staging/production access.
 
-## Required contract
-
-`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS.md`
+Public Academic AI remains OFF.
+`IMP-S12-007` remains NOT_STARTED.
+Canonical queue gate remains `SOC-MD-06`.
 
 ## Exit
 
-Change manifest: `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K1-2026-09-30.md`.
-Exactly 10 Kelas 1 expected PRIMARY records were provisioned through the
-canonical service and independently verified. Next task is the read-only
-post-write provisioning re-verification. STOP for ChatGPT audit.
-
-STOP for ChatGPT audit.
+Create the re-verification artifact, reconcile evidence/state, commit/push
+review/evidence only, then STOP for ChatGPT audit.

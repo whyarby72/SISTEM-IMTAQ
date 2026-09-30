@@ -1,38 +1,35 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS = COMPLETED / PASS / 10_OF_10_EXPECTED_PRIMARY`
+**Execution state:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1 = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-Academic Web completion baseline: `4 / 10 = 40% COMPLETE_EVIDENCED`.
-Wali application workflow: `APPLICATION_READY_PROVISIONING_NOT_VERIFIED`.
+Academic Web product-completion percentage is outside this provisioning task; use its dedicated review/reconciliation rather than this operational gate.
+Wali application workflow is evidenced; pilot provisioning remains the active operational gate.
 **Pilot verification:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-VERIFICATION-2026-09-30.md`
 **Decision:** `PROVISIONING_GAP_FOUND`
 **Change manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K1-2026-09-30.md`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1`
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PROVISIONING_REVERIFY_AFTER_K1_FROM_REPOSITORY`
 
-## Current controlled Kelas 1 teacher-participation provisioning
+## Current post-K1 provisioning re-verification
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS`  
-**Selected class:** `IMTAQ-2026-1`  
-**Type:** `CONTROLLED_PILOT_DATA_PROVISIONING`  
-**Branch:** `fix/academic-wali-pilot-primary-teacher-k1`  
-**State-basis:** `2c2dccfb2961fd211b6c496514929919a3e9219a`  
-**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-FOR-ONE-CLASS.md`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1`  
+**Type:** `READ_ONLY_POST_WRITE_PROVISIONING_REVERIFICATION`  
+**Branch:** `chore/academic-wali-pilot-provisioning-reverify-after-k1`  
+**State-basis:** `d04fd53e7d68558dfdc38a0600a4e849299e83f6`  
+**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1.md`
 
-The read-only provisioning verification found:
-- Kelas 1: 11 sessions / 10 reportable;
-- Kelas 1 expected PRIMARY teacher participation: 0/10;
-- canonical teacher source: session teaching assignment;
-- canonical write service: `TeacherParticipationRecorder::ensurePrimary()`.
+Kelas 1 controlled write has completed and must now be independently checked
+read-only.
 
-Authorized pilot write budget: at most 10 new PRIMARY EXPECTED participation
-rows for the exact Kelas 1 reportable target set only.
+Frozen comparison horizon:
+`[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`.
 
-No source/schema/schedule/session/roster/attendance-status or other-class
-mutation is authorized.
+Verify K1 remains 10/10 expected PRIMARY with no attendance facts or cancelled
+session mutation, then recalculate remaining gaps for 2A/2B/3A and the 3B
+schedule/session gap.
 
-On success, route a read-only provisioning re-verification.
+No PILOT write is authorized in this task.
 Production readiness is not assessed.
 `IMP-S12-007` remains NOT_STARTED.
 Canonical queue gate remains `SOC-MD-06`.
@@ -149,4 +146,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
 **Readiness review:** `codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md`
 **Decision:** `APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1`
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PROVISIONING_REVERIFY_AFTER_K1_FROM_REPOSITORY`

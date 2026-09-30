@@ -1,7 +1,7 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-09-30T06:26:00+07:00",
+  "indexed_at": "2026-09-30T08:49:00+07:00",
   "entries": [
     {
       "id": "a3-baseline-ci",
@@ -199,6 +199,23 @@
       "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K1-2026-09-30.md",
       "status": "COMPLETED_PASS_10_OF_10_EXPECTED_PRIMARY",
       "summary": "Exactly 10 expected PRIMARY participation rows were created through the canonical service; independent read-only postflight passed and non-target/cancelled/attendance-status counts were unchanged.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k1-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36646931993",
+      "commit": "d04fd53e7d68558dfdc38a0600a4e849299e83f6",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final-head workflow after controlled Kelas 1 PRIMARY teacher-participation provisioning completed successfully; repository source remained unchanged.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-reverify-after-k1-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1.md",
+      "status": "READY_FOR_EXECUTION",
+      "summary": "Independent read-only post-write verification of Kelas 1 remediation and recalculation of remaining Wali pilot provisioning gaps.",
       "sensitivity": "non_secret"
     }
   ]
