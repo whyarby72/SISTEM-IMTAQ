@@ -4,8 +4,12 @@
 **State:** `READY_FOR_EXECUTION`
 **Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION K2B`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
-**Entry basis:** `35ae1ba64ea49941fd5cf22053af0bf83cac93df`
-**Final evidence CI:** `36690800125` = SUCCESS on exact HEAD
+**Entry basis:** `734d849e1bafd13f44a1a33d136e2ef9ce79a3c8`
+**Final evidence CI:** `36788275716` = SUCCESS on exact implementation commit
+
+The preceding CI blocker was a wall-clock month-boundary fixture defect in
+`AttendanceSemanticMetricsServiceTest`. It was stabilized with a fixed
+Asia/Jakarta test clock; production attendance semantics were unchanged.
 
 ## Entry evidence
 

@@ -26,9 +26,9 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **Selected class:** `IMTAQ-2026-2B`
 **Type:** `CONTROLLED_PILOT_DATA_PROVISIONING`  
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**State-basis:** `b200948c51823d4698126aeb25250bfa5be7f02f`
+**State-basis:** `734d849e1bafd13f44a1a33d136e2ef9ce79a3c8`
 **Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-**Final evidence CI:** `36690800125` = SUCCESS on `35ae1ba64ea49941fd5cf22053af0bf83cac93df`
+**Final evidence CI:** `36788275716` = SUCCESS on `734d849e1bafd13f44a1a33d136e2ef9ce79a3c8`
 
 Verified frozen-horizon baseline:
 - 12 reportable sessions;

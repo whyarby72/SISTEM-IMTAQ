@@ -292,6 +292,24 @@
       "status": "READY_FOR_EXECUTION",
       "summary": "Explicit K2B controlled PILOT provisioning contract with 14 acceptance IDs, mandatory read-only preflight, canonical service-only write, and independent postflight requirements.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-ci-attendance-metrics-month-boundary-stabilization",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-CI-ATTENDANCE-METRICS-MONTH-BOUNDARY-TEST-STABILIZATION-2026-10-01.md",
+      "commit": "734d849e1bafd13f44a1a33d136e2ef9ce79a3c8",
+      "status": "COMPLETED_PASS",
+      "summary": "Attendance semantic metrics test uses a fixed Asia/Jakarta Carbon clock; production semantics and pilot data are unchanged.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-ci-attendance-metrics-month-boundary-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36788275716",
+      "commit": "734d849e1bafd13f44a1a33d136e2ef9ce79a3c8",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Foundation verification passed on disposable PostgreSQL after deterministic attendance metrics test stabilization.",
+      "sensitivity": "non_secret"
     }
   ]
 }
