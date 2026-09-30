@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
 **Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION K2A`  
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
 **State-basis:** `754d5346128804f11772ae99f4c45a60916c37a7`
@@ -57,3 +57,18 @@ audit.
 Public Academic AI remains OFF.
 `IMP-S12-007` remains NOT_STARTED.
 Canonical queue gate remains `SOC-MD-06`.
+
+## Completed evidence
+
+The K2A preflight and controlled write passed. The authorized PILOT identity
+and read-only guard were proven; 12/12 K2A reportable sessions had authoritative
+teaching assignments, 0/12 existing PRIMARY, and no lock blocker. Exactly 12
+rows were created through `TeacherParticipationRecorder::ensurePrimary()`.
+Independent read-only postflight verified 12/12 K2A, K1 10/10, unchanged 2B,
+3A, and 3B counts, with no attendance or correction facts.
+
+Change manifest:
+`codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2A-2026-09-30.md`
+
+Next atomic task:
+`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`

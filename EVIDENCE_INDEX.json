@@ -239,8 +239,16 @@
       "id": "academic-wali-pilot-primary-teacher-k2a-task",
       "kind": "task_context",
       "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md",
-      "status": "READY_FOR_EXECUTION",
-      "summary": "Controlled PILOT provisioning task for exactly 12 K2A reportable sessions using canonical TeacherParticipationRecorder::ensurePrimary with strict preflight/postflight guards.",
+      "status": "COMPLETED_PASS_12_OF_12_EXPECTED_PRIMARY",
+      "summary": "Controlled PILOT provisioning created exactly 12 K2A expected PRIMARY rows through TeacherParticipationRecorder::ensurePrimary; independent read-only postflight passed and K1/other classes remained unchanged.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k2a-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2A-2026-09-30.md",
+      "status": "COMPLETED_PASS_12_OF_12_EXPECTED_PRIMARY",
+      "summary": "Exactly 12 K2A expected PRIMARY obligations were created through the canonical service; attendance_status, student attendance, correction, K1, and other-class postconditions passed.",
       "sensitivity": "non_secret"
     }
   ]

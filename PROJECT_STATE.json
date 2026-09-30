@@ -58,7 +58,8 @@
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1.md",
     "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1-2026-09-30.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36658209160",
-    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md"
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md",
+    "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2A-2026-09-30.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "PASS_VERIFIED_RUN_36658209160_FINAL_HEAD_754D534",
@@ -75,7 +76,7 @@
     "foundation_db_r1": "COMPLETED / DESIGN_ONLY / PASS",
     "foundation_db_r2": "COMPLETED / PASS_WITH_NEW_BLOCKER / RUN_36401882253",
     "live_openai_verification": "NOT_RUN",
-    "database_write": "NONE_THIS_TASK / LAST_CONTROLLED_WRITE_K1_10_ROWS_VERIFIED",
+    "database_write": "CONTROLLED_PILOT_WRITE / K2A PRIMARY ONLY / 12 ROWS / POSTFLIGHT_VERIFIED",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION",
     "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / FINAL_HEAD_RUN_36402569265 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS",
     "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
@@ -89,7 +90,7 @@
     "academic_wali_pilot_provisioning_verification": "COMPLETED / READ_ONLY / PROVISIONING_GAP_FOUND",
     "academic_wali_pilot_primary_teacher_k1": "COMPLETED / PASS / 10_OF_10_EXPECTED_PRIMARY",
     "academic_wali_pilot_provisioning_reverify_after_k1": "COMPLETED / READ_ONLY / K1_REMEDIATION_VERIFIED_REMAINING_GAPS",
-    "academic_wali_pilot_primary_teacher_k2a": "READY_FOR_EXECUTION / CONTROLLED_PILOT_DATA_PROVISIONING"
+    "academic_wali_pilot_primary_teacher_k2a": "COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY"
   },
   "blockers": [
     {
@@ -120,11 +121,11 @@
   "evidence_debt": [
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CODEX",
-  "next_task": "ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A",
+  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
+  "next_task": "ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-30T08:49:00+07:00",
+  "updated_at": "2026-09-30T10:00:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

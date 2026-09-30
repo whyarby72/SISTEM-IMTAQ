@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A = READY_FOR_EXECUTION`
+**Execution state:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A = COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -12,7 +12,10 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 
 **Re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1-2026-09-30.md`
 **Decision:** `K1_REMEDIATION_VERIFIED_REMAINING_GAPS`
-**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PRIMARY_TEACHER_K2A_FROM_REPOSITORY`
+
+**K2A change manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2A-2026-09-30.md`
+**K2A result:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
+**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`
 
 ## Current controlled K2A teacher-participation provisioning
 
@@ -35,7 +38,8 @@ Authorized write budget: maximum 12 expected PRIMARY rows, K2A only, through
 
 K1 must remain 10/10. 2B/3A/3B must remain untouched.
 
-On PASS, next task is read-only:
+Completed with 12/12 expected PRIMARY and independent postflight PASS. Next
+task is read-only:
 `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`.
 
 Production readiness is not assessed.
