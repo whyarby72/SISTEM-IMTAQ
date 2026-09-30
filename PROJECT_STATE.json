@@ -1,27 +1,29 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "d04fd53e7d68558dfdc38a0600a4e849299e83f6",
+  "repo_commit": "754d5346128804f11772ae99f4c45a60916c37a7",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
-  "active_branch": "chore/academic-wali-pilot-provisioning-reverify-after-k1",
+  "active_branch": "chore/academic-wali-pilot-primary-k2a",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1",
+  "current_task_id": "ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "AWPRK1-AC-01",
-    "AWPRK1-AC-02",
-    "AWPRK1-AC-03",
-    "AWPRK1-AC-04",
-    "AWPRK1-AC-05",
-    "AWPRK1-AC-06",
-    "AWPRK1-AC-07",
-    "AWPRK1-AC-08",
-    "AWPRK1-AC-09",
-    "AWPRK1-AC-10",
-    "AWPRK1-AC-11",
-    "AWPRK1-AC-12"
+    "AWPTP2A-AC-01",
+    "AWPTP2A-AC-02",
+    "AWPTP2A-AC-03",
+    "AWPTP2A-AC-04",
+    "AWPTP2A-AC-05",
+    "AWPTP2A-AC-06",
+    "AWPTP2A-AC-07",
+    "AWPTP2A-AC-08",
+    "AWPTP2A-AC-09",
+    "AWPTP2A-AC-10",
+    "AWPTP2A-AC-11",
+    "AWPTP2A-AC-12",
+    "AWPTP2A-AC-13",
+    "AWPTP2A-AC-14"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -54,10 +56,12 @@
     "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K1-2026-09-30.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36646931993",
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1.md",
-    "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1-2026-09-30.md"
+    "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1-2026-09-30.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36658209160",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36646931993_FINAL_HEAD_D04FD53",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36658209160_FINAL_HEAD_754D534",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -71,7 +75,7 @@
     "foundation_db_r1": "COMPLETED / DESIGN_ONLY / PASS",
     "foundation_db_r2": "COMPLETED / PASS_WITH_NEW_BLOCKER / RUN_36401882253",
     "live_openai_verification": "NOT_RUN",
-    "database_write": "CONTROLLED_PILOT_WRITE / K1 PRIMARY ONLY / 10 ROWS / POSTFLIGHT_VERIFIED",
+    "database_write": "NONE_THIS_TASK / LAST_CONTROLLED_WRITE_K1_10_ROWS_VERIFIED",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION",
     "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / FINAL_HEAD_RUN_36402569265 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS",
     "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
@@ -84,7 +88,8 @@
     "academic_wali_daily_workflow_readiness": "COMPLETED / REVIEW_ONLY / APPLICATION_READY_PROVISIONING_NOT_VERIFIED",
     "academic_wali_pilot_provisioning_verification": "COMPLETED / READ_ONLY / PROVISIONING_GAP_FOUND",
     "academic_wali_pilot_primary_teacher_k1": "COMPLETED / PASS / 10_OF_10_EXPECTED_PRIMARY",
-    "academic_wali_pilot_provisioning_reverify_after_k1": "COMPLETED / READ_ONLY / K1_REMEDIATION_VERIFIED_REMAINING_GAPS"
+    "academic_wali_pilot_provisioning_reverify_after_k1": "COMPLETED / READ_ONLY / K1_REMEDIATION_VERIFIED_REMAINING_GAPS",
+    "academic_wali_pilot_primary_teacher_k2a": "READY_FOR_EXECUTION / CONTROLLED_PILOT_DATA_PROVISIONING"
   },
   "blockers": [
     {
@@ -115,11 +120,11 @@
   "evidence_debt": [
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
+  "next_owner": "CODEX",
   "next_task": "ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-09-30T09:30:00+07:00",
+  "updated_at": "2026-09-30T08:49:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

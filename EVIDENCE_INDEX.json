@@ -225,6 +225,23 @@
       "status": "COMPLETED_READ_ONLY_K1_REMEDIATION_VERIFIED_REMAINING_GAPS",
       "summary": "PILOT identity and transaction read-only guard passed; K1 remains 10/10 expected PRIMARY with zero attendance/correction facts and non-target baseline 83; 2A/2B/3A and 3B provisioning gaps remain.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-reverify-after-k1-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36658209160",
+      "commit": "754d5346128804f11772ae99f4c45a60916c37a7",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final-head workflow after read-only post-K1 provisioning re-verification completed successfully; no database write occurred.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k2a-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md",
+      "status": "READY_FOR_EXECUTION",
+      "summary": "Controlled PILOT provisioning task for exactly 12 K2A reportable sessions using canonical TeacherParticipationRecorder::ensurePrimary with strict preflight/postflight guards.",
+      "sensitivity": "non_secret"
     }
   ]
 }

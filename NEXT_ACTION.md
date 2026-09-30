@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1 = COMPLETED / READ_ONLY / K1_REMEDIATION_VERIFIED_REMAINING_GAPS`
+**Execution state:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A = READY_FOR_EXECUTION`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -12,27 +12,32 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 
 **Re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1-2026-09-30.md`
 **Decision:** `K1_REMEDIATION_VERIFIED_REMAINING_GAPS`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PRIMARY_TEACHER_K2A_FROM_REPOSITORY`
 
-## Current post-K1 provisioning re-verification
+## Current controlled K2A teacher-participation provisioning
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1`  
-**Type:** `READ_ONLY_POST_WRITE_PROVISIONING_REVERIFICATION`  
-**Branch:** `chore/academic-wali-pilot-provisioning-reverify-after-k1`  
-**State-basis:** `d04fd53e7d68558dfdc38a0600a4e849299e83f6`  
-**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1.md`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`  
+**Selected class:** `IMTAQ-2026-2A`  
+**Type:** `CONTROLLED_PILOT_DATA_PROVISIONING`  
+**Branch:** `chore/academic-wali-pilot-primary-k2a`  
+**State-basis:** `754d5346128804f11772ae99f4c45a60916c37a7`  
+**Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md`
 
-Kelas 1 controlled write has completed and must now be independently checked
-read-only.
+Verified frozen-horizon baseline:
+- 12 reportable sessions;
+- 0/12 expected PRIMARY;
+- 12/12 authoritative teaching assignments;
+- 0 conflicts;
+- 0 current lock blockers.
 
-Frozen comparison horizon:
-`[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`.
+Authorized write budget: maximum 12 expected PRIMARY rows, K2A only, through
+`TeacherParticipationRecorder::ensurePrimary()`.
 
-Verify K1 remains 10/10 expected PRIMARY with no attendance facts or cancelled
-session mutation, then recalculate remaining gaps for 2A/2B/3A and the 3B
-schedule/session gap.
+K1 must remain 10/10. 2B/3A/3B must remain untouched.
 
-No PILOT write is authorized in this task.
+On PASS, next task is read-only:
+`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`.
+
 Production readiness is not assessed.
 `IMP-S12-007` remains NOT_STARTED.
 Canonical queue gate remains `SOC-MD-06`.
@@ -149,4 +154,4 @@ SOC-I1E recovery artifacts are under `recovery/soc-i1e/SOC-I1E_20260919-160000/`
 **CONTROLLED_FULL_VERIFICATION_RETRY_READINESS:** `READY`
 **Readiness review:** `codex/REVIEWS/ACADEMIC-WALI-DAILY-WORKFLOW-READINESS-2026-09-29.md`
 **Decision:** `APPLICATION_READY_PROVISIONING_NOT_VERIFIED`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`
+**NEXT_ATOMIC_TASK:** `EXECUTE_ACADEMIC_WALI_PILOT_PRIMARY_TEACHER_K2A_FROM_REPOSITORY`

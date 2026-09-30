@@ -1,66 +1,59 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1`  
-**State:** `COMPLETED / READ_ONLY / K1_REMEDIATION_VERIFIED_REMAINING_GAPS`
-**Current phase:** `ACADEMIC / PILOT POST-WRITE REVERIFICATION`  
-**Branch:** `chore/academic-wali-pilot-provisioning-reverify-after-k1`  
-**State-basis:** `d04fd53e7d68558dfdc38a0600a4e849299e83f6`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`  
+**State:** `READY_FOR_EXECUTION`  
+**Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION K2A`  
+**Branch:** `chore/academic-wali-pilot-primary-k2a`  
+**State-basis:** `754d5346128804f11772ae99f4c45a60916c37a7`
 
-## Entry checkpoint
+## Entry evidence
 
-Controlled Kelas 1 provisioning is CLOSED / ACCEPTED:
+Post-K1 read-only re-verification is CLOSED / ACCEPTED:
 
-- 11 sessions;
-- 10 reportable;
-- 10/10 expected PRIMARY after write;
-- one cancelled session untouched;
-- attendance_status rows created = 0;
-- non-target participation = unchanged in recorded postflight;
-- final-head CI run `36646931993` = SUCCESS.
+- K1 = 10/10 expected PRIMARY;
+- K1 attendance/correction facts = 0;
+- non-target teacher participation baseline remained 83;
+- K2A = 12 reportable sessions, 0/12 expected PRIMARY, 12/12 authoritative teaching assignments;
+- K2B = 12 missing PRIMARY;
+- K3A = 14 missing PRIMARY;
+- K3B = no usable schedule/session;
+- exact final-head CI run `36658209160` = SUCCESS.
 
-## This task
+## This atomic task
 
-Read-only independent re-verification of:
-- Kelas 1 remediation integrity;
-- absence of K1 write side effects;
-- current PRIMARY gaps for 2A/2B/3A;
-- 3B schedule/session gap;
-- lock/escalation readiness.
+Provision only official class:
 
-Use the exact frozen comparison horizon:
+`IMTAQ-2026-2A`
+
+Frozen horizon:
 
 `[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
 
-## Required contract
+Maximum write budget: 12 new expected PRIMARY participation rows.
 
-`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1.md`
+## Canonical write path
+
+`TeacherParticipationRecorder::ensurePrimary()`
+
+Teacher authority comes only from each session's canonical teaching assignment.
 
 ## Boundary
 
-PILOT READ-ONLY ONLY.
+CONTROLLED PILOT DATA WRITE ONLY.
 
-No database write, source change, session generation, provisioning, attendance
-transaction, correction, deployment, or staging/production access.
+No source/test/schema/config/session/schedule/roster/attendance/correction/lock/
+account/role/other-class/staging/production mutation.
+
+## Required contract
+
+`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A.md`
+
+## Exit
+
+On PASS, create the K2A change manifest and route a read-only
+`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A`, then STOP for ChatGPT
+audit.
 
 Public Academic AI remains OFF.
 `IMP-S12-007` remains NOT_STARTED.
 Canonical queue gate remains `SOC-MD-06`.
-
-## Exit
-
-Create the re-verification artifact, reconcile evidence/state, commit/push
-review/evidence only, then STOP for ChatGPT audit.
-
-## Completed evidence
-
-The frozen-horizon read-only re-verification passed: PILOT identity was proven,
-`transaction_read_only=on`, K1 remained 10/10 expected PRIMARY, non-target
-participation remained 83, and no attendance/correction facts or cancelled
-session mutation were observed. Remaining gaps are 2A (12), 2B (12), 3A
-(14), plus the official 3B schedule/session gap.
-
-Review artifact:
-`codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1-2026-09-30.md`
-
-Next atomic task:
-`ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`
