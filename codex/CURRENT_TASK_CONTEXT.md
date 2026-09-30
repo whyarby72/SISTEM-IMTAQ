@@ -1,7 +1,7 @@
 # CURRENT TASK CONTEXT
 
 **Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `COMPLETED / READ_ONLY / K1_REMEDIATION_VERIFIED_REMAINING_GAPS`
 **Current phase:** `ACADEMIC / PILOT POST-WRITE REVERIFICATION`  
 **Branch:** `chore/academic-wali-pilot-provisioning-reverify-after-k1`  
 **State-basis:** `d04fd53e7d68558dfdc38a0600a4e849299e83f6`
@@ -50,3 +50,17 @@ Canonical queue gate remains `SOC-MD-06`.
 
 Create the re-verification artifact, reconcile evidence/state, commit/push
 review/evidence only, then STOP for ChatGPT audit.
+
+## Completed evidence
+
+The frozen-horizon read-only re-verification passed: PILOT identity was proven,
+`transaction_read_only=on`, K1 remained 10/10 expected PRIMARY, non-target
+participation remained 83, and no attendance/correction facts or cancelled
+session mutation were observed. Remaining gaps are 2A (12), 2B (12), 3A
+(14), plus the official 3B schedule/session gap.
+
+Review artifact:
+`codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K1-2026-09-30.md`
+
+Next atomic task:
+`ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2A`
