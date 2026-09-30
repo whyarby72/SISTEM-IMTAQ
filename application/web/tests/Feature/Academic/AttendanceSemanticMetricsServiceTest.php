@@ -18,11 +18,26 @@ use App\Shared\Core\Models\OrganizationalUnit;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Core\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class AttendanceSemanticMetricsServiceTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Carbon::setTestNow(Carbon::parse('2026-09-15 12:00:00', 'Asia/Jakarta'));
+    }
+
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+
+        parent::tearDown();
+    }
 
     public function test_post_cutover_completed_without_held_is_excluded_and_missing_occurrence_is_detectable(): void
     {
