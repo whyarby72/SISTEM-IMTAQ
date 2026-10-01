@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `K3A_PROVISIONING = COMPLETED / PASS / 14_OF_14_EXPECTED_PRIMARY`
+**Execution state:** `K3A_REVERIFY = COMPLETED / READ_ONLY / PRIMARY_PROVISIONING_GAP_0`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -12,12 +12,13 @@
 **K3B shared result:** `12_OF_12_FROM_SAME_12_PHYSICAL_ROWS`
 **K3A change manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K3A-2026-10-02.md`
 **K3A result:** `COMPLETED / PASS / 14_OF_14_EXPECTED_PRIMARY`
-**Next task context:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A.md`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A` (READ_ONLY)
+**K3A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A-2026-10-02.md`
+**K3A re-verification decision:** `K3A_REMEDIATION_VERIFIED_PRIMARY_PROVISIONING_COMPLETE`
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_OPERATIONAL_READINESS_DECISION`
 
 **Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **Decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED`
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K3A_READINESS_AUDIT`
+K3A provisioning and independent read-only re-verification are complete.
 
 Academic Web product-completion percentage is outside this provisioning task; use its dedicated review/reconciliation rather than this operational gate.
 Wali application workflow is evidenced; pilot provisioning remains the active operational gate.
@@ -33,7 +34,6 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **K2A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
 **K2A re-verification decision:** `K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
 **K2B task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-K3A controlled provisioning is complete; do not execute the re-verification automatically.
 
 **K3B joint-session baseline:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **K3B baseline decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED` (anchor count 0; canonical joint count 12; exact K2B/K3B set equality; no mutation performed)

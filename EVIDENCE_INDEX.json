@@ -466,7 +466,7 @@
       "id": "academic-wali-pilot-primary-teacher-k3a-change-manifest",
       "kind": "change_manifest",
       "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K3A-2026-10-02.md",
-      "commit": "PENDING_FINAL_EVIDENCE_COMMIT",
+      "commit": "8c14ae89a60161f5a1b63a7c90742774d2a7df32",
       "status": "COMPLETED_PASS_14_OF_14_EXPECTED_PRIMARY",
       "summary": "Controlled PILOT K3A provisioning created exactly 14 expected PRIMARY rows through ensurePrimary; independent read-only postflight passed and non-target/shared-row guards remained stable.",
       "sensitivity": "non_secret"
@@ -475,9 +475,27 @@
       "id": "academic-wali-pilot-provisioning-reverify-after-k3a-task",
       "kind": "task_context",
       "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A.md",
-      "commit": "PENDING_FINAL_EVIDENCE_COMMIT",
+      "commit": "8c14ae89a60161f5a1b63a7c90742774d2a7df32",
       "status": "READY_READ_ONLY",
       "summary": "Independent read-only post-write re-verification contract for K3A primary teacher participation.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-provisioning-reverify-after-k3a-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A-2026-10-02.md",
+      "commit": "8c14ae89a60161f5a1b63a7c90742774d2a7df32",
+      "status": "COMPLETED_READ_ONLY_K3A_REMEDIATION_VERIFIED_PRIMARY_PROVISIONING_COMPLETE",
+      "summary": "Independent read-only postflight proves K3A 14/14, global unique physical obligations 48/48, missing 0, and stable K2B/K3B shared rows.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k3a-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36928673610",
+      "commit": "8c14ae89a60161f5a1b63a7c90742774d2a7df32",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Application foundation CI passed on the exact K3A evidence commit: 15 passed, 506 warnings, 2202 assertions, 0 failed.",
       "sensitivity": "non_secret"
     }
   ]

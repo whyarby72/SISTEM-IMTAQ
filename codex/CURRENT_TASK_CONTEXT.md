@@ -1,15 +1,16 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K3A`
-**State:** `COMPLETED / PASS / 14_OF_14_EXPECTED_PRIMARY`
-**Current phase:** `ACADEMIC / K3A CONTROLLED PILOT PROVISIONING CLOSED`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A`
+**State:** `COMPLETED / READ_ONLY / K3A_REMEDIATION_VERIFIED_PRIMARY_PROVISIONING_COMPLETE`
+**Current phase:** `ACADEMIC / READ-ONLY K3A POST-WRITE RE-VERIFICATION CLOSED`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
-**Entry basis:** `27ca62aab15e46fdffe44e8a919b7b0d51d8d4f2`
-**Preflight CI:** `36925985111` = SUCCESS on exact entry HEAD
+**Entry basis:** `8c14ae89a60161f5a1b63a7c90742774d2a7df32`
+**Exact CI:** `36928673610` = SUCCESS on exact HEAD
 
 K2B provisioning and independent read-only re-verification are closed. K3A
-controlled provisioning created exactly 14 expected PRIMARY rows through the
-canonical service and passed an independent read-only postflight.
+controlled provisioning and this independent read-only postflight are closed:
+K3A remains 14/14, global unique physical obligations are 48/48, and no
+expected PRIMARY provisioning gap remains for the frozen horizon.
 
 The preceding CI blocker was a wall-clock month-boundary fixture defect in
 `AttendanceSemanticMetricsServiceTest`. It was stabilized with a fixed
@@ -43,9 +44,10 @@ semantic, non-target, and side-effect guards.
 
 ## Required contract
 
-`codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K3A-2026-10-02.md`
+`codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A-2026-10-02.md`
 
 ## Next task
 
-`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A` — read-only only.
-Do not execute it automatically in this task.
+Return to ChatGPT/project-owner for the next Academic operational-readiness
+decision. Do not start K3B provisioning, another class provisioning, AI work,
+or deployment automatically.
