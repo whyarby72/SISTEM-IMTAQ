@@ -310,6 +310,22 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Foundation verification passed on disposable PostgreSQL after deterministic attendance metrics test stabilization.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-schedule-rule-drift-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-DRIFT-RECONCILIATION-2026-10-01.md",
+      "status": "COMPLETED_HOLD_OPTION_C",
+      "summary": "Read-only reconciliation found 14 published K3B rules, two same-class-scope overlap pairs, one-class scope mismatch, and zero generated sessions; K2B remains blocked.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-schedule-rule-drift-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-DRIFT-RECONCILIATION.md",
+      "status": "COMPLETED_HOLD_OPTION_C",
+      "summary": "Frozen read-only K3B provenance and rule/session gap contract; no database mutation authorized or performed.",
+      "sensitivity": "non_secret"
     }
   ]
 }

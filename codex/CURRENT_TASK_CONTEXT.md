@@ -1,11 +1,15 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
-**State:** `READY_FOR_EXECUTION`
-**Current phase:** `ACADEMIC / PILOT PRIMARY TEACHER PARTICIPATION K2B`
+**Task:** `ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-DRIFT-RECONCILIATION`
+**State:** `COMPLETED / HOLD / OPTION_C`
+**Current phase:** `ACADEMIC / K3B READ-ONLY SCHEDULE PROVENANCE RECONCILIATION`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
 **Entry basis:** `734d849e1bafd13f44a1a33d136e2ef9ce79a3c8`
-**Final evidence CI:** `36788275716` = SUCCESS on exact implementation commit
+**Final evidence CI:** `36788526133` = SUCCESS on exact entry HEAD
+
+K2B remains blocked because current K3B schedule state is invalid/conflicting:
+14 published rules, 0 sessions, 2 same-class-scope overlap pairs, and a
+single K3B group on each rule despite K2B-anchored assignments.
 
 The preceding CI blocker was a wall-clock month-boundary fixture defect in
 `AttendanceSemanticMetricsServiceTest`. It was stabilized with a fixed

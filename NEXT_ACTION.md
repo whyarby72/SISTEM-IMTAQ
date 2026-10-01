@@ -1,8 +1,12 @@
 # NEXT ACTION
 
-**Execution state:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B = READY_FOR_EXECUTION`
+**Execution state:** `K2B_CONTROLLED_WRITE_GATE = HOLD / K3B_SCHEDULE_RULE_DRIFT_INVALID_OR_CONFLICTING`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
+
+**Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-DRIFT-RECONCILIATION-2026-10-01.md`
+**Decision:** `K3B_SCHEDULE_RULE_DRIFT_INVALID_OR_CONFLICTING`
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K3B_DRIFT_AUDIT`
 
 Academic Web product-completion percentage is outside this provisioning task; use its dedicated review/reconciliation rather than this operational gate.
 Wali application workflow is evidenced; pilot provisioning remains the active operational gate.
@@ -18,7 +22,7 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **K2A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
 **K2A re-verification decision:** `K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
 **K2B task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
+**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B` (BLOCKED pending K3B remediation decision)
 
 ## Current controlled K2B teacher-participation provisioning
 
