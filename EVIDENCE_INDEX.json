@@ -326,6 +326,33 @@
       "status": "COMPLETED_HOLD_OPTION_C",
       "summary": "Frozen read-only K3B provenance and rule/session gap contract; no database mutation authorized or performed.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-schedule-rule-remediation-design-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-REMEDIATION-DESIGN-2026-10-01.md",
+      "commit": "d933a24dd7faf3518538bbee721ea0311244cc54",
+      "status": "COMPLETED_HOLD_SESSION_PROVENANCE_DIVERGENCE",
+      "summary": "Read-only design confirms 14 canonical joint rules and no recurrence intersection in the two apparent pairs, but current PILOT has 12 joint sessions while the prior entry evidence recorded zero; no mutation performed.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-schedule-rule-remediation-design-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-REMEDIATION-DESIGN.md",
+      "commit": "d933a24dd7faf3518538bbee721ea0311244cc54",
+      "status": "COMPLETED_HOLD_SESSION_PROVENANCE_DIVERGENCE",
+      "summary": "Read-only remediation-design contract and divergence routing; K2B remains HOLD and no schedule/session/attendance mutation occurred.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-schedule-rule-remediation-design-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36806464203",
+      "commit": "d933a24dd7faf3518538bbee721ea0311244cc54",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final entry CI succeeded on the exact repository baseline for the K3B remediation design checkpoint.",
+      "sensitivity": "non_secret"
     }
   ]
 }

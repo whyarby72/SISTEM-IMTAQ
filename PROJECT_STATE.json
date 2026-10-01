@@ -6,7 +6,7 @@
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "chore/academic-wali-pilot-primary-k2a",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-DRIFT-RECONCILIATION",
+  "current_task_id": "ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-REMEDIATION-DESIGN",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
@@ -67,7 +67,7 @@
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36788275716_FINAL_HEAD_734D849",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36806464203_FINAL_HEAD_D933A24",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -98,7 +98,8 @@
     "academic_wali_pilot_primary_teacher_k2a": "COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY",
     "academic_wali_pilot_provisioning_reverify_after_k2a": "COMPLETED / READ_ONLY / K2A_REMEDIATION_VERIFIED_REMAINING_GAPS",
     "academic_wali_pilot_primary_teacher_k2b": "HOLD / K3B_SCHEDULE_RULE_DRIFT_INVALID_OR_CONFLICTING",
-    "academic_wali_pilot_k3b_schedule_rule_drift_reconciliation": "COMPLETED / HOLD / OPTION_C",
+    "academic_wali_pilot_k3b_schedule_rule_drift_reconciliation": "COMPLETED / HOLD / OPTION_C / SUPERSEDED_BY_REMEDIATION_DESIGN",
+    "academic_wali_pilot_k3b_schedule_rule_remediation_design": "COMPLETED / HOLD / SESSION_PROVENANCE_DIVERGENCE",
     "academic_ci_attendance_metrics_month_boundary_test_stabilization": "COMPLETED / PASS / RUN_36788275716"
   },
   "blockers": [
@@ -131,7 +132,7 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "RETURN_TO_CHATGPT_FOR_K3B_DRIFT_AUDIT",
+  "next_task": "RETURN_TO_CHATGPT_FOR_K3B_REMEDIATION_DESIGN_AUDIT",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
   "updated_at": "2026-09-30T10:30:00+07:00",
