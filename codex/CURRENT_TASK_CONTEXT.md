@@ -1,11 +1,11 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A`
-**State:** `COMPLETED / READ_ONLY / K3A_REMEDIATION_VERIFIED_PRIMARY_PROVISIONING_COMPLETE`
-**Current phase:** `ACADEMIC / READ-ONLY K3A POST-WRITE RE-VERIFICATION CLOSED`
+**Task:** `ACADEMIC-WALI-PILOT-OPERATIONAL-READINESS-REASSESSMENT-AFTER-PROVISIONING`
+**State:** `IN_PROGRESS / READ_ONLY / OPERATIONAL_REASSESSMENT`
+**Current phase:** `ACADEMIC / READ-ONLY OPERATIONAL READINESS REASSESSMENT`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
-**Entry basis:** `8c14ae89a60161f5a1b63a7c90742774d2a7df32`
-**Exact CI:** `36928673610` = SUCCESS on exact HEAD
+**Entry basis:** `5f71d32c57a5d9061fb9daf08e89d7e3658841ef`
+**Exact CI:** `36933559280` = SUCCESS on exact HEAD
 
 K2B provisioning and independent read-only re-verification are closed. K3A
 controlled provisioning and this independent read-only postflight are closed:
@@ -43,6 +43,23 @@ persisted 14 K3A-only rows. Independent read-only postflight passed all
 semantic, non-target, and side-effect guards.
 
 ## Required contract
+
+`codex/REVIEWS/ACADEMIC-WALI-PILOT-OPERATIONAL-READINESS-REASSESSMENT-AFTER-PROVISIONING-2026-10-02.md`
+
+The reassessment is read-only. It must prove PILOT identity, frozen-horizon
+class/session/roster/snapshot/teacher participation readiness, lock and Waka
+authority, and preserve the separation between controlled pilot readiness and
+production readiness.
+
+## Reassessment result
+
+`READY_FOR_CONTROLLED_PILOT`
+
+The five official classes are structurally ready for a separately authorized
+first-day Wali UAT/pilot transaction. No database write or application-source
+mutation is authorized by this task.
+
+## Prior contract
 
 `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A-2026-10-02.md`
 

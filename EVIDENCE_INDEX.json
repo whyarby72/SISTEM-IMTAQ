@@ -497,6 +497,24 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Application foundation CI passed on the exact K3A evidence commit: 15 passed, 506 warnings, 2202 assertions, 0 failed.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-operational-readiness-reassessment-after-provisioning-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-OPERATIONAL-READINESS-REASSESSMENT-AFTER-PROVISIONING-2026-10-02.md",
+      "commit": "5f71d32c57a5d9061fb9daf08e89d7e3658841ef",
+      "status": "COMPLETED_READ_ONLY_READY_FOR_CONTROLLED_PILOT",
+      "summary": "Frozen-horizon aggregate reassessment proves five official Wali class scopes, 48 physical reportable sessions, complete PRIMARY coverage, participant snapshots, zero blocking locks/facts, and preserves production/AI separation.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-operational-readiness-reassessment-after-provisioning-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36933559280",
+      "commit": "5f71d32c57a5d9061fb9daf08e89d7e3658841ef",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Exact starting-head CI for the reassessment baseline passed; metadata/review changes remain repository-only and require final-head CI after push.",
+      "sensitivity": "non_secret"
     }
   ]
 }
