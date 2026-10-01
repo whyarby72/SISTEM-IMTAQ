@@ -5,7 +5,9 @@
 **Mode:** read-only remediation design and dry run  
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
 **Entry HEAD:** `d933a24dd7faf3518538bbee721ea0311244cc54`  
-**Final CI:** `36806464203` — SUCCESS
+**Entry CI:** `36806464203` — SUCCESS
+**Final evidence HEAD:** `f29763e739cc360821749c7cbfc60266adcf459b`
+**Final CI:** `36809446297` — SUCCESS
 
 ## Result
 

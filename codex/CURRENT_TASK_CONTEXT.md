@@ -5,7 +5,7 @@
 **Current phase:** `ACADEMIC / K3B READ-ONLY REMEDIATION DESIGN AND DRY RUN`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
 **Entry basis:** `d933a24dd7faf3518538bbee721ea0311244cc54`
-**Final evidence CI:** `36806464203` = SUCCESS on exact entry HEAD
+**Final evidence CI:** `36809446297` = SUCCESS on exact final evidence HEAD `f29763e739cc360821749c7cbfc60266adcf459b`
 
 K2B remains blocked because the current K3B evidence is internally divergent:
 14 published joint rules are present and the current read-only PILOT contains

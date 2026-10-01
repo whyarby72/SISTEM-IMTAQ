@@ -5,7 +5,9 @@
 **Repository:** `whyarby72/SISTEM-IMTAQ`  
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
 **Entry/final repository HEAD:** `d933a24dd7faf3518538bbee721ea0311244cc54`  
-**Final entry CI:** `36806464203` — SUCCESS on the exact HEAD  
+**Entry CI:** `36806464203` — SUCCESS on the entry HEAD
+**Final evidence commit:** `f29763e739cc360821749c7cbfc60266adcf459b`
+**Final evidence CI:** `36809446297` — SUCCESS on the exact final evidence HEAD
 **Frozen horizon:** `[2026-09-30 00:00, 2026-10-07 00:00)` Asia/Jakarta
 
 ## Decision

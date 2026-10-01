@@ -353,6 +353,15 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Final entry CI succeeded on the exact repository baseline for the K3B remediation design checkpoint.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-schedule-rule-remediation-design-exact-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36809446297",
+      "commit": "f29763e739cc360821749c7cbfc60266adcf459b",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Final foundation CI succeeded on the exact pushed evidence/state/task-artifact commit.",
+      "sensitivity": "non_secret"
     }
   ]
 }
