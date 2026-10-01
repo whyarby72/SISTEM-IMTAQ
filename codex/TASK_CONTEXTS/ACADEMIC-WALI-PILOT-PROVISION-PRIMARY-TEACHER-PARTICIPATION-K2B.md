@@ -3,10 +3,10 @@
 **Task ID:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`  
 **Task type:** `CONTROLLED_PILOT_DATA_PROVISIONING`  
 **Selected class:** `IMTAQ-2026-2B`  
-**State:** `READY_FOR_EXECUTION`  
+**State:** `READY_FOR_FRESH_MANDATORY_PREFLIGHT`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**Exact entry HEAD:** `35ae1ba64ea49941fd5cf22053af0bf83cac93df`  
-**Final evidence CI:** `36690800125` = SUCCESS on exact HEAD
+**Exact current HEAD:** `e0ba57a99c1ed6588caf5563fa2bd5ae3ea0af5b`
+**Executable/evidence CI:** `36809446297` = SUCCESS on `f29763e739cc360821749c7cbfc60266adcf459b`
 
 ## Purpose
 
@@ -35,8 +35,8 @@ Before any business-data write:
 9. Prove current lock blockers = 0.
 10. Prove K1 remains 10/10 expected PRIMARY.
 11. Prove K2A remains 12/12 expected PRIMARY.
-12. Prove K3A and K3B are untouched; K3A remains 0/14 and K3B remains 0/0
-    unless separately authorized.
+12. Prove K3A and K3B are untouched; K3A remains 0/14 and the K3B canonical
+    baseline remains 12 joint sessions with expected PRIMARY 0/12.
 
 If any preflight guard fails, stop without a write:
 
@@ -104,7 +104,7 @@ Before commit prove:
 - K1 remains 10/10;
 - K2A remains 12/12;
 - K3A remains 0/14;
-- K3B remains 0/0 unless separately authorized;
+- K3B canonical baseline remains 12/12 joint sessions and 0/12 expected PRIMARY;
 - no session, schedule, roster, account, role, or lock mutation.
 
 Any failed postcondition requires rollback and `HOLD`.
@@ -114,7 +114,8 @@ Any failed postcondition requires rollback and `HOLD`.
 After a successful commit, open a new `BEGIN TRANSACTION READ ONLY` and prove
 `transaction_read_only=on`. Independently recheck K2B 12/12, canonical
 semantics, duplicate/conflict = 0, `attendance_status` NULL, no student
-attendance/correction facts, K1 10/10, K2A 12/12, K3A 0/14, and K3B 0/0.
+attendance/correction facts, K1 10/10, K2A 12/12, K3A 0/14, and K3B canonical
+joint sessions 12 with expected PRIMARY 0/12.
 Use aggregates only and record no student or teacher names.
 
 ## Next task after successful K2B write

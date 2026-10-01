@@ -362,6 +362,24 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Final foundation CI succeeded on the exact pushed evidence/state/task-artifact commit.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-joint-session-baseline-reconciliation-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md",
+      "commit": "e0ba57a99c1ed6588caf5563fa2bd5ae3ea0af5b",
+      "status": "COMPLETED_PASS_K3B_JOINT_SESSION_BASELINE_RATIFIED",
+      "summary": "Read-only reconciliation proves K3B anchor 0 versus canonical joint 12, exact equality with K2B anchor sessions, expected/actual occurrence equality, and preexisting session rows; K2B opens only for fresh mandatory preflight.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-joint-session-baseline-reconciliation-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION.md",
+      "commit": "e0ba57a99c1ed6588caf5563fa2bd5ae3ea0af5b",
+      "status": "COMPLETED_PASS_K3B_JOINT_SESSION_BASELINE_RATIFIED",
+      "summary": "Current K3B baseline and K2B next-task routing reconciled without database mutation.",
+      "sensitivity": "non_secret"
     }
   ]
 }

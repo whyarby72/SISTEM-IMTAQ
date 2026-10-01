@@ -1,12 +1,12 @@
 # NEXT ACTION
 
-**Execution state:** `K2B_CONTROLLED_WRITE_GATE = HOLD / K3B_SESSION_PROVENANCE_DIVERGENCE`
+**Execution state:** `K2B_CONTROLLED_WRITE_GATE = OPEN_FOR_FRESH_MANDATORY_PREFLIGHT / K3B_JOINT_SESSION_BASELINE_RATIFIED`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
-**Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-REMEDIATION-DESIGN-2026-10-01.md`
-**Decision:** `K3B_REMEDIATION_DESIGN_INCOMPLETE_HOLD`
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K3B_REMEDIATION_DESIGN_AUDIT`
+**Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
+**Decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED`
+**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
 
 Academic Web product-completion percentage is outside this provisioning task; use its dedicated review/reconciliation rather than this operational gate.
 Wali application workflow is evidenced; pilot provisioning remains the active operational gate.
@@ -22,10 +22,10 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **K2A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
 **K2A re-verification decision:** `K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
 **K2B task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B` (BLOCKED pending K3B remediation decision)
+**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B` (OPEN only for fresh mandatory preflight; no write executed here)
 
-**K3B remediation design:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-SCHEDULE-RULE-REMEDIATION-DESIGN-2026-10-01.md`
-**K3B design decision:** `K3B_REMEDIATION_DESIGN_INCOMPLETE_HOLD` (current read-only PILOT has 12 joint sessions while prior entry evidence recorded 0; no provenance mutation performed)
+**K3B joint-session baseline:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
+**K3B baseline decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED` (anchor count 0; canonical joint count 12; exact K2B/K3B set equality; no mutation performed)
 
 ## Current controlled K2B teacher-participation provisioning
 
