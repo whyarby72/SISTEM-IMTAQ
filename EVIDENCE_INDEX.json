@@ -443,6 +443,24 @@
       "status": "COMPLETED_READ_ONLY_K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE",
       "summary": "Independent read-only postflight proves K2B/K3B 12/12 coverage from the same 12 physical rows; no side effects or duplicate K3B provisioning.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3a-primary-teacher-participation-readiness-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION-2026-10-02.md",
+      "commit": "7cf929cbec32b48c17b1b0aac9ab8d9ea6e7d31a",
+      "status": "COMPLETED_READ_ONLY_K3A_PRIMARY_PROVISIONING_READY_FOR_CONTROLLED_PREFLIGHT",
+      "summary": "Read-only reconciliation proves 14 standalone K3A reportable sessions, 14/14 authoritative teacher mappings, 14 deterministic missing PRIMARY rows, and zero conflicts/locks/facts.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3a-primary-teacher-participation-readiness-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION.md",
+      "commit": "7cf929cbec32b48c17b1b0aac9ab8d9ea6e7d31a",
+      "status": "COMPLETED_READ_ONLY",
+      "summary": "K3A readiness context; no provisioning authorized or performed.",
+      "sensitivity": "non_secret"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `K2B_REVERIFY = COMPLETED / READ_ONLY / K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE`
+**Execution state:** `K3A_READINESS = COMPLETED / READ_ONLY / K3A_PRIMARY_PROVISIONING_READY_FOR_CONTROLLED_PREFLIGHT`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -10,13 +10,13 @@
 **K2B change manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2B-2026-10-01.md`
 **K2B result:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
 **K3B shared result:** `12_OF_12_FROM_SAME_12_PHYSICAL_ROWS`
-**Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B-2026-10-01.md`
-**Decision:** `K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE`
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K2B_REVERIFY_AUDIT`
+**Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION-2026-10-02.md`
+**Decision:** `K3A_PRIMARY_PROVISIONING_READY_FOR_CONTROLLED_PREFLIGHT`
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K3A_READINESS_AUDIT`
 
 **Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **Decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED`
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K2B_REVERIFY_AUDIT`
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K3A_READINESS_AUDIT`
 
 Academic Web product-completion percentage is outside this provisioning task; use its dedicated review/reconciliation rather than this operational gate.
 Wali application workflow is evidenced; pilot provisioning remains the active operational gate.
@@ -32,7 +32,7 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **K2A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
 **K2A re-verification decision:** `K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
 **K2B task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K2B_REVERIFY_AUDIT` (no further K2B/K3B provisioning)
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K3A_READINESS_AUDIT` (no automatic K3A provisioning)
 
 **K3B joint-session baseline:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **K3B baseline decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED` (anchor count 0; canonical joint count 12; exact K2B/K3B set equality; no mutation performed)
@@ -47,9 +47,9 @@ from the same 12 rows. No second K3B write.
 **Selected class:** `IMTAQ-2026-2B`
 **Type:** `CONTROLLED_PILOT_DATA_PROVISIONING`  
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**State-basis:** `2d870cd0ad88b0349f2b6f32a2980b4e1401a4ec`
+**State-basis:** `7cf929cbec32b48c17b1b0aac9ab8d9ea6e7d31a`
 **Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-**Final evidence CI:** `36835854259` = SUCCESS on `2d870cd0ad88b0349f2b6f32a2980b4e1401a4ec`
+**Final evidence CI:** `36844093403` = SUCCESS on `7cf929cbec32b48c17b1b0aac9ab8d9ea6e7d31a`
 
 Verified frozen-horizon baseline:
 - 12 reportable sessions;
@@ -64,8 +64,9 @@ Authorized K2B write completed: 12 expected PRIMARY rows through
 K1 must remain 10/10. K2A must remain 12/12. 3A/3B must remain untouched.
 
 K2A re-verification completed with 12/12 expected PRIMARY and independent
-read-only postflight PASS. K2B re-verification completed with shared K3B
-coverage 12/12. Do not execute another K2B/K3B write here.
+read-only postflight PASS. K2B/K3B shared coverage is 12/12. K3A readiness
+reconciliation found 14 standalone sessions with 14 missing PRIMARY rows;
+do not provision K3A without separate authorization.
 
 Production readiness is not assessed.
 `IMP-S12-007` remains NOT_STARTED.

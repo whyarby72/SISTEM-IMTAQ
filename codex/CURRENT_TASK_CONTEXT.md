@@ -1,15 +1,15 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B`
-**State:** `COMPLETED / READ_ONLY / K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE`
-**Current phase:** `ACADEMIC / READ-ONLY POST-WRITE K2B/K3B SHARED COVERAGE REVERIFICATION`
+**Task:** `ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION`
+**State:** `COMPLETED / READ_ONLY / K3A_PRIMARY_PROVISIONING_READY_FOR_CONTROLLED_PREFLIGHT`
+**Current phase:** `ACADEMIC / READ-ONLY K3A PROVISIONING READINESS RECONCILIATION`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
-**Entry basis:** `2d870cd0ad88b0349f2b6f32a2980b4e1401a4ec`
-**Final evidence CI:** `36835854259` = SUCCESS on exact HEAD
+**Entry basis:** `7cf929cbec32b48c17b1b0aac9ab8d9ea6e7d31a`
+**Final evidence CI:** `36844093403` = SUCCESS on exact HEAD
 
-K2B provisioning passed: 12 expected PRIMARY rows were created through the
-canonical service for the exact 12 joint K2B+K3B sessions. Both class views
-resolve the same 12 physical rows. Independent read-only postflight passed.
+K2B provisioning and independent read-only re-verification are closed. K3A
+readiness is now reconciled as 14 standalone reportable sessions with 14
+authoritative teacher mappings and 14 deterministic missing PRIMARY rows.
 
 The preceding CI blocker was a wall-clock month-boundary fixture defect in
 `AttendanceSemanticMetricsServiceTest`. It was stabilized with a fixed
@@ -32,14 +32,15 @@ K2A post-write re-verification is CLOSED / ACCEPTED:
 
 ## Current executable task
 
-This task completed the independent read-only re-verification after K2B teacher-participation provisioning over:
+This task completed the read-only K3A provisioning-readiness reconciliation over:
 
 `[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
 
 The K2B task must prove exact current HEAD, PILOT identity,
-`BEGIN TRANSACTION READ ONLY`, `transaction_read_only=on`, exact 12/12 K2B/K3B
-session-set equality, 12/12 canonical teacher matches, shared physical-row
-equality, K1 10/10, K2A 12/12, K3A 0/14, and zero side effects.
+`BEGIN TRANSACTION READ ONLY`, `transaction_read_only=on`, exact 14/14 K3A
+canonical/reportable standalone sessions, 14/14 authoritative teacher
+matches, K3A missing physical rows 14, K1 10/10, K2A 12/12, K2B/K3B shared
+12/12, and zero side effects.
 
 No further K2B or K3B write is authorized by this context.
 
@@ -53,4 +54,4 @@ staging, production, deployment, or main-merge change is authorized.
 
 ## Next task
 
-Return to ChatGPT/project-owner audit; any next class provisioning requires separate authorization.
+Return to ChatGPT/project-owner audit; any K3A provisioning requires separate authorization.

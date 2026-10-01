@@ -6,18 +6,18 @@
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "chore/academic-wali-pilot-primary-k2a",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B",
+  "current_task_id": "ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "AWPRK2B-AC-01",
-    "AWPRK2B-AC-02",
-    "AWPRK2B-AC-03",
-    "AWPRK2B-AC-04",
-    "AWPRK2B-AC-05",
-    "AWPRK2B-AC-06",
-    "AWPRK2B-AC-07",
-    "AWPRK2B-AC-08"
+    "AWK3A-R-AC-01",
+    "AWK3A-R-AC-02",
+    "AWK3A-R-AC-03",
+    "AWK3A-R-AC-04",
+    "AWK3A-R-AC-05",
+    "AWK3A-R-AC-06",
+    "AWK3A-R-AC-07",
+    "AWK3A-R-AC-08"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -65,10 +65,13 @@
     "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2B-2026-10-01.md",
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B.md",
     "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B-2026-10-01.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36835854259"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36835854259",
+    "codex/REVIEWS/ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION-2026-10-02.md",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36844093403"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36835854259_HEAD_2d870cd",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36844093403_HEAD_7cf929c",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -100,6 +103,7 @@
     "academic_wali_pilot_provisioning_reverify_after_k2a": "COMPLETED / READ_ONLY / K2A_REMEDIATION_VERIFIED_REMAINING_GAPS",
     "academic_wali_pilot_primary_teacher_k2b": "COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY / K3B_SHARED_12_OF_12",
     "academic_wali_pilot_provisioning_reverify_after_k2b": "COMPLETED / READ_ONLY / K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE",
+    "academic_wali_pilot_k3a_primary_teacher_participation_readiness_reconciliation": "COMPLETED / READ_ONLY / K3A_PRIMARY_PROVISIONING_READY_FOR_CONTROLLED_PREFLIGHT",
     "academic_wali_pilot_k3b_schedule_rule_drift_reconciliation": "COMPLETED / HOLD / OPTION_C / SUPERSEDED_BY_REMEDIATION_DESIGN",
     "academic_wali_pilot_k3b_schedule_rule_remediation_design": "COMPLETED / HOLD / SESSION_PROVENANCE_DIVERGENCE / SUPERSEDED_BY_BASELINE_RECONCILIATION",
     "academic_wali_pilot_k3b_joint_session_baseline_reconciliation": "COMPLETED / PASS / K3B_JOINT_SESSION_BASELINE_RATIFIED",
@@ -136,7 +140,7 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CODEX",
-  "next_task": "RETURN_TO_CHATGPT_FOR_K2B_REVERIFY_AUDIT",
+  "next_task": "RETURN_TO_CHATGPT_FOR_K3A_READINESS_AUDIT",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
   "updated_at": "2026-10-01T00:00:00+07:00",
