@@ -1,11 +1,11 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
-**State:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
-**Current phase:** `ACADEMIC / CONTROLLED PILOT K2B TEACHER PARTICIPATION PROVISIONING`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B`
+**State:** `COMPLETED / READ_ONLY / K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE`
+**Current phase:** `ACADEMIC / READ-ONLY POST-WRITE K2B/K3B SHARED COVERAGE REVERIFICATION`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
-**Entry basis:** `38e14520c08daace2fc16b3608c73aa168fed471`
-**Final evidence CI:** `36826834884` = SUCCESS on exact pushed evidence HEAD `43938305d5c556627aa2e13d2b5887fe1502bac0`
+**Entry basis:** `2d870cd0ad88b0349f2b6f32a2980b4e1401a4ec`
+**Final evidence CI:** `36835854259` = SUCCESS on exact HEAD
 
 K2B provisioning passed: 12 expected PRIMARY rows were created through the
 canonical service for the exact 12 joint K2B+K3B sessions. Both class views
@@ -21,9 +21,9 @@ K2A post-write re-verification is CLOSED / ACCEPTED:
 
 - K1 = 10/10 expected PRIMARY;
 - K2A = 12/12 expected PRIMARY with canonical semantics;
-- K2B = 12 reportable sessions, 0/12 expected PRIMARY;
+- K2B = 12/12 expected PRIMARY;
 - K3A = 14 reportable sessions, 0/14 expected PRIMARY;
-- K3B = 14 canonical joint rules and 12 reportable joint sessions; expected PRIMARY remains 0/12;
+- K3B = 14 canonical joint rules and 12 reportable joint sessions; 12/12 shared PRIMARY;
 - current locks = 0;
 - Waka authority = 1 effective role / 1 linked staff;
 - Public Academic AI = OFF;
@@ -32,20 +32,16 @@ K2A post-write re-verification is CLOSED / ACCEPTED:
 
 ## Current executable task
 
-The next executable task is the independent read-only re-verification after K2B
-teacher-participation provisioning over:
+This task completed the independent read-only re-verification after K2B teacher-participation provisioning over:
 
 `[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
 
 The K2B task must prove exact current HEAD, PILOT identity,
-`BEGIN TRANSACTION READ ONLY`, `transaction_read_only=on`, exactly 12
-reportable K2B sessions, 12/12 authoritative teaching assignments, existing
-PRIMARY 0/12, conflicts 0, lock blockers 0, K1 10/10, K2A 12/12, and the
-ratified K3B non-target baseline of 14 joint rules, 12 joint sessions, and
-K2B and K3B must remain 12/12 from the same shared rows.
+`BEGIN TRANSACTION READ ONLY`, `transaction_read_only=on`, exact 12/12 K2B/K3B
+session-set equality, 12/12 canonical teacher matches, shared physical-row
+equality, K1 10/10, K2A 12/12, K3A 0/14, and zero side effects.
 
-No K2B write is authorized by this context; the next task must execute its
-own preflight before opening the canonical write path.
+No further K2B or K3B write is authorized by this context.
 
 No database write is authorized by this routing checkpoint. No source, test,
 migration, schema, config, schedule, roster, account, role, AI/provider,
@@ -57,4 +53,4 @@ staging, production, deployment, or main-merge change is authorized.
 
 ## Next task
 
-`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B`
+Return to ChatGPT/project-owner audit; any next class provisioning requires separate authorization.

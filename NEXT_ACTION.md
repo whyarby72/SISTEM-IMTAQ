@@ -1,6 +1,6 @@
 # NEXT ACTION
 
-**Execution state:** `K2B_PROVISIONING = COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY / K3B_SHARED_12_OF_12`
+**Execution state:** `K2B_REVERIFY = COMPLETED / READ_ONLY / K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
 
@@ -10,11 +10,13 @@
 **K2B change manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2B-2026-10-01.md`
 **K2B result:** `COMPLETED / PASS / 12_OF_12_EXPECTED_PRIMARY`
 **K3B shared result:** `12_OF_12_FROM_SAME_12_PHYSICAL_ROWS`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B` (READ ONLY)
+**Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B-2026-10-01.md`
+**Decision:** `K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE`
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K2B_REVERIFY_AUDIT`
 
 **Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **Decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B`
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K2B_REVERIFY_AUDIT`
 
 Academic Web product-completion percentage is outside this provisioning task; use its dedicated review/reconciliation rather than this operational gate.
 Wali application workflow is evidenced; pilot provisioning remains the active operational gate.
@@ -30,14 +32,14 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 **K2A re-verification review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md`
 **K2A re-verification decision:** `K2A_REMEDIATION_VERIFIED_REMAINING_GAPS`
 **K2B task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-**NEXT_ATOMIC_TASK:** `ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B` (READ ONLY; no further K2B/K3B provisioning)
+**NEXT_ATOMIC_TASK:** `RETURN_TO_CHATGPT_FOR_K2B_REVERIFY_AUDIT` (no further K2B/K3B provisioning)
 
 **K3B joint-session baseline:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **K3B baseline decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED` (anchor count 0; canonical joint count 12; exact K2B/K3B set equality; no mutation performed)
 
 Joint participation contract: K2B and K3B share one teacher-participation row
-per joint ClassSession. K3B is `0/12` only before K2B provisioning; after a
-successful K2B write it is `12/12` through the same rows. No second K3B write.
+per joint ClassSession. Current post-write coverage is `12/12` in both views
+from the same 12 rows. No second K3B write.
 
 ## Current controlled K2B teacher-participation provisioning
 
@@ -45,25 +47,25 @@ successful K2B write it is `12/12` through the same rows. No second K3B write.
 **Selected class:** `IMTAQ-2026-2B`
 **Type:** `CONTROLLED_PILOT_DATA_PROVISIONING`  
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**State-basis:** `734d849e1bafd13f44a1a33d136e2ef9ce79a3c8`
+**State-basis:** `2d870cd0ad88b0349f2b6f32a2980b4e1401a4ec`
 **Task contract:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md`
-**Final evidence CI:** `36788275716` = SUCCESS on `734d849e1bafd13f44a1a33d136e2ef9ce79a3c8`
+**Final evidence CI:** `36835854259` = SUCCESS on `2d870cd0ad88b0349f2b6f32a2980b4e1401a4ec`
 
 Verified frozen-horizon baseline:
 - 12 reportable sessions;
-- 0/12 expected PRIMARY;
+- 12/12 expected PRIMARY;
 - 12/12 authoritative teaching assignments;
 - 0 conflicts;
 - 0 current lock blockers.
 
-Authorized write budget: maximum 12 expected PRIMARY rows, K2B only, through
-`TeacherParticipationRecorder::ensurePrimary()`.
+Authorized K2B write completed: 12 expected PRIMARY rows through
+`TeacherParticipationRecorder::ensurePrimary()`; re-verification passed.
 
 K1 must remain 10/10. K2A must remain 12/12. 3A/3B must remain untouched.
 
 K2A re-verification completed with 12/12 expected PRIMARY and independent
-read-only postflight PASS. Next task is K2B provisioning after its own
-read-only preflight.
+read-only postflight PASS. K2B re-verification completed with shared K3B
+coverage 12/12. Do not execute another K2B/K3B write here.
 
 Production readiness is not assessed.
 `IMP-S12-007` remains NOT_STARTED.

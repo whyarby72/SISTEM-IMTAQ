@@ -434,6 +434,15 @@
       "status": "READY_READ_ONLY",
       "summary": "Independent read-only post-write re-verification contract for K2B shared joint participation.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-provisioning-reverify-after-k2b-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B-2026-10-01.md",
+      "commit": "2d870cd0ad88b0349f2b6f32a2980b4e1401a4ec",
+      "status": "COMPLETED_READ_ONLY_K2B_REMEDIATION_VERIFIED_SHARED_JOINT_COVERAGE",
+      "summary": "Independent read-only postflight proves K2B/K3B 12/12 coverage from the same 12 physical rows; no side effects or duplicate K3B provisioning.",
+      "sensitivity": "non_secret"
     }
   ]
 }
