@@ -6,7 +6,7 @@
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "chore/academic-wali-pilot-primary-k2a",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-PILOT-OPERATIONAL-READINESS-REASSESSMENT-AFTER-PROVISIONING",
+  "current_task_id": "ACADEMIC-WALI-PILOT-FIRST-DAY-CONTROLLED-ATTENDANCE-UAT",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
@@ -115,6 +115,7 @@
     "academic_wali_pilot_primary_teacher_k3a": "COMPLETED / PASS / 14_OF_14_EXPECTED_PRIMARY",
     "academic_wali_pilot_provisioning_reverify_after_k3a": "COMPLETED / READ_ONLY / K3A_REMEDIATION_VERIFIED_PRIMARY_PROVISIONING_COMPLETE",
     "academic_wali_pilot_operational_readiness_reassessment_after_provisioning": "COMPLETED / READ_ONLY / READY_FOR_CONTROLLED_PILOT",
+    "academic_wali_pilot_first_day_controlled_attendance_uat": "HOLD / HUMAN_OBSERVATION_REQUIRED",
     "academic_wali_pilot_k3b_schedule_rule_drift_reconciliation": "COMPLETED / HOLD / OPTION_C / SUPERSEDED_BY_REMEDIATION_DESIGN",
     "academic_wali_pilot_k3b_schedule_rule_remediation_design": "COMPLETED / HOLD / SESSION_PROVENANCE_DIVERGENCE / SUPERSEDED_BY_BASELINE_RECONCILIATION",
     "academic_wali_pilot_k3b_joint_session_baseline_reconciliation": "COMPLETED / PASS / K3B_JOINT_SESSION_BASELINE_RATIFIED",

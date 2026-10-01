@@ -524,6 +524,14 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Exact-head foundation CI passed after the operational readiness review and metadata push; PostgreSQL disposable verification and foundation checks completed successfully.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-first-day-controlled-attendance-uat-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-FIRST-DAY-CONTROLLED-UAT-2026-10-02.md",
+      "status": "HOLD_HUMAN_OBSERVATION_REQUIRED",
+      "summary": "Read-only PILOT preflight identified one eligible standalone candidate; no attendance facts were supplied and no business write was performed.",
+      "sensitivity": "non_secret"
     }
   ]
 }
