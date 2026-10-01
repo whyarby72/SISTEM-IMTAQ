@@ -416,6 +416,24 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Application foundation CI passed on the exact pushed semantics reconciliation evidence commit.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k2b-change-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K2B-2026-10-01.md",
+      "commit": "38e14520c08daace2fc16b3608c73aa168fed471",
+      "status": "COMPLETED_PASS_12_OF_12_SHARED_K3B",
+      "summary": "Controlled K2B write created exactly 12 expected PRIMARY rows through ensurePrimary; K3B sees the same 12 rows; independent read-only postflight passed.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-provisioning-reverify-after-k2b-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B.md",
+      "commit": "38e14520c08daace2fc16b3608c73aa168fed471",
+      "status": "READY_READ_ONLY",
+      "summary": "Independent read-only post-write re-verification contract for K2B shared joint participation.",
+      "sensitivity": "non_secret"
     }
   ]
 }
