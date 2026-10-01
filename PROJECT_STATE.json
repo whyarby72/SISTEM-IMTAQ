@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "0e60c8053b40d160d0dc1d3c8388e532c1b81fc9",
+  "repo_commit": "0ee6779ae2bbaaf44bf72d4996048c59f456848d",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "chore/academic-wali-pilot-primary-k2a",
@@ -58,10 +58,13 @@
     "codex/REVIEWS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A-2026-09-30.md",
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2A.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36690800125",
-    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md"
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md",
+    "codex/REVIEWS/ACADEMIC-WALI-PILOT-JOINT-SESSION-TEACHER-PARTICIPATION-SEMANTICS-RECONCILIATION-2026-10-01.md",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-JOINT-SESSION-TEACHER-PARTICIPATION-SEMANTICS-RECONCILIATION.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36829585309"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36826834884_HEAD_4393830",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36829585309_HEAD_0ee6779",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",

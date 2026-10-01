@@ -407,6 +407,15 @@
       "status": "COMPLETED_PASS_JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED",
       "summary": "Routing and K2B postcondition contract updated without application or database mutation.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-joint-session-teacher-participation-semantics-reconciliation-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36829585309",
+      "commit": "0ee6779ae2bbaaf44bf72d4996048c59f456848d",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Application foundation CI passed on the exact pushed semantics reconciliation evidence commit.",
+      "sensitivity": "non_secret"
     }
   ]
 }
