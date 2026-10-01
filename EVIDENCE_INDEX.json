@@ -515,6 +515,15 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Exact starting-head CI for the reassessment baseline passed; metadata/review changes remain repository-only and require final-head CI after push.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-operational-readiness-reassessment-after-provisioning-exact-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36936007221",
+      "commit": "e2b44cecbe1b2eb90b009b3f3464c7a6565dda42",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Exact-head foundation CI passed after the operational readiness review and metadata push; PostgreSQL disposable verification and foundation checks completed successfully.",
+      "sensitivity": "non_secret"
     }
   ]
 }
