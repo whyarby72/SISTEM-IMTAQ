@@ -5,7 +5,7 @@
 **Current phase:** `ACADEMIC / K3B READ-ONLY SESSION SCOPE AND PROVENANCE RECONCILIATION`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
 **Entry basis:** `d933a24dd7faf3518538bbee721ea0311244cc54`
-**Final evidence CI:** `36809446297` = SUCCESS on exact final evidence HEAD `f29763e739cc360821749c7cbfc60266adcf459b`
+**Final evidence CI:** `36826834884` = SUCCESS on exact pushed evidence HEAD `43938305d5c556627aa2e13d2b5887fe1502bac0`
 
 K3B baseline is ratified: the anchor query returns 0, but the canonical
 session-group scope returns 12, exactly equal to the K2B anchor session set.

@@ -67,7 +67,7 @@
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K2B.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36809446297_EXECUTABLE_EVIDENCE_HEAD_F29763E_CURRENT_HEAD_E0BA57A",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36826834884_HEAD_4393830",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",

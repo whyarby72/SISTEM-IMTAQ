@@ -380,6 +380,15 @@
       "status": "COMPLETED_PASS_K3B_JOINT_SESSION_BASELINE_RATIFIED",
       "summary": "Current K3B baseline and K2B next-task routing reconciled without database mutation.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-k3b-joint-session-baseline-reconciliation-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36826834884",
+      "commit": "43938305d5c556627aa2e13d2b5887fe1502bac0",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Foundation CI passed on the exact pushed K3B baseline reconciliation evidence commit.",
+      "sensitivity": "non_secret"
     }
   ]
 }
