@@ -461,6 +461,24 @@
       "status": "COMPLETED_READ_ONLY",
       "summary": "K3A readiness context; no provisioning authorized or performed.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-primary-teacher-k3a-change-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K3A-2026-10-02.md",
+      "commit": "PENDING_FINAL_EVIDENCE_COMMIT",
+      "status": "COMPLETED_PASS_14_OF_14_EXPECTED_PRIMARY",
+      "summary": "Controlled PILOT K3A provisioning created exactly 14 expected PRIMARY rows through ensurePrimary; independent read-only postflight passed and non-target/shared-row guards remained stable.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-provisioning-reverify-after-k3a-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A.md",
+      "commit": "PENDING_FINAL_EVIDENCE_COMMIT",
+      "status": "READY_READ_ONLY",
+      "summary": "Independent read-only post-write re-verification contract for K3A primary teacher participation.",
+      "sensitivity": "non_secret"
     }
   ]
 }

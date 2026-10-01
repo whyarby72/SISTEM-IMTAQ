@@ -1,15 +1,15 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-K3A-PRIMARY-TEACHER-PARTICIPATION-READINESS-RECONCILIATION`
-**State:** `COMPLETED / READ_ONLY / K3A_PRIMARY_PROVISIONING_READY_FOR_CONTROLLED_PREFLIGHT`
-**Current phase:** `ACADEMIC / READ-ONLY K3A PROVISIONING READINESS RECONCILIATION`
+**Task:** `ACADEMIC-WALI-PILOT-PROVISION-PRIMARY-TEACHER-PARTICIPATION-K3A`
+**State:** `COMPLETED / PASS / 14_OF_14_EXPECTED_PRIMARY`
+**Current phase:** `ACADEMIC / K3A CONTROLLED PILOT PROVISIONING CLOSED`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
-**Entry basis:** `7cf929cbec32b48c17b1b0aac9ab8d9ea6e7d31a`
-**Final evidence CI:** `36844093403` = SUCCESS on exact HEAD
+**Entry basis:** `27ca62aab15e46fdffe44e8a919b7b0d51d8d4f2`
+**Preflight CI:** `36925985111` = SUCCESS on exact entry HEAD
 
 K2B provisioning and independent read-only re-verification are closed. K3A
-readiness is now reconciled as 14 standalone reportable sessions with 14
-authoritative teacher mappings and 14 deterministic missing PRIMARY rows.
+controlled provisioning created exactly 14 expected PRIMARY rows through the
+canonical service and passed an independent read-only postflight.
 
 The preceding CI blocker was a wall-clock month-boundary fixture defect in
 `AttendanceSemanticMetricsServiceTest`. It was stabilized with a fixed
@@ -30,28 +30,22 @@ K2A post-write re-verification is CLOSED / ACCEPTED:
 - `IMP-S12-007` = `NOT_STARTED`;
 - canonical queue marker = `SOC-MD-06`.
 
-## Current executable task
+## Completed controlled provisioning
 
-This task completed the read-only K3A provisioning-readiness reconciliation over:
-
-`[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`
-
-The K2B task must prove exact current HEAD, PILOT identity,
-`BEGIN TRANSACTION READ ONLY`, `transaction_read_only=on`, exact 14/14 K3A
-canonical/reportable standalone sessions, 14/14 authoritative teacher
-matches, K3A missing physical rows 14, K1 10/10, K2A 12/12, K2B/K3B shared
-12/12, and zero side effects.
-
-No further K2B or K3B write is authorized by this context.
-
-No database write is authorized by this routing checkpoint. No source, test,
-migration, schema, config, schedule, roster, account, role, AI/provider,
-staging, production, deployment, or main-merge change is authorized.
+The K3A write covered `[2026-09-30 00:00, 2026-10-07 00:00) Asia/Jakarta`.
+Fresh preflight proved PILOT `imtaq`, PostgreSQL 18.6,
+`transaction_read_only=on`, exact 14 standalone reportable sessions,
+14/14 authoritative mappings, zero pre-existing participation, conflicts,
+locks, attendance facts, and correction facts. One outer transaction called
+`TeacherParticipationRecorder::ensurePrimary()` exactly once per target and
+persisted 14 K3A-only rows. Independent read-only postflight passed all
+semantic, non-target, and side-effect guards.
 
 ## Required contract
 
-`codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K2B.md`
+`codex/CHANGE_MANIFESTS/ACADEMIC-WALI-PILOT-PRIMARY-TEACHER-K3A-2026-10-02.md`
 
 ## Next task
 
-Return to ChatGPT/project-owner audit; any K3A provisioning requires separate authorization.
+`ACADEMIC-WALI-PILOT-PROVISIONING-REVERIFY-AFTER-K3A` — read-only only.
+Do not execute it automatically in this task.
