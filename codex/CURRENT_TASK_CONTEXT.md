@@ -1,16 +1,17 @@
 # CURRENT TASK CONTEXT
 
-**Task:** `ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION`
-**State:** `COMPLETED / PASS / K3B_JOINT_SESSION_BASELINE_RATIFIED`
-**Current phase:** `ACADEMIC / K3B READ-ONLY SESSION SCOPE AND PROVENANCE RECONCILIATION`
+**Task:** `ACADEMIC-WALI-PILOT-JOINT-SESSION-TEACHER-PARTICIPATION-SEMANTICS-RECONCILIATION`
+**State:** `COMPLETED / PASS / JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED`
+**Current phase:** `ACADEMIC / READ-ONLY JOINT TEACHER PARTICIPATION SEMANTICS RECONCILIATION`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`
-**Entry basis:** `d933a24dd7faf3518538bbee721ea0311244cc54`
+**Entry basis:** `0e60c8053b40d160d0dc1d3c8388e532c1b81fc9`
 **Final evidence CI:** `36826834884` = SUCCESS on exact pushed evidence HEAD `43938305d5c556627aa2e13d2b5887fe1502bac0`
 
-K3B baseline is ratified: the anchor query returns 0, but the canonical
-session-group scope returns 12, exactly equal to the K2B anchor session set.
-The historical zero was a scope blind spot. K2B is eligible only for a fresh
-mandatory preflight; no K2B write was performed here.
+Joint-session teacher participation semantics are ratified: one participation
+row belongs to one ClassSession/teacher, while class attribution comes from
+ClassSessionGroup. A K2B write for the 12 shared K2B+K3B sessions yields
+12/12 coverage in both class views from the same 12 rows; K3B must not be
+provisioned separately. No K2B write was performed here.
 
 The preceding CI blocker was a wall-clock month-boundary fixture defect in
 `AttendanceSemanticMetricsServiceTest`. It was stabilized with a fixed
@@ -43,7 +44,8 @@ The K2B task must prove exact current HEAD, PILOT identity,
 reportable K2B sessions, 12/12 authoritative teaching assignments, existing
 PRIMARY 0/12, conflicts 0, lock blockers 0, K1 10/10, K2A 12/12, and the
 ratified K3B non-target baseline of 14 joint rules, 12 joint sessions, and
-0/12 expected PRIMARY.
+0/12 expected PRIMARY before the write. After a successful K2B write, both
+K2B and K3B must report 12/12 from the same shared rows.
 
 No K2B write is authorized by this context; the next task must execute its
 own preflight before opening the canonical write path.

@@ -5,8 +5,8 @@
 **Selected class:** `IMTAQ-2026-2B`  
 **State:** `READY_FOR_FRESH_MANDATORY_PREFLIGHT`
 **Branch:** `chore/academic-wali-pilot-primary-k2a`  
-**Exact current HEAD:** `e0ba57a99c1ed6588caf5563fa2bd5ae3ea0af5b`
-**Executable/evidence CI:** `36809446297` = SUCCESS on `f29763e739cc360821749c7cbfc60266adcf459b`
+**Exact current HEAD:** `0e60c8053b40d160d0dc1d3c8388e532c1b81fc9`
+**Executable/evidence CI:** `36826834884` = SUCCESS on `43938305d5c556627aa2e13d2b5887fe1502bac0`
 
 ## Purpose
 
@@ -36,7 +36,8 @@ Before any business-data write:
 10. Prove K1 remains 10/10 expected PRIMARY.
 11. Prove K2A remains 12/12 expected PRIMARY.
 12. Prove K3A and K3B are untouched; K3A remains 0/14 and the K3B canonical
-    baseline remains 12 joint sessions with expected PRIMARY 0/12.
+    baseline remains 12 joint sessions with expected PRIMARY 0/12 before this
+    K2B write.
 
 If any preflight guard fails, stop without a write:
 
@@ -104,7 +105,9 @@ Before commit prove:
 - K1 remains 10/10;
 - K2A remains 12/12;
 - K3A remains 0/14;
-- K3B canonical baseline remains 12/12 joint sessions and 0/12 expected PRIMARY;
+- K3B canonical coverage becomes 12/12 through the same 12 shared joint-session
+  rows as K2B; no second K3B rows are created. K3B session/scope data remains
+  unchanged.
 - no session, schedule, roster, account, role, or lock mutation.
 
 Any failed postcondition requires rollback and `HOLD`.
@@ -115,7 +118,8 @@ After a successful commit, open a new `BEGIN TRANSACTION READ ONLY` and prove
 `transaction_read_only=on`. Independently recheck K2B 12/12, canonical
 semantics, duplicate/conflict = 0, `attendance_status` NULL, no student
 attendance/correction facts, K1 10/10, K2A 12/12, K3A 0/14, and K3B canonical
-joint sessions 12 with expected PRIMARY 0/12.
+joint sessions 12 with expected PRIMARY 12/12 from the same shared rows. No
+duplicate K3B provisioning is permitted.
 Use aggregates only and record no student or teacher names.
 
 ## Next task after successful K2B write

@@ -389,6 +389,24 @@
       "status": "PASS_FINAL_HEAD",
       "summary": "Foundation CI passed on the exact pushed K3B baseline reconciliation evidence commit.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-joint-session-teacher-participation-semantics-reconciliation-review",
+      "kind": "review",
+      "ref": "codex/REVIEWS/ACADEMIC-WALI-PILOT-JOINT-SESSION-TEACHER-PARTICIPATION-SEMANTICS-RECONCILIATION-2026-10-01.md",
+      "commit": "0e60c8053b40d160d0dc1d3c8388e532c1b81fc9",
+      "status": "COMPLETED_PASS_JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED",
+      "summary": "Read-only reconciliation ratifies one shared teacher-participation row per joint ClassSession; K2B and K3B class views share the same 12 rows.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-pilot-joint-session-teacher-participation-semantics-reconciliation-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-PILOT-JOINT-SESSION-TEACHER-PARTICIPATION-SEMANTICS-RECONCILIATION.md",
+      "commit": "0e60c8053b40d160d0dc1d3c8388e532c1b81fc9",
+      "status": "COMPLETED_PASS_JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED",
+      "summary": "Routing and K2B postcondition contract updated without application or database mutation.",
+      "sensitivity": "non_secret"
     }
   ]
 }

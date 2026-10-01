@@ -1,8 +1,11 @@
 # NEXT ACTION
 
-**Execution state:** `K2B_CONTROLLED_WRITE_GATE = OPEN_FOR_FRESH_MANDATORY_PREFLIGHT / K3B_JOINT_SESSION_BASELINE_RATIFIED`
+**Execution state:** `K2B_CONTROLLED_WRITE_GATE = OPEN_FOR_FRESH_MANDATORY_PREFLIGHT / JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`
+
+**Current semantics review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-JOINT-SESSION-TEACHER-PARTICIPATION-SEMANTICS-RECONCILIATION-2026-10-01.md`
+**Decision:** `JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED`
 
 **Current review:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **Decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED`
@@ -26,6 +29,10 @@ Wali application workflow is evidenced; pilot provisioning remains the active op
 
 **K3B joint-session baseline:** `codex/REVIEWS/ACADEMIC-WALI-PILOT-K3B-JOINT-SESSION-BASELINE-RECONCILIATION-2026-10-01.md`
 **K3B baseline decision:** `K3B_JOINT_SESSION_BASELINE_RATIFIED` (anchor count 0; canonical joint count 12; exact K2B/K3B set equality; no mutation performed)
+
+Joint participation contract: K2B and K3B share one teacher-participation row
+per joint ClassSession. K3B is `0/12` only before K2B provisioning; after a
+successful K2B write it is `12/12` through the same rows. No second K3B write.
 
 ## Current controlled K2B teacher-participation provisioning
 
