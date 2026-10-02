@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "5f71d32c57a5d9061fb9daf08e89d7e3658841ef",
+  "repo_commit": "387d7bf19305d94e188666aadf1c5ece40dcb66c",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
@@ -82,7 +82,7 @@
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1-2026-10-02.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36933559280_HEAD_5f71d32",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36944117304_HEAD_387d7bf",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -124,7 +124,7 @@
     "academic_wali_pilot_k3b_joint_session_baseline_reconciliation": "COMPLETED / PASS / K3B_JOINT_SESSION_BASELINE_RATIFIED",
     "academic_wali_pilot_joint_session_teacher_participation_semantics_reconciliation": "COMPLETED / PASS / JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED",
     "academic_ci_attendance_metrics_month_boundary_test_stabilization": "COMPLETED / PASS / RUN_36788275716",
-    "super_admin_user_access_preference_management_v1": "IMPLEMENTED / PENDING_DISPOSABLE_POSTGRES_AND_EXACT_CI"
+    "super_admin_user_access_preference_management_v1": "IMPLEMENTED / PASS / RUN_36944117304"
   },
   "blockers": [
     {

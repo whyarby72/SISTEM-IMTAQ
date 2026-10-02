@@ -532,6 +532,24 @@
       "status": "HOLD_HUMAN_OBSERVATION_REQUIRED",
       "summary": "Read-only PILOT preflight identified one eligible standalone candidate; no attendance facts were supplied and no business write was performed.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "super-admin-user-access-preference-management-v1",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1-2026-10-02.md",
+      "commit": "387d7bf19305d94e188666aadf1c5ece40dcb66c",
+      "status": "IMPLEMENTED_PASS_READY_FOR_CONTROLLED_PILOT_MIGRATION_REVIEW",
+      "summary": "User & Akses account lifecycle, Staff linkage, role/scope, feature overrides, preferences, server-side guard, audit visibility, responsive views, and focused tests implemented without PILOT mutation.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "super-admin-user-access-preference-management-v1-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36944117304",
+      "commit": "387d7bf19305d94e188666aadf1c5ece40dcb66c",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "PostgreSQL 18.6 disposable service, migration-from-zero, schema assertions, User & Akses focused tests, and foundation verification passed.",
+      "sensitivity": "non_secret"
     }
   ]
 }

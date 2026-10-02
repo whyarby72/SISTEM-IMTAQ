@@ -30,8 +30,16 @@ request, Academic UAT, or production cutover was performed. The migrations
 are new and must be replayed only in disposable PostgreSQL before any pilot
 migration review.
 
+## Verification result
+
+Exact GitHub Actions run `36944117304` on implementation HEAD
+`387d7bf19305d94e188666aadf1c5ece40dcb66c` passed PHP/Composer, disposable
+PostgreSQL identity, migration-from-zero, schema/extension assertions, the
+focused User & Akses tests, and the full foundation verification script.
+
 ## Open gate
 
 Controlled disposable-PostgreSQL migration replay and exact GitHub Actions
-verification remain required before pilot migration review. Existing Academic
+verification is complete; a future pilot migration review remains separately
+gated. Existing Academic
 UAT remains unchanged at `HOLD / HUMAN_OBSERVATION_REQUIRED`.

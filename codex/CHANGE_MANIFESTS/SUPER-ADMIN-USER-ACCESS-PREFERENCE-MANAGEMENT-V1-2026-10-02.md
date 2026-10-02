@@ -28,8 +28,8 @@ Scope: controlled full-stack User & Akses feature
 - PHP syntax: PASS for changed PHP files.
 - Blade view cache: PASS.
 - Route registration: PASS (`admin/system/users`, 9 routes).
-- Focused/database tests: pending disposable PostgreSQL execution.
-- Exact GitHub Actions: pending push of implementation commit.
+- Focused/database tests: PASS in exact foundation run 36944117304.
+- Exact GitHub Actions: PASS on implementation commit 387d7bf.
 
 ## Rollback
 
@@ -38,5 +38,4 @@ that disposable database. Do not roll back or rewrite applied pilot history.
 
 ## Decision
 
-Pending exact CI and disposable PostgreSQL verification:
 `IMPLEMENTED / READY_FOR_CONTROLLED_PILOT_MIGRATION_REVIEW`.
