@@ -1,5 +1,18 @@
 # CURRENT TASK CONTEXT
 
+**Current executable task:** `SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R`
+**Current state:** `HOLD / FEATURE_GATE_SECURITY_INCOMPLETE`
+**Branch:** `feat/super-admin-user-access-preferences`
+**Task contract:** `codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R.md`
+**Starting HEAD:** `79fb525c4369f7d31530a2e5f261499713e37ddd`
+**Static validation:** `PASS`
+**Focused/foundation database validation:** `BLOCKED_CONFIGURATION / disposable PostgreSQL target unavailable`
+**Database write:** `NONE`
+**Next atomic task:** provision and independently prove a disposable PostgreSQL target, then rerun V1R verification.
+
+The historical V1 implementation state below is preserved as evidence; it is
+not the current executable task.
+
 **Task:** `SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1`
 **State:** `IMPLEMENTED / PASS / RUN_36944117304`
 **Branch:** `feat/super-admin-user-access-preferences`

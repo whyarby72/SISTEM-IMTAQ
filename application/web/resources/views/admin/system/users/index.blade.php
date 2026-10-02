@@ -6,7 +6,7 @@
 </head>
 <body><div class="waka-shell">
 @include('academic.partials.sidebar',['activeMenu'=>'users'])
-<main class="waka-content"><header><p class="eyebrow">Administrasi platform</p><div class="head"><div><h1>User &amp; Akses</h1><p class="muted">Kelola akun, Staff, role, dan akses fitur tanpa menampilkan secret.</p></div><a class="button" href="{{ route('admin.system.users.create') }}">Tambah user</a></div></header>
+<main class="waka-content"><header><p class="eyebrow">Administrasi platform</p><div class="head"><div><h1>User &amp; Akses</h1>@if($showHelpText)<p class="muted">Kelola akun, Staff, role, dan akses fitur tanpa menampilkan secret.</p>@endif</div><a class="button" href="{{ route('admin.system.users.create') }}">Tambah user</a></div></header>
 @if(session('status'))<p class="card" role="status">{{ session('status') }}</p>@endif
 @if($errors->any())<div class="card" role="alert">{{ $errors->first() }}</div>@endif
 <section class="card"><div class="row"><h2>Daftar akun</h2><span class="muted">{{ $users->total() }} akun</span></div><div class="table-wrap"><table><thead><tr><th>Nama / login</th><th>Staff</th><th>Status</th><th>Role efektif</th><th></th></tr></thead><tbody>

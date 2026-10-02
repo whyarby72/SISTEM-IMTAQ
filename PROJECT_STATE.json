@@ -1,25 +1,25 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "c9c7ee3e57d1f4481d71d97c87ebec5082453150",
+  "repo_commit": "79fb525c4369f7d31530a2e5f261499713e37ddd",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1",
+  "current_task_id": "SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "SAUAP-AC-01",
-    "SAUAP-AC-02",
-    "SAUAP-AC-03",
-    "SAUAP-AC-04",
-    "SAUAP-AC-05",
-    "SAUAP-AC-06",
-    "SAUAP-AC-07",
-    "SAUAP-AC-08",
-    "SAUAP-AC-09",
-    "SAUAP-AC-10"
+    "SAUAP-V1R-AC-01",
+    "SAUAP-V1R-AC-02",
+    "SAUAP-V1R-AC-03",
+    "SAUAP-V1R-AC-04",
+    "SAUAP-V1R-AC-05",
+    "SAUAP-V1R-AC-06",
+    "SAUAP-V1R-AC-07",
+    "SAUAP-V1R-AC-08",
+    "SAUAP-V1R-AC-09",
+    "SAUAP-V1R-AC-10"
   ],
   "latest_evidence_refs": [
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
@@ -79,7 +79,9 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36933559280",
     "codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1.md",
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-FOUNDATION-AUDIT-2026-10-02.md",
-    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1-2026-10-02.md"
+    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1-2026-10-02.md",
+    "codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R.md",
+    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R-2026-10-02.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "PASS_VERIFIED_RUN_36944491055_HEAD_c9c7ee3",
@@ -124,7 +126,8 @@
     "academic_wali_pilot_k3b_joint_session_baseline_reconciliation": "COMPLETED / PASS / K3B_JOINT_SESSION_BASELINE_RATIFIED",
     "academic_wali_pilot_joint_session_teacher_participation_semantics_reconciliation": "COMPLETED / PASS / JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED",
     "academic_ci_attendance_metrics_month_boundary_test_stabilization": "COMPLETED / PASS / RUN_36788275716",
-    "super_admin_user_access_preference_management_v1": "IMPLEMENTED / PASS / RUN_36944117304"
+    "super_admin_user_access_preference_management_v1": "IMPLEMENTED / PASS / RUN_36944117304",
+    "super_admin_user_access_preference_management_v1r": "HOLD / FEATURE_GATE_SECURITY_INCOMPLETE / STATIC_PASS / DB_TARGET_UNAVAILABLE"
   },
   "blockers": [
     {

@@ -24,12 +24,16 @@ Route::get('/', function () {
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
+Route::middleware(['auth', 'active.account'])->group(function (): void {
+    Route::get('/account/password/change', [AuthenticatedSessionController::class, 'editPassword'])->name('password.change');
+    Route::put('/account/password/change', [AuthenticatedSessionController::class, 'updatePassword'])->name('password.update');
+});
 
-Route::middleware('auth')->prefix('academic/attendance')->name('academic.attendance.')->group(function (): void {
+Route::middleware(['auth', 'active.account', 'feature:academic.attendance'])->prefix('academic/attendance')->name('academic.attendance.')->group(function (): void {
     Route::get('/exceptions', [AttendanceExceptionController::class, 'index'])->name('exceptions');
     Route::post('/exceptions/bulk-cancel', [AttendanceExceptionController::class, 'bulkCancel'])->name('exceptions.bulk-cancel');
     Route::post('/exceptions/bulk-snapshot', [AttendanceExceptionController::class, 'bulkSnapshot'])->name('exceptions.bulk-snapshot');
-    Route::get('/reviews', [StudentAttendanceController::class, 'reviews'])->name('reviews');
+    Route::get('/reviews', [StudentAttendanceController::class, 'reviews'])->middleware('feature:academic.attendance_review')->name('reviews');
     Route::get('/reviews.csv', [StudentAttendanceController::class, 'exportReviewsCsv'])->name('reviews.csv');
     Route::get('/reviews.pdf', [StudentAttendanceController::class, 'exportReviewsPdf'])->name('reviews.pdf');
     Route::post('/corrections/{correctionRequest}/review', [StudentAttendanceController::class, 'reviewCorrection'])->name('corrections.review');
@@ -50,66 +54,66 @@ Route::middleware('auth')->prefix('academic/attendance')->name('academic.attenda
     Route::post('/{session}/finalize', [StudentAttendanceController::class, 'finalize'])->name('finalize');
 });
 
-Route::middleware('auth')->prefix('academic')->name('academic.')->group(function (): void {
+Route::middleware(['auth', 'active.account'])->prefix('academic')->name('academic.')->group(function (): void {
     Route::post('/ai-assistant/query', [AcademicAiController::class, 'query'])
         ->middleware('throttle:academic-ai')
-        ->name('ai-assistant.query');
-    Route::get('/dashboard', [AcademicDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/export', [AcademicDashboardController::class, 'export'])->name('dashboard.export');
-    Route::get('/monthly-reports/july-2026', [MonthlyAttendanceReportController::class, 'index'])->name('monthly-reports.index');
-    Route::get('/monthly-reports/july-2026/{class}.csv', [MonthlyAttendanceReportController::class, 'detailCsv'])->whereUuid('class')->name('monthly-reports.detail.csv');
-    Route::get('/monthly-reports/july-2026/{class}.pdf', [MonthlyAttendanceReportController::class, 'detailPdf'])->whereUuid('class')->name('monthly-reports.detail.pdf');
-    Route::get('/monthly-reports/july-2026/{class}', [MonthlyAttendanceReportController::class, 'detail'])->whereUuid('class')->name('monthly-reports.detail');
+        ->middleware('feature:ai.academic_assistant')->name('ai-assistant.query');
+    Route::get('/dashboard', [AcademicDashboardController::class, 'index'])->middleware('feature:academic.dashboard')->name('dashboard');
+    Route::get('/dashboard/export', [AcademicDashboardController::class, 'export'])->middleware('feature:academic.dashboard')->name('dashboard.export');
+    Route::get('/monthly-reports/july-2026', [MonthlyAttendanceReportController::class, 'index'])->middleware('feature:academic.reports')->name('monthly-reports.index');
+    Route::get('/monthly-reports/july-2026/{class}.csv', [MonthlyAttendanceReportController::class, 'detailCsv'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail.csv');
+    Route::get('/monthly-reports/july-2026/{class}.pdf', [MonthlyAttendanceReportController::class, 'detailPdf'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail.pdf');
+    Route::get('/monthly-reports/july-2026/{class}', [MonthlyAttendanceReportController::class, 'detail'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail');
 });
 
-Route::middleware('auth')->prefix('admin/academic')->name('admin.academic.')->group(function (): void {
-    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/monthly-reports/july-2026', [MonthlyAttendanceReportController::class, 'index'])->name('monthly-reports.index');
-    Route::get('/monthly-reports/july-2026/{class}.csv', [MonthlyAttendanceReportController::class, 'detailCsv'])->whereUuid('class')->name('monthly-reports.detail.csv');
-    Route::get('/monthly-reports/july-2026/{class}.pdf', [MonthlyAttendanceReportController::class, 'detailPdf'])->whereUuid('class')->name('monthly-reports.detail.pdf');
-    Route::get('/monthly-reports/july-2026/{class}', [MonthlyAttendanceReportController::class, 'detail'])->whereUuid('class')->name('monthly-reports.detail');
-    Route::post('/monthly-reports/july-2026/publish', [MonthlyAttendanceReportController::class, 'publish'])->name('monthly-reports.publish');
-    Route::get('/monthly-reports/july-2026.csv', [MonthlyAttendanceReportController::class, 'exportCsv'])->name('monthly-reports.csv');
-    Route::get('/monthly-reports/july-2026.pdf', [MonthlyAttendanceReportController::class, 'exportPdf'])->name('monthly-reports.pdf');
-    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
-    Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
-    Route::post('/students', [StudentController::class, 'store'])->name('students.store');
-    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
-    Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
-    Route::get('/classes', [AcademicClassController::class, 'index'])->name('classes.index');
-    Route::get('/structure', [AcademicStructureController::class, 'index'])->name('structure.index');
-    Route::post('/structure/grade-levels', [AcademicStructureController::class, 'storeGradeLevel'])->name('structure.grade-levels.store');
-    Route::post('/structure/homerooms', [AcademicStructureController::class, 'storeHomeroom'])->name('structure.homerooms.store');
-    Route::get('/structure/homerooms/{assignment}/edit', [AcademicStructureController::class, 'editHomeroom'])->name('structure.homerooms.edit');
-    Route::put('/structure/homerooms/{assignment}', [AcademicStructureController::class, 'updateHomeroom'])->name('structure.homerooms.update');
-    Route::get('/classes/create', [AcademicClassController::class, 'create'])->name('classes.create');
-    Route::post('/classes', [AcademicClassController::class, 'store'])->name('classes.store');
-    Route::get('/classes/{class}/edit', [AcademicClassController::class, 'edit'])->name('classes.edit');
-    Route::put('/classes/{class}', [AcademicClassController::class, 'update'])->name('classes.update');
-    Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
-    Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');
-    Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
-    Route::get('/staff/{staff}/edit', [StaffController::class, 'edit'])->name('staff.edit');
-    Route::put('/staff/{staff}', [StaffController::class, 'update'])->name('staff.update');
-    Route::get('/subjects', [SubjectController::class, 'index'])->name('subjects.index');
-    Route::get('/subjects/create', [SubjectController::class, 'create'])->name('subjects.create');
-    Route::post('/subjects', [SubjectController::class, 'store'])->name('subjects.store');
-    Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
-    Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('subjects.update');
-    Route::get('/schedules', [ScheduleRuleController::class, 'index'])->name('schedules.index');
-    Route::post('/schedules/official/validate', [ScheduleRuleController::class, 'validateOfficial'])->name('schedules.official.validate');
-    Route::post('/schedules/official/publish', [ScheduleRuleController::class, 'publishOfficial'])->name('schedules.official.publish');
-    Route::get('/schedules/create', [ScheduleRuleController::class, 'create'])->name('schedules.create');
-    Route::get('/teaching-assignments/create', [ScheduleRuleController::class, 'createTeachingAssignment'])->name('teaching-assignments.create');
-    Route::post('/teaching-assignments', [ScheduleRuleController::class, 'storeTeachingAssignment'])->name('teaching-assignments.store');
-    Route::post('/schedules', [ScheduleRuleController::class, 'store'])->name('schedules.store');
-    Route::get('/schedules/{schedule}/edit', [ScheduleRuleController::class, 'edit'])->name('schedules.edit');
-    Route::put('/schedules/{schedule}', [ScheduleRuleController::class, 'update'])->name('schedules.update');
-    Route::delete('/schedules/{schedule}', [ScheduleRuleController::class, 'destroy'])->name('schedules.destroy');
-    Route::post('/schedules/{schedule}/archive', [ScheduleRuleController::class, 'archive'])->name('schedules.archive');
+Route::middleware(['auth', 'active.account'])->prefix('admin/academic')->name('admin.academic.')->group(function (): void {
+    Route::get('/', [AdminDashboardController::class, 'index'])->middleware('feature:academic.dashboard')->name('dashboard');
+    Route::get('/monthly-reports/july-2026', [MonthlyAttendanceReportController::class, 'index'])->middleware('feature:academic.reports')->name('monthly-reports.index');
+    Route::get('/monthly-reports/july-2026/{class}.csv', [MonthlyAttendanceReportController::class, 'detailCsv'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail.csv');
+    Route::get('/monthly-reports/july-2026/{class}.pdf', [MonthlyAttendanceReportController::class, 'detailPdf'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail.pdf');
+    Route::get('/monthly-reports/july-2026/{class}', [MonthlyAttendanceReportController::class, 'detail'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail');
+    Route::post('/monthly-reports/july-2026/publish', [MonthlyAttendanceReportController::class, 'publish'])->middleware('feature:academic.reports')->name('monthly-reports.publish');
+    Route::get('/monthly-reports/july-2026.csv', [MonthlyAttendanceReportController::class, 'exportCsv'])->middleware('feature:academic.reports')->name('monthly-reports.csv');
+    Route::get('/monthly-reports/july-2026.pdf', [MonthlyAttendanceReportController::class, 'exportPdf'])->middleware('feature:academic.reports')->name('monthly-reports.pdf');
+    Route::get('/students', [StudentController::class, 'index'])->middleware('feature:academic.students')->name('students.index');
+    Route::get('/students/create', [StudentController::class, 'create'])->middleware('feature:academic.students')->name('students.create');
+    Route::post('/students', [StudentController::class, 'store'])->middleware('feature:academic.students')->name('students.store');
+    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->middleware('feature:academic.students')->name('students.edit');
+    Route::put('/students/{student}', [StudentController::class, 'update'])->middleware('feature:academic.students')->name('students.update');
+    Route::get('/classes', [AcademicClassController::class, 'index'])->middleware('feature:academic.classes')->name('classes.index');
+    Route::get('/structure', [AcademicStructureController::class, 'index'])->middleware('feature:academic.structure')->name('structure.index');
+    Route::post('/structure/grade-levels', [AcademicStructureController::class, 'storeGradeLevel'])->middleware('feature:academic.structure')->name('structure.grade-levels.store');
+    Route::post('/structure/homerooms', [AcademicStructureController::class, 'storeHomeroom'])->middleware('feature:academic.structure')->name('structure.homerooms.store');
+    Route::get('/structure/homerooms/{assignment}/edit', [AcademicStructureController::class, 'editHomeroom'])->middleware('feature:academic.structure')->name('structure.homerooms.edit');
+    Route::put('/structure/homerooms/{assignment}', [AcademicStructureController::class, 'updateHomeroom'])->middleware('feature:academic.structure')->name('structure.homerooms.update');
+    Route::get('/classes/create', [AcademicClassController::class, 'create'])->middleware('feature:academic.classes')->name('classes.create');
+    Route::post('/classes', [AcademicClassController::class, 'store'])->middleware('feature:academic.classes')->name('classes.store');
+    Route::get('/classes/{class}/edit', [AcademicClassController::class, 'edit'])->middleware('feature:academic.classes')->name('classes.edit');
+    Route::put('/classes/{class}', [AcademicClassController::class, 'update'])->middleware('feature:academic.classes')->name('classes.update');
+    Route::get('/staff', [StaffController::class, 'index'])->middleware('feature:academic.staff')->name('staff.index');
+    Route::get('/staff/create', [StaffController::class, 'create'])->middleware('feature:academic.staff')->name('staff.create');
+    Route::post('/staff', [StaffController::class, 'store'])->middleware('feature:academic.staff')->name('staff.store');
+    Route::get('/staff/{staff}/edit', [StaffController::class, 'edit'])->middleware('feature:academic.staff')->name('staff.edit');
+    Route::put('/staff/{staff}', [StaffController::class, 'update'])->middleware('feature:academic.staff')->name('staff.update');
+    Route::get('/subjects', [SubjectController::class, 'index'])->middleware('feature:academic.subjects')->name('subjects.index');
+    Route::get('/subjects/create', [SubjectController::class, 'create'])->middleware('feature:academic.subjects')->name('subjects.create');
+    Route::post('/subjects', [SubjectController::class, 'store'])->middleware('feature:academic.subjects')->name('subjects.store');
+    Route::get('/subjects/{subject}/edit', [SubjectController::class, 'edit'])->middleware('feature:academic.subjects')->name('subjects.edit');
+    Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->middleware('feature:academic.subjects')->name('subjects.update');
+    Route::get('/schedules', [ScheduleRuleController::class, 'index'])->middleware('feature:academic.schedules')->name('schedules.index');
+    Route::post('/schedules/official/validate', [ScheduleRuleController::class, 'validateOfficial'])->middleware('feature:academic.schedules')->name('schedules.official.validate');
+    Route::post('/schedules/official/publish', [ScheduleRuleController::class, 'publishOfficial'])->middleware('feature:academic.schedules')->name('schedules.official.publish');
+    Route::get('/schedules/create', [ScheduleRuleController::class, 'create'])->middleware('feature:academic.schedules')->name('schedules.create');
+    Route::get('/teaching-assignments/create', [ScheduleRuleController::class, 'createTeachingAssignment'])->middleware('feature:academic.schedules')->name('teaching-assignments.create');
+    Route::post('/teaching-assignments', [ScheduleRuleController::class, 'storeTeachingAssignment'])->middleware('feature:academic.schedules')->name('teaching-assignments.store');
+    Route::post('/schedules', [ScheduleRuleController::class, 'store'])->middleware('feature:academic.schedules')->name('schedules.store');
+    Route::get('/schedules/{schedule}/edit', [ScheduleRuleController::class, 'edit'])->middleware('feature:academic.schedules')->name('schedules.edit');
+    Route::put('/schedules/{schedule}', [ScheduleRuleController::class, 'update'])->middleware('feature:academic.schedules')->name('schedules.update');
+    Route::delete('/schedules/{schedule}', [ScheduleRuleController::class, 'destroy'])->middleware('feature:academic.schedules')->name('schedules.destroy');
+    Route::post('/schedules/{schedule}/archive', [ScheduleRuleController::class, 'archive'])->middleware('feature:academic.schedules')->name('schedules.archive');
 });
 
-Route::middleware(['auth', 'throttle:admin-ai-provider'])->prefix('admin/system/ai-provider')->name('admin.system.ai-provider.')->group(function (): void {
+Route::middleware(['auth', 'active.account', 'feature:platform.system_settings', 'throttle:admin-ai-provider'])->prefix('admin/system/ai-provider')->name('admin.system.ai-provider.')->group(function (): void {
     Route::get('/', [AiProviderConfigurationController::class, 'index'])->name('index');
     Route::post('/credentials', [AiProviderConfigurationController::class, 'storeCredential'])->name('credentials.store');
     Route::post('/credentials/{credential}/verify', [AiProviderConfigurationController::class, 'verifyCredential'])->name('credentials.verify');
@@ -121,7 +125,7 @@ Route::middleware(['auth', 'throttle:admin-ai-provider'])->prefix('admin/system/
     Route::post('/runtime', [AiProviderConfigurationController::class, 'toggleRuntime'])->name('runtime.toggle');
 });
 
-Route::middleware(['auth', 'feature:platform.user_access'])->prefix('admin/system/users')->name('admin.system.users.')->group(function (): void {
+Route::middleware(['auth', 'active.account', 'feature:platform.user_access'])->prefix('admin/system/users')->name('admin.system.users.')->group(function (): void {
     Route::get('/', [UserAccessController::class, 'index'])->name('index');
     Route::get('/create', [UserAccessController::class, 'create'])->name('create');
     Route::post('/', [UserAccessController::class, 'store'])->name('store');

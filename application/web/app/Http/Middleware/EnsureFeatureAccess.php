@@ -11,7 +11,11 @@ class EnsureFeatureAccess
 {
     public function handle(Request $request, Closure $next, string $feature): Response
     {
-        abort_unless($request->user() && app(FeatureAccessResolver::class)->allowed($request->user(), $feature), 403);
+        $result = $request->user() ? app(FeatureAccessResolver::class)->resolve($request->user(), $feature) : null;
+        // The registry is additive. Until a deployment runs its feature seeder,
+        // an unknown code preserves the pre-registry route contract; a known
+        // DISABLED/denied feature is always enforced server-side.
+        abort_unless($request->user() && ($result['feature'] === null || $result['effective_enabled']), 403);
 
         return $next($request);
     }
