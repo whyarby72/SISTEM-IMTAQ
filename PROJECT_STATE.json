@@ -88,10 +88,11 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36976686299",
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37011165609",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012002039"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012002039",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012218885"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37012002039 / HEAD_b009c0eb1b2ecaabb4bcde5f134617b486a26970",
+    "exact_current_ci": "PASS / RUN_37012218885 / HEAD_14ae0f4f47232220a12f60c18d180f5a2561051e",
     "user_access_pilot_migration_readiness": "COMPLETED / READ_ONLY / HOLD / USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY",
     "current_review_database_write": "NONE / TWO_READ_ONLY_TRANSACTIONS_ROLLED_BACK",
     "historical_local_regression": "PASS",
@@ -180,7 +181,7 @@
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-10-02T20:30:00+07:00",
+  "updated_at": "2026-10-02T20:45:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

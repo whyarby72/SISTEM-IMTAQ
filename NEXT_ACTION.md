@@ -12,7 +12,7 @@ R1/R1R permission bootstrap and fixture alignment passed exact disposable
 PostgreSQL CI. Do not execute PILOT migrations or seed operations in this
 checkpoint; PILOT compatibility remains an owner-authorized readiness gate.
 
-Exact CI: `37012002039` = SUCCESS on `b009c0e`. Database write NONE. Public
+Exact CI: `37012218885` = SUCCESS on `14ae0f4`. Database write NONE. Public
 Academic AI OFF, Academic UAT HOLD / HUMAN_OBSERVATION_REQUIRED, SOC-MD-06 and
 IMP-S12-007 NOT_STARTED are preserved.
 

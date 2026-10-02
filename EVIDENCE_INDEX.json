@@ -1,7 +1,7 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-10-02T20:30:00+07:00",
+  "indexed_at": "2026-10-02T20:45:00+07:00",
   "entries": [
     {
       "id": "super-admin-user-access-permission-bootstrap-r1-manifest",
@@ -24,8 +24,8 @@
     {
       "id": "super-admin-user-access-permission-bootstrap-r1r-final-metadata-ci",
       "kind": "github_actions_run",
-      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012002039",
-      "commit": "b009c0eb1b2ecaabb4bcde5f134617b486a26970",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012218885",
+      "commit": "14ae0f4f47232220a12f60c18d180f5a2561051e",
       "status": "PASS_EXACT_FINAL_HEAD",
       "summary": "Final metadata/evidence reconciliation passed the disposable PostgreSQL foundation workflow on the exact final repository HEAD.",
       "sensitivity": "non_secret"
