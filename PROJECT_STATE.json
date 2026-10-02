@@ -1,30 +1,27 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "67672bdbf1dab18634c07517316780891debf467",
+  "repo_commit": "979f6b26d39b4a308a818358afe9545b0050bc0e",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-REVIEW",
+  "current_task_id": "SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "SAUAP-PMR-01",
-    "SAUAP-PMR-02",
-    "SAUAP-PMR-03",
-    "SAUAP-PMR-04",
-    "SAUAP-PMR-05",
-    "SAUAP-PMR-06",
-    "SAUAP-PMR-07",
-    "SAUAP-PMR-08",
-    "SAUAP-PMR-09",
-    "SAUAP-PMR-10",
-    "SAUAP-PMR-11",
-    "SAUAP-PMR-12",
-    "SAUAP-PMR-13",
-    "SAUAP-PMR-14",
-    "SAUAP-PMR-15"
+    "SAUAP-R1R-01",
+    "SAUAP-R1R-02",
+    "SAUAP-R1R-03",
+    "SAUAP-R1R-04",
+    "SAUAP-R1R-05",
+    "SAUAP-R1R-06",
+    "SAUAP-R1R-07",
+    "SAUAP-R1R-08",
+    "SAUAP-R1R-09",
+    "SAUAP-R1R-10",
+    "SAUAP-R1R-11",
+    "SAUAP-R1R-12"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -88,10 +85,12 @@
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1-2026-10-02.md",
     "codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R.md",
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R-2026-10-02.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36976686299"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36976686299",
+    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37011165609"
   ],
   "latest_test_state": {
-    "exact_current_ci": "NOT_RUN_ON_HEAD_67672bd / EXECUTABLE_EQUIVALENCE_TO_PASS_RUN_36976686299_HEAD_465be64",
+    "exact_current_ci": "PASS / RUN_37011165609 / HEAD_979f6b26d39b4a308a818358afe9545b0050bc0e",
     "user_access_pilot_migration_readiness": "COMPLETED / READ_ONLY / HOLD / USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY",
     "current_review_database_write": "NONE / TWO_READ_ONLY_TRANSACTIONS_ROLLED_BACK",
     "historical_local_regression": "PASS",
@@ -136,7 +135,9 @@
     "academic_wali_pilot_joint_session_teacher_participation_semantics_reconciliation": "COMPLETED / PASS / JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED",
     "academic_ci_attendance_metrics_month_boundary_test_stabilization": "COMPLETED / PASS / RUN_36788275716",
     "super_admin_user_access_preference_management_v1": "IMPLEMENTED / PASS / RUN_36944117304",
-    "super_admin_user_access_preference_management_v1r": "COMPLETED / PASS / RUN_36976686299"
+    "super_admin_user_access_preference_management_v1r": "COMPLETED / PASS / RUN_36976686299",
+    "super_admin_user_access_permission_bootstrap_r1": "COMPLETED / PASS / RUN_37011165609",
+    "super_admin_user_access_permission_bootstrap_r1r": "COMPLETED / PASS / FIXTURE_ALIGNMENT / RUN_37011165609"
   },
   "blockers": [
     {
@@ -174,11 +175,11 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_USER_ACCESS_PILOT_MIGRATION_READINESS_AUDIT",
+  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT",
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-10-02T19:30:36+07:00",
+  "updated_at": "2026-10-02T20:15:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

@@ -1,25 +1,22 @@
 # CURRENT TASK CONTEXT
 
-## Current review checkpoint — 2026-10-02
+## Current R1R closeout checkpoint — 2026-10-02
 
-**Current task:** `SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-REVIEW`
-**State:** `COMPLETED / READ_ONLY / HOLD`
-**Branch / inspected HEAD:** `feat/super-admin-user-access-preferences` / `67672bdbf1dab18634c07517316780891debf467`
-**Review:** `codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md`
-**CI authority:** run `36976686299` SUCCESS on tested executable `465be64a6d5263def7d1eb3554e35590426346ec`; NOT exact CI on 67672bd. The intervening delta is two metadata files only.
-**Blocker:** `USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY`
-**Next atomic task:** `RETURN_TO_CHATGPT_FOR_USER_ACCESS_PILOT_MIGRATION_READINESS_AUDIT`
+**Current task:** `SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT`
+**State:** `COMPLETED / PASS / RUN_37011165609`
+**Branch / tested HEAD:** `feat/super-admin-user-access-preferences` / `979f6b26d39b4a308a818358afe9545b0050bc0e`
+**Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md`
+**CI authority:** run `37011165609` SUCCESS on exact tested HEAD; 15 passed, 536 warnings, 2267 assertions, 0 failed.
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT`
 
-PILOT imtaq / PostgreSQL 18.6 was inspected in two READ ONLY transactions;
-transaction_read_only was on, both ended with ROLLBACK. All three User & Akses
-migrations and platform.user.manage remain absent. One effective legacy
-SUPER_ADMIN exists, but the current seeder does not supply the two authority
-permissions required by Academic master/System Settings feature gates.
-Do not migrate, seed, broaden permissions, or remediate automatically.
+R1/R1R source and fixture changes are validated only against disposable
+PostgreSQL CI. Do not migrate, seed, broaden PILOT permissions, or perform
+PILOT business-data writes in this checkpoint. The PILOT compatibility gate
+remains owner-authorized work.
 
-**REQUIRED NOW:** this review and `NEXT_ACTION.md` only for the audit handoff.
-Academic first-day UAT stays HOLD / HUMAN_OBSERVATION_REQUIRED; Public Academic
-AI stays OFF; SOC-MD-06 and IMP-S12-007 remain unchanged. Database writes: NONE.
+**REQUIRED NOW:** return to ChatGPT for the R1 audit. Academic first-day UAT
+stays HOLD / HUMAN_OBSERVATION_REQUIRED; Public Academic AI stays OFF;
+SOC-MD-06 and IMP-S12-007 remain unchanged. Database writes: NONE.
 
 ## Historical implementation context — not current execution authority
 

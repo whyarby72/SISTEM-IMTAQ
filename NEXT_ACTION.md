@@ -1,23 +1,20 @@
 # NEXT ACTION
 
-## Current readiness-review handoff — 2026-10-02
+## Current R1R closeout handoff — 2026-10-02
 
-**Current task:** `SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-REVIEW`
-**State:** `COMPLETED / READ_ONLY / HOLD`
-**Review:** `codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md`
-**Next atomic task:** `RETURN_TO_CHATGPT_FOR_USER_ACCESS_PILOT_MIGRATION_READINESS_AUDIT`
+**Current task:** `SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT`
+**State:** `COMPLETED / PASS / RUN_37011165609`
+**Exact tested HEAD:** `979f6b26d39b4a308a818358afe9545b0050bc0e`
+**Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT`
 
-Do not execute PILOT migrations. The current registry bootstrap would deny
-legacy SUPER_ADMIN/WAKA Academic master access and SUPER_ADMIN System Settings:
-academic.domain.manage and platform.institution.manage are absent and are not
-created by UserAccessFeatureSeeder. Owner-reviewed compatibility design is
-required; no automatic permission grant or source repair is authorized.
+R1/R1R permission bootstrap and fixture alignment passed exact disposable
+PostgreSQL CI. Do not execute PILOT migrations or seed operations in this
+checkpoint; PILOT compatibility remains an owner-authorized readiness gate.
 
-Inspected HEAD: 67672bdbf1dab18634c07517316780891debf467. Authoritative CI:
-36976686299 SUCCESS on executable HEAD 465be64a6d5263def7d1eb3554e35590426346ec,
-not exact CI on the metadata-only 67672bd commit. Two PILOT transactions proved
-read-only; database write NONE. Public Academic AI OFF, Academic UAT HOLD /
-HUMAN_OBSERVATION_REQUIRED, and IMP-S12-007 NOT_STARTED are preserved.
+Exact CI: `37011165609` = SUCCESS on `979f6b26`. Database write NONE. Public
+Academic AI OFF, Academic UAT HOLD / HUMAN_OBSERVATION_REQUIRED, SOC-MD-06 and
+IMP-S12-007 NOT_STARTED are preserved.
 
 ## Historical handoff — not current execution authority
 
