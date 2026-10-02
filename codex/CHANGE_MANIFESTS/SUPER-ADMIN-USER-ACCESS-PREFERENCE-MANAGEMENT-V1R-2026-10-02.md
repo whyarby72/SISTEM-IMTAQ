@@ -48,8 +48,8 @@ focused tests, and governance metadata only.
 - `git diff --check`: PASS.
 - Focused PHPUnit: `NOT RUN`; disposable PostgreSQL target unavailable and
   guard refused pilot `.env`.
-- Exact GitHub Actions: `36975877896` = `SUCCESS` on
-  `547dd45a42727d3dc2febec9abc7792ca36d53c9`.
+- Exact GitHub Actions: `36976414076` = `SUCCESS` on
+  `ee9f2d351cb5fce93b769183b6d72ce5ff7f5546`.
 - The exact run passed PostgreSQL 18.6 readiness, identity guard,
   migration-from-zero, schema/extension checks, and the foundation suite.
 

@@ -57,8 +57,8 @@ PostgreSQL database. Never use `imtaq` or alter applied migrations.
 Local static checks pass. The local disposable targets
 `imtaq_test_v1r` and `imtaq_ci_test` remain unavailable, and the repository
 guard correctly rejected the local `.env` pilot identity; no local database
-write was attempted. Exact GitHub Actions run `36975877896` on
-`547dd45a42727d3dc2febec9abc7792ca36d53c9` passed PostgreSQL readiness,
+write was attempted. Exact GitHub Actions run `36976414076` on
+`ee9f2d351cb5fce93b769183b6d72ce5ff7f5546` passed PostgreSQL readiness,
 identity guard, migration-from-zero, schema checks, and the foundation suite.
 
 ## Decision gate
@@ -75,8 +75,8 @@ and `Public Academic AI = OFF` remain unchanged.
 
 ## Closeout checkpoint
 
-- Exact implementation/evidence HEAD: `547dd45a42727d3dc2febec9abc7792ca36d53c9`
-- Exact GitHub Actions: `36975877896` = `SUCCESS`
+- Exact implementation/evidence HEAD: `ee9f2d351cb5fce93b769183b6d72ce5ff7f5546`
+- Exact GitHub Actions: `36976414076` = `SUCCESS`
 - Focused User & Akses matrix: 26 required cases present and covered by the
   exact foundation suite.
 - Academic sidebar fixture and mobile Escape regression are resolved.
