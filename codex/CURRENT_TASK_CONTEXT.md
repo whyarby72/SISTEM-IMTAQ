@@ -10,6 +10,9 @@ database write, Academic UAT action, AI/provider mutation, or production
 cutover is authorized. Exact disposable PostgreSQL replay, focused tests,
 foundation regression, and GitHub Actions evidence all passed.
 
+**Exact implementation HEAD:** `c9c7ee3e57d1f4481d71d97c87ebec5082453150`
+**Exact CI:** `36944491055` = SUCCESS
+
 ---
 
 **Task:** `ACADEMIC-WALI-PILOT-FIRST-DAY-CONTROLLED-ATTENDANCE-UAT`
