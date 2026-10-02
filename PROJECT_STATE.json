@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "79fb525c4369f7d31530a2e5f261499713e37ddd",
+  "repo_commit": "547dd45a42727d3dc2febec9abc7792ca36d53c9",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
@@ -81,10 +81,11 @@
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-FOUNDATION-AUDIT-2026-10-02.md",
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1-2026-10-02.md",
     "codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R.md",
-    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R-2026-10-02.md"
+    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R-2026-10-02.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36975877896"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36944491055_HEAD_c9c7ee3",
+    "exact_current_ci": "PASS_VERIFIED_RUN_36975877896_HEAD_547dd45a",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -127,7 +128,7 @@
     "academic_wali_pilot_joint_session_teacher_participation_semantics_reconciliation": "COMPLETED / PASS / JOINT_SESSION_TEACHER_PARTICIPATION_SEMANTICS_RATIFIED",
     "academic_ci_attendance_metrics_month_boundary_test_stabilization": "COMPLETED / PASS / RUN_36788275716",
     "super_admin_user_access_preference_management_v1": "IMPLEMENTED / PASS / RUN_36944117304",
-    "super_admin_user_access_preference_management_v1r": "HOLD / FEATURE_GATE_SECURITY_INCOMPLETE / STATIC_PASS / DB_TARGET_UNAVAILABLE"
+    "super_admin_user_access_preference_management_v1r": "COMPLETED / PASS / RUN_36975877896"
   },
   "blockers": [
     {

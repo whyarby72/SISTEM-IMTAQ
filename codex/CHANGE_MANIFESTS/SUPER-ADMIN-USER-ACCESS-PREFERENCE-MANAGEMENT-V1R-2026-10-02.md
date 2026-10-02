@@ -23,6 +23,8 @@ focused tests, and governance metadata only.
 - `application/web/routes/web.php`
 - User & Akses and password-change Blade views
 - `application/web/tests/Feature/Admin/UserAccessManagementTest.php`
+- `application/web/tests/Feature/Academic/AcademicRoleDashboardServiceTest.php`
+- `application/web/resources/views/academic/partials/sidebar.blade.php`
 - V1R task/manifest and state evidence
 
 ## Safety boundary
@@ -46,7 +48,10 @@ focused tests, and governance metadata only.
 - `git diff --check`: PASS.
 - Focused PHPUnit: `NOT RUN`; disposable PostgreSQL target unavailable and
   guard refused pilot `.env`.
-- Exact GitHub Actions: pending; this checkpoint is not PASS.
+- Exact GitHub Actions: `36975877896` = `SUCCESS` on
+  `547dd45a42727d3dc2febec9abc7792ca36d53c9`.
+- The exact run passed PostgreSQL 18.6 readiness, identity guard,
+  migration-from-zero, schema/extension checks, and the foundation suite.
 
 ## Rollback
 
@@ -55,10 +60,9 @@ disposable PostgreSQL database. Do not roll back applied pilot history.
 
 ## Decision
 
-`HOLD / FEATURE_GATE_SECURITY_INCOMPLETE`
+`COMPLETED / PASS / READY_FOR_CONTROLLED_PILOT_MIGRATION_REVIEW`
 
 ## Next atomic task
 
-Provision and independently prove a disposable PostgreSQL target, then rerun
-focused User & Akses, migration-from-zero, Academic/AI regression, and exact
-foundation CI. Do not migrate PILOT or start Academic UAT.
+`RETURN_TO_CHATGPT_FOR_SUPER_ADMIN_USER_ACCESS_AUDIT`. Do not migrate PILOT or
+start Academic UAT.

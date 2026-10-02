@@ -7,16 +7,25 @@
       "id": "super-admin-user-access-preference-management-v1r-contract",
       "kind": "task_context",
       "ref": "codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R.md",
-      "status": "ACTIVE_HOLD",
-      "summary": "V1R hardens seeded feature route gates, effective sidebar access, preferences, disabled sessions, scope validation, role revocation, atomic versioned audit, and temporary-password lifecycle.",
+      "status": "COMPLETED_PASS",
+      "summary": "V1R hardens seeded feature route gates, effective sidebar access, preferences, disabled sessions, scope validation, role revocation, atomic versioned audit, and temporary-password lifecycle; exact foundation CI passed.",
       "sensitivity": "non_secret"
     },
     {
       "id": "super-admin-user-access-preference-management-v1r-manifest",
       "kind": "change_manifest",
       "ref": "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R-2026-10-02.md",
-      "status": "HOLD_DB_TARGET_UNAVAILABLE",
-      "summary": "Static implementation and test matrix are recorded; focused PostgreSQL verification was not run because disposable targets were unavailable and the identity guard rejected the pilot environment.",
+      "status": "PASS_EXACT_CI",
+      "summary": "V1R implementation and evidence are complete; local pilot access remained blocked by the identity guard, while exact disposable PostgreSQL verification passed in GitHub Actions.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "super-admin-user-access-preference-management-v1r-exact-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36975877896",
+      "commit": "547dd45a42727d3dc2febec9abc7792ca36d53c9",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Exact PostgreSQL foundation run passed runtime, identity guard, migration-from-zero, schema/extension, Academic/AI, and full regression verification.",
       "sensitivity": "non_secret"
     },
     {

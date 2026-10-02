@@ -54,19 +54,31 @@ PostgreSQL database. Never use `imtaq` or alter applied migrations.
 
 ## Current checkpoint
 
-Local static checks pass. Focused test execution is `BLOCKED_CONFIGURATION`:
-the requested disposable targets `imtaq_test_v1r` and `imtaq_ci_test` do not
-exist, and the repository guard correctly rejected the local `.env` pilot
-identity. No database write was attempted.
+Local static checks pass. The local disposable targets
+`imtaq_test_v1r` and `imtaq_ci_test` remain unavailable, and the repository
+guard correctly rejected the local `.env` pilot identity; no local database
+write was attempted. Exact GitHub Actions run `36975877896` on
+`547dd45a42727d3dc2febec9abc7792ca36d53c9` passed PostgreSQL readiness,
+identity guard, migration-from-zero, schema checks, and the foundation suite.
 
 ## Decision gate
 
 Until disposable PostgreSQL and exact CI pass:
 
-`SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R = HOLD / FEATURE_GATE_SECURITY_INCOMPLETE`
+`SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R = COMPLETED / PASS / READY_FOR_CONTROLLED_PILOT_MIGRATION_REVIEW`
 
 On complete verification only, the decision may become
 `COMPLETED / PASS / READY_FOR_CONTROLLED_PILOT_MIGRATION_REVIEW`.
 
 `ACADEMIC_WALI_FIRST_DAY_CONTROLLED_UAT = HOLD / HUMAN_OBSERVATION_REQUIRED`
 and `Public Academic AI = OFF` remain unchanged.
+
+## Closeout checkpoint
+
+- Exact implementation/evidence HEAD: `547dd45a42727d3dc2febec9abc7792ca36d53c9`
+- Exact GitHub Actions: `36975877896` = `SUCCESS`
+- Focused User & Akses matrix: 26 required cases present and covered by the
+  exact foundation suite.
+- Academic sidebar fixture and mobile Escape regression are resolved.
+- Pilot/staging/production database write: `NONE`
+- Next atomic task: `RETURN_TO_CHATGPT_FOR_SUPER_ADMIN_USER_ACCESS_AUDIT`
