@@ -44,8 +44,8 @@ class RoleScopeValidator
         return [
             'scope_type' => $type,
             'scope_key' => $key ?: null,
-            'effective_from' => $payload['effective_from'] ?: null,
-            'effective_until' => $payload['effective_until'] ?: null,
+            'effective_from' => $payload['effective_from'] ?? null,
+            'effective_until' => $payload['effective_until'] ?? null,
         ];
     }
 }

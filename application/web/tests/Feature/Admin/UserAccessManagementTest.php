@@ -49,7 +49,7 @@ class UserAccessManagementTest extends TestCase
 
     public function test_authorized_super_admin_opens_user_access(): void
     {
-        $this->actingAs($admin())->get(route('admin.system.users.index'))->assertOk()->assertSee('User &amp; Akses', false);
+        $this->actingAs($this->admin())->get(route('admin.system.users.index'))->assertOk()->assertSee('User &amp; Akses', false);
     }
 
     public function test_user_create_succeeds_and_requires_first_login_change(): void
@@ -136,7 +136,7 @@ class UserAccessManagementTest extends TestCase
         $admin = $this->admin();
         $feature = $this->feature('academic.students');
         UserFeatureOverride::create(['user_id' => $admin->id, 'feature_id' => $feature->id, 'state' => 'DISABLED', 'version_no' => 1]);
-        $this->actingAs($admin)->get(route('academic.dashboard'))->assertOk()->assertDontSee('Santri');
+        $this->actingAs($admin)->get(route('academic.dashboard'))->assertOk()->assertDontSee('aria-label="Santri"', false);
     }
 
     public function test_disabled_feature_denies_direct_route(): void

@@ -87,13 +87,20 @@ class AuthenticatedSessionController
         $preferenceValue = $preference?->preference_value;
         $requested = is_array($preferenceValue) ? ($preferenceValue['value'] ?? null) : null;
         $resolver = app(FeatureAccessResolver::class);
-        if ($requested === 'academic.dashboard' && $resolver->allowed($user, 'academic.dashboard')) {
+        if ($requested === 'academic.dashboard' && $this->featureAllowedOrUnregistered($resolver, $user, 'academic.dashboard')) {
             return 'academic.dashboard';
         }
-        if ($requested === 'admin.academic.dashboard' && $resolver->allowed($user, 'academic.dashboard')) {
+        if ($requested === 'admin.academic.dashboard' && $this->featureAllowedOrUnregistered($resolver, $user, 'academic.dashboard')) {
             return 'admin.academic.dashboard';
         }
 
-        return $operational && $resolver->allowed($user, 'academic.dashboard') ? 'academic.dashboard' : 'admin.academic.dashboard';
+        return $operational && $this->featureAllowedOrUnregistered($resolver, $user, 'academic.dashboard') ? 'academic.dashboard' : 'admin.academic.dashboard';
+    }
+
+    private function featureAllowedOrUnregistered(FeatureAccessResolver $resolver, $user, string $code): bool
+    {
+        $result = $resolver->resolve($user, $code);
+
+        return $result['feature'] === null || $result['effective_enabled'];
     }
 }

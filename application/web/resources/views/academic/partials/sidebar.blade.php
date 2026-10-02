@@ -6,7 +6,14 @@
     $roleLabel = $roleLabels[$roleCode] ?? $authUser?->roles?->pluck('name')->first() ?? 'Pengguna akademik';
     $activeMenu = $activeMenu ?? '';
     $dashboardUrl = route('academic.dashboard', request()->only(['month', 'from', 'to', 'trend_days', 'semester_id']));
-    $allowed = static fn (string $code): bool => $authUser && $resolver->allowed($authUser, $code);
+    $allowed = static function (string $code) use ($authUser, $resolver): bool {
+        if (! $authUser) {
+            return false;
+        }
+        $result = $resolver->resolve($authUser, $code);
+
+        return $result['feature'] === null || $result['effective_enabled'];
+    };
     $sidebarPreference = $authUser?->preferences?->firstWhere('preference_key', 'sidebar_compact');
     $sidebarPreferenceValue = $sidebarPreference?->preference_value;
     $sidebarCompact = (bool) (is_array($sidebarPreferenceValue) ? ($sidebarPreferenceValue['value'] ?? false) : false);
