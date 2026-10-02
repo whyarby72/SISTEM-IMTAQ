@@ -661,6 +661,7 @@ class AcademicRoleDashboardServiceTest extends TestCase
         [$first, $second] = $this->fixture();
         $superAdmin = User::factory()->create();
         $role = Role::create(['code' => 'SUPER_ADMIN', 'name' => 'Super Admin']);
+        $this->seed(UserAccessFeatureSeeder::class);
         UserRoleAssignment::create(['user_id' => $superAdmin->id, 'role_id' => $role->id]);
 
         $dashboard = app(AcademicRoleDashboardService::class)->forUser($superAdmin, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay());
@@ -725,6 +726,8 @@ class AcademicRoleDashboardServiceTest extends TestCase
 
     private function fixture(bool $withPilotClass = false): array
     {
+        $waliRole = Role::create(['code' => 'WALI_KELAS', 'name' => 'Wali']);
+        $wakaRole = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka']);
         $this->seed(UserAccessFeatureSeeder::class);
         $unit = OrganizationalUnit::create(['unit_code' => 'UNIT-DASH', 'unit_name' => 'Dashboard Unit', 'unit_type' => 'SCHOOL']);
         $level = GradeLevel::create(['organizational_unit_id' => $unit->id, 'level_code' => '1', 'display_name' => 'Tingkat 1', 'sequence_no' => 1]);
@@ -748,8 +751,6 @@ class AcademicRoleDashboardServiceTest extends TestCase
         }
         $wali = User::factory()->create();
         $waka = User::factory()->create();
-        $waliRole = Role::create(['code' => 'WALI_KELAS', 'name' => 'Wali']);
-        $wakaRole = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka']);
         UserRoleAssignment::create(['user_id' => $wali->id, 'role_id' => $waliRole->id]);
         UserRoleAssignment::create(['user_id' => $waka->id, 'role_id' => $wakaRole->id]);
         UserStaffLink::create(['user_id' => $wali->id, 'staff_id' => $teacher->id, 'effective_from' => '2026-07-01']);
