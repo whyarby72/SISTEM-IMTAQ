@@ -45,4 +45,19 @@
 </aside>
 <script>
 document.addEventListener('click',function(event){const sidebar=event.target.closest('.waka-sidebar');if(window.matchMedia('(max-width: 680px)').matches){if(!sidebar){document.querySelectorAll('.waka-sidebar').forEach(function(item){item.classList.remove('is-expanded');const toggle=item.querySelector('.waka-sidebar-toggle');if(toggle){toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Buka navigasi');toggle.setAttribute('title','Buka navigasi')}});return}const toggle=event.target.closest('.waka-sidebar-toggle');if(toggle){const expanded=sidebar.classList.toggle('is-expanded');toggle.setAttribute('aria-expanded',expanded?'true':'false');toggle.setAttribute('aria-label',expanded?'Tutup navigasi':'Buka navigasi');toggle.setAttribute('title',expanded?'Tutup navigasi':'Buka navigasi');return}document.querySelectorAll('.waka-sidebar').forEach(function(item){item.classList.toggle('is-expanded',item===sidebar)})}});
+document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || !window.matchMedia('(max-width: 680px)').matches) {
+        return;
+    }
+    document.querySelectorAll('.waka-sidebar.is-expanded').forEach(function (item) {
+        item.classList.remove('is-expanded');
+        const toggle = item.querySelector('.waka-sidebar-toggle');
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.setAttribute('aria-label', 'Buka navigasi');
+            toggle.setAttribute('title', 'Buka navigasi');
+            toggle.focus();
+        }
+    });
+});
 </script>
