@@ -26,6 +26,7 @@ use App\Shared\Platform\Authorization\Models\Permission;
 use App\Shared\Platform\Authorization\Models\Role;
 use App\Shared\Platform\Authorization\Models\UserRoleAssignment;
 use App\Shared\Platform\Authorization\Models\UserStaffLink;
+use Database\Seeders\UserAccessFeatureSeeder;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
@@ -724,6 +725,7 @@ class AcademicRoleDashboardServiceTest extends TestCase
 
     private function fixture(bool $withPilotClass = false): array
     {
+        $this->seed(UserAccessFeatureSeeder::class);
         $unit = OrganizationalUnit::create(['unit_code' => 'UNIT-DASH', 'unit_name' => 'Dashboard Unit', 'unit_type' => 'SCHOOL']);
         $level = GradeLevel::create(['organizational_unit_id' => $unit->id, 'level_code' => '1', 'display_name' => 'Tingkat 1', 'sequence_no' => 1]);
         $year = AcademicYear::create(['year_code' => '2026-DASH', 'display_name' => '2026/2027', 'starts_on' => '2026-07-01', 'ends_on' => '2027-06-30']);
