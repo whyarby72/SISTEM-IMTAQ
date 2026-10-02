@@ -1,5 +1,14 @@
 # NEXT ACTION
 
+**Current task:** `SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1`
+**Task state:** `IMPLEMENTED / PENDING_DISPOSABLE_POSTGRES_AND_EXACT_CI`
+**Feature branch:** `feat/super-admin-user-access-preferences`
+**Task context:** `codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1.md`
+**Next atomic task after green verification:** `RETURN_TO_CHATGPT_FOR_SUPER_ADMIN_USER_ACCESS_AUDIT`
+
+The historical Academic first-day UAT remains `HOLD / HUMAN_OBSERVATION_REQUIRED`;
+this feature does not authorize pilot data access or attendance writes.
+
 **Execution state:** `ACADEMIC_WALI_FIRST_DAY_CONTROLLED_UAT = HOLD / HUMAN_OBSERVATION_REQUIRED`
 **Current canonical baseline:** `codex/GOVERNANCE/CANONICAL_PRE_SOC_IMPLEMENTATION_BASELINE_v1.0.md`
 **Next task ID:** `SOC-MD-06`

@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Shared\Platform\Authorization\Models\Role;
+use App\Shared\Platform\Authorization\Models\UserFeatureOverride;
+use App\Shared\Platform\Authorization\Models\UserPreference;
 use App\Shared\Platform\Authorization\Models\UserRoleAssignment;
 use App\Shared\Platform\Authorization\Models\UserStaffLink;
 use Database\Factories\UserFactory;
@@ -49,5 +51,15 @@ class User extends Authenticatable
     public function staffLink(): HasOne
     {
         return $this->hasOne(UserStaffLink::class);
+    }
+
+    public function featureOverrides(): HasMany
+    {
+        return $this->hasMany(UserFeatureOverride::class);
+    }
+
+    public function preferences(): HasMany
+    {
+        return $this->hasMany(UserPreference::class);
     }
 }

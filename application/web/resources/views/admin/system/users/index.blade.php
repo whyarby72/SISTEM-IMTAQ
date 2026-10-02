@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>User &amp; Akses</title>
+<style>@include('academic.partials.sidebar-styles')body{background:#f3f8f5;color:#173d33}.card{background:#fff;border:1px solid #cfe4d9;border-radius:1rem;padding:1.5rem}.head,.row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}.eyebrow{color:#176b4d;font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.muted{color:#5b756c}.button{display:inline-flex;align-items:center;justify-content:center;min-height:2.6rem;padding:.55rem .9rem;border-radius:.65rem;background:#176b4d;color:#fff;font-weight:800;text-decoration:none;border:0}.badge{padding:.3rem .65rem;border:1px solid #b9dac7;border-radius:999px;color:#176b4d;background:#edf8f1;font-weight:800}.table-wrap{overflow:auto}table{width:100%;border-spacing:0 8px;text-align:left}th{padding:.5rem;color:#5b756c}td{padding:.85rem;background:#fbfefc;border-block:1px solid #dcebe2}td:first-child{border-left:1px solid #dcebe2;border-radius:.65rem 0 0 .65rem}td:last-child{border-right:1px solid #dcebe2;border-radius:0 .65rem .65rem 0}@media(max-width:680px){.waka-content{padding:1rem}.button{width:100%}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{border:1px solid #dcebe2!important;border-radius:.5rem!important;margin-top:-1px}}</style>
+</head>
+<body><div class="waka-shell">
+@include('academic.partials.sidebar',['activeMenu'=>'users'])
+<main class="waka-content"><header><p class="eyebrow">Administrasi platform</p><div class="head"><div><h1>User &amp; Akses</h1><p class="muted">Kelola akun, Staff, role, dan akses fitur tanpa menampilkan secret.</p></div><a class="button" href="{{ route('admin.system.users.create') }}">Tambah user</a></div></header>
+@if(session('status'))<p class="card" role="status">{{ session('status') }}</p>@endif
+@if($errors->any())<div class="card" role="alert">{{ $errors->first() }}</div>@endif
+<section class="card"><div class="row"><h2>Daftar akun</h2><span class="muted">{{ $users->total() }} akun</span></div><div class="table-wrap"><table><thead><tr><th>Nama / login</th><th>Staff</th><th>Status</th><th>Role efektif</th><th></th></tr></thead><tbody>
+@forelse($users as $user)<tr><td><strong>{{ $user->name }}</strong><br><span class="muted">{{ $user->email }}</span></td><td>{{ $user->staffLink?->staff?->full_name ?? 'Belum ditautkan' }}</td><td><span class="badge">{{ $user->status ?? 'ACTIVE' }}</span></td><td>{{ $user->roles->pluck('name')->join(', ') ?: 'Belum ada role' }}</td><td><a class="button" href="{{ route('admin.system.users.show',$user) }}">Kelola</a></td></tr>@empty<tr><td colspan="5">Belum ada akun.</td></tr>@endforelse
+</tbody></table></div>{{ $users->links() }}</section></main></div></body></html>

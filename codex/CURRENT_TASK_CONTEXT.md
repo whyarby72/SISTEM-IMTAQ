@@ -1,5 +1,17 @@
 # CURRENT TASK CONTEXT
 
+**Task:** `SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1`
+**State:** `IMPLEMENTED / PENDING_DISPOSABLE_POSTGRES_AND_EXACT_CI`
+**Branch:** `feat/super-admin-user-access-preferences`
+**Task contract:** `codex/TASK_CONTEXTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1.md`
+
+This is a controlled full-stack User & Akses implementation. No PILOT
+database write, Academic UAT action, AI/provider mutation, or production
+cutover is authorized. Required closeout is disposable PostgreSQL replay,
+focused tests, foundation regression, and exact GitHub Actions evidence.
+
+---
+
 **Task:** `ACADEMIC-WALI-PILOT-FIRST-DAY-CONTROLLED-ATTENDANCE-UAT`
 **State:** `HOLD / HUMAN_OBSERVATION_REQUIRED`
 **Current phase:** `ACADEMIC / FIRST-DAY CONTROLLED PILOT PRE-WRITE GATE`

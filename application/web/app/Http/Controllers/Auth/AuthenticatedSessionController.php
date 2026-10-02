@@ -26,6 +26,12 @@ class AuthenticatedSessionController
             return back()->withErrors(['email' => 'Email atau password tidak sesuai.'])->onlyInput('email');
         }
 
+        if ($request->user()?->status === 'DISABLED') {
+            Auth::logout();
+
+            return back()->withErrors(['email' => 'Akun ini dinonaktifkan. Hubungi administrator.'])->onlyInput('email');
+        }
+
         $request->session()->regenerate();
 
         $isOperationalAcademicRole = $request->user()?->roleAssignments()

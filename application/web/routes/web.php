@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ScheduleRuleController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\UserAccessController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
@@ -118,4 +119,16 @@ Route::middleware(['auth', 'throttle:admin-ai-provider'])->prefix('admin/system/
     Route::post('/configurations/{configuration}/verify', [AiProviderConfigurationController::class, 'verifyConfiguration'])->name('configurations.verify');
     Route::post('/configurations/{configuration}/activate', [AiProviderConfigurationController::class, 'activate'])->name('configurations.activate');
     Route::post('/runtime', [AiProviderConfigurationController::class, 'toggleRuntime'])->name('runtime.toggle');
+});
+
+Route::middleware(['auth', 'feature:platform.user_access'])->prefix('admin/system/users')->name('admin.system.users.')->group(function (): void {
+    Route::get('/', [UserAccessController::class, 'index'])->name('index');
+    Route::get('/create', [UserAccessController::class, 'create'])->name('create');
+    Route::post('/', [UserAccessController::class, 'store'])->name('store');
+    Route::get('/{user}', [UserAccessController::class, 'show'])->name('show');
+    Route::put('/{user}/account', [UserAccessController::class, 'updateAccount'])->name('account.update');
+    Route::post('/{user}/roles', [UserAccessController::class, 'updateRole'])->name('roles.update');
+    Route::delete('/{user}/roles/{assignment}', [UserAccessController::class, 'revokeRole'])->name('roles.revoke');
+    Route::put('/{user}/features', [UserAccessController::class, 'updateFeatures'])->name('features.update');
+    Route::put('/{user}/preferences', [UserAccessController::class, 'updatePreferences'])->name('preferences.update');
 });
