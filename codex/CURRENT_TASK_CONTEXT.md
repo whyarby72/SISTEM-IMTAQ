@@ -1,5 +1,28 @@
 # CURRENT TASK CONTEXT
 
+## Current review checkpoint — 2026-10-02
+
+**Current task:** `SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-REVIEW`
+**State:** `COMPLETED / READ_ONLY / HOLD`
+**Branch / inspected HEAD:** `feat/super-admin-user-access-preferences` / `67672bdbf1dab18634c07517316780891debf467`
+**Review:** `codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md`
+**CI authority:** run `36976686299` SUCCESS on tested executable `465be64a6d5263def7d1eb3554e35590426346ec`; NOT exact CI on 67672bd. The intervening delta is two metadata files only.
+**Blocker:** `USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_USER_ACCESS_PILOT_MIGRATION_READINESS_AUDIT`
+
+PILOT imtaq / PostgreSQL 18.6 was inspected in two READ ONLY transactions;
+transaction_read_only was on, both ended with ROLLBACK. All three User & Akses
+migrations and platform.user.manage remain absent. One effective legacy
+SUPER_ADMIN exists, but the current seeder does not supply the two authority
+permissions required by Academic master/System Settings feature gates.
+Do not migrate, seed, broaden permissions, or remediate automatically.
+
+**REQUIRED NOW:** this review and `NEXT_ACTION.md` only for the audit handoff.
+Academic first-day UAT stays HOLD / HUMAN_OBSERVATION_REQUIRED; Public Academic
+AI stays OFF; SOC-MD-06 and IMP-S12-007 remain unchanged. Database writes: NONE.
+
+## Historical implementation context — not current execution authority
+
 **Current executable task:** `SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R`
 **Current state:** `COMPLETED / PASS / RUN_36976414076`
 **Branch:** `feat/super-admin-user-access-preferences`

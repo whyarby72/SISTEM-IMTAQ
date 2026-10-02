@@ -1,27 +1,33 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "465be64a6d5263def7d1eb3554e35590426346ec",
+  "repo_commit": "67672bdbf1dab18634c07517316780891debf467",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R",
+  "current_task_id": "SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-REVIEW",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "SAUAP-V1R-AC-01",
-    "SAUAP-V1R-AC-02",
-    "SAUAP-V1R-AC-03",
-    "SAUAP-V1R-AC-04",
-    "SAUAP-V1R-AC-05",
-    "SAUAP-V1R-AC-06",
-    "SAUAP-V1R-AC-07",
-    "SAUAP-V1R-AC-08",
-    "SAUAP-V1R-AC-09",
-    "SAUAP-V1R-AC-10"
+    "SAUAP-PMR-01",
+    "SAUAP-PMR-02",
+    "SAUAP-PMR-03",
+    "SAUAP-PMR-04",
+    "SAUAP-PMR-05",
+    "SAUAP-PMR-06",
+    "SAUAP-PMR-07",
+    "SAUAP-PMR-08",
+    "SAUAP-PMR-09",
+    "SAUAP-PMR-10",
+    "SAUAP-PMR-11",
+    "SAUAP-PMR-12",
+    "SAUAP-PMR-13",
+    "SAUAP-PMR-14",
+    "SAUAP-PMR-15"
   ],
   "latest_evidence_refs": [
+    "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
     "codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md",
     "recovery/ai-provider-context-p3/AI-PROVIDER-CONTEXT-P3_20260926-150000/README_RECOVERY.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36301085559",
@@ -85,7 +91,9 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36976686299"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS_VERIFIED_RUN_36976686299_HEAD_465be64",
+    "exact_current_ci": "NOT_RUN_ON_HEAD_67672bd / EXECUTABLE_EQUIVALENCE_TO_PASS_RUN_36976686299_HEAD_465be64",
+    "user_access_pilot_migration_readiness": "COMPLETED / READ_ONLY / HOLD / USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY",
+    "current_review_database_write": "NONE / TWO_READ_ONLY_TRANSACTIONS_ROLLED_BACK",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -132,6 +140,12 @@
   },
   "blockers": [
     {
+      "id": "USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY",
+      "status": "OPEN",
+      "evidence": "Read-only PILOT catalog lacks academic.domain.manage and platform.institution.manage; current UserAccessFeatureSeeder requires but does not supply these authorities. Six Academic master feature groups and System Settings would deny legacy authorized roles. See readiness review 2026-10-02.",
+      "owner": "PROJECT_OWNER_REVIEW_REQUIRED"
+    },
+    {
       "id": "CI_PHP_LOCKFILE_COMPATIBILITY",
       "status": "RESOLVED",
       "evidence": "Exact GitHub Actions run 36353770932 on implementation commit e4387589a60c1e6609536d22b262bc7ba0ffbdaf passed PHP setup, runtime guard, Composer validate, and locked dependency install; failure moved to foundation routing.",
@@ -159,11 +173,12 @@
   "evidence_debt": [
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
-  "next_owner": "CODEX",
+  "next_owner": "CHATGPT_AND_PROJECT_OWNER",
+  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_USER_ACCESS_PILOT_MIGRATION_READINESS_AUDIT",
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-10-02T09:00:00+07:00",
+  "updated_at": "2026-10-02T19:30:36+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

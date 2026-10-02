@@ -1,5 +1,15 @@
 # Work Log
 
+## 2026-10-02 — User & Akses PILOT migration readiness review
+
+- Review complete; readiness HOLD on `USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY`. No source, test, migration, config, or database changes.
+- Clean entry and remote parity at 67672bdbf1dab18634c07517316780891debf467. CI 36976686299 is SUCCESS on executable 465be64a6d5263def7d1eb3554e35590426346ec; only two metadata files differ. No exact-head CI claim for 67672bd.
+- Two independent PILOT imtaq / PostgreSQL 18.6 READ ONLY transactions; transaction_read_only=on; both ROLLBACK. Observed 43 applied / exactly 3 pending migrations, new schema absent, 9 users, 1 effective legacy SUPER_ADMIN, 0 duplicate/orphan Staff links.
+- Actual permission catalog lacks academic.domain.manage/platform.institution.manage. Current feature seeder requires but does not create/grant them, so six Academic master groups and System Settings would lose existing authorized access. No repair attempted.
+- Added complete bootstrap, account/password safety, rollout, rollback, and audit-boundary review: `codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md`.
+- Closeout checks PASS: project structure, tracked/untracked whitespace, JSON parsing, evidence/routing invariants, and protected executable-path no-drift check. No new database tests, commit, or push; six local governance/evidence files are the entire change set.
+- Academic first-day UAT remains HOLD / HUMAN_OBSERVATION_REQUIRED; Public Academic AI OFF; SOC-MD-06 and IMP-S12-007 unchanged. Return to ChatGPT for readiness audit; no next task executed.
+
 ## 2026-09-24 — AI-PROVIDER-R1-D: admin observability, secret safety, and operational security
 
 - Public Academic AI status now reads the authoritative `academic.ai.assistant_enabled` gate and remains separate from provider runtime; no activation control was added.

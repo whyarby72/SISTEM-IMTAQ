@@ -37,6 +37,45 @@ class UserAccessManagementTest extends TestCase
         return Feature::where('code', $code)->firstOrFail();
     }
 
+    public function test_user_access_feature_seeder_bootstraps_required_permissions_and_grants_idempotently(): void
+    {
+        $superAdmin = Role::create(['code' => 'SUPER_ADMIN', 'name' => 'Super Admin']);
+        $waka = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka Akademik']);
+        $wali = Role::create(['code' => 'WALI_KELAS', 'name' => 'Wali Kelas']);
+
+        $this->seed(UserAccessFeatureSeeder::class);
+        $this->seed(UserAccessFeatureSeeder::class);
+
+        $this->assertSame(3, Permission::whereIn('code', [
+            'academic.domain.manage', 'platform.institution.manage', 'platform.user.manage',
+        ])->count());
+        $this->assertSame(3, $superAdmin->fresh()->permissions()->whereIn('code', [
+            'academic.domain.manage', 'platform.institution.manage', 'platform.user.manage',
+        ])->count());
+        $this->assertSame(1, $waka->fresh()->permissions()->where('code', 'academic.domain.manage')->count());
+        $this->assertSame(0, $waka->fresh()->permissions()->whereIn('code', [
+            'platform.institution.manage', 'platform.user.manage',
+        ])->count());
+        $this->assertSame(0, $wali->fresh()->permissions()->whereIn('code', [
+            'academic.domain.manage', 'platform.institution.manage', 'platform.user.manage',
+        ])->count());
+        $this->assertSame(13, Feature::count());
+        $this->assertSame(3, $superAdmin->fresh()->permissions()->whereIn('code', [
+            'academic.domain.manage', 'platform.institution.manage', 'platform.user.manage',
+        ])->get()->unique('id')->count());
+        $this->assertSame(9, Feature::whereNotNull('required_permission')->count());
+        $this->assertSame([], Feature::whereNotNull('required_permission')->pluck('required_permission')->unique()->diff(
+            Permission::pluck('code')
+        )->values()->all());
+
+        $admin = User::factory()->create(['status' => 'ACTIVE']);
+        UserRoleAssignment::create(['user_id' => $admin->id, 'role_id' => $superAdmin->id]);
+        foreach (['academic.students', 'platform.user_access', 'platform.system_settings'] as $featureCode) {
+            $this->assertTrue(app(FeatureAccessResolver::class)->resolve($admin, $featureCode)['effective_enabled']);
+        }
+        $this->assertFalse((bool) config('academic.ai.assistant_enabled'));
+    }
+
     public function test_unauthenticated_user_is_denied(): void
     {
         $this->get(route('admin.system.users.index'))->assertRedirect(route('login'));

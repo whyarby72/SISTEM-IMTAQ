@@ -1,5 +1,26 @@
 # NEXT ACTION
 
+## Current readiness-review handoff — 2026-10-02
+
+**Current task:** `SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-REVIEW`
+**State:** `COMPLETED / READ_ONLY / HOLD`
+**Review:** `codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_USER_ACCESS_PILOT_MIGRATION_READINESS_AUDIT`
+
+Do not execute PILOT migrations. The current registry bootstrap would deny
+legacy SUPER_ADMIN/WAKA Academic master access and SUPER_ADMIN System Settings:
+academic.domain.manage and platform.institution.manage are absent and are not
+created by UserAccessFeatureSeeder. Owner-reviewed compatibility design is
+required; no automatic permission grant or source repair is authorized.
+
+Inspected HEAD: 67672bdbf1dab18634c07517316780891debf467. Authoritative CI:
+36976686299 SUCCESS on executable HEAD 465be64a6d5263def7d1eb3554e35590426346ec,
+not exact CI on the metadata-only 67672bd commit. Two PILOT transactions proved
+read-only; database write NONE. Public Academic AI OFF, Academic UAT HOLD /
+HUMAN_OBSERVATION_REQUIRED, and IMP-S12-007 NOT_STARTED are preserved.
+
+## Historical handoff — not current execution authority
+
 **Current executable task:** `SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R`
 **Task state:** `COMPLETED / PASS / RUN_36976414076`
 **Feature branch:** `feat/super-admin-user-access-preferences`

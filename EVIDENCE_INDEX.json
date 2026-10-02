@@ -1,8 +1,18 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-09-30T08:49:00+07:00",
+  "indexed_at": "2026-10-02T19:30:36+07:00",
   "entries": [
+    {
+      "id": "super-admin-user-access-pilot-migration-readiness-review",
+      "kind": "read_only_review",
+      "ref": "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
+      "commit": "67672bdbf1dab18634c07517316780891debf467",
+      "commit_semantics": "INSPECTED_BASELINE_NOT_ARTIFACT_COMMIT",
+      "status": "COMPLETED_HOLD",
+      "summary": "Two PILOT READ ONLY transactions confirmed 43 applied/3 pending, no partial schema, 9 users and 1 effective legacy SUPER_ADMIN. Current registry bootstrap would deny existing Academic master/System Settings access due to absent authority permissions. No database write or source change.",
+      "sensitivity": "aggregate_non_secret"
+    },
     {
       "id": "super-admin-user-access-preference-management-v1r-contract",
       "kind": "task_context",
@@ -24,8 +34,8 @@
       "kind": "github_actions_run",
       "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36976686299",
       "commit": "465be64a6d5263def7d1eb3554e35590426346ec",
-      "status": "PASS_FINAL_HEAD",
-      "summary": "Exact PostgreSQL foundation run passed runtime, identity guard, migration-from-zero, schema/extension, Academic/AI, and full regression verification.",
+      "status": "PASS_TESTED_EXECUTABLE_HEAD",
+      "summary": "Exact PostgreSQL foundation run passed on 465be64. Final baseline 67672bd differs only in EVIDENCE_INDEX.json and PROJECT_STATE.json; no exact CI on 67672bd is claimed.",
       "sensitivity": "non_secret"
     },
     {

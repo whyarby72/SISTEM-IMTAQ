@@ -11,8 +11,24 @@ class UserAccessFeatureSeeder extends Seeder
 {
     public function run(): void
     {
-        $permission = Permission::query()->firstOrCreate(['code' => 'platform.user.manage'], ['name' => 'Manage user access and preferences']);
-        Role::query()->where('code', 'SUPER_ADMIN')->first()?->permissions()->syncWithoutDetaching($permission->id);
+        $permissions = collect([
+            'academic.domain.manage' => 'Manage Academic domain data',
+            'platform.institution.manage' => 'Manage institution-wide settings',
+            'platform.user.manage' => 'Manage user access and preferences',
+        ])->mapWithKeys(fn (string $name, string $code): array => [
+            $code => Permission::query()->firstOrCreate(['code' => $code], ['name' => $name]),
+        ]);
+
+        $grants = [
+            'SUPER_ADMIN' => ['academic.domain.manage', 'platform.institution.manage', 'platform.user.manage'],
+            'WAKA_AKADEMIK' => ['academic.domain.manage'],
+        ];
+
+        foreach ($grants as $roleCode => $permissionCodes) {
+            $role = Role::query()->where('code', $roleCode)->first();
+            $role?->permissions()->syncWithoutDetaching($permissions->only($permissionCodes)->pluck('id'));
+        }
+
         foreach ([
             ['code' => 'academic.dashboard', 'name' => 'Dashboard Akademik', 'module' => 'Academic', 'required_permission' => null],
             ['code' => 'academic.attendance', 'name' => 'Kontrol Kehadiran', 'module' => 'Academic', 'required_permission' => null],
