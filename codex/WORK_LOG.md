@@ -3,7 +3,7 @@
 ## 2026-10-02 — User & Akses permission bootstrap R1/R1R closeout
 
 - R1 permission catalog/bootstrap implementation and R1R Academic dashboard fixture alignment are complete; production authorization code was not changed beyond the scoped seeder, no migration was added, and no PILOT database write occurred.
-- Exact GitHub Actions run `37011165609` passed on `979f6b26d39b4a308a818358afe9545b0050bc0e`: PostgreSQL 18.6 disposable foundation, 15 passed, 536 warnings, 2267 assertions, 0 failed.
+- Exact GitHub Actions runs `37011165609` and final metadata run `37012002039` passed; final HEAD `b009c0eb1b2ecaabb4bcde5f134617b486a26970`: PostgreSQL 18.6 disposable foundation, 15 passed, 536 warnings, 2267 assertions, 0 failed.
 - Reconciled `PROJECT_STATE.json`, `EVIDENCE_INDEX.json`, `TEST_MATRIX.csv`, `NEXT_ACTION.md`, and `codex/CURRENT_TASK_CONTEXT.md`; preserved `SOC-MD-06`, `IMP-S12-007 = NOT_STARTED`, Public Academic AI OFF, and PILOT readiness as a separate owner-authorized gate.
 - Next atomic task: `RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT`.
 

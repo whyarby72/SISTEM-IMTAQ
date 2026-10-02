@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "979f6b26d39b4a308a818358afe9545b0050bc0e",
+  "repo_commit": "b009c0eb1b2ecaabb4bcde5f134617b486a26970",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
@@ -87,10 +87,11 @@
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PREFERENCE-MANAGEMENT-V1R-2026-10-02.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/36976686299",
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37011165609"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37011165609",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012002039"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37011165609 / HEAD_979f6b26d39b4a308a818358afe9545b0050bc0e",
+    "exact_current_ci": "PASS / RUN_37012002039 / HEAD_b009c0eb1b2ecaabb4bcde5f134617b486a26970",
     "user_access_pilot_migration_readiness": "COMPLETED / READ_ONLY / HOLD / USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY",
     "current_review_database_write": "NONE / TWO_READ_ONLY_TRANSACTIONS_ROLLED_BACK",
     "historical_local_regression": "PASS",
@@ -179,7 +180,7 @@
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-10-02T20:15:00+07:00",
+  "updated_at": "2026-10-02T20:30:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",

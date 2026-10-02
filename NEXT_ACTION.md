@@ -4,7 +4,7 @@
 
 **Current task:** `SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT`
 **State:** `COMPLETED / PASS / RUN_37011165609`
-**Exact tested HEAD:** `979f6b26d39b4a308a818358afe9545b0050bc0e`
+**Exact tested HEAD:** `b009c0eb1b2ecaabb4bcde5f134617b486a26970`
 **Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md`
 **Next atomic task:** `RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT`
 
@@ -12,7 +12,7 @@ R1/R1R permission bootstrap and fixture alignment passed exact disposable
 PostgreSQL CI. Do not execute PILOT migrations or seed operations in this
 checkpoint; PILOT compatibility remains an owner-authorized readiness gate.
 
-Exact CI: `37011165609` = SUCCESS on `979f6b26`. Database write NONE. Public
+Exact CI: `37012002039` = SUCCESS on `b009c0e`. Database write NONE. Public
 Academic AI OFF, Academic UAT HOLD / HUMAN_OBSERVATION_REQUIRED, SOC-MD-06 and
 IMP-S12-007 NOT_STARTED are preserved.
 

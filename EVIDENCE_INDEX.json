@@ -1,7 +1,7 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-10-02T20:15:00+07:00",
+  "indexed_at": "2026-10-02T20:30:00+07:00",
   "entries": [
     {
       "id": "super-admin-user-access-permission-bootstrap-r1-manifest",
@@ -19,6 +19,15 @@
       "commit": "979f6b26d39b4a308a818358afe9545b0050bc0e",
       "status": "PASS_EXACT_HEAD",
       "summary": "Foundation PostgreSQL 18.6 CI passed after R1R fixture alignment: 536 warnings, 15 passed, 2267 assertions, 0 failed.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "super-admin-user-access-permission-bootstrap-r1r-final-metadata-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012002039",
+      "commit": "b009c0eb1b2ecaabb4bcde5f134617b486a26970",
+      "status": "PASS_EXACT_FINAL_HEAD",
+      "summary": "Final metadata/evidence reconciliation passed the disposable PostgreSQL foundation workflow on the exact final repository HEAD.",
       "sensitivity": "non_secret"
     },
     {

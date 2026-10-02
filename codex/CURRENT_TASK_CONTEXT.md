@@ -4,9 +4,9 @@
 
 **Current task:** `SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT`
 **State:** `COMPLETED / PASS / RUN_37011165609`
-**Branch / tested HEAD:** `feat/super-admin-user-access-preferences` / `979f6b26d39b4a308a818358afe9545b0050bc0e`
+**Branch / tested HEAD:** `feat/super-admin-user-access-preferences` / `b009c0eb1b2ecaabb4bcde5f134617b486a26970`
 **Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md`
-**CI authority:** run `37011165609` SUCCESS on exact tested HEAD; 15 passed, 536 warnings, 2267 assertions, 0 failed.
+**CI authority:** run `37012002039` SUCCESS on exact final HEAD; 15 passed, 536 warnings, 2267 assertions, 0 failed.
 **Next atomic task:** `RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT`
 
 R1/R1R source and fixture changes are validated only against disposable
