@@ -46,7 +46,7 @@ class SemesterGradeWorkspaceUiTest extends TestCase
             'semester_id' => $fixture['semester']->id,
             'class_id' => $fixture['class']->id,
             'subject_id' => $fixture['subject']->id,
-        ]))->assertOk()->assertSee('Nilai Semester')->assertSee('Belum diisi')->assertSee('Simpan Draft');
+        ]))->assertOk()->assertSee('Nilai Semester')->assertSee('Kosong berarti belum ada nilai, bukan nol.')->assertSee('Simpan Draft');
 
         $this->assertSame($before, [SemesterSubjectGrade::count(), StudentClassEnrollment::count(), AuditLog::count()]);
         $this->assertSame(['GET', 'HEAD'], collect(app('router')->getRoutes()->getByName('academic.grades.index')->methods())->values()->all());
@@ -70,14 +70,14 @@ class SemesterGradeWorkspaceUiTest extends TestCase
         $otherClass = AcademicClass::create(['class_code' => 'OTHER-WALI-CLASS', 'academic_year_id' => $fixture['year']->id, 'organizational_unit_id' => $fixture['unit']->id, 'grade_level_id' => $fixture['gradeLevel']->id, 'section_code' => 'B', 'display_name' => 'Other Wali Class']);
         TeachingAssignment::create(['assignment_code' => 'OTHER-WALI-TA', 'semester_id' => $fixture['semester']->id, 'class_id' => $otherClass->id, 'subject_id' => $fixture['subject']->id, 'teacher_staff_id' => $fixture['otherTeacher']->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
 
-        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertDontSee('Simpan Draft')->assertDontSee('grade-score-input');
+        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertDontSee('>Simpan Draft<', false)->assertDontSee('name="rows[', false);
         $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $otherClass->id, 'subject_id' => $fixture['subject']->id]))->assertForbidden();
     }
 
     public function test_waka_can_view_and_super_admin_only_is_denied(): void
     {
         $fixture = $this->fixture('waka');
-        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertDontSee('Simpan Draft')->assertDontSee('grade-score-input');
+        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertDontSee('>Simpan Draft<', false)->assertDontSee('name="rows[', false);
 
         $admin = $this->userWithRole('SUPER_ADMIN');
         $this->actingAs($admin)->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertForbidden();
@@ -104,7 +104,7 @@ class SemesterGradeWorkspaceUiTest extends TestCase
         SemesterSubjectGrade::create(['student_id' => $fixture['student']->id, 'semester_id' => $fixture['semester']->id, 'subject_id' => $fixture['subject']->id, 'score' => 0, 'entered_by' => $fixture['user']->id, 'entered_at' => now(), 'updated_by' => $fixture['user']->id, 'updated_at' => now()]);
         $count = SemesterSubjectGrade::count();
 
-        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertSee('0.00')->assertSee('Belum diisi')->assertSee('STU-GRADE-2');
+        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertSee('value="0.00"', false)->assertSee('Kosong berarti belum ada nilai, bukan nol.')->assertSee('STU-GRADE-2');
         $this->assertSame($count, SemesterSubjectGrade::count());
     }
 
@@ -129,14 +129,17 @@ class SemesterGradeWorkspaceUiTest extends TestCase
         $otherTeacher = Staff::create(['staff_code' => 'STAFF-OTHER-'.Str::random(4), 'full_name' => 'Other Teacher']);
         $student = Student::create(['student_code' => 'STU-GRADE-1-'.Str::random(4), 'full_name' => 'First Student']);
         $user = User::factory()->create(['status' => 'ACTIVE']);
-        if (in_array($role, ['teacher', 'wali'], true)) {
+        if ($role === 'teacher') {
             UserStaffLink::create(['user_id' => $user->id, 'staff_id' => $teacher->id, 'effective_from' => '2026-07-01']);
+        }
+        if ($role === 'wali') {
+            UserStaffLink::create(['user_id' => $user->id, 'staff_id' => $otherTeacher->id, 'effective_from' => '2026-07-01']);
         }
         StudentClassEnrollment::create(['student_id' => $student->id, 'class_id' => $class->id, 'effective_from' => '2026-07-01']);
         TeachingAssignment::create(['assignment_code' => 'TA-GRADE-'.Str::random(4), 'semester_id' => $semester->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
         if ($role === 'wali') {
             $this->assignRole($user, 'WALI_KELAS');
-            ClassHomeroomAssignment::create(['class_id' => $class->id, 'staff_id' => $teacher->id, 'effective_from' => '2026-07-01']);
+            ClassHomeroomAssignment::create(['class_id' => $class->id, 'staff_id' => $otherTeacher->id, 'effective_from' => '2026-07-01']);
         }
         if ($role === 'waka') {
             $this->assignRole($user, 'WAKA_AKADEMIK');

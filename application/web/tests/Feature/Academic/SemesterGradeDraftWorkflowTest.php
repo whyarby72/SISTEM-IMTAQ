@@ -187,7 +187,7 @@ class SemesterGradeDraftWorkflowTest extends TestCase
             $grade = $this->grade($fixture, 75, $state);
 
             $this->actingAs($fixture['user'])->get(route('academic.grades.index', $this->selection($fixture)))
-                ->assertOk()->assertSee($state)->assertDontSee('Simpan Draft')->assertDontSee('grade-score-input');
+                ->assertOk()->assertSee($state)->assertDontSee('>Simpan Draft<', false)->assertDontSee('name="rows[', false);
             $this->actingAs($fixture['user'])->from(route('academic.grades.index'))->post(route('academic.grades.batch-draft'), $this->payload($fixture, [[
                 'student_id' => $fixture['student']->id, 'score' => 80, 'expected_version' => 1,
             ]]))->assertSessionHasErrors('rows');
