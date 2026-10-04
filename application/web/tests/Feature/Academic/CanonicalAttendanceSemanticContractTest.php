@@ -104,8 +104,8 @@ class CanonicalAttendanceSemanticContractTest extends TestCase
         foreach ([null, 'SCHEDULED'] as $status) {
             $plannedStart = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
             $session = new ClassSession([
-                'planned_start_at' => $plannedStart->copy()->utc(),
-                'planned_end_at' => $plannedStart->copy()->addHour()->utc(),
+                'planned_start_at' => '2026-10-05 10:00:00',
+                'planned_end_at' => '2026-10-05 11:00:00',
             ]);
             $session->setRelation('effectiveOccurrenceVersion', $status === null ? null : new SessionOccurrenceVersion([
                 'occurrence_status' => $status,

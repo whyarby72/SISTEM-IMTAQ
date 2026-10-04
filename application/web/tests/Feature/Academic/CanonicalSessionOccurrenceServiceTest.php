@@ -124,7 +124,11 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
             $partialSession = $session->replicate();
             $partialSession->session_code = 'SESSION-OCCURRENCE-PARTIAL-'.str()->uuid();
             $partialSession->schedule_rule_id = null;
+            $partialStart = $start->copy()->addHours(2);
+            $partialSession->planned_start_at = $partialStart->copy()->utc();
+            $partialSession->planned_end_at = $partialStart->copy()->addHour()->utc();
             $partialSession->save();
+            Carbon::setTestNow($partialStart);
             $partial = $this->service()->record($partialSession->fresh(), $actor, 'HELD', [
                 'is_partial' => true,
                 'partial_reason' => 'Kegiatan hanya berlangsung sebagian.',
