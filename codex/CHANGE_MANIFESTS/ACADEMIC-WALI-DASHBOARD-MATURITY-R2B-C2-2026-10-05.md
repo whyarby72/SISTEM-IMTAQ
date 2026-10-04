@@ -7,7 +7,7 @@ Branch: `feat/super-admin-user-access-preferences`
 
 ## Decision
 
-`R2B_C2_IMPLEMENTED_PENDING_CI`
+`R2B_C2_IMPLEMENTED_PASS`
 
 This change wires the already-tested C1 partition finalizer into the Wali
 HTTP surface without changing the canonical finalizer contract. A joint Wali
@@ -68,9 +68,13 @@ Disposable PostgreSQL CI is authoritative for the test result.
 
 ## Verification pending
 
-- Exact implementation commit: pending push
-- Exact GitHub Actions run: pending
-- Foundation/Academic regression counts: pending exact CI evidence
+- Exact implementation HEAD: `91f6716aa39a51251dfa0755d7735eb04b8c15ba`
+- Exact GitHub Actions: `37230836045` = SUCCESS
+- Foundation/Academic regression: 15 passed, 573 warnings, 2440 assertions,
+  0 failed
+- CI commit `c169279f2c9b145064b548837f726a1acc73be9f` was rejected by two
+  ordinary-workflow regressions; `91f6716` restores the pre-existing
+  draft-before-finalize behavior and is the accepted exact-head result.
 
 ## Rollback
 
@@ -80,4 +84,5 @@ rollback baseline.
 
 ## Next atomic task
 
-Return to ChatGPT for C2 audit after exact-head GitHub Actions verification.
+Return to ChatGPT for C2 audit. Do not start R2B-C2 follow-up/UAT or any
+database provisioning automatically.
