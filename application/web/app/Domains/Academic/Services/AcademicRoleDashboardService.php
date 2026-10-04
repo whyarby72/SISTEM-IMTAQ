@@ -158,19 +158,21 @@ class AcademicRoleDashboardService
         $participants = $this->participantsForDashboardClasses($session, $classes);
         if ($execution['occurrence_regime'] === SessionOccurrenceCutover::CANONICAL
             && ! $execution['attendance_obligation_exists']) {
+            $upcoming = $execution['execution_state'] === 'UPCOMING';
             $statusLabel = match ($execution['execution_state']) {
                 'CANCELLED' => 'KBM dibatalkan',
                 'RESCHEDULED' => 'KBM dijadwal ulang',
+                'UPCOMING' => 'Akan datang',
                 default => 'Pelaksanaan belum dicatat',
             };
             $terminal = in_array($execution['execution_state'], ['CANCELLED', 'RESCHEDULED'], true);
 
             return [
                 'session' => $session,
-                'state' => $terminal ? $execution['execution_state'] : 'OCCURRENCE_PENDING',
-                'priority' => $terminal ? 6 : 1,
+                'state' => $terminal ? $execution['execution_state'] : ($upcoming ? 'UPCOMING' : 'OCCURRENCE_PENDING'),
+                'priority' => $terminal ? 6 : ($upcoming ? 5 : 1),
                 'status_label' => $statusLabel,
-                'action_label' => $terminal ? 'Lihat Sesi' : 'Catat pelaksanaan',
+                'action_label' => $terminal || $upcoming ? 'Lihat Sesi' : 'Catat pelaksanaan',
                 'class_label' => $classes->pluck('display_name')->implode(' + '),
                 'subject_label' => $session->teachingAssignment?->subject?->subject_name ?? 'Pelajaran',
                 'teacher_label' => $session->teachingAssignment?->teacher?->full_name ?? 'Guru belum ditetapkan',
@@ -291,10 +293,10 @@ class AcademicRoleDashboardService
 
             $session->setAttribute('attendance_label', $execution['attendance_obligation_exists']
                 ? ($finalized ? 'Sudah disahkan' : ($resolved > 0 ? 'Belum lengkap' : 'Belum diisi'))
-                : 'Pelaksanaan belum dicatat');
+                : ($execution['execution_state'] === 'UPCOMING' ? 'Akan datang' : 'Pelaksanaan belum dicatat'));
             $session->setAttribute('attendance_action', $execution['attendance_obligation_exists']
                 ? ($finalized ? 'Lihat kehadiran' : ($resolved > 0 ? 'Lanjutkan pengisian' : 'Isi kehadiran'))
-                : 'Catat pelaksanaan');
+                : ($execution['execution_state'] === 'UPCOMING' ? 'Lihat sesi' : 'Catat pelaksanaan'));
         });
     }
 

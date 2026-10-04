@@ -39,19 +39,25 @@ class AcademicSessionExecutionStateResolver
                 ? $session->effectiveOccurrenceVersion
                 : $session->effectiveOccurrenceVersion()->first();
             $status = $effective?->occurrence_status;
+            $beforeStart = $now->copy()->utc()->lessThan($session->planned_start_at->copy()->utc());
+            $executionState = match ($status) {
+                'SCHEDULED' => 'SCHEDULED',
+                'HELD' => 'HELD',
+                'CANCELLED' => 'CANCELLED',
+                'RESCHEDULED' => 'RESCHEDULED',
+                default => 'OCCURRENCE_PENDING',
+            };
+
+            if ($beforeStart && in_array($status, [null, 'SCHEDULED'], true)) {
+                $executionState = 'UPCOMING';
+            }
 
             return [
                 'occurrence_regime' => $regime,
-                'execution_state' => match ($status) {
-                    'SCHEDULED' => 'SCHEDULED',
-                    'HELD' => 'HELD',
-                    'CANCELLED' => 'CANCELLED',
-                    'RESCHEDULED' => 'RESCHEDULED',
-                    default => 'OCCURRENCE_PENDING',
-                },
+                'execution_state' => $executionState,
                 'attendance_obligation_exists' => $status === 'HELD',
                 'attendance_input_allowed' => $status === 'HELD',
-                'occurrence_action_required' => in_array($status, [null, 'SCHEDULED'], true),
+                'occurrence_action_required' => ! $beforeStart && in_array($status, [null, 'SCHEDULED'], true),
                 'effective_occurrence' => $effective,
                 'business_date' => $businessDate,
                 'today_business_date' => $today,

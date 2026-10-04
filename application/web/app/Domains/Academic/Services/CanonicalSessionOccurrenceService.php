@@ -10,7 +10,10 @@ use InvalidArgumentException;
 
 class CanonicalSessionOccurrenceService
 {
-    public function __construct(private readonly SessionParticipantSnapshotter $snapshotter) {}
+    public function __construct(
+        private readonly SessionParticipantSnapshotter $snapshotter,
+        private readonly SessionOccurrenceCutover $cutover,
+    ) {}
 
     /**
      * Append the first or next routine occurrence observation.
@@ -66,6 +69,12 @@ class CanonicalSessionOccurrenceService
     {
         if (! in_array($status, SessionOccurrenceVersion::STATUSES, true)) {
             throw new InvalidArgumentException('Invalid canonical occurrence status.');
+        }
+
+        if ($status === 'HELD'
+            && $this->cutover->regime($session) === SessionOccurrenceCutover::CANONICAL
+            && now()->utc()->lessThan($session->planned_start_at->copy()->utc())) {
+            throw new InvalidArgumentException('KBM belum memasuki waktu mulai; pelaksanaan belum dapat dicatat.');
         }
 
         if (! $correction && $current !== null && in_array($current->occurrence_status, ['HELD', 'CANCELLED', 'RESCHEDULED'], true)) {

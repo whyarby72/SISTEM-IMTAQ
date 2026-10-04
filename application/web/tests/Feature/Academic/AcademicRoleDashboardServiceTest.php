@@ -503,6 +503,42 @@ class AcademicRoleDashboardServiceTest extends TestCase
         $this->assertSame($upcoming->id, $home['next_session']['session']->id);
     }
 
+    public function test_future_canonical_session_is_upcoming_and_excluded_from_urgent_counters(): void
+    {
+        [, , $wali, , $assignment] = $this->fixture();
+        $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
+        $future = $this->operationalSession($assignment, 'DASH-CANONICAL-FUTURE', '2026-10-05 10:00:00', '2026-10-05 11:00:00');
+        config([
+            'academic.session_occurrence_enabled' => true,
+            'academic.session_occurrence_cutover_at' => '2026-06-01T00:00:00+07:00',
+        ]);
+        Carbon::setTestNow($start->copy()->subMinute());
+
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-10-05 00:00:00', 'Asia/Jakarta'),
+                Carbon::parse('2026-10-05 23:59:59', 'Asia/Jakarta'),
+            );
+            $home = $dashboard['wali_operational'];
+            $item = $home['today_sessions']->first(fn (array $candidate): bool => $candidate['session']->id === $future->id);
+
+            $this->assertNotNull($item);
+            $this->assertSame('UPCOMING', $item['state']);
+            $this->assertSame('Akan datang', $item['status_label']);
+            $this->assertSame('Lihat Sesi', $item['action_label']);
+            $this->assertSame(0, $item['eligible']);
+            $this->assertFalse($item['teacher_attendance_missing']);
+            $this->assertSame(0, $home['urgent']['occurrence_pending']);
+            $this->assertSame(0, $home['urgent']['due_not_started']);
+            $this->assertSame(0, $home['urgent']['due_incomplete']);
+            $this->assertSame(0, $home['urgent']['teacher_attendance_missing']);
+            $this->assertSame($future->id, $home['next_session']['session']->id);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
     public function test_wali_operational_home_keeps_every_today_session_visible_beyond_history_limit(): void
     {
         [, , $wali, , $assignment] = $this->fixture();

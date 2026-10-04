@@ -93,6 +93,32 @@ class CanonicalAttendanceSemanticContractTest extends TestCase
         }
     }
 
+    public function test_canonical_future_and_start_boundary_states_are_temporally_distinct(): void
+    {
+        $resolver = app(AcademicSessionExecutionStateResolver::class);
+        $plannedStart = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
+
+        foreach ([null, 'SCHEDULED'] as $status) {
+            $session = new ClassSession([
+                'planned_start_at' => $plannedStart->copy()->utc(),
+                'planned_end_at' => $plannedStart->copy()->addHour()->utc(),
+            ]);
+            $session->setRelation('effectiveOccurrenceVersion', $status === null ? null : new SessionOccurrenceVersion([
+                'occurrence_status' => $status,
+            ]));
+
+            $before = $resolver->resolve($session, Carbon::parse('2026-10-05 09:59:00', 'Asia/Jakarta'));
+            $atStart = $resolver->resolve($session, $plannedStart);
+
+            $this->assertSame('UPCOMING', $before['execution_state'], $status ?? 'NULL');
+            $this->assertFalse($before['occurrence_action_required'], $status ?? 'NULL');
+            $this->assertFalse($before['attendance_obligation_exists'], $status ?? 'NULL');
+            $this->assertSame('OCCURRENCE_PENDING', $atStart['execution_state'], $status ?? 'NULL');
+            $this->assertTrue($atStart['occurrence_action_required'], $status ?? 'NULL');
+            $this->assertFalse($atStart['attendance_input_allowed'], $status ?? 'NULL');
+        }
+    }
+
     public function test_legacy_execution_state_preserves_existing_attendance_obligation(): void
     {
         $cutover = \Mockery::mock(SessionOccurrenceCutover::class);

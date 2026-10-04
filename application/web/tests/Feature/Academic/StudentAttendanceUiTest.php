@@ -28,6 +28,7 @@ use App\Shared\Platform\Authorization\Models\Role;
 use App\Shared\Platform\Authorization\Models\UserRoleAssignment;
 use App\Shared\Platform\Authorization\Models\UserStaffLink;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class StudentAttendanceUiTest extends TestCase
@@ -112,6 +113,62 @@ class StudentAttendanceUiTest extends TestCase
         UserRoleAssignment::create(['user_id' => $waka->id, 'role_id' => $wakaRole->id, 'effective_from' => '2026-07-01']);
         $this->assertTrue($authorization->canManageRoutine($waka, $session, 'CANCELLED'));
         $this->assertTrue($authorization->canManageRoutine($waka, $session, 'RESCHEDULED'));
+    }
+
+    public function test_future_canonical_session_hides_routine_actions_and_preserves_waka_physical_actions(): void
+    {
+        [$session, , $wali] = $this->fixtures();
+        $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
+        $session->update([
+            'planned_start_at' => $start->copy()->utc(),
+            'planned_end_at' => $start->copy()->addHour()->utc(),
+        ]);
+        config([
+            'academic.session_occurrence_enabled' => true,
+            'academic.session_occurrence_cutover_at' => '2026-06-01T00:00:00+07:00',
+        ]);
+        Carbon::setTestNow($start->copy()->subMinute());
+
+        try {
+            $this->actingAs($wali)->get(route('academic.attendance.show', $session))
+                ->assertOk()
+                ->assertSee('Sesi akan datang')
+                ->assertDontSee('Pelaksanaan KBM belum dicatat')
+                ->assertDontSee('Catat KBM berlangsung')
+                ->assertDontSee('KBM berlangsung sebagian')
+                ->assertDontSee('Catat pelaksanaan');
+
+            foreach (['HELD', 'PARTIAL_HELD'] as $action) {
+                $this->actingAs($wali)->from(route('academic.attendance.show', $session))
+                    ->post(route('academic.attendance.occurrence.record', $session), [
+                        'action' => $action,
+                        'partial_reason' => $action === 'PARTIAL_HELD' ? 'Kegiatan terbatas' : null,
+                    ])
+                    ->assertRedirect(route('academic.attendance.show', $session))
+                    ->assertSessionHasErrors('occurrence');
+            }
+
+            $waka = User::factory()->create();
+            $wakaRole = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka Akademik']);
+            UserRoleAssignment::create(['user_id' => $waka->id, 'role_id' => $wakaRole->id, 'effective_from' => '2026-07-01']);
+
+            $this->actingAs($waka)->get(route('academic.attendance.show', $session))
+                ->assertOk()
+                ->assertSee('Sesi akan datang')
+                ->assertDontSee('Catat KBM berlangsung')
+                ->assertSee('Batalkan KBM')
+                ->assertSee('Jadwal ulang');
+
+            $this->actingAs($waka)->from(route('academic.attendance.show', $session))
+                ->post(route('academic.attendance.occurrence.record', $session), ['action' => 'HELD'])
+                ->assertRedirect(route('academic.attendance.show', $session))
+                ->assertSessionHasErrors('occurrence');
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertDatabaseCount('session_occurrence_versions', 0);
+        $this->assertDatabaseCount('session_student_participants', 1);
     }
 
     public function test_wali_kelas_can_view_and_save_attendance_from_responsive_page(): void

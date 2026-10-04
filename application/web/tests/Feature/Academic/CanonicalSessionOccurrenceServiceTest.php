@@ -20,6 +20,7 @@ use App\Shared\Core\Models\OrganizationalUnit;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Core\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use RuntimeException;
@@ -47,6 +48,114 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
 
         $this->assertSame('HELD', $version->occurrence_status);
         $this->assertSame(1, $session->occurrenceVersions()->count());
+    }
+
+    public function test_future_held_is_rejected_without_occurrence_or_snapshot_mutation(): void
+    {
+        [$session, $actor] = $this->fixtures();
+        $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
+        $session->update([
+            'planned_start_at' => $start->copy()->utc(),
+            'planned_end_at' => $start->copy()->addHour()->utc(),
+        ]);
+        Carbon::setTestNow($start->copy()->subMinute());
+
+        $exception = null;
+        try {
+            $this->service()->record($session->fresh(), $actor, 'HELD');
+        } catch (InvalidArgumentException $caught) {
+            $exception = $caught;
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertInstanceOf(InvalidArgumentException::class, $exception);
+        $this->assertStringContainsString('KBM belum memasuki waktu mulai', $exception->getMessage());
+        $this->assertDatabaseCount('session_occurrence_versions', 0);
+        $this->assertDatabaseCount('session_student_participants', 0);
+        $this->assertNull($session->fresh()->effective_occurrence_version_id);
+    }
+
+    public function test_future_partial_held_is_rejected_without_occurrence_or_snapshot_mutation(): void
+    {
+        [$session, $actor] = $this->fixtures();
+        $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
+        $session->update([
+            'planned_start_at' => $start->copy()->utc(),
+            'planned_end_at' => $start->copy()->addHour()->utc(),
+        ]);
+        Carbon::setTestNow($start->copy()->subMinute());
+
+        $exception = null;
+        try {
+            $this->service()->record($session->fresh(), $actor, 'HELD', [
+                'is_partial' => true,
+                'partial_reason' => 'Waktu belajar terbatas',
+            ]);
+        } catch (InvalidArgumentException $caught) {
+            $exception = $caught;
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertInstanceOf(InvalidArgumentException::class, $exception);
+        $this->assertDatabaseCount('session_occurrence_versions', 0);
+        $this->assertDatabaseCount('session_student_participants', 0);
+        $this->assertNull($session->fresh()->effective_occurrence_version_id);
+    }
+
+    public function test_held_and_partial_held_are_allowed_at_or_after_planned_start(): void
+    {
+        [$session, $actor] = $this->fixtures();
+        $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
+        $session->update([
+            'planned_start_at' => $start->copy()->utc(),
+            'planned_end_at' => $start->copy()->addHour()->utc(),
+        ]);
+        Carbon::setTestNow($start);
+
+        try {
+            $held = $this->service()->record($session->fresh(), $actor, 'HELD');
+            $this->assertSame('HELD', $held->occurrence_status);
+
+            $partialSession = $session->replicate();
+            $partialSession->session_code = 'SESSION-OCCURRENCE-PARTIAL-'.str()->uuid();
+            $partialSession->save();
+            $partial = $this->service()->record($partialSession->fresh(), $actor, 'HELD', [
+                'is_partial' => true,
+                'partial_reason' => 'Kegiatan hanya berlangsung sebagian.',
+            ]);
+            $this->assertTrue($partial->is_partial);
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_future_correction_to_held_is_rejected_without_moving_effective_pointer(): void
+    {
+        [$session, $actor] = $this->fixtures();
+        $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
+        $session->update([
+            'planned_start_at' => $start->copy()->utc(),
+            'planned_end_at' => $start->copy()->addHour()->utc(),
+        ]);
+        Carbon::setTestNow($start->copy()->subMinute());
+
+        $exception = null;
+        try {
+            $scheduled = $this->service()->record($session->fresh(), $actor, 'SCHEDULED');
+            $this->service()->correctEffectiveOccurrence($session->fresh(), $actor, 'HELD', 'Koreksi belum boleh dilakukan.');
+        } catch (InvalidArgumentException $caught) {
+            $exception = $caught;
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertInstanceOf(InvalidArgumentException::class, $exception);
+        $this->assertStringContainsString('KBM belum memasuki waktu mulai', $exception->getMessage());
+        $this->assertSame($scheduled->id, $session->fresh()->effective_occurrence_version_id);
+        $this->assertDatabaseCount('session_occurrence_versions', 1);
+        $this->assertDatabaseCount('session_student_participants', 0);
     }
 
     public function test_held_materializes_participant_snapshot(): void

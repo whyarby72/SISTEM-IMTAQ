@@ -89,7 +89,10 @@ class StudentAttendanceController
         $scopeIsLocked = $lockEvaluator->isLocked($lockClassIds, $session->planned_start_at);
         $canSaveDraft = ! $readOnly && $executionState['attendance_input_allowed'] && ! $scopeIsLocked;
         $canRequestCorrection = $readOnly && $scopeIsLocked && $correctionCandidates->isNotEmpty();
-        $canRecordTeacherAttendance = ! $readOnly && $executionState['attendance_obligation_exists'] && $session->teacherParticipations->isNotEmpty();
+        $canRecordTeacherAttendance = ! $readOnly
+            && ! $scopeIsLocked
+            && $executionState['attendance_obligation_exists']
+            && $session->teacherParticipations->isNotEmpty();
         $requiredParticipants = $participants->filter(fn ($participant) => $participant->participant_status === 'EXPECTED' && $participant->is_required);
         $attendanceReady = $requiredParticipants->isNotEmpty()
             && $requiredParticipants->every(fn ($participant) => in_array($participant->attendance?->attendance_status, ['PRESENT', 'LATE', 'SICK', 'IZIN', 'EXCUSED', 'ABSENT'], true));
@@ -107,7 +110,9 @@ class StudentAttendanceController
         $occurrenceCanonicalRegime = $occurrenceFeatureEnabled && $occurrenceGate->isCanonical($session);
         $occurrenceHistory = $occurrenceCanonicalRegime ? $session->occurrenceVersions()->with('recordedBy')->orderBy('version_no')->get() : collect();
         $effectiveOccurrence = $occurrenceCanonicalRegime ? $session->effectiveOccurrenceVersion : null;
-        $canManageOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->canManageRoutine($user, $session, 'HELD');
+        $canManageOccurrence = $occurrenceCanonicalRegime
+            && $executionState['occurrence_action_required']
+            && $occurrenceAuthorization->canManageRoutine($user, $session, 'HELD');
         $canManageOccurrencePhysical = $occurrenceCanonicalRegime
             && ($occurrenceAuthorization->canManageRoutine($user, $session, 'CANCELLED') || $occurrenceAuthorization->canManageRoutine($user, $session, 'RESCHEDULED'));
         $canCorrectOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->hasAcademicFullAuthority($user, $session->planned_start_at) && $effectiveOccurrence !== null;

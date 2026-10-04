@@ -327,7 +327,9 @@
     @if (($occurrenceFeatureEnabled ?? false) && ($occurrenceCanonicalRegime ?? false))
         <section class="card occurrence-workflow-panel" aria-labelledby="occurrence-heading">
             <h2 id="occurrence-heading">Pelaksanaan KBM</h2>
-            @if ($effectiveOccurrence)
+            @if (($executionState['execution_state'] ?? null) === 'UPCOMING')
+                <p class="muted"><strong>Sesi akan datang</strong>. Belum dimulai; pelaksanaan dan pengisian kehadiran tersedia setelah waktu mulai.</p>
+            @elseif ($effectiveOccurrence)
                 <p class="muted"><strong>{{ ['SCHEDULED' => 'Belum berlangsung', 'HELD' => ($effectiveOccurrence->is_partial ? 'Berlangsung sebagian' : 'Berlangsung'), 'CANCELLED' => 'Dibatalkan', 'RESCHEDULED' => 'Dijadwal ulang'][$effectiveOccurrence->occurrence_status] ?? 'Belum dicatat' }}</strong>.</p>
             @else
                 <p class="muted">Pelaksanaan KBM belum dicatat. Kehadiran santri dan guru belum dapat diisi.</p>
@@ -336,10 +338,12 @@
                 <div class="button-row">
                     <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="HELD"><button class="button" type="submit">Catat KBM berlangsung</button></form>
                     <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="PARTIAL_HELD"><input name="partial_reason" required maxlength="1000" placeholder="Alasan KBM sebagian"><button class="secondary" type="submit">KBM berlangsung sebagian</button></form>
-                    @if (($canManageOccurrencePhysical ?? false))
-                        <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="CANCELLED"><input name="reason" required maxlength="1000" placeholder="Alasan pembatalan"><button class="secondary" type="submit">Batalkan KBM</button></form>
-                        <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="RESCHEDULED"><input type="datetime-local" name="new_start_at" required><input type="datetime-local" name="new_end_at" required><input name="reason" required maxlength="1000" placeholder="Alasan jadwal ulang"><button class="secondary" type="submit">Jadwal ulang</button></form>
-                    @endif
+                </div>
+            @endif
+            @if (($canManageOccurrencePhysical ?? false) && ! ($readOnly ?? false))
+                <div class="button-row">
+                    <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="CANCELLED"><input name="reason" required maxlength="1000" placeholder="Alasan pembatalan"><button class="secondary" type="submit">Batalkan KBM</button></form>
+                    <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="RESCHEDULED"><input type="datetime-local" name="new_start_at" required><input type="datetime-local" name="new_end_at" required><input name="reason" required maxlength="1000" placeholder="Alasan jadwal ulang"><button class="secondary" type="submit">Jadwal ulang</button></form>
                 </div>
             @endif
             @if (($occurrenceHistory ?? collect())->isNotEmpty())
