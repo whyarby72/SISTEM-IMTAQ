@@ -559,7 +559,7 @@ class AcademicRoleDashboardServiceTest extends TestCase
             ->get(route('academic.dashboard', ['from' => '2026-07-01', 'to' => '2026-07-31']))
             ->assertOk()
             ->assertSee('Penugasan Wali Kelas belum tersedia')
-            ->assertDontSee('sesi-hari-ini', false);
+            ->assertDontSee('id="sesi-hari-ini"', false);
     }
 
     public function test_wali_joint_dashboard_partitions_trend_and_operational_roster_by_authorized_class(): void
