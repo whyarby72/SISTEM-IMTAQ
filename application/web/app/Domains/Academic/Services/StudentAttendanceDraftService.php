@@ -2,11 +2,11 @@
 
 namespace App\Domains\Academic\Services;
 
-use App\Domains\Academic\Models\AttendancePeriodLock;
 use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentAttendance;
+use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -18,6 +18,9 @@ class StudentAttendanceDraftService
     public function __construct(
         private readonly AuditLogger $auditLogger,
         private readonly SessionParticipantSnapshotter $snapshotter,
+        private readonly AcademicClassScopeResolver $classScope,
+        private readonly SessionAttendanceScopeResolver $attendanceScopeResolver,
+        private readonly AttendanceScopeLockEvaluator $lockEvaluator,
     ) {}
 
     public function save(
@@ -42,6 +45,16 @@ class StudentAttendanceDraftService
         }
 
         $date = $session->planned_start_at->toDateString();
+        $scopeClassIds = [(string) $session->class_id];
+        $scopeAuthorized = false;
+        if (count($this->classScope->forSession($session)) > 1) {
+            $scope = $this->attendanceScopeResolver->resolveForUser(User::query()->findOrFail($actorUserId), $session);
+            $this->attendanceScopeResolver->assertParticipantAuthorized($scope, $participant);
+            $scopeClassIds = $scope['mode'] === 'WALI_CLASS_PARTITION'
+                ? array_map('strval', $scope['effective_class_ids'])
+                : [(string) $session->class_id];
+            $scopeAuthorized = true;
+        }
         $isHomeroom = ClassHomeroomAssignment::query()
             ->where('class_id', $session->class_id)
             ->where('staff_id', $inputter->id)
@@ -65,19 +78,13 @@ class StudentAttendanceDraftService
         $allowed = ['attendance_status', 'reason_code', 'permission_event_id', 'arrival_at', 'departure_at', 'notes'];
         $changes = collect($attributes)->only($allowed)->all();
 
-        return DB::transaction(function () use ($session, $participant, $actorUserId, $changes): StudentAttendance {
+        return DB::transaction(function () use ($session, $participant, $actorUserId, $changes, $scopeClassIds): StudentAttendance {
             $lockedSession = ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
             if (! in_array($lockedSession->session_status, ['PLANNED', 'CONFIRMED'], true)) {
                 throw new InvalidArgumentException('Only planned or confirmed sessions can accept attendance drafts.');
             }
 
-            $periodStart = $lockedSession->planned_start_at->copy()->startOfMonth()->toDateString();
-            if (AttendancePeriodLock::query()
-                ->where('class_id', $lockedSession->class_id)
-                ->where('status', 'LOCKED')
-                ->whereDate('period_start', $periodStart)
-                ->lockForUpdate()
-                ->exists()) {
+            if ($this->lockEvaluator->isLocked($scopeClassIds, $lockedSession->planned_start_at)) {
                 throw new InvalidArgumentException('Locked attendance must use the post-lock correction workflow.');
             }
 

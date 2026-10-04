@@ -9,10 +9,12 @@ use App\Domains\Academic\Models\ClassSessionGroup;
 use App\Domains\Academic\Models\GradeLevel;
 use App\Domains\Academic\Models\Semester;
 use App\Domains\Academic\Models\SessionStudentParticipant;
+use App\Domains\Academic\Models\StudentAttendance;
 use App\Domains\Academic\Models\StudentClassEnrollment;
 use App\Domains\Academic\Models\Subject;
 use App\Domains\Academic\Models\TeachingAssignment;
 use App\Domains\Academic\Services\SessionAttendanceScopeResolver;
+use App\Domains\Academic\Services\StudentAttendanceCompletenessChecker;
 use App\Models\User;
 use App\Shared\Core\Models\AcademicYear;
 use App\Shared\Core\Models\OrganizationalUnit;
@@ -51,6 +53,29 @@ class SessionAttendanceScopeResolverTest extends TestCase
 
         $this->expectException(AuthorizationException::class);
         app(SessionAttendanceScopeResolver::class)->resolve($user, $session->load('scopeGroups'), collect([$participant]));
+    }
+
+    public function test_scoped_completeness_uses_only_the_walis_effective_partition(): void
+    {
+        [$session, $user, $anchor, $secondary] = $this->jointFixture();
+        $anchorStudent = Student::create(['student_code' => 'SCOPE-A-001', 'full_name' => 'Anchor Student']);
+        $secondaryStudent = Student::create(['student_code' => 'SCOPE-B-001', 'full_name' => 'Secondary Student']);
+        StudentClassEnrollment::create(['student_id' => $anchorStudent->id, 'class_id' => $anchor->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
+        StudentClassEnrollment::create(['student_id' => $secondaryStudent->id, 'class_id' => $secondary->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
+        $anchorParticipant = SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $anchorStudent->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        $secondaryParticipant = SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $secondaryStudent->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        StudentAttendance::create(['session_student_participant_id' => $secondaryParticipant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'entered_by' => $user->id, 'entered_at' => now(), 'finalized_by' => $user->id, 'finalized_at' => now(), 'updated_by' => $user->id, 'updated_at' => now()]);
+
+        $scope = app(SessionAttendanceScopeResolver::class)->resolveForUser($user, $session->fresh()->load('scopeGroups'));
+        $finding = app(StudentAttendanceCompletenessChecker::class)->checkForScope($session, $scope);
+        $fullFinding = app(StudentAttendanceCompletenessChecker::class)->check($session);
+
+        $this->assertSame([(string) $secondaryParticipant->id], $scope['authorized_participant_ids']);
+        $this->assertSame(1, $finding['required_count']);
+        $this->assertSame(1, $finding['resolved_count']);
+        $this->assertSame([], $finding['missing_attendance_participant_ids']);
+        $this->assertSame(2, $fullFinding['required_count']);
+        $this->assertSame([(string) $anchorParticipant->id], $fullFinding['missing_attendance_participant_ids']);
     }
 
     private function jointFixture(): array

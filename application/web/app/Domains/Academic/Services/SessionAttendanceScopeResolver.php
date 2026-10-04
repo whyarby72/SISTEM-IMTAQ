@@ -79,6 +79,22 @@ class SessionAttendanceScopeResolver
         ];
     }
 
+    public function resolveForUser(User $user, ClassSession $session): array
+    {
+        $participants = $session->studentParticipants()
+            ->with('student.classEnrollments')
+            ->get();
+
+        return $this->resolve($user, $session, $participants);
+    }
+
+    public function assertParticipantAuthorized(array $scope, SessionStudentParticipant $participant): void
+    {
+        if (! in_array((string) $participant->getKey(), array_map('strval', $scope['authorized_participant_ids']), true)) {
+            throw new AuthorizationException('Peserta berada di luar scope kelas pengguna.');
+        }
+    }
+
     public function filterParticipants(Collection $participants, array $scope): Collection
     {
         $allowed = array_map('strval', $scope['authorized_participant_ids']);

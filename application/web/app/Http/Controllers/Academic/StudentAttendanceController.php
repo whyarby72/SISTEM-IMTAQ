@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Academic;
 
 use App\Domains\Academic\Exceptions\ScheduleConflictException;
 use App\Domains\Academic\Models\AcademicClass;
-use App\Domains\Academic\Models\AttendancePeriodLock;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\StudentAttendance;
 use App\Domains\Academic\Services\AcademicAuthorizationService;
 use App\Domains\Academic\Services\AcademicClassScopeResolver;
+use App\Domains\Academic\Services\AttendanceScopeLockEvaluator;
 use App\Domains\Academic\Services\CancellationService;
 use App\Domains\Academic\Services\CanonicalSessionOccurrenceService;
 use App\Domains\Academic\Services\JointAttendanceRosterBreakdownService;
@@ -18,6 +18,7 @@ use App\Domains\Academic\Services\SessionOccurrenceAuthorizationService;
 use App\Domains\Academic\Services\SessionOccurrenceFeatureGate;
 use App\Domains\Academic\Services\SessionOccurrenceWorkflowService;
 use App\Domains\Academic\Services\SessionParticipantSnapshotter;
+use App\Domains\Academic\Services\StudentAttendanceCompletenessChecker;
 use App\Domains\Academic\Services\StudentAttendanceDraftService;
 use App\Domains\Academic\Services\StudentAttendanceFinalizer;
 use App\Domains\Academic\Services\StudentSessionGroomingNoteService;
@@ -41,7 +42,7 @@ class StudentAttendanceController
 {
     public function __construct(private readonly AcademicClassScopeResolver $classScope) {}
 
-    public function show(ClassSession $session, Request $request, WaliKelasContextResolver $resolver, TeacherParticipationRecorder $teacherParticipationRecorder, JointAttendanceRosterBreakdownService $rosterBreakdown, SessionAttendanceScopeResolver $attendanceScopeResolver, SessionParticipantSnapshotter $snapshotter, SessionOccurrenceFeatureGate $occurrenceGate, SessionOccurrenceAuthorizationService $occurrenceAuthorization): View
+    public function show(ClassSession $session, Request $request, WaliKelasContextResolver $resolver, TeacherParticipationRecorder $teacherParticipationRecorder, JointAttendanceRosterBreakdownService $rosterBreakdown, SessionAttendanceScopeResolver $attendanceScopeResolver, StudentAttendanceCompletenessChecker $completenessChecker, AttendanceScopeLockEvaluator $lockEvaluator, SessionParticipantSnapshotter $snapshotter, SessionOccurrenceFeatureGate $occurrenceGate, SessionOccurrenceAuthorizationService $occurrenceAuthorization): View
     {
         $user = $this->user($request);
         $staff = $resolver->resolve($user, $session);
@@ -67,6 +68,7 @@ class StudentAttendanceController
                 return in_array((string) $attendanceClasses->firstWhere('display_name', $item['label'])?->id, $scopeClassIds, true);
             })->values();
         }
+        $completeness = $completenessChecker->checkForScope($session, $attendanceScopeData);
         $replacementTeachers = Staff::query()
             ->where('record_status', 'ACTIVE')
             ->where('staff_code', 'not like', 'PILOT-%')
@@ -76,7 +78,12 @@ class StudentAttendanceController
         $canCancel = $session->session_status === 'PLANNED' && ! $participants->contains(fn ($participant) => $participant->attendance !== null);
         $readOnly = $session->session_status === 'COMPLETED';
         $correctionCandidates = $participants->filter(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED');
-        $canRequestCorrection = $readOnly && AttendancePeriodLock::query()->where('class_id', $session->class_id)->where('status', 'LOCKED')->whereDate('period_start', $session->planned_start_at->copy()->startOfMonth())->exists() && $correctionCandidates->isNotEmpty();
+        $lockClassIds = $attendanceScopeData['mode'] === 'WALI_CLASS_PARTITION'
+            ? $attendanceScopeData['effective_class_ids']
+            : [(string) $session->class_id];
+        $scopeIsLocked = $lockEvaluator->isLocked($lockClassIds, $session->planned_start_at);
+        $canSaveDraft = ! $readOnly && $session->session_status !== 'CANCELLED' && $session->session_status !== 'RESCHEDULED' && ! $scopeIsLocked;
+        $canRequestCorrection = $readOnly && $scopeIsLocked && $correctionCandidates->isNotEmpty();
         $canRecordTeacherAttendance = ! $readOnly && $session->session_status !== 'CANCELLED' && $session->teacherParticipations->isNotEmpty();
         $occurrenceFeatureEnabled = $occurrenceGate->enabled();
         $occurrenceCanonicalRegime = $occurrenceFeatureEnabled && $occurrenceGate->isCanonical($session);
@@ -85,7 +92,7 @@ class StudentAttendanceController
         $canManageOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->canManageRoutine($user, $session, 'HELD');
         $canCorrectOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->hasAcademicFullAuthority($user, $session->planned_start_at) && $effectiveOccurrence !== null;
 
-        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canCorrectOccurrence'));
+        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'canSaveDraft', 'scopeIsLocked', 'completeness', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canCorrectOccurrence'));
     }
 
     public function recordOccurrence(
@@ -185,7 +192,7 @@ class StudentAttendanceController
         return redirect()->to(route('academic.attendance.show', $session).'#rekap-guru')->with('status', 'Kehadiran guru berhasil dicatat dan masuk rekap evaluasi.');
     }
 
-    public function requestCorrection(ClassSession $session, Request $request, PostLockAttendanceCorrectionService $correctionService): RedirectResponse
+    public function requestCorrection(ClassSession $session, Request $request, SessionAttendanceScopeResolver $attendanceScopeResolver, PostLockAttendanceCorrectionService $correctionService): RedirectResponse
     {
         $validated = $request->validate([
             'attendance_id' => ['required', 'uuid', 'exists:student_attendance,id'],
@@ -195,6 +202,8 @@ class StudentAttendanceController
         ]);
         $attendance = StudentAttendance::query()->with('participant.classSession')->findOrFail($validated['attendance_id']);
         abort_unless((string) $attendance->participant?->class_session_id === (string) $session->id, 404);
+        $scope = $attendanceScopeResolver->resolveForUser($this->user($request), $session);
+        $attendanceScopeResolver->assertParticipantAuthorized($scope, $attendance->participant);
 
         try {
             $correctionService->submit($attendance, $this->user($request), (int) $validated['expected_version'], $validated['reason'], ['attendance_status' => $validated['attendance_status']]);

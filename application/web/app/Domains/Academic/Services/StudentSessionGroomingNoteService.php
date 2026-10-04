@@ -6,6 +6,7 @@ use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentSessionGroomingNote;
+use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -15,7 +16,12 @@ class StudentSessionGroomingNoteService
 {
     public const DISCIPLINE_CODES = ['RAPI', 'TIDAK_BERSERAGAM', 'SERAGAM_TIDAK_LENGKAP', 'TIDAK_MEMBAWA_BUKU', 'TIDAK_BERPECI', 'CATATAN_TAMBAHAN'];
 
-    public function __construct(private readonly AuditLogger $auditLogger) {}
+    public function __construct(
+        private readonly AuditLogger $auditLogger,
+        private readonly AcademicClassScopeResolver $classScope,
+        private readonly SessionAttendanceScopeResolver $attendanceScopeResolver,
+        private readonly AttendanceScopeLockEvaluator $lockEvaluator,
+    ) {}
 
     public function save(
         ClassSession $session,
@@ -32,6 +38,16 @@ class StudentSessionGroomingNoteService
         }
 
         $date = $session->planned_start_at->toDateString();
+        $scopeClassIds = [(string) $session->class_id];
+        $scopeAuthorized = false;
+        if (count($this->classScope->forSession($session)) > 1) {
+            $scope = $this->attendanceScopeResolver->resolveForUser(User::query()->findOrFail($actorUserId), $session);
+            $this->attendanceScopeResolver->assertParticipantAuthorized($scope, $participant);
+            $scopeClassIds = $scope['mode'] === 'WALI_CLASS_PARTITION'
+                ? array_map('strval', $scope['effective_class_ids'])
+                : [(string) $session->class_id];
+            $scopeAuthorized = true;
+        }
         $isHomeroom = ClassHomeroomAssignment::query()
             ->where('class_id', $session->class_id)
             ->where('staff_id', $inputter->id)
@@ -42,6 +58,10 @@ class StudentSessionGroomingNoteService
 
         if (! $isHomeroom && ! $canManageAllClasses && ! $scopeAuthorized) {
             throw new AuthorizationException('Only the effective Wali Kelas may save grooming notes.');
+        }
+
+        if ($this->lockEvaluator->isLocked($scopeClassIds, $session->planned_start_at)) {
+            throw new \InvalidArgumentException('Locked attendance must use the post-lock correction workflow.');
         }
 
         if ($disciplineCode !== null && ! in_array($disciplineCode, self::DISCIPLINE_CODES, true)) {

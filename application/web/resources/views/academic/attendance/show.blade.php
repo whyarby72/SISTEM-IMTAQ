@@ -366,6 +366,7 @@
         <div class="summary-card summary-card--pending @if ($summary->get('PENDING', 0) > 0) summary-card--pending-active @endif"><span class="summary-accent" aria-hidden="true">…</span><span class="muted">Belum diisi</span><strong>{{ $summary->get('PENDING', 0) }}</strong></div>
     </section>
     <section class="card attendance-card">@if (($readOnly ?? false))<div class="info"><strong>Hasil sudah disahkan.</strong> Halaman ini hanya untuk melihat hasil dan catatan kehadiran.</div>@endif
+        @if (isset($completeness))<div class="info"><strong>Kelengkapan scope: {{ $completeness['resolved_count'] ?? 0 }}/{{ $completeness['required_count'] ?? 0 }}</strong> terisi tervalidasi · {{ $completeness['missing_count'] ?? 0 }} belum diisi@if (($scopeIsLocked ?? false)) · periode kelas terkunci, pengisian biasa dinonaktifkan@endif</div>@endif
         @if (($readOnly ?? false))
             <div class="button-row" style="margin-top:0">
                 <a class="button" href="{{ route('academic.attendance.review.csv', $session) }}">Unduh detail CSV</a>
@@ -448,9 +449,10 @@
         @php($attendanceProgress = $requiredParticipants->count() > 0 ? round($filledParticipants->count() / $requiredParticipants->count() * 100) : 0)
         <form id="attendance-form" method="POST" action="{{ route('academic.attendance.draft', $session) }}">
             @csrf
+            <fieldset @disabled(($scopeIsLocked ?? false)) style="border:0;padding:0;margin:0;min-width:0">
             <div class="top-attendance-actions">
                 <div class="top-attendance-bulk"><button class="secondary" type="button" id="mark-all-present">Tandai semua hadir</button><span class="muted" id="bulk-action-feedback" role="status" aria-live="polite">Tandai kondisi umum terlebih dahulu, lalu ubah santri yang memiliki catatan khusus.</span></div>
-                <div class="top-attendance-utility"><div class="roster-search"><label for="student-search">Cari santri</label><div class="roster-search-control"><span aria-hidden="true">⌕</span><input id="student-search" type="search" data-student-search placeholder="Cari nama santri..." autocomplete="off"></div></div><button class="secondary" type="submit" form="attendance-form">Simpan draf</button><button type="submit" form="attendance-form" formaction="{{ route('academic.attendance.finalize', $session) }}" formmethod="POST" data-finalize-button aria-disabled="{{ $initialReady ? 'false' : 'true' }}" @disabled(! $initialReady) onclick="return validateAttendanceBeforeFinalize(event)">Sahkan kehadiran</button></div>
+                <div class="top-attendance-utility"><div class="roster-search"><label for="student-search">Cari santri</label><div class="roster-search-control"><span aria-hidden="true">⌕</span><input id="student-search" type="search" data-student-search placeholder="Cari nama santri..." autocomplete="off"></div></div><button class="secondary" type="submit" form="attendance-form" @disabled(! ($canSaveDraft ?? true))>Simpan draf</button><button type="submit" form="attendance-form" formaction="{{ route('academic.attendance.finalize', $session) }}" formmethod="POST" data-finalize-button aria-disabled="{{ $initialReady ? 'false' : 'true' }}" @disabled(! $initialReady || ! ($canSaveDraft ?? true)) onclick="return validateAttendanceBeforeFinalize(event)">Sahkan kehadiran</button></div>
             </div>
             <p class="muted" style="margin:0 0 .6rem">Pada layar kecil, setiap santri ditampilkan sebagai kartu agar semua isian tetap mudah diakses.</p><div class="table-wrap">
                 <table class="attendance-table input-table">
@@ -482,11 +484,12 @@
                 </table>
                 <p class="roster-empty-state" data-student-empty-state hidden>Tidak ada santri yang cocok.</p>
             </div>
+            </fieldset>
         </form>
         @if ($participants->isNotEmpty())
             <div class="attendance-action-bar" data-attendance-action-bar data-student-total="{{ $requiredParticipants->count() }}" data-teacher-state="{{ $teacherGateState }}">
                 <div class="attendance-action-copy"><div class="attendance-progress-meter" data-attendance-meter style="--attendance-progress:{{ $attendanceProgress }}%" aria-hidden="true"><span data-attendance-percent>{{ $attendanceProgress }}%</span></div><div class="attendance-action-progress" data-attendance-progress aria-live="polite"><strong>{{ $filledParticipants->count() }}/{{ $requiredParticipants->count() }} terisi</strong><span data-attendance-missing>{{ $requiredParticipants->count() - $filledParticipants->count() }} belum</span><div class="attendance-action-status" data-finalize-status data-state="{{ $initialReady ? 'ready' : 'blocked' }}" aria-live="polite">@if ($initialReady) Siap disahkan @elseif ($requiredParticipants->count() - $filledParticipants->count() > 0 && $teacherGateState !== 'ready') Belum siap disahkan · {{ $requiredParticipants->count() - $filledParticipants->count() }} santri belum diisi · kehadiran guru belum dicatat @elseif ($requiredParticipants->count() - $filledParticipants->count() > 0) {{ $requiredParticipants->count() - $filledParticipants->count() }} santri belum diisi @elseif ($teacherGateState === 'unresolved') Kehadiran guru belum dicatat @else Guru pengganti hadir diperlukan @endif</div></div></div>
-                <div class="attendance-action-group"><button class="secondary" type="submit" form="attendance-form">Simpan draf</button><button type="submit" form="attendance-form" formaction="{{ route('academic.attendance.finalize', $session) }}" formmethod="POST" data-finalize-button aria-disabled="{{ $initialReady ? 'false' : 'true' }}" @disabled(! $initialReady) onclick="return validateAttendanceBeforeFinalize(event)">Sahkan kehadiran</button></div>
+                <div class="attendance-action-group"><button class="secondary" type="submit" form="attendance-form" @disabled(! ($canSaveDraft ?? true))>Simpan draf</button><button type="submit" form="attendance-form" formaction="{{ route('academic.attendance.finalize', $session) }}" formmethod="POST" data-finalize-button aria-disabled="{{ $initialReady ? 'false' : 'true' }}" @disabled(! $initialReady || ! ($canSaveDraft ?? true)) onclick="return validateAttendanceBeforeFinalize(event)">Sahkan kehadiran</button></div>
             </div>
         @endif
         @endif
