@@ -31,6 +31,7 @@ class StudentAttendanceDraftService
         array $attributes = [],
         bool $canManageAllClasses = false,
         bool $scopeAuthorized = false,
+        ?int $expectedVersion = null,
     ): StudentAttendance {
         if ((string) $participant->class_session_id !== (string) $session->id) {
             throw new InvalidArgumentException('Student participant does not belong to the session.');
@@ -78,7 +79,7 @@ class StudentAttendanceDraftService
         $allowed = ['attendance_status', 'reason_code', 'permission_event_id', 'arrival_at', 'departure_at', 'notes'];
         $changes = collect($attributes)->only($allowed)->all();
 
-        return DB::transaction(function () use ($session, $participant, $actorUserId, $changes, $scopeClassIds): StudentAttendance {
+        return DB::transaction(function () use ($session, $participant, $actorUserId, $changes, $scopeClassIds, $expectedVersion): StudentAttendance {
             $lockedSession = ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
             if (! in_array($lockedSession->session_status, ['PLANNED', 'CONFIRMED'], true)) {
                 throw new InvalidArgumentException('Only planned or confirmed sessions can accept attendance drafts.');
@@ -95,6 +96,9 @@ class StudentAttendanceDraftService
             $oldValues = $attendance?->only($changes ? array_keys($changes) : ['attendance_status']);
 
             if ($attendance === null) {
+                if ($expectedVersion !== null) {
+                    throw new InvalidArgumentException('Attendance version is stale.');
+                }
                 $attendance = StudentAttendance::create([
                     'session_student_participant_id' => $participant->id,
                     ...$changes,
@@ -106,6 +110,9 @@ class StudentAttendanceDraftService
                     'updated_at' => now(),
                 ]);
             } elseif ($attendance->workflow_status === 'DRAFT') {
+                if ($expectedVersion !== null && $expectedVersion !== $attendance->version_no) {
+                    throw new InvalidArgumentException('Attendance version is stale.');
+                }
                 $attendance->update([
                     ...$changes,
                     'workflow_status' => 'DRAFT',

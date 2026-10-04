@@ -157,8 +157,7 @@ class AcademicRoleDashboardService
         $missing = max(0, $eligible - $resolved);
         $finalized = $eligible > 0
             && $missing === 0
-            && $participants->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED')
-            && $session->session_status === 'COMPLETED';
+            && $participants->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED');
 
         if ($finalized) {
             $state = 'FINALIZED';
@@ -256,8 +255,7 @@ class AcademicRoleDashboardService
             $resolved = $participants->filter(fn ($participant) => $participant->attendance?->attendance_status !== null)->count();
             $finalized = $participants->isNotEmpty()
                 && $resolved === $participants->count()
-                && $participants->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED')
-                && $session->session_status === 'COMPLETED';
+                && $participants->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED');
 
             $session->setAttribute('attendance_label', $finalized ? 'Sudah disahkan' : ($resolved > 0 ? 'Belum lengkap' : 'Belum diisi'));
             $session->setAttribute('attendance_action', $finalized ? 'Lihat kehadiran' : ($resolved > 0 ? 'Lanjutkan pengisian' : 'Isi kehadiran'));
@@ -287,7 +285,7 @@ class AcademicRoleDashboardService
             $required = $this->participantsForDashboardClasses($session, $classes, $partitionByClass);
             $complete = $required->isNotEmpty() && $required->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED'
                 && $participant->attendance->attendance_status !== null);
-            $isFinalized = $session->session_status === 'COMPLETED' && $complete;
+            $isFinalized = $partitionByClass ? $complete : ($session->session_status === 'COMPLETED' && $complete);
 
             if ($session->planned_start_at->isFuture()) {
                 $upcoming++;

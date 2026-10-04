@@ -14,6 +14,7 @@ use App\Domains\Academic\Models\StudentAttendance;
 use App\Domains\Academic\Models\StudentClassEnrollment;
 use App\Domains\Academic\Models\Subject;
 use App\Domains\Academic\Models\TeachingAssignment;
+use App\Domains\Academic\Services\AcademicRoleDashboardService;
 use App\Domains\Academic\Services\StudentAttendanceFinalizer;
 use App\Models\User;
 use App\Shared\Core\Models\AcademicYear;
@@ -26,6 +27,7 @@ use App\Shared\Platform\Authorization\Models\UserRoleAssignment;
 use App\Shared\Platform\Authorization\Models\UserStaffLink;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use InvalidArgumentException;
 use Tests\TestCase;
 
@@ -99,6 +101,87 @@ class StudentAttendancePartitionedFinalizerTest extends TestCase
             $fixture['anchorStaff'],
             $fixture['anchorUser']->id,
         );
+    }
+
+    public function test_wali_http_finalization_validates_only_their_joint_partition(): void
+    {
+        $fixture = $this->jointFixture();
+
+        $this->actingAs($fixture['anchorUser'])
+            ->post(route('academic.attendance.finalize', $fixture['session']), [
+                'participants' => [$fixture['anchorParticipant']->id => ['attendance_status' => 'PRESENT']],
+            ])
+            ->assertRedirect(route('academic.attendance.show', $fixture['session']))
+            ->assertSessionHas('status', 'Kehadiran berhasil disahkan.');
+
+        $this->assertDatabaseHas('student_attendance', [
+            'session_student_participant_id' => $fixture['anchorParticipant']->id,
+            'workflow_status' => 'VALIDATED',
+        ]);
+        $this->assertDatabaseMissing('student_attendance', [
+            'session_student_participant_id' => $fixture['secondaryParticipant']->id,
+        ]);
+        $this->assertSame('PLANNED', $fixture['session']->fresh()->session_status);
+
+        $this->actingAs($fixture['anchorUser'])
+            ->get(route('academic.attendance.show', $fixture['session']))
+            ->assertOk()
+            ->assertSee('Sudah disahkan untuk kelas Anda.')
+            ->assertSee('Sesi gabungan masih menunggu pengesahan kelas lain.');
+
+        $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+            $fixture['anchorUser'],
+            Carbon::parse('2026-07-01'),
+            Carbon::parse('2026-07-31')->endOfDay(),
+        );
+        $dashboardSession = $dashboard['attendance_sessions']->firstWhere('id', $fixture['session']->id);
+        $this->assertSame('Sudah disahkan', $dashboardSession?->attendance_label);
+    }
+
+    public function test_wali_http_finalization_rejects_cross_partition_participant_before_write(): void
+    {
+        $fixture = $this->jointFixture();
+
+        $this->actingAs($fixture['anchorUser'])
+            ->post(route('academic.attendance.finalize', $fixture['session']), [
+                'participants' => [
+                    $fixture['anchorParticipant']->id => ['attendance_status' => 'PRESENT'],
+                    $fixture['secondaryParticipant']->id => ['attendance_status' => 'ABSENT'],
+                ],
+            ])
+            ->assertForbidden();
+
+        $this->assertDatabaseCount('student_attendance', 0);
+        $this->assertSame('PLANNED', $fixture['session']->fresh()->session_status);
+    }
+
+    public function test_wali_http_finalization_rejects_stale_attendance_version_without_partial_write(): void
+    {
+        $fixture = $this->jointFixture();
+        $attendance = StudentAttendance::create([
+            'session_student_participant_id' => $fixture['anchorParticipant']->id,
+            'attendance_status' => 'PRESENT',
+            'entered_by' => $fixture['anchorUser']->id,
+            'entered_at' => now(),
+            'updated_by' => $fixture['anchorUser']->id,
+            'updated_at' => now(),
+        ]);
+        $attendance->update(['version_no' => 2]);
+
+        $this->actingAs($fixture['anchorUser'])
+            ->post(route('academic.attendance.finalize', $fixture['session']), [
+                'participants' => [$fixture['anchorParticipant']->id => ['attendance_status' => 'PRESENT']],
+                'attendance_versions' => [$fixture['anchorParticipant']->id => 1],
+            ])
+            ->assertRedirect(route('academic.attendance.show', $fixture['session']))
+            ->assertSessionHasErrors(['finalize' => 'Data kehadiran telah berubah. Muat ulang halaman dan periksa kembali sebelum mengesahkan.']);
+
+        $this->assertDatabaseHas('student_attendance', [
+            'session_student_participant_id' => $fixture['anchorParticipant']->id,
+            'version_no' => 2,
+            'workflow_status' => 'DRAFT',
+        ]);
+        $this->assertSame('PLANNED', $fixture['session']->fresh()->session_status);
     }
 
     private function finalizeDraft(SessionStudentParticipant $participant, User $user, string $status): void

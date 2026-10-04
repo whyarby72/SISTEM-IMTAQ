@@ -33,6 +33,7 @@ use App\Shared\Platform\Reports\CompletedAttendanceSessionExportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,7 +77,8 @@ class StudentAttendanceController
             ->orderBy('full_name')
             ->get();
         $canCancel = $session->session_status === 'PLANNED' && ! $participants->contains(fn ($participant) => $participant->attendance !== null);
-        $readOnly = $session->session_status === 'COMPLETED';
+        $partitionFinalized = $attendanceScopeData['mode'] === 'WALI_CLASS_PARTITION' && $completeness['is_complete'];
+        $readOnly = in_array($session->session_status, ['COMPLETED', 'CANCELLED', 'RESCHEDULED'], true) || $partitionFinalized;
         $correctionCandidates = $participants->filter(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED');
         $lockClassIds = $attendanceScopeData['mode'] === 'WALI_CLASS_PARTITION'
             ? $attendanceScopeData['effective_class_ids']
@@ -85,6 +87,19 @@ class StudentAttendanceController
         $canSaveDraft = ! $readOnly && $session->session_status !== 'CANCELLED' && $session->session_status !== 'RESCHEDULED' && ! $scopeIsLocked;
         $canRequestCorrection = $readOnly && $scopeIsLocked && $correctionCandidates->isNotEmpty();
         $canRecordTeacherAttendance = ! $readOnly && $session->session_status !== 'CANCELLED' && $session->teacherParticipations->isNotEmpty();
+        $requiredParticipants = $participants->filter(fn ($participant) => $participant->participant_status === 'EXPECTED' && $participant->is_required);
+        $attendanceReady = $requiredParticipants->isNotEmpty()
+            && $requiredParticipants->every(fn ($participant) => in_array($participant->attendance?->attendance_status, ['PRESENT', 'LATE', 'SICK', 'IZIN', 'EXCUSED', 'ABSENT'], true));
+        $primaryTeacher = $session->teacherParticipations->first(fn ($participation) => $participation->role === 'PRIMARY');
+        $teacherHasCoverage = $session->teacherParticipations->contains(fn ($participation) => $participation->role === 'SUBSTITUTE' && $participation->attendance_status === 'PRESENT');
+        $teacherReady = $primaryTeacher !== null
+            && in_array($primaryTeacher->attendance_status, ['PRESENT', 'ABSENT', 'SICK', 'IZIN', 'OTHER'], true)
+            && ($primaryTeacher->attendance_status === 'PRESENT' || $teacherHasCoverage);
+        $canFinalize = ! $readOnly
+            && ! $scopeIsLocked
+            && in_array($session->session_status, ['PLANNED', 'CONFIRMED'], true)
+            && $attendanceReady
+            && $teacherReady;
         $occurrenceFeatureEnabled = $occurrenceGate->enabled();
         $occurrenceCanonicalRegime = $occurrenceFeatureEnabled && $occurrenceGate->isCanonical($session);
         $occurrenceHistory = $occurrenceCanonicalRegime ? $session->occurrenceVersions()->with('recordedBy')->orderBy('version_no')->get() : collect();
@@ -92,7 +107,7 @@ class StudentAttendanceController
         $canManageOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->canManageRoutine($user, $session, 'HELD');
         $canCorrectOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->hasAcademicFullAuthority($user, $session->planned_start_at) && $effectiveOccurrence !== null;
 
-        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'canSaveDraft', 'scopeIsLocked', 'completeness', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canCorrectOccurrence'));
+        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'partitionFinalized', 'canFinalize', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'canSaveDraft', 'scopeIsLocked', 'completeness', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canCorrectOccurrence'));
     }
 
     public function recordOccurrence(
@@ -464,32 +479,53 @@ class StudentAttendanceController
         $canManageAllClasses = $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString());
         $scopeParticipants = $session->studentParticipants()->with('student.classEnrollments')->get();
         $attendanceScope = $attendanceScopeResolver->resolve($user, $session, $scopeParticipants);
-        abort_unless($canManageAllClasses || $attendanceScope['mode'] !== 'WALI_CLASS_PARTITION', 403, 'Finalisasi sesi gabungan menunggu kontrak scope finalisasi kelas.');
         $payload = $request->validate([
             'participants' => ['sometimes', 'array'],
             'participants.*.attendance_status' => ['nullable', 'string', 'in:PRESENT,ABSENT,SICK,IZIN,LATE,EXCUSED'],
             'participants.*.notes' => ['nullable', 'string', 'max:1000'],
             'participants.*.grooming_note' => ['nullable', 'string', 'max:1000'],
             'participants.*.discipline_code' => ['nullable', 'string', 'in:RAPI,TIDAK_BERSERAGAM,SERAGAM_TIDAK_LENGKAP,TIDAK_MEMBAWA_BUKU,TIDAK_BERPECI,CATATAN_TAMBAHAN'],
+            'attendance_versions' => ['sometimes', 'array'],
+            'attendance_versions.*' => ['integer', 'min:1'],
         ]);
 
-        foreach ($payload['participants'] ?? [] as $participantId => $attributes) {
-            abort_unless($canManageAllClasses || in_array((string) $participantId, array_map('strval', $attendanceScope['authorized_participant_ids']), true), 403);
-            $participant = $session->studentParticipants()->whereKey($participantId)->firstOrFail();
-            if ($participant->attendance()->exists() || $this->hasMeaningfulInput($attributes['attendance_status'] ?? null) || $this->hasMeaningfulInput($attributes['notes'] ?? null)) {
-                $draftService->save($session, $participant, $staff, $user->id, $attributes, $canManageAllClasses);
-            }
-            if ($participant->groomingNote()->exists() || $this->hasMeaningfulInput($attributes['discipline_code'] ?? null) || $this->hasMeaningfulInput($attributes['grooming_note'] ?? null)) {
-                $groomingNoteService->save($session, $participant, $staff, $user->id, $attributes['discipline_code'] ?? null, $attributes['grooming_note'] ?? null, $canManageAllClasses);
-            }
-        }
+        $authorizedParticipantIds = array_map('strval', $attendanceScope['authorized_participant_ids']);
+        $submittedParticipantIds = array_map('strval', array_keys($payload['participants'] ?? []));
+        $submittedVersionIds = array_map('strval', array_keys($payload['attendance_versions'] ?? []));
+        abort_unless(array_diff($submittedParticipantIds, $authorizedParticipantIds) === [], 403);
+        abort_unless(array_diff($submittedVersionIds, $authorizedParticipantIds) === [], 403);
+
         try {
-            $finalizer->finalize($session, $staff, $user->id, [], $canManageAllClasses);
+            DB::transaction(function () use ($payload, $authorizedParticipantIds, $session, $staff, $user, $canManageAllClasses, $draftService, $groomingNoteService, $finalizer): void {
+                $expectedVersions = $payload['attendance_versions'] ?? [];
+                foreach ($payload['participants'] ?? [] as $participantId => $attributes) {
+                    abort_unless(in_array((string) $participantId, $authorizedParticipantIds, true), 403);
+                    $participant = $session->studentParticipants()->whereKey($participantId)->firstOrFail();
+                    if ($participant->attendance()->exists() || $this->hasMeaningfulInput($attributes['attendance_status'] ?? null) || $this->hasMeaningfulInput($attributes['notes'] ?? null)) {
+                        $saved = $draftService->save(
+                            $session,
+                            $participant,
+                            $staff,
+                            $user->id,
+                            $attributes,
+                            $canManageAllClasses,
+                            false,
+                            array_key_exists((string) $participantId, $expectedVersions) ? (int) $expectedVersions[$participantId] : null,
+                        );
+                        $expectedVersions[(string) $participantId] = $saved->version_no;
+                    }
+                    if ($participant->groomingNote()->exists() || $this->hasMeaningfulInput($attributes['discipline_code'] ?? null) || $this->hasMeaningfulInput($attributes['grooming_note'] ?? null)) {
+                        $groomingNoteService->save($session, $participant, $staff, $user->id, $attributes['discipline_code'] ?? null, $attributes['grooming_note'] ?? null, $canManageAllClasses);
+                    }
+                }
+                $finalizer->finalize($session, $staff, $user->id, $expectedVersions, $canManageAllClasses);
+            });
         } catch (InvalidArgumentException $exception) {
             return to_route('academic.attendance.show', $session)->withErrors([
                 'finalize' => match ($exception->getMessage()) {
                     'All required EXPECTED participants must have attendance status.' => 'Belum semua santri memiliki status kehadiran. Lengkapi status setiap santri terlebih dahulu.',
                     'Session has no required EXPECTED participants to finalize.' => 'Roster santri belum dibuat. Buat roster terlebih dahulu sebelum mengesahkan kehadiran.',
+                    'Attendance version is stale.' => 'Data kehadiran telah berubah. Muat ulang halaman dan periksa kembali sebelum mengesahkan.',
                     default => $exception->getMessage(),
                 },
             ]);
