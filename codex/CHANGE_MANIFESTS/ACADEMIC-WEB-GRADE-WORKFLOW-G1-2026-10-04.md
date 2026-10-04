@@ -32,8 +32,8 @@ No migration, schema change, runtime configuration change, grade write endpoint,
 - PHP lint: PASS for all changed PHP files.
 - Composer validate: PASS.
 - Route list, view cache, and project structure: route list/view cache PASS; project structure command requires repository-root invocation.
-- Focused PHPUnit: BLOCKED before test execution because the local `.env` resolves to protected pilot database `imtaq`; the test guard correctly refused it. No database write occurred. Disposable PostgreSQL `imtaq_test_*` was not available locally.
-- Exact disposable PostgreSQL CI verification: pending after push.
+- Focused PHPUnit: local execution was safely blocked before test execution because `.env` resolves to protected pilot database `imtaq`; the test guard correctly refused it. No database write occurred. Disposable PostgreSQL `imtaq_test_*` was not available locally.
+- Exact disposable PostgreSQL CI verification: PASS, run `37194636793` on final HEAD `f5fa452a34ed6f6a5c413721ca5894c7a9d23b55`; foundation suite completed with 16 tests, 2288 assertions, 0 failures.
 
 ## Rollback
 
@@ -41,4 +41,4 @@ Revert the single implementation commit; no persistent business data rollback is
 
 ## Decision
 
-`GRADE_G1_IMPLEMENTED_PASS` only after exact CI and focused tests pass. Until then: `HOLD / CI_VERIFICATION_PENDING`.
+`GRADE_G1_IMPLEMENTED_PASS`. Exact disposable PostgreSQL CI is green. Local focused execution remains unavailable solely because no safe disposable database exists on the developer machine.

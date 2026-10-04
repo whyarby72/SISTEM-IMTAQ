@@ -1,5 +1,12 @@
 # Work Log
 
+## 2026-10-04 — Academic Web grade workflow G1 authorization/read surface
+
+- Implemented a strict `academic.grades` feature boundary, exact subject-teacher/Wali/Waka read authorization, scoped sidebar navigation, and a read-only semester/class/subject grade worklist.
+- Added focused tests for missing/disabled feature fail-closed behavior, role/resource scope, override non-bypass, GET-only routing, missing-vs-zero semantics, and no synthetic grade writes.
+- Local PHPUnit was safely blocked by the guard because only protected `.env` pilot database `imtaq` was available; no pilot query or write was performed. Exact disposable PostgreSQL CI run `37194636793` on `f5fa452a34ed6f6a5c413721ca5894c7a9d23b55` passed: 16 tests, 2288 assertions, 0 failures (warnings remain non-blocking).
+- No migration, schema/config change, grade business-data write, AI/provider mutation, or public Academic AI activation. G2 DRAFT-only state hardening remains the next task.
+
 ## 2026-10-04 — Academic Web grade workflow D1 decision ratification
 
 - Verified the required grade services, models, authorization helper, correction model, feature registry, and focused tests against source.

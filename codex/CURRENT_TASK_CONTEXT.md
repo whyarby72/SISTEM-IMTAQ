@@ -1,22 +1,22 @@
 # CURRENT TASK CONTEXT
 
-## Current D1 ratification — 2026-10-04
+## Current G1 implementation — 2026-10-04
 
-**Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-DECISION-RATIFICATION-D1`
-**State:** `COMPLETED / DESIGN_GOVERNANCE_RATIFICATION / GRADE_WORKFLOW_READY_FOR_IMPLEMENTATION`
-**Branch / source basis HEAD:** `feat/super-admin-user-access-preferences` / `970f8f801c412dc6092b8c65d152d0f6dc1f634d`
-**Decision:** `codex/DECISIONS/ACADEMIC-WEB-GRADE-WORKFLOW-D1-DECISIONS-2026-10-04.md`
-**Application source changed:** `NO`
+**Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`
+**State:** `COMPLETED / PASS / GRADE_G1_IMPLEMENTED_PASS`
+**Branch / exact HEAD:** `feat/super-admin-user-access-preferences` / `f5fa452a34ed6f6a5c413721ca5894c7a9d23b55`
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-2026-10-04.md`
+**Exact CI:** `37194636793` = SUCCESS
+**Application source changed:** `YES / READ-ONLY GRADE SURFACE ONLY`
 **Database write:** `NONE`
-**Next atomic task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`
+**Next atomic task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING`
 
-D1 ratifies Waka process ownership, assigned subject-teacher input authority,
-Wali checking, Waka locking/correction review, atomic correction application,
-the `academic.grades` feature with no required permission, and the
-`DRAFT → CHECKED → LOCKED` lifecycle. Normal-save DRAFT-only hardening is
-marked `IMPLEMENTATION_CRITICAL` for G2. The Academic Web denominator remains
-`4/10 COMPLETE_EVIDENCED`; Public Academic AI remains OFF, `IMP-S12-007`
-remains `NOT_STARTED`, and `SOC-MD-06` is unchanged.
+G1 adds a strict feature gate, exact subject-teacher/Wali/Waka read scope,
+scoped semester/class/subject selectors, a read-only grade worklist, and
+focused regression coverage. No grade write/check/lock/correction action was
+added. G2 DRAFT-only normal-save hardening remains deferred. The Academic Web
+denominator remains `4/10 COMPLETE_EVIDENCED`; Public Academic AI remains OFF,
+`IMP-S12-007` remains `NOT_STARTED`, and `SOC-MD-06` is unchanged.
 
 ## Current controlled PILOT migration E1 closeout — 2026-10-04
 

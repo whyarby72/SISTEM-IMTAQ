@@ -655,6 +655,24 @@
       "status": "COMPLETED_RATIFIED_READY_FOR_IMPLEMENTATION",
       "summary": "Ratifies Waka ownership, assigned subject-teacher input scope, Wali checking, Waka lock/correction review, atomic correction application, academic.grades feature with no required permission, and DRAFT-only normal-save hardening required in G2.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-web-grade-workflow-g1-authorization-read-surface",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-2026-10-04.md",
+      "commit": "f5fa452a34ed6f6a5c413721ca5894c7a9d23b55",
+      "status": "COMPLETED_PASS",
+      "summary": "Read-only semester grade surface with strict feature fail-closed behavior and exact subject-teacher, Wali, and Waka resource scope; no grade write path added.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-web-grade-workflow-g1-final-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37194636793",
+      "commit": "f5fa452a34ed6f6a5c413721ca5894c7a9d23b55",
+      "status": "PASS_FINAL_HEAD",
+      "summary": "Disposable PostgreSQL 18.6 migration-from-zero, schema assertions, focused grade authorization/read tests, and full foundation verification passed with 0 failures.",
+      "sensitivity": "non_secret"
     }
   ]
 }

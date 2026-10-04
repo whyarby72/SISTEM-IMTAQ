@@ -1,16 +1,16 @@
 # NEXT ACTION
 
-## Academic grade workflow D1 handoff — 2026-10-04
+## Academic grade workflow G1 closeout — 2026-10-04
 
-**Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-DECISION-RATIFICATION-D1`
-**State:** `COMPLETED / DESIGN_GOVERNANCE_RATIFICATION / GRADE_WORKFLOW_READY_FOR_IMPLEMENTATION`
-**Decision:** `codex/DECISIONS/ACADEMIC-WEB-GRADE-WORKFLOW-D1-DECISIONS-2026-10-04.md`
-**Source basis HEAD:** `970f8f801c412dc6092b8c65d152d0f6dc1f634d`
-**Application source changed:** `NO`
+**Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`
+**State:** `COMPLETED / PASS / GRADE_G1_IMPLEMENTED_PASS`
+**Exact HEAD:** `f5fa452a34ed6f6a5c413721ca5894c7a9d23b55`
+**Exact CI:** `37194636793` = SUCCESS
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-2026-10-04.md`
 **Database write:** `NONE`
-**Next atomic task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`
+**Next atomic task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING`
 
-D1 decisions are ratified. Before G1 implementation, audit the decision record.
+G1 implemented the read-only grade surface and strict authorization boundary.
 G2 must enforce DRAFT-only normal save; G5 must add atomic correction
 approval/application. Do not write grade data. Public Academic AI remains OFF;
 `IMP-S12-007` and `SOC-MD-06` remain unchanged.
