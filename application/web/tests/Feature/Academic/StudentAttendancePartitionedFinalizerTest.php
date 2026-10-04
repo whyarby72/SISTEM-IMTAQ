@@ -38,6 +38,7 @@ class StudentAttendancePartitionedFinalizerTest extends TestCase
         $fixture = $this->jointFixture();
 
         $this->finalizeDraft($fixture['anchorParticipant'], $fixture['anchorUser'], 'PRESENT');
+        $this->finalizeDraft($fixture['secondaryParticipant'], $fixture['secondaryUser'], 'ABSENT');
         $firstResult = app(StudentAttendanceFinalizer::class)->finalize(
             $fixture['session'],
             $fixture['anchorStaff'],
@@ -48,7 +49,6 @@ class StudentAttendancePartitionedFinalizerTest extends TestCase
         $this->assertSame('VALIDATED', StudentAttendance::where('session_student_participant_id', $fixture['anchorParticipant']->id)->value('workflow_status'));
         $this->assertSame('DRAFT', StudentAttendance::where('session_student_participant_id', $fixture['secondaryParticipant']->id)->value('workflow_status'));
 
-        $this->finalizeDraft($fixture['secondaryParticipant'], $fixture['secondaryUser'], 'ABSENT');
         $secondResult = app(StudentAttendanceFinalizer::class)->finalize(
             $fixture['session']->fresh(),
             $fixture['secondaryStaff'],
