@@ -68,7 +68,7 @@ class SemesterGradeWorkspaceUiTest extends TestCase
     {
         $fixture = $this->fixture('wali');
         $otherClass = AcademicClass::create(['class_code' => 'OTHER-WALI-CLASS', 'academic_year_id' => $fixture['year']->id, 'organizational_unit_id' => $fixture['unit']->id, 'grade_level_id' => $fixture['gradeLevel']->id, 'section_code' => 'B', 'display_name' => 'Other Wali Class']);
-        TeachingAssignment::create(['assignment_code' => 'OTHER-WALI-TA', 'semester_id' => $fixture['semester']->id, 'class_id' => $otherClass->id, 'subject_id' => $fixture['subject']->id, 'teacher_staff_id' => $fixture['otherTeacher']->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
+        TeachingAssignment::create(['assignment_code' => 'OTHER-WALI-TA', 'semester_id' => $fixture['semester']->id, 'class_id' => $otherClass->id, 'subject_id' => $fixture['subject']->id, 'teacher_staff_id' => $fixture['teacher']->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
 
         $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertDontSee('>Simpan Draft<', false)->assertDontSee('name="rows[', false);
         $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $otherClass->id, 'subject_id' => $fixture['subject']->id]))->assertForbidden();
