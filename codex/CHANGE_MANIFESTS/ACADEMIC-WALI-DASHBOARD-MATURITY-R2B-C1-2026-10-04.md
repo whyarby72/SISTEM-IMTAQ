@@ -44,7 +44,9 @@
 - `php artisan view:cache`: PASS.
 - `python3 scripts/check_project_structure.py`: PASS.
 - Git diff check: PASS.
-- Exact GitHub Actions result: pending implementation push.
+- First implementation CI `37211919259` on `2052185c73abeedd391bf2b65fb7af958e0239df`: failed only because the new regression fixture expected an uncreated B attendance row to be `DRAFT`.
+- The fixture was corrected without production changes.
+- Final exact implementation CI `37212105492` on `7ba316397dde0c9de27ab1fd9e23fa1c28124c71`: SUCCESS; 15 passed, 569 warnings, 2418 assertions.
 
 ## Not changed
 
@@ -59,6 +61,6 @@ Revert the implementation commit to restore the prior finalizer and remove the f
 
 ## Closeout state
 
-- R2B-C1 decision: `IMPLEMENTED / PENDING CI`
+- R2B-C1 decision: `IMPLEMENTED / PASS`
 - Next atomic task after exact green CI: `ACADEMIC-WALI-DASHBOARD-MATURITY-R2B-C2`
-- Safe to close before CI: `NO`
+- Safe to close: `YES`
