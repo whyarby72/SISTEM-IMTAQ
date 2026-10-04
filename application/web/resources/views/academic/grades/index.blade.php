@@ -47,7 +47,14 @@
             <section class="grade-card" aria-labelledby="grade-worklist-title">
                 @if($semester && $class && $subject)
                     <h2 id="grade-worklist-title">Daftar nilai {{ $subject->subject_name }}</h2>
-                    <p>{{ $class->display_name }} · {{ $semester->display_name }} · {{ count($gradeWorkspace['students']) }} santri terdaftar@if($gradeWorkspace['can_enter_draft'] ?? false) · Anda dapat menyimpan nilai DRAFT.@else · Mode baca.@endif</p>
+                    <p>
+                        {{ $class->display_name }} · {{ $semester->display_name }} · {{ count($gradeWorkspace['students']) }} santri terdaftar
+                        @if($gradeWorkspace['can_enter_draft'] ?? false)
+                            · Anda dapat menyimpan nilai DRAFT.
+                        @else
+                            · Mode baca.
+                        @endif
+                    </p>
                     @if(count($gradeWorkspace['students']) > 0)
                         @php($hasEditableRows = collect($gradeWorkspace['students'])->contains(fn ($row) => $row['is_editable'] ?? false))
                         @if($hasEditableRows)
