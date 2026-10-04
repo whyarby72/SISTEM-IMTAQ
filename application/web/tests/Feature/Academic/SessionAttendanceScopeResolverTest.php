@@ -71,10 +71,8 @@ class SessionAttendanceScopeResolverTest extends TestCase
         ClassHomeroomAssignment::create(['class_id' => $secondary->id, 'staff_id' => $waliStaff->id, 'effective_from' => '2026-07-01']);
         $assignment = TeachingAssignment::create(['assignment_code' => 'SCOPE-ASSIGNMENT', 'semester_id' => $semester->id, 'class_id' => $anchor->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
         $session = ClassSession::create(['session_code' => 'SCOPE-SESSION', 'teaching_assignment_id' => $assignment->id, 'class_id' => $anchor->id, 'subject_id' => $subject->id, 'planned_start_at' => '2026-07-06 08:00:00', 'planned_end_at' => '2026-07-06 09:30:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
-        ClassSessionGroup::createMany([
-            ['class_session_id' => $session->id, 'class_id' => $anchor->id, 'scope_role' => 'JOINT_SCOPE'],
-            ['class_session_id' => $session->id, 'class_id' => $secondary->id, 'scope_role' => 'JOINT_SCOPE'],
-        ]);
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $anchor->id, 'scope_role' => 'JOINT_SCOPE']);
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $secondary->id, 'scope_role' => 'JOINT_SCOPE']);
 
         return [$session, $user, $anchor, $secondary];
     }
