@@ -38,7 +38,10 @@ was therefore rendered as `01:00–02:30` instead of `08:00–09:30 Asia/Jakarta
   Academic business timezone.
 - Added deterministic unit coverage for UTC-to-business conversion and the
   local-date boundary without mutating the stored value.
-- Added a dashboard assertion for the business-time session presentation.
+- Updated Academic UI fixtures to use explicit `+07:00` input timestamps so
+  their expected business-time labels remain deterministic.
+- Added dashboard and attendance UI assertions for the business-time session
+  presentation.
 
 ## Files changed
 
