@@ -43,7 +43,9 @@ R2B-C.
 - `git diff --check`: PASS.
 - Local database tests are blocked before DB access by the protected PILOT
   identity guard; no bypass was attempted and no PILOT query/write occurred.
-- Disposable PostgreSQL GitHub Actions verification: pending.
+- Disposable PostgreSQL GitHub Actions verification: run `37210538242` =
+  SUCCESS on implementation HEAD `5b995a9f6fe5d353feaf9460235c851eb5b856d0`;
+  15 passed, 567 warnings, 2412 assertions, 0 failed.
 
 ## Safety boundary
 
@@ -59,7 +61,9 @@ task performs no database writes.
 
 ## Decision
 
-Implementation result: `R2B_B_IMPLEMENTED_PASS_PENDING_EXACT_CI`  
+Implementation result: `R2B_B_IMPLEMENTED_PASS`  
+Tested executable HEAD: `5b995a9f6fe5d353feaf9460235c851eb5b856d0`  
+Exact CI: `37210538242` = SUCCESS  
 Finalizer changed: `NO`  
 Joint finalization still held: `YES`  
 PILOT access/write: `NONE / NONE`  
