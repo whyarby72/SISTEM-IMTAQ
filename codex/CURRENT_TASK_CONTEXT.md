@@ -1,5 +1,23 @@
 # CURRENT TASK CONTEXT
 
+## Current D1 ratification — 2026-10-04
+
+**Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-DECISION-RATIFICATION-D1`
+**State:** `COMPLETED / DESIGN_GOVERNANCE_RATIFICATION / GRADE_WORKFLOW_READY_FOR_IMPLEMENTATION`
+**Branch / source basis HEAD:** `feat/super-admin-user-access-preferences` / `970f8f801c412dc6092b8c65d152d0f6dc1f634d`
+**Decision:** `codex/DECISIONS/ACADEMIC-WEB-GRADE-WORKFLOW-D1-DECISIONS-2026-10-04.md`
+**Application source changed:** `NO`
+**Database write:** `NONE`
+**Next atomic task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`
+
+D1 ratifies Waka process ownership, assigned subject-teacher input authority,
+Wali checking, Waka locking/correction review, atomic correction application,
+the `academic.grades` feature with no required permission, and the
+`DRAFT → CHECKED → LOCKED` lifecycle. Normal-save DRAFT-only hardening is
+marked `IMPLEMENTATION_CRITICAL` for G2. The Academic Web denominator remains
+`4/10 COMPLETE_EVIDENCED`; Public Academic AI remains OFF, `IMP-S12-007`
+remains `NOT_STARTED`, and `SOC-MD-06` is unchanged.
+
 ## Current controlled PILOT migration E1 closeout — 2026-10-04
 
 **Current task:** `SUPER-ADMIN-USER-ACCESS-CONTROLLED-PILOT-MIGRATION-E1`

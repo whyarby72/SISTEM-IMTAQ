@@ -6,22 +6,18 @@
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "SUPER-ADMIN-USER-ACCESS-CONTROLLED-PILOT-MIGRATION-E1",
+  "current_task_id": "ACADEMIC-WEB-GRADE-WORKFLOW-DECISION-RATIFICATION-D1",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "SAUAP-E1-01",
-    "SAUAP-E1-02",
-    "SAUAP-E1-03",
-    "SAUAP-E1-04",
-    "SAUAP-E1-05",
-    "SAUAP-E1-06",
-    "SAUAP-E1-07",
-    "SAUAP-E1-08",
-    "SAUAP-E1-09",
-    "SAUAP-E1-10",
-    "SAUAP-E1-11",
-    "SAUAP-E1-12"
+    "AWGSD1-01",
+    "AWGSD1-02",
+    "AWGSD1-03",
+    "AWGSD1-04",
+    "AWGSD1-05",
+    "AWGSD1-06",
+    "AWGSD1-07",
+    "AWGSD1-08"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -91,7 +87,9 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012002039",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012218885",
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-R2-2026-10-03.md",
-    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-E1-2026-10-04.md"
+    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-E1-2026-10-04.md",
+    "codex/DESIGNS/ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN-2026-10-04.md",
+    "codex/DECISIONS/ACADEMIC-WEB-GRADE-WORKFLOW-D1-DECISIONS-2026-10-04.md"
   ],
   "latest_test_state": {
     "exact_current_ci": "PASS / RUN_37012461730 / HEAD_a7fbcead149086e331cb5e7e22ed161a892f8a4b",
@@ -142,7 +140,9 @@
     "super_admin_user_access_preference_management_v1r": "COMPLETED / PASS / RUN_36976686299",
     "super_admin_user_access_permission_bootstrap_r1": "COMPLETED / PASS / RUN_37011165609",
     "super_admin_user_access_permission_bootstrap_r1r": "COMPLETED / PASS / FIXTURE_ALIGNMENT / RUN_37011165609",
-    "super_admin_user_access_controlled_pilot_migration_e1": "COMPLETED / PASS / 43_TO_46_MIGRATIONS / BOOTSTRAP_VERIFIED"
+    "super_admin_user_access_controlled_pilot_migration_e1": "COMPLETED / PASS / 43_TO_46_MIGRATIONS / BOOTSTRAP_VERIFIED",
+    "academic_web_grade_workflow_surface_design": "COMPLETED / DESIGN_ONLY / GRADE_WORKFLOW_READY_FOR_IMPLEMENTATION / 4_OF_10_COMPLETE_EVIDENCED",
+    "academic_web_grade_workflow_decision_ratification_d1": "COMPLETED / DESIGN_GOVERNANCE_RATIFICATION / READY_FOR_IMPLEMENTATION / ENTRY_STATE_HARDENING_REQUIRED_G2"
   },
   "blockers": [
     {
@@ -180,7 +180,7 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_USER_ACCESS_CONTROLLED_PILOT_MIGRATION_E1_AUDIT",
+  "next_atomic_task": "ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE",
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",

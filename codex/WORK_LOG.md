@@ -1,5 +1,21 @@
 # Work Log
 
+## 2026-10-04 — Academic Web grade workflow D1 decision ratification
+
+- Verified the required grade services, models, authorization helper, correction model, feature registry, and focused tests against source.
+- Ratified Waka process ownership; assigned subject-teacher input by exact TeachingAssignment scope; Wali checking; Waka approval/lock and correction review; atomic correction apply/reject semantics; `academic.grades` with no required permission; and `DRAFT → CHECKED → LOCKED`.
+- Recorded `SemesterGradeEntryService` checked/locked update permissiveness as `IMPLEMENTATION_CRITICAL` for G2; no source patch was made.
+- Updated the surface design, created D1 decision record, and reconciled routing metadata. No application source change, migration, seed, grade write, PILOT access, or AI/provider mutation.
+- Decision: `GRADE_WORKFLOW_READY_FOR_IMPLEMENTATION`; next task `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE` after ChatGPT audit.
+
+## 2026-10-04 — Academic Web grade workflow surface design
+
+- Completed design-only reconnaissance of the existing semester grade backend and downstream report-card/transcript consumers.
+- Created `codex/DESIGNS/ACADEMIC-WEB-GRADE-WORKFLOW-SURFACE-DESIGN-2026-10-04.md`.
+- Mapped canonical grain, DRAFT → CHECKED → LOCKED lifecycle, completeness semantics, Wali/Waka boundaries, audit actions, correction-request boundary, and downstream snapshot lineage.
+- Confirmed no grade web routes/controllers/views exist; correction approval/apply authority, input ownership, and grade feature/permission mapping require owner decisions.
+- No application source change, database write, migration, seed/import, pilot access, or AI/provider mutation. Decision: `GRADE_WORKFLOW_CONDITIONALLY_READY`; next atomic task returns to ChatGPT/project owner for design audit.
+
 ## 2026-10-04 — User & Akses controlled PILOT migration E1
 
 - Owner-authorized E1 completed against PILOT `imtaq` after exact Git/CI, read-only target, pending-set, lock/writer, Super Admin, and verified-backup gates passed.
