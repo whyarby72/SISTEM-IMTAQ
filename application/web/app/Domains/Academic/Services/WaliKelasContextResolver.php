@@ -11,7 +11,10 @@ use Illuminate\Support\Carbon;
 
 class WaliKelasContextResolver
 {
-    public function __construct(private readonly AcademicAuthorizationService $authorization) {}
+    public function __construct(
+        private readonly AcademicAuthorizationService $authorization,
+        private readonly AcademicClassScopeResolver $classScope,
+    ) {}
 
     public function resolve(User $user, ClassSession $session): Staff
     {
@@ -31,19 +34,41 @@ class WaliKelasContextResolver
         }
 
         $hasRole = $this->authorization->hasEffectiveRole($user, 'WALI_KELAS', Carbon::parse($date));
-        $hasHomeroom = ClassHomeroomAssignment::query()
-            ->where('class_id', $session->class_id)
-            ->where('staff_id', $link->staff_id)
-            ->where('status', 'ACTIVE')
-            ->whereDate('effective_from', '<=', $date)
-            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
-            ->exists();
+        $hasHomeroom = $this->effectiveClassIdsForSession($user, $session) !== [];
 
         if (! $hasRole || ! $hasHomeroom) {
             throw new AuthorizationException('Authenticated user is not the effective Wali Kelas for this session.');
         }
 
         return $link->staff;
+    }
+
+    /** @return array<int,string> */
+    public function effectiveClassIdsForSession(User $user, ClassSession $session): array
+    {
+        $date = $session->planned_start_at->toDateString();
+        $link = $user->staffLink()
+            ->where(fn ($query) => $query->whereNull('effective_from')->orWhereDate('effective_from', '<=', $date))
+            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
+            ->first();
+
+        if ($link === null || ! $this->authorization->hasEffectiveRole($user, 'WALI_KELAS', Carbon::parse($date))) {
+            return [];
+        }
+
+        $classIds = array_map('strval', $this->classScope->forSession($session));
+
+        return ClassHomeroomAssignment::query()
+            ->whereIn('class_id', $classIds)
+            ->where('staff_id', $link->staff_id)
+            ->where('status', 'ACTIVE')
+            ->whereDate('effective_from', '<=', $date)
+            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
+            ->pluck('class_id')
+            ->map(fn ($id): string => (string) $id)
+            ->unique()
+            ->values()
+            ->all();
     }
 
     public function canManageAllClasses(User $user, string $date): bool

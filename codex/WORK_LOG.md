@@ -1,5 +1,23 @@
 # Work Log
 
+## 2026-10-04 — Academic Wali dashboard maturity R2B-A joint scope authorization
+
+- Added `SessionAttendanceScopeResolver` for canonical ClassSession scope,
+  effective Wali homeroom intersection, effective-date participant mapping,
+  and fail-closed unmapped/ambiguous joint sessions.
+- Allowed non-anchor Wali access to the same physical joint session while
+  exposing only the authorized class partition; Waka/Super Admin retain full
+  session visibility. Wali joint finalization remains blocked until the
+  separately authorized partitioned-finalization task; `StudentAttendanceFinalizer`
+  was not changed.
+- Added focused joint partition, unrelated-Wali, unmapped, and ambiguous
+  mapping tests; ordinary attendance paths remain in the regression suite.
+- PHP lint, Pint, Blade cache, project structure, and diff checks passed.
+  Local PHPUnit remained safely blocked by the protected PILOT identity guard;
+  no PILOT query/write occurred.
+- Decision pending exact disposable PostgreSQL CI; next task after PASS is
+  `ACADEMIC-WALI-DASHBOARD-MATURITY-R2B-B-PARTITIONED-FINALIZATION`.
+
 ## 2026-10-04 — Academic Wali dashboard maturity R1 operational home
 
 - Reframed the Wali dashboard around own-class identity, urgent work, every

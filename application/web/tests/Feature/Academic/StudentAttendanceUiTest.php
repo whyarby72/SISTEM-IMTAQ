@@ -16,6 +16,7 @@ use App\Domains\Academic\Models\StudentClassEnrollment;
 use App\Domains\Academic\Models\StudentSessionGroomingNote;
 use App\Domains\Academic\Models\Subject;
 use App\Domains\Academic\Models\TeachingAssignment;
+use App\Domains\Academic\Services\SessionAttendanceScopeResolver;
 use App\Domains\Academic\Services\SessionOccurrenceAuthorizationService;
 use App\Models\User;
 use App\Shared\Core\Models\AcademicYear;
@@ -155,12 +156,86 @@ class StudentAttendanceUiTest extends TestCase
         $this->actingAs($user)->get(route('academic.attendance.show', $session))
             ->assertOk()
             ->assertSee('Kelas gabungan')
-            ->assertSee('Kelas 1 A + Kelas 1 B')
+            ->assertSee('Kelas 1 A')
+            ->assertDontSee('Kelas 1 A + Kelas 1 B')
             ->assertSee('← Kembali ke daftar sesi')
             ->assertDontSee('Kembali ke daftar sesi kelas ini')
             ->assertSee('Kelas 1 A · 1 santri')
-            ->assertSee('Kelas 1 B · 1 santri')
+            ->assertDontSee('Kelas 1 B · 1 santri')
+            ->assertDontSee('Joint UI Student')
             ->assertSee('Total santri');
+    }
+
+    public function test_joint_session_is_partitioned_for_each_wali_and_full_authority_sees_one_full_session(): void
+    {
+        [$session, $anchorParticipant, $anchorUser] = $this->fixtures();
+        $anchor = $session->academicClass;
+        $secondary = $anchor->replicate();
+        $secondary->class_code = 'CLASS-UI-PARTITION-B';
+        $secondary->section_code = 'B';
+        $secondary->display_name = 'Kelas Partition B';
+        $secondary->save();
+        $session->scopeGroups()->createMany([
+            ['class_id' => $anchor->id, 'scope_role' => 'JOINT_SCOPE'],
+            ['class_id' => $secondary->id, 'scope_role' => 'JOINT_SCOPE'],
+        ]);
+        StudentClassEnrollment::create(['student_id' => $anchorParticipant->student_id, 'class_id' => $anchor->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
+        $secondaryStudent = Student::create(['student_code' => 'STU-UI-PARTITION-B', 'full_name' => 'Partition B Student']);
+        $secondaryParticipant = SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $secondaryStudent->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        StudentClassEnrollment::create(['student_id' => $secondaryStudent->id, 'class_id' => $secondary->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
+
+        $secondaryStaff = Staff::create(['staff_code' => 'STAFF-UI-PARTITION-B', 'full_name' => 'Wali Partition B']);
+        $secondaryUser = User::factory()->create();
+        $waliRole = Role::where('code', 'WALI_KELAS')->firstOrFail();
+        UserRoleAssignment::create(['user_id' => $secondaryUser->id, 'role_id' => $waliRole->id, 'effective_from' => '2026-07-01']);
+        UserStaffLink::create(['user_id' => $secondaryUser->id, 'staff_id' => $secondaryStaff->id, 'effective_from' => '2026-07-01']);
+        ClassHomeroomAssignment::create(['class_id' => $secondary->id, 'staff_id' => $secondaryStaff->id, 'effective_from' => '2026-07-01']);
+
+        $waka = User::factory()->create();
+        $wakaRole = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka Akademik']);
+        UserRoleAssignment::create(['user_id' => $waka->id, 'role_id' => $wakaRole->id, 'effective_from' => '2026-07-01']);
+        UserStaffLink::create(['user_id' => $waka->id, 'staff_id' => $session->teachingAssignment->teacher_staff_id, 'effective_from' => '2026-07-01']);
+
+        $this->actingAs($anchorUser)->get(route('academic.attendance.show', $session))
+            ->assertOk()
+            ->assertSee('UI Student')
+            ->assertDontSee('Partition B Student')
+            ->assertDontSee('Kelas Partition B · 1 santri');
+        $this->actingAs($secondaryUser)->get(route('academic.attendance.show', $session))
+            ->assertOk()
+            ->assertSee('Partition B Student')
+            ->assertDontSee('UI Student')
+            ->assertDontSee('Kelas 1 A · 1 santri');
+        $this->actingAs($waka)->get(route('academic.attendance.show', $session))
+            ->assertOk()
+            ->assertSee('UI Student')
+            ->assertSee('Partition B Student');
+
+        $this->assertSame($secondaryParticipant->class_session_id, $session->id);
+        $this->assertSame([(string) $secondary->id], app(SessionAttendanceScopeResolver::class)->resolve($secondaryUser, $session->fresh()->load('scopeGroups'), $session->studentParticipants()->with('student.classEnrollments')->get())['effective_class_ids']);
+    }
+
+    public function test_unrelated_wali_and_unmapped_joint_participant_fail_closed(): void
+    {
+        [$session, , $user] = $this->fixtures();
+        $secondary = $session->academicClass->replicate();
+        $secondary->class_code = 'CLASS-UI-FAIL-CLOSED';
+        $secondary->section_code = 'F';
+        $secondary->display_name = 'Kelas Fail Closed';
+        $secondary->save();
+        $session->scopeGroups()->createMany([
+            ['class_id' => $session->class_id, 'scope_role' => 'JOINT_SCOPE'],
+            ['class_id' => $secondary->id, 'scope_role' => 'JOINT_SCOPE'],
+        ]);
+
+        $unrelatedStaff = Staff::create(['staff_code' => 'STAFF-UI-UNRELATED', 'full_name' => 'Unrelated Wali']);
+        $unrelated = User::factory()->create();
+        $role = Role::where('code', 'WALI_KELAS')->firstOrFail();
+        UserRoleAssignment::create(['user_id' => $unrelated->id, 'role_id' => $role->id, 'effective_from' => '2026-07-01']);
+        UserStaffLink::create(['user_id' => $unrelated->id, 'staff_id' => $unrelatedStaff->id, 'effective_from' => '2026-07-01']);
+
+        $this->actingAs($unrelated)->get(route('academic.attendance.show', $session))->assertForbidden();
+        $this->actingAs($user)->get(route('academic.attendance.show', $session))->assertForbidden();
     }
 
     public function test_empty_new_rows_do_not_create_attendance_or_grooming_records(): void

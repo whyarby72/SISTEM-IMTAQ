@@ -13,6 +13,7 @@ use App\Domains\Academic\Services\CancellationService;
 use App\Domains\Academic\Services\CanonicalSessionOccurrenceService;
 use App\Domains\Academic\Services\JointAttendanceRosterBreakdownService;
 use App\Domains\Academic\Services\PostLockAttendanceCorrectionService;
+use App\Domains\Academic\Services\SessionAttendanceScopeResolver;
 use App\Domains\Academic\Services\SessionOccurrenceAuthorizationService;
 use App\Domains\Academic\Services\SessionOccurrenceFeatureGate;
 use App\Domains\Academic\Services\SessionOccurrenceWorkflowService;
@@ -40,7 +41,7 @@ class StudentAttendanceController
 {
     public function __construct(private readonly AcademicClassScopeResolver $classScope) {}
 
-    public function show(ClassSession $session, Request $request, WaliKelasContextResolver $resolver, TeacherParticipationRecorder $teacherParticipationRecorder, JointAttendanceRosterBreakdownService $rosterBreakdown, SessionParticipantSnapshotter $snapshotter, SessionOccurrenceFeatureGate $occurrenceGate, SessionOccurrenceAuthorizationService $occurrenceAuthorization): View
+    public function show(ClassSession $session, Request $request, WaliKelasContextResolver $resolver, TeacherParticipationRecorder $teacherParticipationRecorder, JointAttendanceRosterBreakdownService $rosterBreakdown, SessionAttendanceScopeResolver $attendanceScopeResolver, SessionParticipantSnapshotter $snapshotter, SessionOccurrenceFeatureGate $occurrenceGate, SessionOccurrenceAuthorizationService $occurrenceAuthorization): View
     {
         $user = $this->user($request);
         $staff = $resolver->resolve($user, $session);
@@ -54,7 +55,18 @@ class StudentAttendanceController
         }
         $homeroomStaff = $resolver->homeroomStaff($session);
         $participants = $session->studentParticipants()->with(['student.classEnrollments', 'attendance', 'groomingNote'])->orderBy('id')->get();
+        $attendanceScopeData = $attendanceScopeResolver->resolve($user, $session, $participants);
+        $participants = $attendanceScopeResolver->filterParticipants($participants, $attendanceScopeData);
         $attendanceScope = $rosterBreakdown->for($session, $participants);
+        if ($attendanceScopeData['mode'] === 'WALI_CLASS_PARTITION') {
+            $scopeClassIds = $attendanceScopeData['effective_class_ids'];
+            $attendanceClasses = $attendanceScope['classes'];
+            $attendanceScope['classes'] = $attendanceClasses->filter(fn ($class) => in_array((string) $class->id, $scopeClassIds, true))->values();
+            $attendanceScope['class_label'] = $attendanceScope['classes']->pluck('display_name')->implode(' + ');
+            $attendanceScope['counts'] = $attendanceScope['counts']->filter(function (array $item) use ($attendanceClasses, $scopeClassIds): bool {
+                return in_array((string) $attendanceClasses->firstWhere('display_name', $item['label'])?->id, $scopeClassIds, true);
+            })->values();
+        }
         $replacementTeachers = Staff::query()
             ->where('record_status', 'ACTIVE')
             ->where('staff_code', 'not like', 'PILOT-%')
@@ -394,12 +406,15 @@ class StudentAttendanceController
         ClassSession $session,
         Request $request,
         WaliKelasContextResolver $resolver,
+        SessionAttendanceScopeResolver $attendanceScopeResolver,
         StudentAttendanceDraftService $draftService,
         StudentSessionGroomingNoteService $groomingNoteService,
     ): RedirectResponse {
         $user = $this->user($request);
         $staff = $resolver->resolve($user, $session);
         $canManageAllClasses = $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString());
+        $scopeParticipants = $session->studentParticipants()->with('student.classEnrollments')->get();
+        $attendanceScope = $attendanceScopeResolver->resolve($user, $session, $scopeParticipants);
         $payload = $request->validate([
             'participants' => ['required', 'array'],
             'participants.*.attendance_status' => ['nullable', 'string', 'in:PRESENT,ABSENT,SICK,IZIN,LATE,EXCUSED'],
@@ -410,6 +425,7 @@ class StudentAttendanceController
 
         try {
             foreach ($payload['participants'] as $participantId => $attributes) {
+                abort_unless($canManageAllClasses || in_array((string) $participantId, array_map('strval', $attendanceScope['authorized_participant_ids']), true), 403);
                 $participant = $session->studentParticipants()->whereKey($participantId)->firstOrFail();
                 if ($participant->attendance()->exists() || $this->hasMeaningfulInput($attributes['attendance_status'] ?? null) || $this->hasMeaningfulInput($attributes['notes'] ?? null)) {
                     $draftService->save($session, $participant, $staff, $user->id, $attributes, $canManageAllClasses);
@@ -429,6 +445,7 @@ class StudentAttendanceController
         ClassSession $session,
         Request $request,
         WaliKelasContextResolver $resolver,
+        SessionAttendanceScopeResolver $attendanceScopeResolver,
         StudentAttendanceFinalizer $finalizer,
         StudentAttendanceDraftService $draftService,
         StudentSessionGroomingNoteService $groomingNoteService,
@@ -436,6 +453,9 @@ class StudentAttendanceController
         $user = $this->user($request);
         $staff = $resolver->resolve($user, $session);
         $canManageAllClasses = $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString());
+        $scopeParticipants = $session->studentParticipants()->with('student.classEnrollments')->get();
+        $attendanceScope = $attendanceScopeResolver->resolve($user, $session, $scopeParticipants);
+        abort_unless($canManageAllClasses || $attendanceScope['mode'] !== 'WALI_CLASS_PARTITION', 403, 'Finalisasi sesi gabungan menunggu kontrak scope finalisasi kelas.');
         $payload = $request->validate([
             'participants' => ['sometimes', 'array'],
             'participants.*.attendance_status' => ['nullable', 'string', 'in:PRESENT,ABSENT,SICK,IZIN,LATE,EXCUSED'],
@@ -445,6 +465,7 @@ class StudentAttendanceController
         ]);
 
         foreach ($payload['participants'] ?? [] as $participantId => $attributes) {
+            abort_unless($canManageAllClasses || in_array((string) $participantId, array_map('strval', $attendanceScope['authorized_participant_ids']), true), 403);
             $participant = $session->studentParticipants()->whereKey($participantId)->firstOrFail();
             if ($participant->attendance()->exists() || $this->hasMeaningfulInput($attributes['attendance_status'] ?? null) || $this->hasMeaningfulInput($attributes['notes'] ?? null)) {
                 $draftService->save($session, $participant, $staff, $user->id, $attributes, $canManageAllClasses);

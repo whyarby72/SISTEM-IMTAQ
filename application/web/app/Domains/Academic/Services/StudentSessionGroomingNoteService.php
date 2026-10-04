@@ -2,10 +2,10 @@
 
 namespace App\Domains\Academic\Services;
 
-use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentSessionGroomingNote;
+use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -15,7 +15,10 @@ class StudentSessionGroomingNoteService
 {
     public const DISCIPLINE_CODES = ['RAPI', 'TIDAK_BERSERAGAM', 'SERAGAM_TIDAK_LENGKAP', 'TIDAK_MEMBAWA_BUKU', 'TIDAK_BERPECI', 'CATATAN_TAMBAHAN'];
 
-    public function __construct(private readonly AuditLogger $auditLogger) {}
+    public function __construct(
+        private readonly AuditLogger $auditLogger,
+        private readonly AcademicAuthorizationService $authorization,
+    ) {}
 
     public function save(
         ClassSession $session,
@@ -30,16 +33,7 @@ class StudentSessionGroomingNoteService
             throw new \InvalidArgumentException('Student participant does not belong to the session.');
         }
 
-        $date = $session->planned_start_at->toDateString();
-        $isHomeroom = ClassHomeroomAssignment::query()
-            ->where('class_id', $session->class_id)
-            ->where('staff_id', $inputter->id)
-            ->where('status', 'ACTIVE')
-            ->whereDate('effective_from', '<=', $date)
-            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
-            ->exists();
-
-        if (! $isHomeroom && ! $canManageAllClasses) {
+        if (! $canManageAllClasses && ! $this->authorization->isEffectiveWaliForSession(User::query()->findOrFail($actorUserId), $session)) {
             throw new AuthorizationException('Only the effective Wali Kelas may save grooming notes.');
         }
 

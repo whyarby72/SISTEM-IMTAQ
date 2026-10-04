@@ -15,6 +15,8 @@ class AcademicAuthorizationService
 
     public const INSTITUTION_MANAGE = 'platform.institution.manage';
 
+    public function __construct(private readonly AcademicClassScopeResolver $classScope) {}
+
     public function hasEffectivePermission(User $user, string $permission, ?Carbon $at = null): bool
     {
         return $user->roleAssignments()
@@ -69,7 +71,7 @@ class AcademicAuthorizationService
         }
 
         return ClassHomeroomAssignment::query()
-            ->where('class_id', $session->class_id)
+            ->whereIn('class_id', $this->classScope->forSession($session))
             ->where('staff_id', $link->staff_id)
             ->where('status', 'ACTIVE')
             ->whereDate('effective_from', '<=', $date)
