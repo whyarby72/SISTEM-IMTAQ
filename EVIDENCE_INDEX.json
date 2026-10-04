@@ -1,8 +1,35 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-10-02T20:45:00+07:00",
+  "indexed_at": "2026-10-04T09:05:00+07:00",
   "entries": [
+    {
+      "id": "super-admin-user-access-controlled-pilot-migration-e1",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-E1-2026-10-04.md",
+      "commit_semantics": "TESTED_EXECUTABLE_HEAD_A7FBCEA_PLUS_GOVERNANCE_ONLY_CLOSEOUT",
+      "status": "CONTROLLED_PILOT_MIGRATION_COMPLETED",
+      "summary": "Guarded PILOT migration applied exactly three User & Access migrations (43 to 46), ran only UserAccessFeatureSeeder, and passed independent read-only schema, account, grant, feature, authorization, and AI-off postflight.",
+      "sensitivity": "aggregate_non_secret"
+    },
+    {
+      "id": "super-admin-user-access-pilot-migration-readiness-r2",
+      "kind": "read_only_review",
+      "ref": "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-R2-2026-10-03.md",
+      "commit": "a7fbcead149086e331cb5e7e22ed161a892f8a4b",
+      "status": "READY_FOR_CONTROLLED_PILOT_MIGRATION",
+      "summary": "Read-only R2 recheck proved exact source/CI authority, all-pending target state, effective Super Admin, corrected bootstrap matrix, Public Academic AI OFF, and no database write.",
+      "sensitivity": "aggregate_non_secret"
+    },
+    {
+      "id": "super-admin-user-access-r1r-authoritative-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012461730",
+      "commit": "a7fbcead149086e331cb5e7e22ed161a892f8a4b",
+      "status": "PASS_EXACT_EXECUTABLE_HEAD",
+      "summary": "Authoritative pre-migration executable CI: PostgreSQL 18.6 disposable, migration replay and schema assertions PASS, 15 passed, 536 warnings, 2267 assertions, 0 failed.",
+      "sensitivity": "non_secret"
+    },
     {
       "id": "super-admin-user-access-permission-bootstrap-r1-manifest",
       "kind": "change_manifest",

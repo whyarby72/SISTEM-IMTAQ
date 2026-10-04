@@ -1,20 +1,20 @@
 # NEXT ACTION
 
-## Current R1R closeout handoff — 2026-10-02
+## Current controlled PILOT migration E1 handoff — 2026-10-04
 
-**Current task:** `SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT`
-**State:** `COMPLETED / PASS / RUN_37011165609`
-**Exact tested HEAD:** `b009c0eb1b2ecaabb4bcde5f134617b486a26970`
-**Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md`
-**Next atomic task:** `RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT`
+**Current task:** `SUPER-ADMIN-USER-ACCESS-CONTROLLED-PILOT-MIGRATION-E1`
+**State:** `CONTROLLED_PILOT_MIGRATION_COMPLETED / POSTFLIGHT_PASS`
+**Tested executable HEAD:** `a7fbcead149086e331cb5e7e22ed161a892f8a4b`
+**Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-E1-2026-10-04.md`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_USER_ACCESS_CONTROLLED_PILOT_MIGRATION_E1_AUDIT`
 
-R1/R1R permission bootstrap and fixture alignment passed exact disposable
-PostgreSQL CI. Do not execute PILOT migrations or seed operations in this
-checkpoint; PILOT compatibility remains an owner-authorized readiness gate.
+Exactly three User & Access migrations were applied to PILOT `imtaq` through
+the target guard (`43→46`), followed only by `UserAccessFeatureSeeder`.
+Independent read-only postflight verified account defaults, permission/grant
+matrix, 13 feature rows, effective access, and Public Academic AI OFF.
 
-Exact CI: `37012218885` = SUCCESS on `14ae0f4`. Database write NONE. Public
-Academic AI OFF, Academic UAT HOLD / HUMAN_OBSERVATION_REQUIRED, SOC-MD-06 and
-IMP-S12-007 NOT_STARTED are preserved.
+Do not start another feature or database action. Academic UAT remains HOLD /
+HUMAN_OBSERVATION_REQUIRED; SOC-MD-06 and IMP-S12-007 NOT_STARTED are preserved.
 
 ## Historical handoff — not current execution authority
 

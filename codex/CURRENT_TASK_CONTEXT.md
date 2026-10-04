@@ -1,22 +1,23 @@
 # CURRENT TASK CONTEXT
 
-## Current R1R closeout checkpoint — 2026-10-02
+## Current controlled PILOT migration E1 closeout — 2026-10-04
 
-**Current task:** `SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT`
-**State:** `COMPLETED / PASS / RUN_37011165609`
-**Branch / tested HEAD:** `feat/super-admin-user-access-preferences` / `b009c0eb1b2ecaabb4bcde5f134617b486a26970`
-**Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md`
-**CI authority:** run `37012218885` SUCCESS on exact final HEAD; 15 passed, 536 warnings, 2267 assertions, 0 failed.
-**Next atomic task:** `RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT`
+**Current task:** `SUPER-ADMIN-USER-ACCESS-CONTROLLED-PILOT-MIGRATION-E1`
+**State:** `CONTROLLED_PILOT_MIGRATION_COMPLETED / POSTFLIGHT_PASS`
+**Branch / tested executable HEAD:** `feat/super-admin-user-access-preferences` / `a7fbcead149086e331cb5e7e22ed161a892f8a4b`
+**Evidence:** `codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-E1-2026-10-04.md`
+**CI authority:** run `37012461730` SUCCESS on exact executable HEAD; 15 passed, 536 warnings, 2267 assertions, 0 failed.
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_USER_ACCESS_CONTROLLED_PILOT_MIGRATION_E1_AUDIT`
 
-R1/R1R source and fixture changes are validated only against disposable
-PostgreSQL CI. Do not migrate, seed, broaden PILOT permissions, or perform
-PILOT business-data writes in this checkpoint. The PILOT compatibility gate
-remains owner-authorized work.
+PILOT `imtaq` moved from 43 to 46 migrations through the guarded command.
+Only `UserAccessFeatureSeeder` ran. Independent read-only postflight confirmed
+9/9 ACTIVE accounts, 9/9 must-change-password false, three permission codes,
+SUPER_ADMIN/WAKA/WALI grants 3/1/0, 13 features, zero overrides/preferences,
+the accepted access matrix, and Public Academic AI OFF.
 
-**REQUIRED NOW:** return to ChatGPT for the R1 audit. Academic first-day UAT
-stays HOLD / HUMAN_OBSERVATION_REQUIRED; Public Academic AI stays OFF;
-SOC-MD-06 and IMP-S12-007 remain unchanged. Database writes: NONE.
+**REQUIRED NOW:** return to ChatGPT for E1 audit. Do not start another feature
+or database action. Academic first-day UAT remains HOLD /
+HUMAN_OBSERVATION_REQUIRED; SOC-MD-06 and IMP-S12-007 remain unchanged.
 
 ## Historical implementation context — not current execution authority
 

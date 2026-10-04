@@ -1,5 +1,14 @@
 # Work Log
 
+## 2026-10-04 — User & Akses controlled PILOT migration E1
+
+- Owner-authorized E1 completed against PILOT `imtaq` after exact Git/CI, read-only target, pending-set, lock/writer, Super Admin, and verified-backup gates passed.
+- Backup: custom-format, 1,051,065 bytes, mode 0600, `pg_restore --list` PASS; stored outside Git under the protected local PILOT backup directory.
+- Guarded migration applied exactly the three approved User & Access migrations (`43→46`); only `UserAccessFeatureSeeder` ran.
+- Independent read-only postflight: users 9/9 ACTIVE and must-change-password false; required permissions 3; grant matrix SUPER_ADMIN/WAKA/WALI = 3/1/0; features 13; orphan permissions 0; overrides/preferences 0/0; effective authorization matrix PASS; Public Academic AI OFF.
+- No Academic attendance/student/schedule/roster/occurrence/teacher-participation write and no application source change. First-day Academic UAT remains HOLD / HUMAN_OBSERVATION_REQUIRED.
+- Decision: `CONTROLLED_PILOT_MIGRATION_COMPLETED`; next task `RETURN_TO_CHATGPT_FOR_USER_ACCESS_CONTROLLED_PILOT_MIGRATION_E1_AUDIT`.
+
 ## 2026-10-02 — User & Akses permission bootstrap R1/R1R closeout
 
 - R1 permission catalog/bootstrap implementation and R1R Academic dashboard fixture alignment are complete; production authorization code was not changed beyond the scoped seeder, no migration was added, and no PILOT database write occurred.

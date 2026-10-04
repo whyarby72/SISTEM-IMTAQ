@@ -1,27 +1,27 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "b009c0eb1b2ecaabb4bcde5f134617b486a26970",
+  "repo_commit": "a7fbcead149086e331cb5e7e22ed161a892f8a4b",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1R-FIXTURE-ALIGNMENT",
+  "current_task_id": "SUPER-ADMIN-USER-ACCESS-CONTROLLED-PILOT-MIGRATION-E1",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "SAUAP-R1R-01",
-    "SAUAP-R1R-02",
-    "SAUAP-R1R-03",
-    "SAUAP-R1R-04",
-    "SAUAP-R1R-05",
-    "SAUAP-R1R-06",
-    "SAUAP-R1R-07",
-    "SAUAP-R1R-08",
-    "SAUAP-R1R-09",
-    "SAUAP-R1R-10",
-    "SAUAP-R1R-11",
-    "SAUAP-R1R-12"
+    "SAUAP-E1-01",
+    "SAUAP-E1-02",
+    "SAUAP-E1-03",
+    "SAUAP-E1-04",
+    "SAUAP-E1-05",
+    "SAUAP-E1-06",
+    "SAUAP-E1-07",
+    "SAUAP-E1-08",
+    "SAUAP-E1-09",
+    "SAUAP-E1-10",
+    "SAUAP-E1-11",
+    "SAUAP-E1-12"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -89,12 +89,14 @@
     "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PERMISSION-BOOTSTRAP-R1-2026-10-02.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37011165609",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012002039",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012218885"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37012218885",
+    "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-R2-2026-10-03.md",
+    "codex/CHANGE_MANIFESTS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-E1-2026-10-04.md"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37012218885 / HEAD_14ae0f4f47232220a12f60c18d180f5a2561051e",
-    "user_access_pilot_migration_readiness": "COMPLETED / READ_ONLY / HOLD / USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY",
-    "current_review_database_write": "NONE / TWO_READ_ONLY_TRANSACTIONS_ROLLED_BACK",
+    "exact_current_ci": "PASS / RUN_37012461730 / HEAD_a7fbcead149086e331cb5e7e22ed161a892f8a4b",
+    "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
+    "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",
     "d1_runtime_contract_diagnosis": "PASS / CANDIDATE_C_HOLD",
     "d2_runtime_authority_gate": "PASS / OWNER_APPROVED_OPTION_A",
@@ -108,7 +110,7 @@
     "foundation_db_r1": "COMPLETED / DESIGN_ONLY / PASS",
     "foundation_db_r2": "COMPLETED / PASS_WITH_NEW_BLOCKER / RUN_36401882253",
     "live_openai_verification": "NOT_RUN",
-    "database_write": "CONTROLLED_PILOT_WRITE / K2B PRIMARY ONLY / 12 ROWS / POSTFLIGHT_VERIFIED / K3B_SHARED_12_OF_12",
+    "database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / 3 MIGRATIONS / 3 PERMISSIONS / 4 GRANTS / 13 FEATURES / POSTFLIGHT_VERIFIED",
     "r2_exact_actions": "VERIFIED / RUN_36353770932 / FAILURE_AT_FOUNDATION_VERIFICATION",
     "foundation_db_r2_exact_actions": "PASS_WITH_NEW_BLOCKER / FINAL_HEAD_RUN_36402569265 / 16_FAILED_15_PASSED_490_WARNINGS_2171_ASSERTIONS",
     "foundation_db_r3": "COMPLETED / DIAGNOSIS_ONLY / PASS / RUN_36402569265",
@@ -139,14 +141,15 @@
     "super_admin_user_access_preference_management_v1": "IMPLEMENTED / PASS / RUN_36944117304",
     "super_admin_user_access_preference_management_v1r": "COMPLETED / PASS / RUN_36976686299",
     "super_admin_user_access_permission_bootstrap_r1": "COMPLETED / PASS / RUN_37011165609",
-    "super_admin_user_access_permission_bootstrap_r1r": "COMPLETED / PASS / FIXTURE_ALIGNMENT / RUN_37011165609"
+    "super_admin_user_access_permission_bootstrap_r1r": "COMPLETED / PASS / FIXTURE_ALIGNMENT / RUN_37011165609",
+    "super_admin_user_access_controlled_pilot_migration_e1": "COMPLETED / PASS / 43_TO_46_MIGRATIONS / BOOTSTRAP_VERIFIED"
   },
   "blockers": [
     {
       "id": "USER_ACCESS_PILOT_BOOTSTRAP_AUTHORITY_COMPATIBILITY",
-      "status": "OPEN",
-      "evidence": "Read-only PILOT catalog lacks academic.domain.manage and platform.institution.manage; current UserAccessFeatureSeeder requires but does not supply these authorities. Six Academic master feature groups and System Settings would deny legacy authorized roles. See readiness review 2026-10-02.",
-      "owner": "PROJECT_OWNER_REVIEW_REQUIRED"
+      "status": "RESOLVED",
+      "evidence": "R1/R1R source bootstrap was applied to PILOT and independently verified: SUPER_ADMIN 3 grants, WAKA academic-only grant, WALI 0 management grants, 13 feature rows, and effective access matrix PASS. See E1 manifest 2026-10-04.",
+      "owner": "SUPER-ADMIN-USER-ACCESS-CONTROLLED-PILOT-MIGRATION-E1"
     },
     {
       "id": "CI_PHP_LOCKFILE_COMPATIBILITY",
@@ -177,11 +180,11 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_PERMISSION_BOOTSTRAP_R1_AUDIT",
+  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_USER_ACCESS_CONTROLLED_PILOT_MIGRATION_E1_AUDIT",
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-10-02T20:45:00+07:00",
+  "updated_at": "2026-10-04T09:05:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",
