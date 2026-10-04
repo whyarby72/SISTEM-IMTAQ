@@ -46,7 +46,7 @@ class SemesterGradeWorkspaceUiTest extends TestCase
             'semester_id' => $fixture['semester']->id,
             'class_id' => $fixture['class']->id,
             'subject_id' => $fixture['subject']->id,
-        ]))->assertOk()->assertSee('Nilai Semester')->assertSee('Belum diisi')->assertDontSee('Simpan');
+        ]))->assertOk()->assertSee('Nilai Semester')->assertSee('Belum diisi')->assertSee('Simpan Draft');
 
         $this->assertSame($before, [SemesterSubjectGrade::count(), StudentClassEnrollment::count(), AuditLog::count()]);
         $this->assertSame(['GET', 'HEAD'], collect(app('router')->getRoutes()->getByName('academic.grades.index')->methods())->values()->all());
@@ -70,14 +70,14 @@ class SemesterGradeWorkspaceUiTest extends TestCase
         $otherClass = AcademicClass::create(['class_code' => 'OTHER-WALI-CLASS', 'academic_year_id' => $fixture['year']->id, 'organizational_unit_id' => $fixture['unit']->id, 'grade_level_id' => $fixture['gradeLevel']->id, 'section_code' => 'B', 'display_name' => 'Other Wali Class']);
         TeachingAssignment::create(['assignment_code' => 'OTHER-WALI-TA', 'semester_id' => $fixture['semester']->id, 'class_id' => $otherClass->id, 'subject_id' => $fixture['subject']->id, 'teacher_staff_id' => $fixture['otherTeacher']->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
 
-        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk();
+        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertDontSee('Simpan Draft')->assertDontSee('grade-score-input');
         $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $otherClass->id, 'subject_id' => $fixture['subject']->id]))->assertForbidden();
     }
 
     public function test_waka_can_view_and_super_admin_only_is_denied(): void
     {
         $fixture = $this->fixture('waka');
-        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk();
+        $this->actingAs($fixture['user'])->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertOk()->assertDontSee('Simpan Draft')->assertDontSee('grade-score-input');
 
         $admin = $this->userWithRole('SUPER_ADMIN');
         $this->actingAs($admin)->get(route('academic.grades.index', ['semester_id' => $fixture['semester']->id, 'class_id' => $fixture['class']->id, 'subject_id' => $fixture['subject']->id]))->assertForbidden();

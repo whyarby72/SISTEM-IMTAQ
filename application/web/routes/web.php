@@ -66,6 +66,7 @@ Route::middleware(['auth', 'active.account'])->prefix('academic')->name('academi
     Route::get('/monthly-reports/july-2026/{class}.pdf', [MonthlyAttendanceReportController::class, 'detailPdf'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail.pdf');
     Route::get('/monthly-reports/july-2026/{class}', [MonthlyAttendanceReportController::class, 'detail'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail');
     Route::get('/grades', [SemesterGradeController::class, 'index'])->middleware('grade.feature')->name('grades.index');
+    Route::post('/grades/batch-draft', [SemesterGradeController::class, 'batchDraft'])->middleware('grade.feature')->name('grades.batch-draft');
 });
 
 Route::middleware(['auth', 'active.account'])->prefix('admin/academic')->name('admin.academic.')->group(function (): void {

@@ -61,13 +61,23 @@ class SemesterGradeEntryService
                 ->first();
             $before = $grade?->toArray() ?? [];
 
-            if ($grade !== null && $expectedVersion !== null && $grade->version_no !== $expectedVersion) {
-                throw new InvalidArgumentException('Semester grade version is stale.');
+            if ($grade !== null) {
+                if ($grade->workflow_status !== 'DRAFT') {
+                    throw new InvalidArgumentException('Only DRAFT semester grades may be changed through normal save.');
+                }
+                if ($expectedVersion === null) {
+                    throw new InvalidArgumentException('Expected version is required for an existing semester grade.');
+                }
+                if ($grade->version_no !== $expectedVersion) {
+                    throw new InvalidArgumentException('Semester grade version is stale.');
+                }
+            } elseif ($expectedVersion !== null) {
+                throw new InvalidArgumentException('Expected version must be empty for a new semester grade.');
             }
 
             $now = now();
             $payload = [
-                'score' => $score,
+                'score' => $score === null ? null : number_format((float) $score, 2, '.', ''),
                 'grade_source' => $gradeSource,
                 'source_teaching_assignment_id' => $attributes['source_teaching_assignment_id'] ?? null,
                 'responsible_staff_id' => $attributes['responsible_staff_id'] ?? null,
@@ -79,6 +89,12 @@ class SemesterGradeEntryService
                 $payload += ['student_id' => $student->id, 'semester_id' => $semester->id, 'subject_id' => $subject->id, 'entered_by' => $actor->id, 'entered_at' => $now, 'workflow_status' => 'DRAFT', 'version_no' => 1];
                 $grade = SemesterSubjectGrade::create($payload);
             } else {
+                $canonicalFields = ['score', 'grade_source', 'source_teaching_assignment_id', 'responsible_staff_id'];
+                $changed = collect($canonicalFields)->contains(fn (string $field): bool => $grade->getAttribute($field) !== $payload[$field]);
+                if (! $changed) {
+                    return $grade->fresh();
+                }
+
                 $payload['version_no'] = $grade->version_no + 1;
                 $grade->update($payload);
             }

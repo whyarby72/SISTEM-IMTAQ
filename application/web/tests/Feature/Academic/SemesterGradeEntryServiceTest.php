@@ -87,6 +87,44 @@ class SemesterGradeEntryServiceTest extends TestCase
         $service->save($student, $semester, $subject, $actor, ['score' => 51], $grade->version_no - 1);
     }
 
+    public function test_existing_grade_requires_expected_version(): void
+    {
+        [$student, $semester, $subject, , $actor] = $this->fixtures();
+        $service = app(SemesterGradeEntryService::class);
+        $service->save($student, $semester, $subject, $actor, ['score' => 50]);
+
+        $this->expectException(InvalidArgumentException::class);
+        $service->save($student, $semester, $subject, $actor, ['score' => 51]);
+    }
+
+    public function test_exact_noop_does_not_increment_version_or_audit(): void
+    {
+        [$student, $semester, $subject, $assignment, $actor] = $this->fixtures();
+        $service = app(SemesterGradeEntryService::class);
+        $grade = $service->save($student, $semester, $subject, $actor, [
+            'score' => 50,
+            'source_teaching_assignment_id' => $assignment->id,
+        ]);
+
+        $result = $service->save($student, $semester, $subject, $actor, [
+            'score' => 50,
+            'source_teaching_assignment_id' => $assignment->id,
+        ], $grade->version_no);
+
+        $this->assertSame(1, $result->version_no);
+        $this->assertSame(1, AuditLog::where('action', 'SEMESTER_SUBJECT_GRADE_SAVED')->count());
+    }
+
+    public function test_checked_grade_fails_closed_without_mutation_or_audit(): void
+    {
+        $this->assertProtectedStateCannotBeChanged('CHECKED');
+    }
+
+    public function test_locked_grade_fails_closed_without_mutation_or_audit(): void
+    {
+        $this->assertProtectedStateCannotBeChanged('LOCKED');
+    }
+
     public function test_rejects_mismatched_teaching_assignment_provenance(): void
     {
         [$student, $semester, $subject, $assignment, $actor] = $this->fixtures();
@@ -118,5 +156,27 @@ class SemesterGradeEntryServiceTest extends TestCase
         $assignment = TeachingAssignment::create(['assignment_code' => 'TA-GRD', 'semester_id' => $semester->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
 
         return [$student, $semester, $subject, $assignment, $actor];
+    }
+
+    private function assertProtectedStateCannotBeChanged(string $state): void
+    {
+        [$student, $semester, $subject, , $actor] = $this->fixtures();
+        $service = app(SemesterGradeEntryService::class);
+        $grade = $service->save($student, $semester, $subject, $actor, ['score' => 50]);
+        $grade->update(['workflow_status' => $state]);
+        $auditCount = AuditLog::count();
+
+        try {
+            $service->save($student, $semester, $subject, $actor, ['score' => 60], $grade->version_no);
+            $this->fail("{$state} grade was unexpectedly changed.");
+        } catch (InvalidArgumentException) {
+            $this->assertDatabaseHas('semester_subject_grades', [
+                'id' => $grade->id,
+                'score' => 50,
+                'workflow_status' => $state,
+                'version_no' => 1,
+            ]);
+            $this->assertSame($auditCount, AuditLog::count());
+        }
     }
 }

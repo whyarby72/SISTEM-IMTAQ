@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 class SemesterGradeAuthorizationService
 {
@@ -40,6 +41,43 @@ class SemesterGradeAuthorizationService
             ->exists();
     }
 
+    public function canEnterDraft(User $actor, Semester $semester, AcademicClass $class, Subject $subject): bool
+    {
+        try {
+            $this->assignedTeachingAssignment($actor, $semester, $class, $subject);
+
+            return true;
+        } catch (AuthorizationException|InvalidArgumentException) {
+            return false;
+        }
+    }
+
+    public function requireEnterDraft(User $actor, Semester $semester, AcademicClass $class, Subject $subject): TeachingAssignment
+    {
+        return $this->assignedTeachingAssignment($actor, $semester, $class, $subject);
+    }
+
+    public function assignedTeachingAssignment(User $actor, Semester $semester, AcademicClass $class, Subject $subject): TeachingAssignment
+    {
+        $staffIds = $this->effectiveStaffIds($actor, $semester);
+        if ($staffIds->count() !== 1) {
+            throw new AuthorizationException('An unambiguous effective Staff identity is required for DRAFT grade entry.');
+        }
+
+        $assignments = $this->activeAssignments($semester, $class, $subject)
+            ->where('teacher_staff_id', $staffIds->first())
+            ->get();
+
+        if ($assignments->isEmpty()) {
+            throw new AuthorizationException('Only the assigned subject teacher may enter DRAFT grades.');
+        }
+        if ($assignments->count() !== 1) {
+            throw new InvalidArgumentException('AMBIGUOUS_TEACHING_ASSIGNMENT');
+        }
+
+        return $assignments->first();
+    }
+
     public function isEffectiveWaliForClass(User $actor, Semester $semester, AcademicClass $class): bool
     {
         if (! $this->hasRole($actor, 'WALI_KELAS', $semester)) {
@@ -67,14 +105,14 @@ class SemesterGradeAuthorizationService
 
     public function scopeType(User $actor, Semester $semester, ?AcademicClass $class = null, ?Subject $subject = null): ?string
     {
+        if ($class !== null && $subject !== null && $this->canEnterDraft($actor, $semester, $class, $subject)) {
+            return 'SUBJECT_TEACHER';
+        }
         if ($this->isWakaAkademik($actor, $semester)) {
             return 'WAKA_AKADEMIK';
         }
         if ($class !== null && $this->isEffectiveWaliForClass($actor, $semester, $class)) {
             return 'WALI_KELAS';
-        }
-        if ($class !== null && $subject !== null && $this->isAssignedSubjectTeacher($actor, $semester, $class, $subject)) {
-            return 'SUBJECT_TEACHER';
         }
 
         return null;
@@ -158,7 +196,21 @@ class SemesterGradeAuthorizationService
 
     private function effectiveStaffId(User $actor, Semester $semester): ?string
     {
-        return $actor->staffLink()->where(fn ($query) => $query->whereNull('effective_from')->orWhereDate('effective_from', '<=', $semester->ends_on->toDateString()))->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $semester->starts_on->toDateString()))->value('staff_id');
+        $staffIds = $this->effectiveStaffIds($actor, $semester);
+
+        return $staffIds->count() === 1 ? $staffIds->first() : null;
+    }
+
+    /** @return Collection<int, string> */
+    private function effectiveStaffIds(User $actor, Semester $semester): Collection
+    {
+        return $actor->staffLink()
+            ->where(fn ($query) => $query->whereNull('effective_from')->orWhereDate('effective_from', '<=', $semester->ends_on->toDateString()))
+            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $semester->starts_on->toDateString()))
+            ->pluck('staff_id')
+            ->filter()
+            ->unique()
+            ->values();
     }
 
     private function linkedStaffIds(User $actor): array

@@ -6,8 +6,10 @@ use App\Domains\Academic\Models\AcademicClass;
 use App\Domains\Academic\Models\Semester;
 use App\Domains\Academic\Models\Subject;
 use App\Domains\Academic\Services\SemesterGradeAuthorizationService;
+use App\Domains\Academic\Services\SemesterGradeDraftBatchService;
 use App\Domains\Academic\Services\SemesterGradeWorkspaceService;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -44,5 +46,44 @@ class SemesterGradeController
             : $workspace->emptyState($actor, $semester, $class);
 
         return view('academic.grades.index', compact('semesters', 'classes', 'subjects', 'semester', 'class', 'subject', 'gradeWorkspace'));
+    }
+
+    public function batchDraft(Request $request, SemesterGradeDraftBatchService $batchService): RedirectResponse
+    {
+        $validated = $request->validate([
+            'semester_id' => ['required', 'uuid'],
+            'class_id' => ['required', 'uuid'],
+            'subject_id' => ['required', 'uuid'],
+            'rows' => ['required', 'array', 'min:1', 'max:100'],
+            'rows.*' => ['required', 'array:student_id,score,expected_version'],
+            'rows.*.student_id' => ['required', 'uuid', 'distinct'],
+            'rows.*.score' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'rows.*.expected_version' => ['nullable', 'integer', 'min:1'],
+            'grade_source' => ['prohibited'],
+            'source_teaching_assignment_id' => ['prohibited'],
+            'responsible_staff_id' => ['prohibited'],
+            'workflow_status' => ['prohibited'],
+            'version_no' => ['prohibited'],
+            'entered_by' => ['prohibited'],
+            'updated_by' => ['prohibited'],
+            'finalized_by' => ['prohibited'],
+        ]);
+        abort_unless($request->user() instanceof User, 403);
+
+        $semester = Semester::query()->findOrFail($validated['semester_id']);
+        $class = AcademicClass::query()->findOrFail($validated['class_id']);
+        $subject = Subject::query()->findOrFail($validated['subject_id']);
+        $summary = $batchService->save($request->user(), $semester, $class, $subject, $validated['rows']);
+
+        return redirect()->route('academic.grades.index', [
+            'semester_id' => $semester->id,
+            'class_id' => $class->id,
+            'subject_id' => $subject->id,
+        ])->with('grade_draft_summary', [
+            'created' => $summary['created_count'],
+            'updated' => $summary['updated_count'],
+            'cleared' => $summary['cleared_count'],
+            'noop' => $summary['noop_count'],
+        ]);
     }
 }

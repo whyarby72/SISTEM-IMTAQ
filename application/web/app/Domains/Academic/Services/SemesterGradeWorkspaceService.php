@@ -9,7 +9,6 @@ use App\Domains\Academic\Models\StudentClassEnrollment;
 use App\Domains\Academic\Models\Subject;
 use App\Domains\Academic\Models\TeachingAssignment;
 use App\Models\User;
-use Illuminate\Support\Collection;
 
 class SemesterGradeWorkspaceService
 {
@@ -23,13 +22,16 @@ class SemesterGradeWorkspaceService
         $students = StudentClassEnrollment::query()->with('student')->where('class_id', $class->id)->where('status', 'ACTIVE')->whereDate('effective_from', '<=', $semester->ends_on->toDateString())->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $semester->starts_on->toDateString()))->get()->unique('student_id')->sortBy(fn ($enrollment) => $enrollment->student->student_code)->values();
         $grades = SemesterSubjectGrade::query()->where('semester_id', $semester->id)->where('subject_id', $subject->id)->whereIn('student_id', $students->pluck('student_id'))->get()->keyBy('student_id');
 
+        $canEnterDraft = $this->authorization->canEnterDraft($actor, $semester, $class, $subject);
+
         return [
             'semester' => $semester,
             'class' => $class,
             'subject' => $subject,
             'assignments' => $assignments,
             'scope_type' => $this->authorization->scopeType($actor, $semester, $class, $subject),
-            'students' => $students->map(function ($enrollment) use ($grades): array {
+            'can_enter_draft' => $canEnterDraft,
+            'students' => $students->map(function ($enrollment) use ($grades, $canEnterDraft): array {
                 $grade = $grades->get($enrollment->student_id);
 
                 return [
@@ -43,6 +45,7 @@ class SemesterGradeWorkspaceService
                     'grade_source' => $grade?->grade_source,
                     'responsible_staff_id' => $grade?->responsible_staff_id,
                     'grade_id' => $grade?->id,
+                    'is_editable' => $canEnterDraft && ($grade === null || $grade->workflow_status === 'DRAFT'),
                 ];
             })->all(),
         ];
@@ -52,6 +55,7 @@ class SemesterGradeWorkspaceService
     {
         return [
             'scope_type' => $semester ? $this->authorization->scopeType($actor, $semester, $class) : null,
+            'can_enter_draft' => false,
             'students' => [],
             'assignments' => collect(),
         ];
