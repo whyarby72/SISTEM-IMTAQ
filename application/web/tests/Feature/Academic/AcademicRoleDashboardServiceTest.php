@@ -423,7 +423,11 @@ class AcademicRoleDashboardServiceTest extends TestCase
         $this->actingAs($wali)
             ->get(route('academic.dashboard', ['from' => '2026-07-01', 'to' => '2026-07-31']))
             ->assertOk()
-            ->assertSee('Pengisian Kehadiran')
+            ->assertSee('Riwayat Sesi Periode')
+            ->assertSee('Wali Kelas')
+            ->assertSee('Sesi Hari Ini')
+            ->assertSee('Perlu Ditangani')
+            ->assertSee('Sesi Berikutnya')
             ->assertSee('Belum diisi')
             ->assertSee('Belum lengkap')
             ->assertSee('Sudah disahkan')
@@ -452,6 +456,110 @@ class AcademicRoleDashboardServiceTest extends TestCase
             ->assertSee('id="tren-kehadiran"', false)
             ->assertSee('.waka-main-grid>div>section:first-child .waka-card-heading>.waka-link{display:none}', false)
             ->assertSee(route('academic.attendance.show', $dashboard['attendance_sessions']->first()), false);
+    }
+
+    public function test_wali_operational_home_classifies_and_prioritizes_today_work_without_treating_missing_as_absent(): void
+    {
+        [$first, , $wali, $waka, $assignment] = $this->fixture();
+        $existing = ClassSession::where('class_id', $first->id)->firstOrFail();
+        $finalizedParticipant = $this->participant($existing, 100);
+        StudentAttendance::create(['session_student_participant_id' => $finalizedParticipant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'entered_by' => $waka->id, 'entered_at' => '2026-07-10 08:30:00', 'finalized_by' => $waka->id, 'finalized_at' => '2026-07-10 09:00:00', 'updated_by' => $waka->id, 'updated_at' => '2026-07-10 09:00:00']);
+
+        $incomplete = $this->operationalSession($assignment, 'DASH-OP-INCOMPLETE', '2026-07-10 09:00:00', '2026-07-10 10:00:00');
+        $resolved = $this->participant($incomplete, 101);
+        $this->participant($incomplete, 102);
+        StudentAttendance::create(['session_student_participant_id' => $resolved->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'DRAFT', 'entered_by' => $waka->id, 'entered_at' => '2026-07-10 09:30:00', 'updated_by' => $waka->id, 'updated_at' => '2026-07-10 09:30:00']);
+        SessionTeacherParticipation::create(['class_session_id' => $incomplete->id, 'teacher_staff_id' => $assignment->teacher_staff_id, 'role' => 'PRIMARY', 'obligation_type' => 'TEACHING_ASSIGNMENT', 'participation_status' => 'EXPECTED']);
+
+        $notStarted = $this->operationalSession($assignment, 'DASH-OP-NOT-STARTED', '2026-07-10 10:00:00', '2026-07-10 11:00:00');
+        $this->participant($notStarted, 103);
+        $inProgress = $this->operationalSession($assignment, 'DASH-OP-IN-PROGRESS', '2026-07-10 11:30:00', '2026-07-10 12:30:00');
+        $this->participant($inProgress, 104);
+        $upcoming = $this->operationalSession($assignment, 'DASH-OP-UPCOMING', '2026-07-10 13:00:00', '2026-07-10 14:00:00');
+        $this->participant($upcoming, 105);
+
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $home = app(AcademicRoleDashboardService::class)
+                ->forUser($wali, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay())['wali_operational'];
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertTrue($home['has_assignment']);
+        $this->assertSame($first->id, $home['class']->id);
+        $this->assertSame(
+            ['DUE_INCOMPLETE', 'DUE_NOT_STARTED', 'IN_PROGRESS', 'UPCOMING', 'FINALIZED'],
+            $home['today_sessions']->pluck('state')->all(),
+        );
+        $incompleteItem = $home['today_sessions']->firstWhere('state', 'DUE_INCOMPLETE');
+        $this->assertSame(2, $incompleteItem['eligible']);
+        $this->assertSame(1, $incompleteItem['resolved']);
+        $this->assertSame(1, $incompleteItem['missing']);
+        $this->assertSame('Belum dicatat', $incompleteItem['teacher_attendance_label']);
+        $this->assertSame(1, $home['today_completion']['finalized']);
+        $this->assertSame(3, $home['today_completion']['due']);
+        $this->assertSame($upcoming->id, $home['next_session']['session']->id);
+    }
+
+    public function test_wali_operational_home_keeps_every_today_session_visible_beyond_history_limit(): void
+    {
+        [, , $wali, , $assignment] = $this->fixture();
+        foreach (range(1, 13) as $index) {
+            $start = Carbon::parse('2026-07-10 00:00:00', 'Asia/Jakarta')->addMinutes(($index - 1) * 30);
+            $this->operationalSession($assignment, 'DASH-TODAY-'.$index, $start->format('Y-m-d H:i:s'), $start->copy()->addMinutes(30)->format('Y-m-d H:i:s'));
+        }
+
+        Carbon::setTestNow(Carbon::parse('2026-07-10 20:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)
+                ->forUser($wali, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay());
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertCount(14, $dashboard['wali_operational']['today_sessions']);
+        $this->assertCount(12, $dashboard['attendance_sessions']);
+    }
+
+    public function test_wali_dashboard_get_is_read_only_and_renders_operational_mobile_accessibility_contract(): void
+    {
+        [, , $wali] = $this->fixture();
+        $attendanceBefore = StudentAttendance::count();
+        $teacherAttendanceBefore = SessionTeacherParticipation::whereNotNull('attendance_status')->count();
+
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $this->actingAs($wali)
+                ->get(route('academic.dashboard', ['from' => '2026-07-01', 'to' => '2026-07-31']))
+                ->assertOk()
+                ->assertSee('aria-label="Beranda operasional Wali Kelas"', false)
+                ->assertSee('role="list"', false)
+                ->assertSee('data-state="DUE_NOT_STARTED"', false)
+                ->assertSee('@media(max-width:680px){.wali-identity{display:grid}', false)
+                ->assertSee(route('academic.attendance.show', ClassSession::where('session_code', 'DASH-SESSION-DASH-A')->firstOrFail()), false);
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertSame($attendanceBefore, StudentAttendance::count());
+        $this->assertSame($teacherAttendanceBefore, SessionTeacherParticipation::whereNotNull('attendance_status')->count());
+    }
+
+    public function test_wali_without_homeroom_assignment_receives_safe_operational_empty_state(): void
+    {
+        [, , $wali] = $this->fixture();
+        ClassHomeroomAssignment::query()->delete();
+
+        $dashboard = app(AcademicRoleDashboardService::class)
+            ->forUser($wali, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay());
+
+        $this->assertFalse($dashboard['wali_operational']['has_assignment']);
+        $this->actingAs($wali)
+            ->get(route('academic.dashboard', ['from' => '2026-07-01', 'to' => '2026-07-31']))
+            ->assertOk()
+            ->assertSee('Penugasan Wali Kelas belum tersedia')
+            ->assertDontSee('sesi-hari-ini', false);
     }
 
     public function test_wali_joint_dashboard_partitions_trend_and_operational_roster_by_authorized_class(): void
@@ -769,6 +877,21 @@ class AcademicRoleDashboardServiceTest extends TestCase
             'participant_basis' => 'ROSTER',
             'participant_status' => 'EXPECTED',
             'is_required' => true,
+        ]);
+    }
+
+    private function operationalSession(TeachingAssignment $assignment, string $code, string $start, string $end, string $status = 'PLANNED'): ClassSession
+    {
+        return ClassSession::create([
+            'session_code' => $code,
+            'teaching_assignment_id' => $assignment->id,
+            'class_id' => $assignment->class_id,
+            'subject_id' => $assignment->subject_id,
+            'planned_start_at' => Carbon::parse($start, 'Asia/Jakarta')->utc(),
+            'planned_end_at' => Carbon::parse($end, 'Asia/Jakarta')->utc(),
+            'session_source' => 'SCHEDULED',
+            'participant_scope' => 'FULL_CLASS',
+            'session_status' => $status,
         ]);
     }
 

@@ -55,7 +55,177 @@ class AcademicRoleDashboardService
             'attendance_status_source' => 'live_sessions',
             'teacher_attendance' => $teacherAttendance,
             'attendance_sessions' => $role === 'WALI_KELAS' ? $this->attendanceSessions($classes, $from, $to) : collect(),
+            'wali_operational' => $role === 'WALI_KELAS' ? $this->waliOperationalHome($classes) : null,
         ];
+    }
+
+    private function waliOperationalHome(Collection $classes): array
+    {
+        $class = $classes->first();
+        if (! $class instanceof AcademicClass) {
+            return [
+                'has_assignment' => false,
+                'class' => null,
+                'semester' => null,
+                'active_student_count' => 0,
+                'today_sessions' => collect(),
+                'urgent' => ['due_not_started' => 0, 'due_incomplete' => 0, 'teacher_attendance_missing' => 0],
+                'today_completion' => ['finalized' => 0, 'due' => 0, 'rate' => null],
+                'next_session' => null,
+            ];
+        }
+
+        $timezone = (string) config('app.timezone', 'Asia/Jakarta');
+        $now = Carbon::now($timezone);
+        $todayStart = $now->copy()->startOfDay();
+        $tomorrowStart = $todayStart->copy()->addDay();
+        $class->loadMissing(['gradeLevel', 'academicYear']);
+        $semester = Semester::query()
+            ->where('academic_year_id', $class->academic_year_id)
+            ->whereDate('starts_on', '<=', $now->toDateString())
+            ->whereDate('ends_on', '>=', $now->toDateString())
+            ->orderBy('sequence_no')
+            ->first();
+
+        $todaySessions = $this->waliOperationalSessionsQuery($classes)
+            ->where('planned_start_at', '>=', $todayStart->copy()->utc())
+            ->where('planned_start_at', '<', $tomorrowStart->copy()->utc())
+            ->get()
+            ->map(fn (ClassSession $session): array => $this->waliSessionItem($session, $classes, $now))
+            ->sortBy(fn (array $item): string => sprintf('%02d-%s', $item['priority'], $item['session']->planned_start_at->format('YmdHis')))
+            ->values();
+
+        $nextSession = $this->waliOperationalSessionsQuery($classes)
+            ->where('planned_start_at', '>', $now->copy()->utc())
+            ->orderBy('planned_start_at')
+            ->first();
+
+        $due = $todaySessions->whereIn('state', ['DUE_NOT_STARTED', 'DUE_INCOMPLETE', 'FINALIZED'])->count();
+        $finalized = $todaySessions->where('state', 'FINALIZED')->count();
+
+        return [
+            'has_assignment' => true,
+            'class' => $class,
+            'semester' => $semester,
+            'active_student_count' => $this->activeStudentCountForClass($class, $now),
+            'today_sessions' => $todaySessions,
+            'urgent' => [
+                'due_not_started' => $todaySessions->where('state', 'DUE_NOT_STARTED')->count(),
+                'due_incomplete' => $todaySessions->where('state', 'DUE_INCOMPLETE')->count(),
+                'teacher_attendance_missing' => $todaySessions
+                    ->whereIn('state', ['DUE_NOT_STARTED', 'DUE_INCOMPLETE', 'IN_PROGRESS'])
+                    ->where('teacher_attendance_missing', true)
+                    ->count(),
+            ],
+            'today_completion' => [
+                'finalized' => $finalized,
+                'due' => $due,
+                'rate' => $due === 0 ? null : round(($finalized / $due) * 100, 2),
+            ],
+            'next_session' => $nextSession === null ? null : $this->waliSessionItem($nextSession, $classes, $now),
+        ];
+    }
+
+    private function waliOperationalSessionsQuery(Collection $classes)
+    {
+        return ClassSession::query()
+            ->with([
+                'academicClass.gradeLevel',
+                'academicClass.academicYear',
+                'scopeGroups.academicClass',
+                'teachingAssignment.subject',
+                'teachingAssignment.teacher',
+                'studentParticipants' => fn ($query) => $query
+                    ->where('participant_status', 'EXPECTED')
+                    ->where('is_required', true)
+                    ->with(['attendance', 'student.classEnrollments']),
+                'teacherParticipations' => fn ($query) => $query
+                    ->where('participation_status', 'EXPECTED')
+                    ->with('teacher'),
+            ])
+            ->where(fn ($query) => $query
+                ->whereIn('class_id', $classes->modelKeys())
+                ->orWhereHas('scopeGroups', fn ($scopeQuery) => $scopeQuery->whereIn('class_id', $classes->modelKeys())))
+            ->whereNotIn('session_status', ['CANCELLED', 'RESCHEDULED']);
+    }
+
+    private function waliSessionItem(ClassSession $session, Collection $classes, Carbon $now): array
+    {
+        $participants = $this->participantsForDashboardClasses($session, $classes);
+        $eligible = $participants->count();
+        $resolved = $participants->filter(fn ($participant) => $participant->attendance?->attendance_status !== null)->count();
+        $missing = max(0, $eligible - $resolved);
+        $finalized = $eligible > 0
+            && $missing === 0
+            && $participants->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED')
+            && $session->session_status === 'COMPLETED';
+
+        if ($finalized) {
+            $state = 'FINALIZED';
+        } elseif ($session->planned_start_at->greaterThan($now)) {
+            $state = 'UPCOMING';
+        } elseif ($session->planned_end_at->greaterThan($now)) {
+            $state = 'IN_PROGRESS';
+        } elseif ($resolved === 0) {
+            $state = 'DUE_NOT_STARTED';
+        } else {
+            $state = 'DUE_INCOMPLETE';
+        }
+
+        $labels = [
+            'UPCOMING' => ['Akan datang', 'Lihat Sesi'],
+            'IN_PROGRESS' => ['Sedang berlangsung', $resolved > 0 ? 'Lanjutkan Pengisian' : 'Isi Kehadiran'],
+            'DUE_NOT_STARTED' => [$eligible === 0 ? 'Roster belum tersedia' : 'Belum diisi', $eligible === 0 ? 'Lihat Sesi' : 'Isi Kehadiran'],
+            'DUE_INCOMPLETE' => ['Belum lengkap', 'Lanjutkan Pengisian'],
+            'FINALIZED' => ['Sudah disahkan', 'Lihat Hasil'],
+        ];
+        $teacherParticipation = $session->teacherParticipations
+            ->first(fn ($participation) => $participation->role === 'PRIMARY')
+            ?? $session->teacherParticipations->first();
+        $teacherAttendanceLabels = [
+            'PRESENT' => 'Hadir',
+            'ABSENT' => 'Tidak hadir',
+            'SICK' => 'Sakit',
+            'IZIN' => 'Izin',
+            'OTHER' => 'Lainnya',
+        ];
+
+        return [
+            'session' => $session,
+            'state' => $state,
+            'priority' => ['DUE_INCOMPLETE' => 1, 'DUE_NOT_STARTED' => 2, 'IN_PROGRESS' => 3, 'UPCOMING' => 4, 'FINALIZED' => 5][$state],
+            'status_label' => $labels[$state][0],
+            'action_label' => $labels[$state][1],
+            'class_label' => $classes->pluck('display_name')->implode(' + '),
+            'subject_label' => $session->teachingAssignment?->subject?->subject_name ?? 'Pelajaran',
+            'teacher_label' => $session->teachingAssignment?->teacher?->full_name ?? 'Guru belum ditetapkan',
+            'eligible' => $eligible,
+            'resolved' => $resolved,
+            'missing' => $missing,
+            'completion_rate' => $eligible === 0 ? null : round(($resolved / $eligible) * 100, 2),
+            'teacher_attendance_label' => $teacherParticipation === null
+                ? 'Partisipasi guru belum tersedia'
+                : ($teacherAttendanceLabels[$teacherParticipation->attendance_status] ?? 'Belum dicatat'),
+            'teacher_attendance_missing' => $teacherParticipation === null || $teacherParticipation->attendance_status === null,
+        ];
+    }
+
+    private function activeStudentCountForClass(AcademicClass $class, Carbon $asOf): int
+    {
+        return StudentClassEnrollment::query()
+            ->where('class_id', $class->id)
+            ->where('status', 'ACTIVE')
+            ->whereDate('effective_from', '<=', $asOf->toDateString())
+            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $asOf->toDateString()))
+            ->whereExists(fn ($query) => $query
+                ->selectRaw('1')
+                ->from('student_status_history')
+                ->whereColumn('student_status_history.student_id', 'student_class_enrollments.student_id')
+                ->where('student_status_history.status', 'ACTIVE')
+                ->whereDate('student_status_history.effective_from', '<=', $asOf->toDateString())
+                ->where(fn ($statusQuery) => $statusQuery->whereNull('student_status_history.effective_until')->orWhereDate('student_status_history.effective_until', '>', $asOf->toDateString())))
+            ->distinct('student_id')
+            ->count('student_id');
     }
 
     private function attendanceSessions($classes, Carbon $from, Carbon $to)
@@ -68,7 +238,7 @@ class AcademicRoleDashboardService
                 'studentParticipants' => fn ($query) => $query
                     ->where('participant_status', 'EXPECTED')
                     ->where('is_required', true)
-                    ->with('attendance'),
+                    ->with(['attendance', 'student.classEnrollments']),
             ])
             ->where(fn ($query) => $query
                 ->whereIn('class_id', $classes->modelKeys())
@@ -368,7 +538,7 @@ class AcademicRoleDashboardService
     private function participantsForDashboardClasses(ClassSession $session, Collection $classes, bool $partitionByClass = true): Collection
     {
         $participants = $session->studentParticipants;
-        if (! $partitionByClass || $session->scopeGroups->count() <= 1) {
+        if (! $partitionByClass || $session->scopeGroups->isEmpty()) {
             return $participants;
         }
 
@@ -397,6 +567,6 @@ class AcademicRoleDashboardService
                 ->whereDate('effective_from', '<=', $to->toDateString())
                 ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $from->toDateString()))
                 ->pluck('class_id'))
-            ->with('gradeLevel')->orderBy('display_name')->get();
+            ->with(['gradeLevel', 'academicYear'])->orderBy('display_name')->get();
     }
 }

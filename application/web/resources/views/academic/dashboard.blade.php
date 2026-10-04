@@ -39,6 +39,9 @@
         .waka-filter button{align-self:start;margin-top:1.1rem}
         @media(max-width:680px){.waka-filter button{align-self:auto;margin-top:0}}
         .waka-ai-assistant{display:grid;gap:.85rem;margin-bottom:1rem;border:1px solid #cfe5da;border-radius:1rem;padding:1.1rem;background:#f2faf5;box-shadow:0 8px 24px rgba(16,72,51,.04)}.waka-ai-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.waka-ai-heading h2{margin:0;font-size:1.08rem}.waka-ai-heading p{margin:.3rem 0 0;color:var(--waka-muted);font-size:.78rem;line-height:1.45}.waka-ai-readonly{display:inline-flex;white-space:nowrap;border:1px solid #b9dfc8;border-radius:999px;padding:.3rem .55rem;color:var(--waka-green);font-size:.68rem;font-weight:800;background:#fff}.waka-ai-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.65rem;align-items:end}.waka-ai-form label{display:grid;gap:.3rem;color:var(--waka-ink);font-size:.75rem;font-weight:800}.waka-ai-form textarea{width:100%;min-height:3.1rem;resize:vertical;padding:.65rem .75rem;border:1px solid #b9d8c6;border-radius:.65rem;background:#fff;color:var(--waka-ink);font:inherit;line-height:1.4}.waka-ai-form textarea:focus-visible{outline:3px solid #b9e7cf;outline-offset:2px}.waka-ai-submit{align-self:end;min-height:2.5rem;padding:0 1rem;border:0;border-radius:.65rem;background:var(--waka-green);color:#fff;font:inherit;font-weight:800;cursor:pointer}.waka-ai-submit:hover,.waka-ai-submit:focus-visible{background:var(--waka-deep)}.waka-ai-submit:focus-visible{outline:3px solid #b9e7cf;outline-offset:2px}.waka-ai-submit:disabled{cursor:wait;opacity:.7}.waka-ai-feedback{display:grid;gap:.45rem}.waka-ai-answer,.waka-ai-warning,.waka-ai-error{border-radius:.65rem;padding:.7rem .8rem;font-size:.78rem;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.waka-ai-answer{border:1px solid #cfe5da;background:#fff;color:var(--waka-ink)}.waka-ai-warning{border:1px solid #f0d9a8;background:#fffaf0;color:#76520b}.waka-ai-error{border:1px solid #e8c4c4;background:#fff7f7;color:#8a3030}.waka-ai-status{color:var(--waka-muted);font-size:.72rem}.waka-ai-status[hidden],.waka-ai-answer[hidden],.waka-ai-warning[hidden],.waka-ai-error[hidden]{display:none}@media(max-width:680px){.waka-ai-heading{flex-direction:column;gap:.55rem}.waka-ai-form{grid-template-columns:1fr}.waka-ai-submit{width:100%}}
+        .wali-home{display:grid;gap:1rem;margin-bottom:1.15rem}.wali-identity{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;border:1px solid #c9e3d5;border-radius:1rem;padding:1rem 1.1rem;background:#fff}.wali-identity h2{margin:.15rem 0 .25rem;font-size:1.35rem;letter-spacing:-.035em}.wali-identity p{margin:0;color:var(--waka-muted);font-size:.78rem}.wali-identity-count{text-align:right;min-width:7rem}.wali-identity-count strong{display:block;color:var(--waka-green);font-size:1.65rem}.wali-identity-count span{color:var(--waka-muted);font-size:.72rem}.wali-urgent{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}.wali-urgent-item{border:1px solid #ecd8ab;border-radius:.8rem;padding:.8rem;background:#fffaf0}.wali-urgent-item strong{display:block;font-size:1.45rem;color:#8a5a00}.wali-urgent-item span{font-size:.75rem;color:#705b32}.wali-operational-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(15rem,.34fr);gap:1rem}.wali-today,.wali-next{margin:0}.wali-today-progress{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}.wali-today-progress strong{font-size:1.05rem;color:var(--waka-green)}.wali-work-list{display:grid;gap:.65rem}.wali-work-item{display:grid;grid-template-columns:minmax(9rem,.3fr) minmax(0,1fr) auto;gap:.8rem;align-items:center;border:1px solid #dceae2;border-radius:.8rem;padding:.85rem;background:#fbfefc}.wali-work-item[data-state="DUE_INCOMPLETE"],.wali-work-item[data-state="DUE_NOT_STARTED"]{border-color:#e8cc91;background:#fffaf2}.wali-work-time strong,.wali-work-main strong{display:block}.wali-work-time span,.wali-work-main span,.wali-work-metrics{display:block;color:var(--waka-muted);font-size:.72rem;line-height:1.45}.wali-work-main .waka-session-status{margin-top:.35rem}.wali-work-action{display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;border:1px solid #9bcbb2;border-radius:.65rem;padding:.5rem .7rem;background:var(--waka-soft);color:var(--waka-green);text-decoration:none;font-size:.76rem;font-weight:900;text-align:center}.wali-work-action:focus-visible{outline:3px solid #b9e7cf;outline-offset:2px}.wali-next-detail{display:grid;gap:.35rem}.wali-next-detail strong{font-size:1.05rem}.wali-next-detail span{color:var(--waka-muted);font-size:.76rem;line-height:1.45}.wali-next-detail .wali-work-action{margin-top:.45rem}.wali-empty{border:1px dashed #cbd9d1;border-radius:.8rem;padding:1rem;background:#f7faf8;color:var(--waka-muted);font-size:.78rem;line-height:1.45}.wali-empty strong{display:block;color:var(--waka-ink);margin-bottom:.25rem}.wali-analytics-label{margin:.2rem 0 -.45rem;color:var(--waka-muted);font-size:.7rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+        @media(max-width:900px){.wali-operational-grid{grid-template-columns:1fr}.wali-urgent{grid-template-columns:repeat(3,minmax(0,1fr))}}
+        @media(max-width:680px){.wali-identity{display:grid}.wali-identity-count{text-align:left}.wali-urgent{grid-template-columns:1fr}.wali-work-item{grid-template-columns:1fr}.wali-work-action{width:100%}}
     </style>
 </head>
 <body>
@@ -88,6 +91,56 @@
             <div><p class="waka-kicker">Akademik</p><h1 class="waka-title">Dashboard {{ $roleLabel }}</h1></div>
             <div class="waka-period-context" aria-label="Periode aktif"><strong>{{ $periodContextTitle }}</strong><span>{{ $periodContextMode }}</span></div>
         </header>
+        @if ($dashboard['role'] === 'WALI_KELAS')
+            @php
+                $waliHome = $dashboard['wali_operational'];
+                $waliClass = $waliHome['class'];
+                $todayWork = $waliHome['today_sessions'];
+                $todayProgress = $waliHome['today_completion'];
+                $nextSession = $waliHome['next_session'];
+            @endphp
+            <div class="wali-home" aria-label="Beranda operasional Wali Kelas">
+                @if (! $waliHome['has_assignment'])
+                    <section class="wali-empty" role="status"><strong>Penugasan Wali Kelas belum tersedia</strong>Akun Anda belum memiliki kelas binaan aktif pada periode ini. Hubungi Waka Akademik untuk memeriksa penugasan.</section>
+                @else
+                    <section class="wali-identity" aria-labelledby="wali-class-title">
+                        <div><p class="waka-kicker">Wali Kelas</p><h2 id="wali-class-title">@uiLabel($waliClass->display_name)</h2><p>{{ $waliClass->gradeLevel?->display_name ?? 'Tingkat belum tersedia' }} · Bagian {{ $waliClass->section_code ?: '—' }} · {{ $waliClass->academicYear?->display_name ?? 'Tahun ajaran belum tersedia' }}{{ $waliHome['semester'] ? ' · '.$waliHome['semester']->display_name : '' }}</p></div>
+                        <div class="wali-identity-count"><strong>{{ $waliHome['active_student_count'] }}</strong><span>santri aktif</span></div>
+                    </section>
+                    <section aria-labelledby="wali-urgent-title"><div class="waka-card-heading"><div><h2 id="wali-urgent-title">Perlu Ditangani</h2><p>Ringkasan pekerjaan kelas yang membutuhkan perhatian hari ini.</p></div></div><div class="wali-urgent">
+                        <div class="wali-urgent-item"><strong>{{ $waliHome['urgent']['due_incomplete'] }}</strong><span>sesi belum lengkap</span></div>
+                        <div class="wali-urgent-item"><strong>{{ $waliHome['urgent']['due_not_started'] }}</strong><span>sesi belum dimulai pengisiannya</span></div>
+                        <div class="wali-urgent-item"><strong>{{ $waliHome['urgent']['teacher_attendance_missing'] }}</strong><span>kehadiran guru belum dicatat</span></div>
+                    </div></section>
+                    <div class="wali-operational-grid">
+                        <section class="waka-card wali-today" id="sesi-hari-ini" aria-labelledby="wali-today-title">
+                            <div class="waka-card-heading"><div><h2 id="wali-today-title">Sesi Hari Ini</h2><p>Semua sesi kelas binaan hari ini, diurutkan berdasarkan urgensi.</p></div><div class="wali-today-progress">@if ($todayProgress['due'] > 0)<strong>{{ $todayProgress['finalized'] }}/{{ $todayProgress['due'] }}</strong><span>jatuh tempo selesai</span>@else<span class="waka-link neutral">Belum ada sesi jatuh tempo</span>@endif</div></div>
+                            @if ($todayWork->isEmpty())
+                                <div class="wali-empty" role="status"><strong>Tidak ada sesi hari ini</strong>Belum ada sesi terjadwal untuk kelas binaan pada hari ini.</div>
+                            @else
+                                <div class="wali-work-list" role="list">
+                                    @foreach ($todayWork as $work)
+                                        <article class="wali-work-item" role="listitem" data-state="{{ $work['state'] }}">
+                                            <div class="wali-work-time"><strong>{{ $work['session']->planned_start_at->format('H:i') }}–{{ $work['session']->planned_end_at->format('H:i') }}</strong><span>{{ $weekdayNames[$work['session']->planned_start_at->format('l')] ?? $work['session']->planned_start_at->format('l') }}, {{ $work['session']->planned_start_at->format('d/m/Y') }}</span><span>@uiLabel($work['class_label'])</span></div>
+                                            <div class="wali-work-main"><strong>@uiLabel($work['subject_label'])</strong><span>Guru: @uiLabel($work['teacher_label'])</span><span class="waka-session-status">{{ $work['status_label'] }}</span><span class="wali-work-metrics">Santri {{ $work['resolved'] }}/{{ $work['eligible'] }} terselesaikan · {{ $work['missing'] }} belum diisi · {{ $work['completion_rate'] !== null ? $work['completion_rate'].'%' : 'denominator belum tersedia' }}</span><span class="wali-work-metrics">Kehadiran guru: {{ $work['teacher_attendance_label'] }}</span></div>
+                                            <a class="wali-work-action" href="{{ route('academic.attendance.show', $work['session']) }}">{{ $work['action_label'] }} <span aria-hidden="true">→</span></a>
+                                        </article>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </section>
+                        <section class="waka-card wali-next" aria-labelledby="wali-next-title"><div class="waka-card-heading"><div><h2 id="wali-next-title">Sesi Berikutnya</h2><p>Jadwal terdekat kelas binaan.</p></div></div>
+                            @if ($nextSession)
+                                <div class="wali-next-detail"><strong>@uiLabel($nextSession['subject_label'])</strong><span>{{ $weekdayNames[$nextSession['session']->planned_start_at->format('l')] ?? $nextSession['session']->planned_start_at->format('l') }}, {{ $nextSession['session']->planned_start_at->format('d/m/Y') }} · {{ $nextSession['session']->planned_start_at->format('H:i') }}–{{ $nextSession['session']->planned_end_at->format('H:i') }}</span><span>Guru: @uiLabel($nextSession['teacher_label'])</span><span>{{ $nextSession['status_label'] }}</span><a class="wali-work-action" href="{{ route('academic.attendance.show', $nextSession['session']) }}">Lihat Sesi <span aria-hidden="true">→</span></a></div>
+                            @else
+                                <div class="wali-empty"><strong>Belum ada sesi berikutnya</strong>Tidak ada jadwal mendatang yang tersedia untuk kelas binaan.</div>
+                            @endif
+                        </section>
+                    </div>
+                    <p class="wali-analytics-label">Ringkasan dan analitik kelas</p>
+                @endif
+            </div>
+        @endif
         <form class="waka-filter" method="GET" action="{{ route('academic.dashboard') }}">
             <div class="waka-filter-heading"><strong>Periode</strong><small>Pilih bulan penuh atau rentang tanggal manual.</small></div>
             <label>Bulan<select name="month" title="Jika dipilih, periode bulan mengabaikan tanggal manual" aria-describedby="month-filter-help"><option value="">Pilih bulan</option>@foreach ($months as $availableMonth)<option value="{{ $availableMonth->format('Y-m') }}" @selected(($month ?? null) === $availableMonth->format('Y-m'))>{{ $monthLongNames[$availableMonth->format('m')] ?? $availableMonth->format('F') }} {{ $availableMonth->format('Y') }}</option>@endforeach</select><small id="month-filter-help" class="waka-filter-help">Pilih bulan untuk memakai satu bulan penuh; kosongkan untuk rentang tanggal manual.</small></label>
@@ -155,7 +208,7 @@
                         }
                         $attendanceFilterLabels = ['all' => 'Semua', 'empty' => 'Belum diisi', 'incomplete' => 'Belum lengkap', 'finalized' => 'Sudah disahkan'];
                     @endphp
-                    <section class="waka-card" id="pengisian-kehadiran"><div class="waka-card-heading"><div><h2>Pengisian Kehadiran</h2><p>Pilih sesi untuk mengisi kehadiran santri.</p></div><span class="waka-link">{{ $attendanceSessions->count() }} sesi</span></div>
+                    <section class="waka-card" id="pengisian-kehadiran"><div class="waka-card-heading"><div><h2>Riwayat Sesi Periode</h2><p>Daftar ringkas sesi terdahulu dan mendatang pada periode terpilih.</p></div><span class="waka-link">{{ $attendanceSessions->count() }} sesi</span></div>
                         <div class="waka-session-filters" aria-label="Filter status pengisian"><span>Status:</span>@foreach ($attendanceFilterLabels as $filter => $label)<a class="waka-link {{ $attendanceFilter === $filter ? 'active' : '' }}" href="{{ request()->fullUrlWithQuery(['attendance_filter' => $filter]) }}">{{ $label }} ({{ $attendanceSessionCounts[$filter] }})</a>@endforeach</div>
                         @if ($attendanceSessions->isEmpty())
                             <div class="waka-unavailable"><strong>Belum ada sesi</strong>Belum ada sesi dalam periode yang dipilih.</div>
@@ -207,7 +260,7 @@
                 </section>
             </div>
             <aside class="waka-rail">
-                <section class="waka-card"><div class="waka-card-heading"><div><h2>Aksi Cepat</h2><p>Jalur kerja akademik yang tersedia.</p></div></div><div class="waka-quick-actions">@if ($dashboard['role'] !== 'WALI_KELAS')<a class="waka-quick-action primary" href="{{ route('academic.attendance.exceptions') }}"><span>Kontrol kehadiran</span><span aria-hidden="true">→</span></a>@endif<a class="waka-quick-action" href="{{ route('academic.monthly-reports.index') }}"><span>Laporan bulanan</span><span aria-hidden="true">→</span></a><a class="waka-quick-action" href="{{ route('academic.dashboard.export', request()->filled('month') ? request()->only(['month', 'semester_id']) : request()->only(['from', 'to', 'semester_id'])) }}"><span>Unduh rekap CSV</span><span aria-hidden="true">↓</span></a></div></section>
+                <section class="waka-card"><div class="waka-card-heading"><div><h2>Aksi Cepat</h2><p>Jalur kerja akademik yang tersedia.</p></div></div><div class="waka-quick-actions">@if ($dashboard['role'] === 'WALI_KELAS')<a class="waka-quick-action primary" href="#sesi-hari-ini"><span>Lihat sesi hari ini</span><span aria-hidden="true">↓</span></a>@else<a class="waka-quick-action primary" href="{{ route('academic.attendance.exceptions') }}"><span>Kontrol kehadiran</span><span aria-hidden="true">→</span></a>@endif<a class="waka-quick-action" href="{{ route('academic.monthly-reports.index') }}"><span>Laporan bulanan</span><span aria-hidden="true">→</span></a><a class="waka-quick-action" href="{{ route('academic.dashboard.export', request()->filled('month') ? request()->only(['month', 'semester_id']) : request()->only(['from', 'to', 'semester_id'])) }}"><span>Unduh rekap CSV</span><span aria-hidden="true">↓</span></a></div></section>
             </aside>
         </div>
     </main>
