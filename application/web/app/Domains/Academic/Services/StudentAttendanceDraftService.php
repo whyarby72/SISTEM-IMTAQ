@@ -3,10 +3,10 @@
 namespace App\Domains\Academic\Services;
 
 use App\Domains\Academic\Models\AttendancePeriodLock;
+use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentAttendance;
-use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -18,7 +18,6 @@ class StudentAttendanceDraftService
     public function __construct(
         private readonly AuditLogger $auditLogger,
         private readonly SessionParticipantSnapshotter $snapshotter,
-        private readonly AcademicAuthorizationService $authorization,
     ) {}
 
     public function save(
@@ -28,6 +27,7 @@ class StudentAttendanceDraftService
         int $actorUserId,
         array $attributes = [],
         bool $canManageAllClasses = false,
+        bool $scopeAuthorized = false,
     ): StudentAttendance {
         if ((string) $participant->class_session_id !== (string) $session->id) {
             throw new InvalidArgumentException('Student participant does not belong to the session.');
@@ -41,7 +41,16 @@ class StudentAttendanceDraftService
             throw new InvalidArgumentException('Only planned or confirmed sessions can accept attendance drafts.');
         }
 
-        if (! $canManageAllClasses && ! $this->authorization->isEffectiveWaliForSession(User::query()->findOrFail($actorUserId), $session)) {
+        $date = $session->planned_start_at->toDateString();
+        $isHomeroom = ClassHomeroomAssignment::query()
+            ->where('class_id', $session->class_id)
+            ->where('staff_id', $inputter->id)
+            ->where('status', 'ACTIVE')
+            ->whereDate('effective_from', '<=', $date)
+            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
+            ->exists();
+
+        if (! $isHomeroom && ! $canManageAllClasses && ! $scopeAuthorized) {
             throw new AuthorizationException('Only the effective Wali Kelas may save student attendance drafts.');
         }
 

@@ -428,10 +428,10 @@ class StudentAttendanceController
                 abort_unless($canManageAllClasses || in_array((string) $participantId, array_map('strval', $attendanceScope['authorized_participant_ids']), true), 403);
                 $participant = $session->studentParticipants()->whereKey($participantId)->firstOrFail();
                 if ($participant->attendance()->exists() || $this->hasMeaningfulInput($attributes['attendance_status'] ?? null) || $this->hasMeaningfulInput($attributes['notes'] ?? null)) {
-                    $draftService->save($session, $participant, $staff, $user->id, $attributes, $canManageAllClasses);
+                    $draftService->save($session, $participant, $staff, $user->id, $attributes, $canManageAllClasses, $attendanceScope['mode'] === 'WALI_CLASS_PARTITION');
                 }
                 if ($participant->groomingNote()->exists() || $this->hasMeaningfulInput($attributes['discipline_code'] ?? null) || $this->hasMeaningfulInput($attributes['grooming_note'] ?? null)) {
-                    $groomingNoteService->save($session, $participant, $staff, $user->id, $attributes['discipline_code'] ?? null, $attributes['grooming_note'] ?? null, $canManageAllClasses);
+                    $groomingNoteService->save($session, $participant, $staff, $user->id, $attributes['discipline_code'] ?? null, $attributes['grooming_note'] ?? null, $canManageAllClasses, $attendanceScope['mode'] === 'WALI_CLASS_PARTITION');
                 }
             }
         } catch (InvalidArgumentException $exception) {
