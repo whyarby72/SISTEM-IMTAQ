@@ -324,7 +324,7 @@ class AttendanceExceptionUiTest extends TestCase
         $role = Role::create(['code' => $roleCode, 'name' => $roleCode === 'WAKA_AKADEMIK' ? 'Waka Akademik' : 'Guru']);
         UserRoleAssignment::create(['user_id' => $user->id, 'role_id' => $role->id, 'effective_from' => '2026-07-01']);
         $assignment = TeachingAssignment::create(['assignment_code' => 'TA-AEX', 'semester_id' => $semester->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
-        $session = ClassSession::create(['session_code' => 'SESSION-AEX', 'teaching_assignment_id' => $assignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => '2026-07-06 08:00:00+07:00', 'planned_end_at' => '2026-07-06 09:30:00+07:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
+        $session = ClassSession::create(['session_code' => 'SESSION-AEX', 'teaching_assignment_id' => $assignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => '2026-07-06 01:00:00+00:00', 'planned_end_at' => '2026-07-06 02:30:00+00:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
         SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => Student::create(['student_code' => 'STU-AEX', 'full_name' => 'Exception Student'])->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
 
         return [$session, $user];
