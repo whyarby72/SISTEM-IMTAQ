@@ -59,7 +59,7 @@ class UserAccessManagementTest extends TestCase
         $this->assertSame(0, $wali->fresh()->permissions()->whereIn('code', [
             'academic.domain.manage', 'platform.institution.manage', 'platform.user.manage',
         ])->count());
-        $this->assertSame(13, Feature::count());
+        $this->assertSame(14, Feature::count());
         $this->assertSame(3, $superAdmin->fresh()->permissions()->whereIn('code', [
             'academic.domain.manage', 'platform.institution.manage', 'platform.user.manage',
         ])->get()->unique('id')->count());

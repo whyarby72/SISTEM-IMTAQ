@@ -34,6 +34,7 @@ class UserAccessFeatureSeeder extends Seeder
             ['code' => 'academic.attendance', 'name' => 'Kontrol Kehadiran', 'module' => 'Academic', 'required_permission' => null],
             ['code' => 'academic.attendance_review', 'name' => 'Hasil dan Koreksi', 'module' => 'Academic', 'required_permission' => null],
             ['code' => 'academic.reports', 'name' => 'Laporan Akademik', 'module' => 'Academic', 'required_permission' => null],
+            ['code' => 'academic.grades', 'name' => 'Nilai Semester', 'module' => 'Academic', 'required_permission' => null],
             ['code' => 'academic.students', 'name' => 'Santri', 'module' => 'Academic', 'required_permission' => 'academic.domain.manage'],
             ['code' => 'academic.classes', 'name' => 'Kelas', 'module' => 'Academic', 'required_permission' => 'academic.domain.manage'],
             ['code' => 'academic.structure', 'name' => 'Struktur', 'module' => 'Academic', 'required_permission' => 'academic.domain.manage'],

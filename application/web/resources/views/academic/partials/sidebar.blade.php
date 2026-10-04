@@ -1,6 +1,7 @@
 @php
     $authUser = auth()->user();
     $resolver = app(\App\Shared\Platform\Authorization\Services\FeatureAccessResolver::class);
+    $gradeAuthorization = app(\App\Domains\Academic\Services\SemesterGradeAuthorizationService::class);
     $roleCode = $roleCodeOverride ?? $authUser?->roles?->pluck('code')->first();
     $roleLabels = ['SUPER_ADMIN' => 'Super Admin', 'WAKA_AKADEMIK' => 'Waka Akademik', 'WALI_KELAS' => 'Wali Kelas'];
     $roleLabel = $roleLabels[$roleCode] ?? $authUser?->roles?->pluck('name')->first() ?? 'Pengguna akademik';
@@ -17,6 +18,7 @@
     $sidebarPreference = $authUser?->preferences?->firstWhere('preference_key', 'sidebar_compact');
     $sidebarPreferenceValue = $sidebarPreference?->preference_value;
     $sidebarCompact = (bool) (is_array($sidebarPreferenceValue) ? ($sidebarPreferenceValue['value'] ?? false) : false);
+    $gradeAvailable = $authUser && ($gradeResolver = $resolver->resolve($authUser, 'academic.grades'))['feature'] !== null && $gradeResolver['effective_enabled'] && $gradeAuthorization->hasAnyViewScope($authUser);
 @endphp
 <style>
     .waka-sidebar.is-compact:hover,.waka-sidebar.is-compact:focus-within{width:4.4rem;padding-left:.55rem;padding-right:.55rem;box-shadow:none}
@@ -37,6 +39,7 @@
         @if ($roleCode !== 'WALI_KELAS' && $allowed('academic.schedules'))<a class="{{ $activeMenu === 'schedules' ? 'active' : '' }}" href="{{ route('admin.academic.schedules.index') }}" aria-label="Jadwal" title="Jadwal"><span class="nav-icon" aria-hidden="true">▦</span><span>Jadwal</span></a>@endif
         @if ($roleCode !== 'WALI_KELAS' && $allowed('academic.subjects'))<a class="{{ $activeMenu === 'subjects' ? 'active' : '' }}" href="{{ route('admin.academic.subjects.index') }}" aria-label="Mata Pelajaran" title="Mata Pelajaran"><span class="nav-icon" aria-hidden="true">◇</span><span>Mata Pelajaran</span></a>@endif
         @if ($roleCode !== 'WALI_KELAS' && $allowed('academic.staff'))<a class="{{ $activeMenu === 'staff' ? 'active' : '' }}" href="{{ route('admin.academic.staff.index') }}" aria-label="Guru dan Staf" title="Guru dan Staf"><span class="nav-icon" aria-hidden="true">♙</span><span>Guru/Staf</span></a>@endif
+        @if ($gradeAvailable)<a class="{{ $activeMenu === 'grades' ? 'active' : '' }}" href="{{ route('academic.grades.index') }}" aria-label="Nilai Semester" title="Nilai Semester" @if ($activeMenu === 'grades') aria-current="page" @endif><span class="nav-icon" aria-hidden="true">▤</span><span>Nilai Semester</span></a>@endif
         @if ($roleCode === 'SUPER_ADMIN' && $allowed('platform.user_access'))<a class="{{ $activeMenu === 'users' ? 'active' : '' }}" href="{{ route('admin.system.users.index') }}" aria-label="User dan Akses" title="User dan Akses"><span class="nav-icon" aria-hidden="true">♙</span><span>User &amp; Akses</span></a>@endif
         @if ($roleCode === 'SUPER_ADMIN' && $allowed('platform.system_settings'))<a class="{{ $activeMenu === 'settings' ? 'active' : '' }}" href="{{ route('admin.system.ai-provider.index') }}" aria-label="Pengaturan Sistem" title="Pengaturan Sistem"><span class="nav-icon" aria-hidden="true">⚙</span><span>Pengaturan Sistem</span></a>@endif
         @if ($allowed('academic.reports'))<a class="{{ $activeMenu === 'reports' ? 'active' : '' }}" href="{{ route('academic.monthly-reports.index') }}" aria-label="Laporan Juli 2026" title="Laporan Juli 2026"><span class="nav-icon" aria-hidden="true">▤</span><span>Laporan Juli 2026</span></a>@endif

@@ -4,6 +4,7 @@ use App\Http\Controllers\Academic\AcademicAiController;
 use App\Http\Controllers\Academic\AcademicDashboardController;
 use App\Http\Controllers\Academic\AttendanceExceptionController;
 use App\Http\Controllers\Academic\StudentAttendanceController;
+use App\Http\Controllers\Academic\SemesterGradeController;
 use App\Http\Controllers\Admin\AcademicClassController;
 use App\Http\Controllers\Admin\AcademicStructureController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -64,6 +65,7 @@ Route::middleware(['auth', 'active.account'])->prefix('academic')->name('academi
     Route::get('/monthly-reports/july-2026/{class}.csv', [MonthlyAttendanceReportController::class, 'detailCsv'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail.csv');
     Route::get('/monthly-reports/july-2026/{class}.pdf', [MonthlyAttendanceReportController::class, 'detailPdf'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail.pdf');
     Route::get('/monthly-reports/july-2026/{class}', [MonthlyAttendanceReportController::class, 'detail'])->middleware('feature:academic.reports')->whereUuid('class')->name('monthly-reports.detail');
+    Route::get('/grades', [SemesterGradeController::class, 'index'])->middleware('grade.feature')->name('grades.index');
 });
 
 Route::middleware(['auth', 'active.account'])->prefix('admin/academic')->name('admin.academic.')->group(function (): void {
