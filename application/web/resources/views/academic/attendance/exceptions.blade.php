@@ -24,13 +24,15 @@
 </style>
 </head>
 <body>
-@php($weekdayNames = ['Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'])
-@php($totalExceptions = $exceptions->count())
-@php($missingRosterSessions = $exceptions->filter(fn (array $item): bool => $item['finding']['no_participants'] ?? false)->count())
-@php($missingAttendanceSessions = $exceptions->filter(fn (array $item): bool => ($item['finding']['missing_attendance_participant_ids'] ?? []) !== [])->count())
-@php($unresolvedAttendanceSessions = $exceptions->filter(fn (array $item): bool => ($item['finding']['unresolved_attendance_participant_ids'] ?? []) !== [])->count())
-@php($bulkActionOpen = ($filters['from'] ?? null) && ($filters['to'] ?? null) || $errors->any() || old('class_id') !== null || old('from') !== null || old('to') !== null || old('reason') !== null)
-@php($monthNames = [1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'])
+@php
+    $weekdayNames = ['Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'];
+    $totalExceptions = $exceptions->count();
+    $missingRosterSessions = $exceptions->filter(fn (array $item): bool => $item['finding']['no_participants'] ?? false)->count();
+    $missingAttendanceSessions = $exceptions->filter(fn (array $item): bool => ($item['finding']['missing_attendance_participant_ids'] ?? []) !== [])->count();
+    $unresolvedAttendanceSessions = $exceptions->filter(fn (array $item): bool => ($item['finding']['unresolved_attendance_participant_ids'] ?? []) !== [])->count();
+    $bulkActionOpen = ($filters['from'] ?? null) && ($filters['to'] ?? null) || $errors->any() || old('class_id') !== null || old('from') !== null || old('to') !== null || old('reason') !== null;
+    $monthNames = [1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'];
+@endphp
 <div class="waka-shell">@include('academic.partials.sidebar', ['activeMenu' => 'attendance'])<main class="waka-content"><header class="exception-hero"><div><p class="eyebrow">Kontrol kualitas data</p><h1>Perlu Perhatian Kehadiran</h1><p class="muted">Sesi dengan roster atau data kehadiran yang masih perlu dituntaskan.</p></div><div class="exception-hero-count" data-exception-summary="total" data-count="{{ $totalExceptions }}"><strong>{{ $totalExceptions }}</strong><span>Perlu perhatian</span></div></header>
     @if (session('status'))
         <div class="exception-feedback" role="status" aria-live="polite"><span aria-hidden="true">✓</span><div>{{ session('status') }}</div></div>
@@ -91,7 +93,9 @@
         @if ($exceptions->isEmpty())
             <div style="text-align:center;padding:1.5rem .75rem"><div style="display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:99px;background:#e7f4ec;color:#176b4d;font-size:1.35rem;font-weight:800">✓</div><p class="empty" style="font-weight:800;margin:.7rem 0 .25rem">Semua data kehadiran rapi</p><p class="muted" style="margin:0">Tidak ada sesi yang perlu diperiksa saat ini.</p></div>
         @else
-            @php($rosterItems = $exceptions->filter(fn (array $item): bool => $item['finding']['no_participants'] ?? false))
+            @php
+                $rosterItems = $exceptions->filter(fn (array $item): bool => $item['finding']['no_participants'] ?? false);
+            @endphp
             @if ($rosterItems->isNotEmpty())
                 <form class="bulk-cancel-submit bulk-roster-submit" method="POST" action="{{ route('academic.attendance.exceptions.bulk-snapshot') }}" onsubmit="return window.confirm('Buat roster untuk {{ $rosterItems->count() }} sesi kosong?')">
                     @csrf
@@ -105,11 +109,15 @@
                     <thead><tr><th>Sesi</th><th>Waktu</th><th>Temuan</th><th>Aksi</th></tr></thead>
                     <tbody>
                     @foreach ($exceptions as $item)
-                        @php($session = $item['session'])
-                        @php($finding = $item['finding'])
+                        @php
+                            $session = $item['session'];
+                            $finding = $item['finding'];
+                        @endphp
                         <tr>
-                            @php($scopeClasses = $session->scopeGroups->pluck('academicClass')->filter()->sortBy('display_name')->values())
-                            @php($scopeLabel = $scopeClasses->count() > 1 ? $scopeClasses->pluck('display_name')->implode(' + ') : ($scopeClasses->first()?->display_name ?? $session->academicClass?->display_name ?? 'Kelas'))
+                            @php
+                                $scopeClasses = $session->scopeGroups->pluck('academicClass')->filter()->sortBy('display_name')->values();
+                                $scopeLabel = $scopeClasses->count() > 1 ? $scopeClasses->pluck('display_name')->implode(' + ') : ($scopeClasses->first()?->display_name ?? $session->academicClass?->display_name ?? 'Kelas');
+                            @endphp
                             <td data-label="Sesi"><strong>{{ $scopeLabel }}</strong>@if ($scopeClasses->count() > 1)<br><small class="exception-joint-label">Kelas gabungan</small>@endif<br><span class="muted">{{ ['PLANNED' => 'Dijadwalkan', 'CONFIRMED' => 'Dikonfirmasi', 'COMPLETED' => 'Selesai', 'CANCELLED' => 'Dibatalkan'][$session->session_status] ?? $session->session_status }}</span></td>
                             @php
                                 $sessionStart = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($session->planned_start_at);
