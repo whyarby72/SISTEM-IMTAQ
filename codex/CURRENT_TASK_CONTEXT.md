@@ -1,5 +1,24 @@
 # CURRENT TASK CONTEXT
 
+## Current G2 implementation — 2026-10-04
+
+**Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING`
+**State:** `COMPLETED / PASS / GRADE_G2_IMPLEMENTED_PASS`
+**Branch / tested executable HEAD:** `feat/super-admin-user-access-preferences` / `b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88`
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G2-2026-10-04.md`
+**Exact CI:** `37200924044` = SUCCESS; 15 passed, 558 warnings, 2359 assertions, 0 failed.
+**PILOT database write:** `NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WEB_GRADE_G2_AUDIT`
+
+G2 implements exact-teacher, atomic DRAFT batch entry with server-owned
+provenance, optimistic concurrency, missing/zero and no-op semantics, domain
+state hardening, audit-safe writes, and an authorized editable UI. No G3
+CHECK/LOCK/correction work has started. Academic Web remains `4/10 = 40%`;
+Public Academic AI remains OFF, `IMP-S12-007` remains `NOT_STARTED`, and
+`SOC-MD-06` is unchanged.
+
+**REQUIRED NOW:** return to ChatGPT for G2 audit. Do not start G3.
+
 ## Current G1 implementation — 2026-10-04
 
 **Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`

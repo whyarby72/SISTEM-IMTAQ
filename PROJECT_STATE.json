@@ -1,25 +1,25 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "8800c5c6a234e3f11c5eddcfdd9be34ce99cf1cc",
+  "repo_commit": "b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE",
+  "current_task_id": "ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "AWG1-01",
-    "AWG1-02",
-    "AWG1-03",
-    "AWG1-04",
-    "AWG1-05",
-    "AWG1-06",
-    "AWG1-07",
-    "AWG1-08",
-    "AWG1-09",
-    "AWG1-10"
+    "AWG2-01",
+    "AWG2-02",
+    "AWG2-03",
+    "AWG2-04",
+    "AWG2-05",
+    "AWG2-06",
+    "AWG2-07",
+    "AWG2-08",
+    "AWG2-09",
+    "AWG2-10"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -94,10 +94,13 @@
     "codex/DECISIONS/ACADEMIC-WEB-GRADE-WORKFLOW-D1-DECISIONS-2026-10-04.md",
     "codex/TASK_CONTEXTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE.md",
     "codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-2026-10-04.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37194977772"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37194977772",
+    "codex/TASK_CONTEXTS/ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING.md",
+    "codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G2-2026-10-04.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37200924044"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37194977772 / HEAD_8800c5c6a234e3f11c5eddcfdd9be34ce99cf1cc",
+    "exact_current_ci": "PASS / RUN_37200924044 / HEAD_b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",
@@ -149,6 +152,7 @@
     "academic_web_grade_workflow_surface_design": "COMPLETED / DESIGN_ONLY / GRADE_WORKFLOW_READY_FOR_IMPLEMENTATION / 4_OF_10_COMPLETE_EVIDENCED",
     "academic_web_grade_workflow_decision_ratification_d1": "COMPLETED / DESIGN_GOVERNANCE_RATIFICATION / READY_FOR_IMPLEMENTATION / ENTRY_STATE_HARDENING_REQUIRED_G2"
     ,"academic_web_grade_workflow_g1_authorization_read_surface": "COMPLETED / PASS / GRADE_G1_IMPLEMENTED_PASS / RUN_37194977772"
+    ,"academic_web_grade_workflow_g2_draft_entry_state_hardening": "COMPLETED / PASS / GRADE_G2_IMPLEMENTED_PASS / RUN_37200924044"
   },
   "blockers": [
     {

@@ -1,5 +1,21 @@
 # NEXT ACTION
 
+## Academic grade workflow G2 closeout — 2026-10-04
+
+**Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING`
+**State:** `COMPLETED / PASS / GRADE_G2_IMPLEMENTED_PASS`
+**Tested executable HEAD:** `b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88`
+**Exact CI:** `37200924044` = SUCCESS
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G2-2026-10-04.md`
+**Database write:** `NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WEB_GRADE_G2_AUDIT`
+
+G2 is complete with DRAFT-only domain hardening, exact teacher authority,
+server-owned provenance, atomic batch persistence, optimistic versioning,
+no-op/missing/zero semantics, and role/state-correct UI. Academic Web remains
+`4/10 = 40% COMPLETE_EVIDENCED`. Do not start G3. Public Academic AI remains
+OFF; `IMP-S12-007` and canonical queue marker `SOC-MD-06` are unchanged.
+
 ## Academic grade workflow G1 closeout — 2026-10-04
 
 **Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`

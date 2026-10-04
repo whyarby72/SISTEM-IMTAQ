@@ -3214,3 +3214,20 @@ Append new entries; do not rewrite prior history without a documented correction
 - No live OpenAI request, real key, provider state mutation, migration, schema change, active-pointer change, runtime toggle, or Public AI activation.
 - Recovery: `recovery/ai-provider-context-p3/AI-PROVIDER-CONTEXT-P3_20260926-150000/`; manifest: `codex/CHANGE_MANIFESTS/AI-PROVIDER-CONTEXT-P3-2026-09-26.md`.
 - P3 closeout: `PASS`; controlled full verification retry readiness `READY`; next atomic task: `RETURN_TO_CHATGPT_FOR_CONTEXT_P3_AUDIT`.
+
+# 2026-10-04 — Academic Web Grade Workflow G2
+
+- Implemented exact assigned-subject-teacher DRAFT entry through one atomic
+  batch service with server-owned assignment/Staff provenance, optimistic
+  concurrency, missing-versus-zero semantics, and no-op suppression.
+- Hardened the canonical entry service so CHECKED/LOCKED normal saves fail
+  closed inside row locking; rejected writes create no audit or version change.
+- Added one POST batch-DRAFT route, editable teacher UI, read-only Wali/Waka and
+  protected-state rendering, plus focused authorization/state/atomicity tests.
+- Local DB execution stopped safely because `.env` targets PILOT `imtaq`.
+  Disposable PostgreSQL CI run `37200924044` passed on executable HEAD
+  `b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88`: 15 passed, 558 warnings,
+  2359 assertions, 0 failed.
+- No migration, PILOT database write/seed, G3 work, AI/provider mutation, or
+  Public Academic AI activation. Decision: `GRADE_G2_IMPLEMENTED_PASS`; next:
+  `RETURN_TO_CHATGPT_FOR_ACADEMIC_WEB_GRADE_G2_AUDIT`.
