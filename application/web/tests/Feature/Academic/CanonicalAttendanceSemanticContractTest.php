@@ -95,10 +95,14 @@ class CanonicalAttendanceSemanticContractTest extends TestCase
 
     public function test_canonical_future_and_start_boundary_states_are_temporally_distinct(): void
     {
+        config([
+            'academic.session_occurrence_enabled' => true,
+            'academic.session_occurrence_cutover_at' => '2026-06-01T00:00:00+07:00',
+        ]);
         $resolver = app(AcademicSessionExecutionStateResolver::class);
-        $plannedStart = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
 
         foreach ([null, 'SCHEDULED'] as $status) {
+            $plannedStart = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
             $session = new ClassSession([
                 'planned_start_at' => $plannedStart->copy()->utc(),
                 'planned_end_at' => $plannedStart->copy()->addHour()->utc(),
@@ -108,7 +112,7 @@ class CanonicalAttendanceSemanticContractTest extends TestCase
             ]));
 
             $before = $resolver->resolve($session, Carbon::parse('2026-10-05 09:59:00', 'Asia/Jakarta'));
-            $atStart = $resolver->resolve($session, $plannedStart);
+            $atStart = $resolver->resolve($session, Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta'));
 
             $this->assertSame('UPCOMING', $before['execution_state'], $status ?? 'NULL');
             $this->assertFalse($before['occurrence_action_required'], $status ?? 'NULL');

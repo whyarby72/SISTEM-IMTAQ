@@ -151,6 +151,7 @@ class StudentAttendanceUiTest extends TestCase
             $waka = User::factory()->create();
             $wakaRole = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka Akademik']);
             UserRoleAssignment::create(['user_id' => $waka->id, 'role_id' => $wakaRole->id, 'effective_from' => '2026-07-01']);
+            UserStaffLink::create(['user_id' => $waka->id, 'staff_id' => $session->teachingAssignment->teacher_staff_id, 'effective_from' => '2026-07-01']);
 
             $this->actingAs($waka)->get(route('academic.attendance.show', $session))
                 ->assertOk()

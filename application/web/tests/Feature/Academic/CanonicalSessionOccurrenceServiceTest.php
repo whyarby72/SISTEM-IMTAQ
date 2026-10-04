@@ -52,6 +52,7 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
 
     public function test_future_held_is_rejected_without_occurrence_or_snapshot_mutation(): void
     {
+        $this->enableCanonicalOccurrence();
         [$session, $actor] = $this->fixtures();
         $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
         $session->update([
@@ -78,6 +79,7 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
 
     public function test_future_partial_held_is_rejected_without_occurrence_or_snapshot_mutation(): void
     {
+        $this->enableCanonicalOccurrence();
         [$session, $actor] = $this->fixtures();
         $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
         $session->update([
@@ -106,6 +108,7 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
 
     public function test_held_and_partial_held_are_allowed_at_or_after_planned_start(): void
     {
+        $this->enableCanonicalOccurrence();
         [$session, $actor] = $this->fixtures();
         $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
         $session->update([
@@ -120,6 +123,7 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
 
             $partialSession = $session->replicate();
             $partialSession->session_code = 'SESSION-OCCURRENCE-PARTIAL-'.str()->uuid();
+            $partialSession->schedule_rule_id = null;
             $partialSession->save();
             $partial = $this->service()->record($partialSession->fresh(), $actor, 'HELD', [
                 'is_partial' => true,
@@ -133,6 +137,7 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
 
     public function test_future_correction_to_held_is_rejected_without_moving_effective_pointer(): void
     {
+        $this->enableCanonicalOccurrence();
         [$session, $actor] = $this->fixtures();
         $start = Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta');
         $session->update([
@@ -357,6 +362,14 @@ class CanonicalSessionOccurrenceServiceTest extends TestCase
     private function service(): CanonicalSessionOccurrenceService
     {
         return app(CanonicalSessionOccurrenceService::class);
+    }
+
+    private function enableCanonicalOccurrence(): void
+    {
+        config([
+            'academic.session_occurrence_enabled' => true,
+            'academic.session_occurrence_cutover_at' => '2026-06-01T00:00:00+07:00',
+        ]);
     }
 
     private function createAttendance(ClassSession $session, User $actor): void
