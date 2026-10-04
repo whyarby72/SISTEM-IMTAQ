@@ -46,7 +46,7 @@
 - Git diff check: PASS.
 - First implementation CI `37211919259` on `2052185c73abeedd391bf2b65fb7af958e0239df`: failed only because the new regression fixture expected an uncreated B attendance row to be `DRAFT`.
 - The fixture was corrected without production changes.
-- Final exact implementation CI `37212105492` on `7ba316397dde0c9de27ab1fd9e23fa1c28124c71`: SUCCESS; 15 passed, 569 warnings, 2418 assertions.
+- Final exact implementation CI `37212105492` on `7ba316397dde0c9de27ab1fd9e23fa1c28124c71`: SUCCESS; 15 passed, 570 warnings, 2421 assertions.
 
 ## Not changed
 

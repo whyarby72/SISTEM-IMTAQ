@@ -365,7 +365,7 @@
         <div class="summary-card summary-card--absent"><span class="summary-accent" aria-hidden="true">×</span><span class="muted">Tidak hadir</span><strong>{{ $summary->get('ABSENT', 0) }}</strong></div>
         <div class="summary-card summary-card--pending @if ($summary->get('PENDING', 0) > 0) summary-card--pending-active @endif"><span class="summary-accent" aria-hidden="true">…</span><span class="muted">Belum diisi</span><strong>{{ $summary->get('PENDING', 0) }}</strong></div>
     </section>
-    <section class="card attendance-card">@if (($readOnly ?? false))<div class="info"><strong>{{ ($partitionFinalized ?? false) ? 'Sudah disahkan untuk kelas Anda.' : 'Hasil sudah disahkan.' }}</strong> {{ ($partitionFinalized ?? false) ? ($session->session_status === 'COMPLETED' ? 'Sesi gabungan telah lengkap untuk seluruh kelas.' : 'Sesi gabungan masih menunggu pengesahan kelas lain.') : 'Halaman ini hanya untuk melihat hasil dan catatan kehadiran.' }}</div>@endif
+    <section class="card attendance-card">@if (($readOnly ?? false))<div class="info"><strong>{{ ($partitionFinalized ?? false) ? 'Sudah disahkan untuk kelas Anda.' : 'Hasil sudah disahkan.' }}</strong> {{ ($partitionFinalized ?? false) ? ($session->session_status === 'COMPLETED' ? 'Sesi gabungan telah lengkap untuk seluruh kelas.' : 'Sesi gabungan masih menunggu pengesahan kelas lain.') : 'Halaman ini hanya untuk melihat hasil dan catatan kehadiran.' }} <a href="{{ route('academic.dashboard') }}">Kembali ke Dashboard Akademik</a></div>@endif
         @if (isset($completeness))<div class="info"><strong>Kelengkapan scope: {{ $completeness['resolved_count'] ?? 0 }}/{{ $completeness['required_count'] ?? 0 }}</strong> terisi tervalidasi · {{ $completeness['missing_count'] ?? 0 }} belum diisi@if (($scopeIsLocked ?? false)) · periode kelas terkunci, pengisian biasa dinonaktifkan@endif</div>@endif
         @if (($readOnly ?? false))
             <div class="button-row" style="margin-top:0">
@@ -458,7 +458,7 @@
             @endforeach
             <fieldset @disabled(($scopeIsLocked ?? false)) style="border:0;padding:0;margin:0;min-width:0">
             <div class="top-attendance-actions">
-                <div class="top-attendance-bulk"><button class="secondary" type="button" id="mark-all-present">Tandai semua hadir</button><span class="muted" id="bulk-action-feedback" role="status" aria-live="polite">Tandai kondisi umum terlebih dahulu, lalu ubah santri yang memiliki catatan khusus.</span></div>
+                <div class="top-attendance-bulk"><button class="secondary" type="button" id="mark-all-present" @disabled(! ($canSaveDraft ?? false))>Tandai semua hadir</button><span class="muted" id="bulk-action-feedback" role="status" aria-live="polite">Tandai kondisi umum terlebih dahulu, lalu ubah santri yang memiliki catatan khusus.</span></div>
                 <div class="top-attendance-utility"><div class="roster-search"><label for="student-search">Cari santri</label><div class="roster-search-control"><span aria-hidden="true">⌕</span><input id="student-search" type="search" data-student-search placeholder="Cari nama santri..." autocomplete="off"></div></div><button class="secondary" type="submit" form="attendance-form" @disabled(! ($canSaveDraft ?? true))>Simpan draf</button><button type="submit" form="attendance-form" formaction="{{ route('academic.attendance.finalize', $session) }}" formmethod="POST" data-finalize-button aria-disabled="{{ ($canFinalize ?? false) && $initialReady ? 'false' : 'true' }}" @disabled(! ($canFinalize ?? false) || ! $initialReady || ! ($canSaveDraft ?? true)) onclick="return validateAttendanceBeforeFinalize(event)">Sahkan kehadiran</button></div>
             </div>
             <p class="muted" style="margin:0 0 .6rem">Pada layar kecil, setiap santri ditampilkan sebagai kartu agar semua isian tetap mudah diakses.</p><div class="table-wrap">
@@ -520,13 +520,14 @@
     });
 
     document.getElementById('mark-all-present')?.addEventListener('click', function () {
-        const selects = document.querySelectorAll('.attendance-status-select');
-        selects.forEach((select) => {
+        const selects = [...document.querySelectorAll('[data-attendance-select]:not(:disabled)')];
+        const blankSelects = selects.filter((select) => !select.value);
+        blankSelects.forEach((select) => {
             select.value = 'PRESENT';
             select.dispatchEvent(new Event('change', { bubbles: true }));
         });
         const feedback = document.getElementById('bulk-action-feedback');
-        if (feedback) feedback.textContent = `${selects.length} santri ditandai Hadir. Anda masih dapat mengubah status tertentu.`;
+        if (feedback) feedback.textContent = 'Status kosong ditandai Hadir. Periksa kembali sebelum menyimpan.';
     });
     const actionBar = document.querySelector('[data-attendance-action-bar]');
     const attendanceSelects = [...document.querySelectorAll('[data-attendance-select]')];
@@ -585,6 +586,22 @@
         window.alert(`Lengkapi status kehadiran ${incomplete} santri terlebih dahulu.`);
         return false;
     }
+
+    const attendanceForm = document.getElementById('attendance-form');
+    let attendanceSubmissionPending = false;
+    attendanceForm?.addEventListener('submit', function (event) {
+        if (attendanceSubmissionPending) {
+            event.preventDefault();
+            return;
+        }
+        attendanceSubmissionPending = true;
+        const submitter = event.submitter;
+        if (!submitter) return;
+        submitter.disabled = true;
+        submitter.setAttribute('aria-disabled', 'true');
+        const isFinalize = (submitter.getAttribute('formaction') || '').includes('/finalize');
+        submitter.textContent = isFinalize ? 'Mengesahkan...' : 'Menyimpan...';
+    });
 </script>
 <script>
     document.querySelectorAll('[data-auto-dismiss]').forEach((toast) => {

@@ -34,6 +34,30 @@ class StudentAttendanceUiTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_bulk_present_is_blank_only_non_submitting_and_double_submit_guarded(): void
+    {
+        $source = file_get_contents(resource_path('views/academic/attendance/show.blade.php'));
+
+        $this->assertStringContainsString('@disabled(! ($canSaveDraft ?? false))>Tandai semua hadir', $source);
+        $this->assertStringContainsString("document.querySelectorAll('[data-attendance-select]:not(:disabled)')", $source);
+        $this->assertStringContainsString('const blankSelects = selects.filter((select) => !select.value);', $source);
+        $this->assertStringContainsString('Status kosong ditandai Hadir. Periksa kembali sebelum menyimpan.', $source);
+        $this->assertStringNotContainsString('form.submit()', $source);
+        $this->assertStringContainsString('let attendanceSubmissionPending = false;', $source);
+        $this->assertStringContainsString("submitter.textContent = isFinalize ? 'Mengesahkan...' : 'Menyimpan...'", $source);
+        $this->assertStringContainsString("submitter.setAttribute('aria-disabled', 'true')", $source);
+    }
+
+    public function test_finalized_attendance_feedback_provides_dashboard_return_and_preserves_stale_recovery(): void
+    {
+        $source = file_get_contents(resource_path('views/academic/attendance/show.blade.php'));
+        $controller = file_get_contents(app_path('Http/Controllers/Academic/StudentAttendanceController.php'));
+
+        $this->assertStringContainsString('Kembali ke Dashboard Akademik', $source);
+        $this->assertStringContainsString('Data kehadiran telah berubah. Muat ulang halaman dan periksa kembali sebelum mengesahkan.', $controller);
+        $this->assertStringNotContainsString('window.location', $source);
+    }
+
     public function test_canonical_occurrence_write_route_is_disabled_by_default(): void
     {
         [$session, , $user] = $this->fixtures();

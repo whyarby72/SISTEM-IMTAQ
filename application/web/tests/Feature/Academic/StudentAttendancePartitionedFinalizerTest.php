@@ -127,7 +127,8 @@ class StudentAttendancePartitionedFinalizerTest extends TestCase
             ->get(route('academic.attendance.show', $fixture['session']))
             ->assertOk()
             ->assertSee('Sudah disahkan untuk kelas Anda.')
-            ->assertSee('Sesi gabungan masih menunggu pengesahan kelas lain.');
+            ->assertSee('Sesi gabungan masih menunggu pengesahan kelas lain.')
+            ->assertSee('Kembali ke Dashboard Akademik');
 
         $dashboard = app(AcademicRoleDashboardService::class)->forUser(
             $fixture['anchorUser'],
