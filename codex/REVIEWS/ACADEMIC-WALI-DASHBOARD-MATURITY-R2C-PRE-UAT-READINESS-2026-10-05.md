@@ -10,7 +10,9 @@ Task: `ACADEMIC-WALI-DASHBOARD-MATURITY-R2C-PRE-UAT-USABILITY-HARDENING`
 - C2 tested executable: `91f6716aa39a51251dfa0755d7735eb04b8c15ba`
 - C2 CI: `37230836045` = SUCCESS; 15 passed, 573 warnings, 2440 assertions,
   0 failed
-- R2C exact CI: pending
+- R2C exact CI: `37235409651` = SUCCESS on
+  `aecded94649f400e558cb1bde9c5082d8784165a`; 15 passed, 575 warnings,
+  2452 assertions, 0 failed
 - PILOT access/write: `NONE / NONE`
 - Public Academic AI: `OFF`
 - Academic Web: `4/10 COMPLETE_EVIDENCED`
@@ -63,7 +65,11 @@ Real-device usability is not claimed and remains a human-UAT responsibility.
 
 ## UAT decision
 
-`PENDING_EXACT_R2C_CI`
+`WALI_ATTENDANCE_READY_FOR_CONTROLLED_HUMAN_UAT`
+
+No remaining source-level security, partition-integrity, or pre-UAT
+usability blocker requires remediation. Device evidence and operational
+behavior must still be observed by a human during the supervised UAT.
 
 The final decision must be exactly one of:
 

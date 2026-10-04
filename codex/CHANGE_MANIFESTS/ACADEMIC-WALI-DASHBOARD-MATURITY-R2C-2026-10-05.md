@@ -62,4 +62,9 @@ Revert the R2C implementation commit(s). No database rollback is required.
 
 ## Decision
 
-Pending exact-head disposable PostgreSQL CI and the fresh R2C readiness review.
+`WALI_ATTENDANCE_READY_FOR_CONTROLLED_HUMAN_UAT`
+
+Exact R2C CI `37235409651` on implementation HEAD
+`aecded94649f400e558cb1bde9c5082d8784165a` passed with 15 tests, 575
+warnings, 2452 assertions, and 0 failures. Human UAT remains a separate
+supervised action and was not run automatically.
