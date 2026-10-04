@@ -23,7 +23,10 @@ class SessionOccurrenceAuthorizationService
             return false;
         }
 
-        if (in_array($action, ['CANCELLED', 'RESCHEDULED'], true) && $this->isJoint($session)) {
+        // Physical-session mutations remain full Academic authority only.
+        // Wali Kelas may record the routine HELD/PARTIAL_HELD observation,
+        // but cannot cancel or reschedule the physical session.
+        if (in_array($action, ['CANCELLED', 'RESCHEDULED'], true)) {
             return false;
         }
 

@@ -316,20 +316,30 @@
     @if (session('status')) <div class="attendance-toast" role="status" aria-live="polite" data-auto-dismiss="5000"><span class="attendance-toast-icon" aria-hidden="true">✓</span><span class="attendance-toast-message">{{ session('status') }}</span><button class="attendance-toast-close" type="button" aria-label="Tutup notifikasi">×</button></div> @endif
     @if ($errors->any()) <div class="error"><ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div> @endif
 
+    @if (($requiresHistoricalAcknowledgement ?? false))
+        <div class="info historical-session-warning" role="alert">
+            <strong>Anda sedang membuka sesi lampau.</strong>
+            Sesi {{ $executionState['business_date'] ?? 'lampau' }} sedang diisi pada {{ $executionState['today_business_date'] ?? 'hari ini' }}. Konfirmasi diperlukan sebelum menyimpan perubahan.
+            <a href="{{ route('academic.dashboard') }}">Kembali ke Dashboard Akademik</a>
+        </div>
+    @endif
+
     @if (($occurrenceFeatureEnabled ?? false) && ($occurrenceCanonicalRegime ?? false))
         <section class="card occurrence-workflow-panel" aria-labelledby="occurrence-heading">
-            <h2 id="occurrence-heading">Kejadian sesi kanonik</h2>
+            <h2 id="occurrence-heading">Pelaksanaan KBM</h2>
             @if ($effectiveOccurrence)
-                <p class="muted">Status kanonik saat ini: <strong>{{ $effectiveOccurrence->occurrence_status }}</strong>. Status legacy sesi tetap ditampilkan terpisah.</p>
+                <p class="muted"><strong>{{ ['SCHEDULED' => 'Belum berlangsung', 'HELD' => ($effectiveOccurrence->is_partial ? 'Berlangsung sebagian' : 'Berlangsung'), 'CANCELLED' => 'Dibatalkan', 'RESCHEDULED' => 'Dijadwal ulang'][$effectiveOccurrence->occurrence_status] ?? 'Belum dicatat' }}</strong>.</p>
             @else
-                <p class="muted">Kejadian kanonik belum dicatat. Status legacy tidak otomatis dianggap sebagai SCHEDULED atau HELD.</p>
+                <p class="muted">Pelaksanaan KBM belum dicatat. Kehadiran santri dan guru belum dapat diisi.</p>
             @endif
             @if (($canManageOccurrence ?? false) && ! ($readOnly ?? false))
                 <div class="button-row">
                     <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="HELD"><button class="button" type="submit">Catat KBM berlangsung</button></form>
                     <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="PARTIAL_HELD"><input name="partial_reason" required maxlength="1000" placeholder="Alasan KBM sebagian"><button class="secondary" type="submit">KBM berlangsung sebagian</button></form>
-                    <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="CANCELLED"><input name="reason" required maxlength="1000" placeholder="Alasan pembatalan"><button class="secondary" type="submit">Batalkan KBM</button></form>
-                    <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="RESCHEDULED"><input type="datetime-local" name="new_start_at" required><input type="datetime-local" name="new_end_at" required><input name="reason" required maxlength="1000" placeholder="Alasan jadwal ulang"><button class="secondary" type="submit">Jadwal ulang</button></form>
+                    @if (($canManageOccurrencePhysical ?? false))
+                        <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="CANCELLED"><input name="reason" required maxlength="1000" placeholder="Alasan pembatalan"><button class="secondary" type="submit">Batalkan KBM</button></form>
+                        <form method="POST" action="{{ route('academic.attendance.occurrence.record', $session) }}">@csrf<input type="hidden" name="action" value="RESCHEDULED"><input type="datetime-local" name="new_start_at" required><input type="datetime-local" name="new_end_at" required><input name="reason" required maxlength="1000" placeholder="Alasan jadwal ulang"><button class="secondary" type="submit">Jadwal ulang</button></form>
+                    @endif
                 </div>
             @endif
             @if (($occurrenceHistory ?? collect())->isNotEmpty())
@@ -370,7 +380,15 @@
         <div class="summary-card summary-card--pending @if ($summary->get('PENDING', 0) > 0) summary-card--pending-active @endif"><span class="summary-accent" aria-hidden="true">…</span><span class="muted">Belum diisi</span><strong>{{ $summary->get('PENDING', 0) }}</strong></div>
     </section>
     <section class="card attendance-card">@if (($readOnly ?? false))<div class="info"><strong>{{ ($partitionFinalized ?? false) ? 'Sudah disahkan untuk kelas Anda.' : 'Hasil sudah disahkan.' }}</strong> {{ ($partitionFinalized ?? false) ? ($session->session_status === 'COMPLETED' ? 'Sesi gabungan telah lengkap untuk seluruh kelas.' : 'Sesi gabungan masih menunggu pengesahan kelas lain.') : 'Halaman ini hanya untuk melihat hasil dan catatan kehadiran.' }} <a href="{{ route('academic.dashboard') }}">Kembali ke Dashboard Akademik</a></div>@endif
-        @if (isset($completeness))<div class="info"><strong>Kelengkapan scope: {{ $completeness['resolved_count'] ?? 0 }}/{{ $completeness['required_count'] ?? 0 }}</strong> terisi tervalidasi · {{ $completeness['missing_count'] ?? 0 }} belum diisi@if (($scopeIsLocked ?? false)) · periode kelas terkunci, pengisian biasa dinonaktifkan@endif</div>@endif
+        @if (isset($completeness))
+            <div class="info">
+                <strong>Kelengkapan scope: {{ $completeness['resolved_count'] ?? 0 }}/{{ $completeness['required_count'] ?? 0 }}</strong>
+                terisi tervalidasi · {{ $completeness['missing_count'] ?? 0 }} belum diisi
+                @if ($scopeIsLocked ?? false)
+                    · periode kelas terkunci, pengisian biasa dinonaktifkan
+                @endif
+            </div>
+        @endif
         @if (($readOnly ?? false))
             <div class="button-row" style="margin-top:0">
                 @if ($session->session_status === 'COMPLETED')
@@ -436,6 +454,9 @@
                     <form class="teacher-attendance-row" method="POST" action="{{ route('academic.attendance.teacher-attendance', $session) }}">
                         @csrf
                         <input type="hidden" name="participation_id" value="{{ $teacherParticipation->id }}">
+                        @if (($requiresHistoricalAcknowledgement ?? false))
+                            <label class="historical-session-ack"><input type="checkbox" name="historical_session_ack" value="1" required> Konfirmasi sesi lampau</label>
+                        @endif
                         <div class="teacher-identity"><span class="teacher-avatar" aria-hidden="true">{{ $teacherInitials ?: 'G' }}</span><div class="teacher-identity-copy"><strong class="teacher-name">{{ $teacherName }}</strong><span class="teacher-role">{{ $teacherParticipation->role === 'SUBSTITUTE' ? 'Guru pengganti' : 'Guru utama' }}</span></div></div>
                         <label class="teacher-attendance-field"><span>Status kehadiran pada sesi</span><select name="attendance_status" required><option value="" @selected($teacherParticipation->attendance_status === null)>Belum dicatat</option><option value="PRESENT" @selected($teacherParticipation->attendance_status === 'PRESENT')>Hadir</option><option value="ABSENT" @selected($teacherParticipation->attendance_status === 'ABSENT')>Tidak hadir</option><option value="SICK" @selected($teacherParticipation->attendance_status === 'SICK')>Sakit</option><option value="IZIN" @selected($teacherParticipation->attendance_status === 'IZIN')>Izin</option><option value="OTHER" @selected($teacherParticipation->attendance_status === 'OTHER')>Lainnya</option></select></label>
                         <label class="teacher-attendance-field teacher-attendance-field--note"><span>Alasan/catatan</span><textarea name="reason" maxlength="1000" placeholder="Wajib diisi jika guru tidak hadir, sakit, izin, atau lainnya">{{ $teacherParticipation->reason }}</textarea></label>
@@ -455,6 +476,9 @@
         @php($attendanceProgress = $requiredParticipants->count() > 0 ? round($filledParticipants->count() / $requiredParticipants->count() * 100) : 0)
         <form id="attendance-form" method="POST" action="{{ route('academic.attendance.draft', $session) }}">
             @csrf
+            @if (($requiresHistoricalAcknowledgement ?? false))
+                <label class="historical-session-ack"><input type="checkbox" name="historical_session_ack" value="1" required> Saya memahami bahwa saya sedang mengisi sesi lampau tanggal {{ $executionState['business_date'] ?? 'sebelumnya' }}.</label>
+            @endif
             @foreach ($participants as $participant)
                 @if ($participant->attendance)
                     <input type="hidden" name="attendance_versions[{{ $participant->id }}]" value="{{ $participant->attendance->version_no }}">

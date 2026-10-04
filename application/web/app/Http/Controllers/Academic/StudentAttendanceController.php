@@ -8,6 +8,7 @@ use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\StudentAttendance;
 use App\Domains\Academic\Services\AcademicAuthorizationService;
 use App\Domains\Academic\Services\AcademicClassScopeResolver;
+use App\Domains\Academic\Services\AcademicSessionExecutionStateResolver;
 use App\Domains\Academic\Services\AttendanceScopeLockEvaluator;
 use App\Domains\Academic\Services\CancellationService;
 use App\Domains\Academic\Services\CanonicalSessionOccurrenceService;
@@ -29,6 +30,7 @@ use App\Domains\Academic\Services\WaliKelasContextResolver;
 use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Models\CorrectionRequest;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use App\Shared\Platform\Reports\CompletedAttendanceSessionExportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -42,7 +44,7 @@ class StudentAttendanceController
 {
     public function __construct(private readonly AcademicClassScopeResolver $classScope) {}
 
-    public function show(ClassSession $session, Request $request, WaliKelasContextResolver $resolver, TeacherParticipationRecorder $teacherParticipationRecorder, JointAttendanceRosterBreakdownService $rosterBreakdown, SessionAttendanceScopeResolver $attendanceScopeResolver, StudentAttendanceCompletenessChecker $completenessChecker, AttendanceScopeLockEvaluator $lockEvaluator, SessionParticipantSnapshotter $snapshotter, SessionOccurrenceFeatureGate $occurrenceGate, SessionOccurrenceAuthorizationService $occurrenceAuthorization): View
+    public function show(ClassSession $session, Request $request, WaliKelasContextResolver $resolver, TeacherParticipationRecorder $teacherParticipationRecorder, JointAttendanceRosterBreakdownService $rosterBreakdown, SessionAttendanceScopeResolver $attendanceScopeResolver, StudentAttendanceCompletenessChecker $completenessChecker, AttendanceScopeLockEvaluator $lockEvaluator, SessionParticipantSnapshotter $snapshotter, SessionOccurrenceFeatureGate $occurrenceGate, SessionOccurrenceAuthorizationService $occurrenceAuthorization, AcademicSessionExecutionStateResolver $executionResolver): View
     {
         $user = $this->user($request);
         $staff = $resolver->resolve($user, $session);
@@ -75,7 +77,9 @@ class StudentAttendanceController
             ->whereKeyNot($session->teachingAssignment?->teacher_staff_id)
             ->orderBy('full_name')
             ->get();
-        $canCancel = $session->session_status === 'PLANNED' && ! $participants->contains(fn ($participant) => $participant->attendance !== null);
+        $executionState = $executionResolver->resolve($session);
+        $canManageAllClasses = $resolver->canManageAllClasses($user, Carbon::parse($executionState['business_date'], AcademicBusinessTime::timezone()));
+        $canCancel = $canManageAllClasses && $session->session_status === 'PLANNED' && ! $participants->contains(fn ($participant) => $participant->attendance !== null);
         $partitionFinalized = $attendanceScopeData['mode'] === 'WALI_CLASS_PARTITION' && $completeness['is_complete'];
         $readOnly = in_array($session->session_status, ['COMPLETED', 'CANCELLED', 'RESCHEDULED'], true) || $partitionFinalized;
         $correctionCandidates = $participants->filter(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED');
@@ -83,9 +87,9 @@ class StudentAttendanceController
             ? $attendanceScopeData['effective_class_ids']
             : [(string) $session->class_id];
         $scopeIsLocked = $lockEvaluator->isLocked($lockClassIds, $session->planned_start_at);
-        $canSaveDraft = ! $readOnly && $session->session_status !== 'CANCELLED' && $session->session_status !== 'RESCHEDULED' && ! $scopeIsLocked;
+        $canSaveDraft = ! $readOnly && $executionState['attendance_input_allowed'] && ! $scopeIsLocked;
         $canRequestCorrection = $readOnly && $scopeIsLocked && $correctionCandidates->isNotEmpty();
-        $canRecordTeacherAttendance = ! $readOnly && $session->session_status !== 'CANCELLED' && $session->teacherParticipations->isNotEmpty();
+        $canRecordTeacherAttendance = ! $readOnly && $executionState['attendance_obligation_exists'] && $session->teacherParticipations->isNotEmpty();
         $requiredParticipants = $participants->filter(fn ($participant) => $participant->participant_status === 'EXPECTED' && $participant->is_required);
         $attendanceReady = $requiredParticipants->isNotEmpty()
             && $requiredParticipants->every(fn ($participant) => in_array($participant->attendance?->attendance_status, ['PRESENT', 'LATE', 'SICK', 'IZIN', 'EXCUSED', 'ABSENT'], true));
@@ -96,7 +100,7 @@ class StudentAttendanceController
             && ($primaryTeacher->attendance_status === 'PRESENT' || $teacherHasCoverage);
         $canFinalize = ! $readOnly
             && ! $scopeIsLocked
-            && in_array($session->session_status, ['PLANNED', 'CONFIRMED'], true)
+            && $executionState['attendance_input_allowed']
             && $attendanceReady
             && $teacherReady;
         $occurrenceFeatureEnabled = $occurrenceGate->enabled();
@@ -104,9 +108,13 @@ class StudentAttendanceController
         $occurrenceHistory = $occurrenceCanonicalRegime ? $session->occurrenceVersions()->with('recordedBy')->orderBy('version_no')->get() : collect();
         $effectiveOccurrence = $occurrenceCanonicalRegime ? $session->effectiveOccurrenceVersion : null;
         $canManageOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->canManageRoutine($user, $session, 'HELD');
+        $canManageOccurrencePhysical = $occurrenceCanonicalRegime
+            && ($occurrenceAuthorization->canManageRoutine($user, $session, 'CANCELLED') || $occurrenceAuthorization->canManageRoutine($user, $session, 'RESCHEDULED'));
         $canCorrectOccurrence = $occurrenceCanonicalRegime && $occurrenceAuthorization->hasAcademicFullAuthority($user, $session->planned_start_at) && $effectiveOccurrence !== null;
 
-        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'partitionFinalized', 'canFinalize', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'canSaveDraft', 'scopeIsLocked', 'completeness', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canCorrectOccurrence'));
+        $requiresHistoricalAcknowledgement = ! $canManageAllClasses && $executionState['is_historical'] && $canSaveDraft;
+
+        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'partitionFinalized', 'canFinalize', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'canSaveDraft', 'scopeIsLocked', 'completeness', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canManageOccurrencePhysical', 'canCorrectOccurrence', 'executionState', 'requiresHistoricalAcknowledgement'));
     }
 
     public function recordOccurrence(
@@ -186,13 +194,21 @@ class StudentAttendanceController
     {
         $user = $this->user($request);
         $inputter = $resolver->resolve($user, $session);
-        $canManageAllClasses = $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString());
-        abort_unless(! in_array($session->session_status, ['CANCELLED', 'COMPLETED', 'RESCHEDULED'], true), 422, 'Status sesi tidak dapat menerima perubahan kehadiran guru.');
+        $executionState = app(AcademicSessionExecutionStateResolver::class)->resolve($session);
+        $canManageAllClasses = $resolver->canManageAllClasses($user, Carbon::parse($executionState['business_date'], AcademicBusinessTime::timezone()));
+        abort_unless($executionState['attendance_obligation_exists'] && ! in_array($session->session_status, ['CANCELLED', 'COMPLETED', 'RESCHEDULED'], true), 422, 'Pelaksanaan KBM belum dikonfirmasi atau status sesi tidak dapat menerima perubahan kehadiran guru.');
         $payload = $request->validate([
             'participation_id' => ['required', 'uuid', 'exists:session_teacher_participations,id'],
             'attendance_status' => ['required', 'string', 'in:PRESENT,ABSENT,SICK,IZIN,OTHER'],
             'reason' => ['nullable', 'string', 'max:1000'],
         ]);
+        if (! $canManageAllClasses && $executionState['is_historical'] && $executionState['attendance_obligation_exists']) {
+            $request->validate([
+                'historical_session_ack' => ['accepted'],
+            ], [
+                'historical_session_ack.accepted' => 'Konfirmasi sesi lampau wajib dicentang sebelum menyimpan kehadiran guru.',
+            ]);
+        }
         $participation = $session->teacherParticipations()->whereKey($payload['participation_id'])->firstOrFail();
         if ($payload['attendance_status'] !== 'PRESENT' && blank($payload['reason'])) {
             return back()->withErrors(['teacher_attendance' => 'Alasan wajib diisi untuk status guru selain Hadir.']);
@@ -258,8 +274,9 @@ class StudentAttendanceController
     ): RedirectResponse {
         $user = $this->user($request);
         $allowScopedWali = $occurrenceGate->enabled();
-        abort_unless($allowScopedWali ? $occurrenceAuthorization->canManageSubstitution($user, $session) : $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString()), 403, 'Anda tidak memiliki kewenangan mengganti guru pada sesi ini.');
-        if ($allowScopedWali && $occurrenceAuthorization->isJoint($session) && ! $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString())) {
+        $businessDate = Carbon::parse(AcademicBusinessTime::date($session->planned_start_at), AcademicBusinessTime::timezone());
+        abort_unless($allowScopedWali ? $occurrenceAuthorization->canManageSubstitution($user, $session) : $resolver->canManageAllClasses($user, $businessDate), 403, 'Anda tidak memiliki kewenangan mengganti guru pada sesi ini.');
+        if ($allowScopedWali && $occurrenceAuthorization->isJoint($session) && ! $resolver->canManageAllClasses($user, $businessDate)) {
             abort(403, 'Substitusi sesi gabungan memerlukan Waka Akademik.');
         }
         $payload = $request->validate([
@@ -287,7 +304,7 @@ class StudentAttendanceController
         SessionParticipantSnapshotter $snapshotter,
     ): RedirectResponse {
         $user = $this->user($request);
-        abort_unless($session->session_status === 'PLANNED' && $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString()), 403);
+        abort_unless($session->session_status === 'PLANNED' && $resolver->canManageAllClasses($user, Carbon::parse(AcademicBusinessTime::date($session->planned_start_at), AcademicBusinessTime::timezone())), 403);
         $participants = $snapshotter->snapshot($session);
 
         return to_route('academic.attendance.show', $session)->with('status', $participants->count().' peserta berhasil dibuat dari roster kelas pada tanggal sesi.');
@@ -303,6 +320,7 @@ class StudentAttendanceController
         SessionOccurrenceWorkflowService $occurrenceWorkflow,
     ): RedirectResponse {
         $user = $this->user($request);
+        abort_unless($resolver->canManageAllClasses($user, Carbon::parse(AcademicBusinessTime::date($session->planned_start_at), AcademicBusinessTime::timezone())), 403, 'Pembatalan sesi memerlukan kewenangan penuh Academic.');
         $payload = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
 
         try {
@@ -311,7 +329,6 @@ class StudentAttendanceController
                 $occurrenceAuthorization->requireRoutine($user, $session, 'CANCELLED');
                 $occurrenceWorkflow->cancel($session, $user, $payload['reason']);
             } else {
-                $resolver->resolve($user, $session);
                 $cancellationService->apply($session, $user->id, $payload['reason']);
             }
         } catch (InvalidArgumentException) {
@@ -432,10 +449,12 @@ class StudentAttendanceController
         SessionAttendanceScopeResolver $attendanceScopeResolver,
         StudentAttendanceDraftService $draftService,
         StudentSessionGroomingNoteService $groomingNoteService,
+        AcademicSessionExecutionStateResolver $executionResolver,
     ): RedirectResponse {
         $user = $this->user($request);
         $staff = $resolver->resolve($user, $session);
-        $canManageAllClasses = $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString());
+        $executionState = $executionResolver->resolve($session);
+        $canManageAllClasses = $resolver->canManageAllClasses($user, Carbon::parse($executionState['business_date'], AcademicBusinessTime::timezone()));
         $scopeParticipants = $session->studentParticipants()->with('student.classEnrollments')->get();
         $attendanceScope = $attendanceScopeResolver->resolve($user, $session, $scopeParticipants);
         $payload = $request->validate([
@@ -445,6 +464,7 @@ class StudentAttendanceController
             'participants.*.grooming_note' => ['nullable', 'string', 'max:1000'],
             'participants.*.discipline_code' => ['nullable', 'string', 'in:RAPI,TIDAK_BERSERAGAM,SERAGAM_TIDAK_LENGKAP,TIDAK_MEMBAWA_BUKU,TIDAK_BERPECI,CATATAN_TAMBAHAN'],
         ]);
+        $this->requireHistoricalAcknowledgement($session, $request, $executionResolver, $canManageAllClasses);
 
         try {
             foreach ($payload['participants'] as $participantId => $attributes) {
@@ -472,10 +492,12 @@ class StudentAttendanceController
         StudentAttendanceFinalizer $finalizer,
         StudentAttendanceDraftService $draftService,
         StudentSessionGroomingNoteService $groomingNoteService,
+        AcademicSessionExecutionStateResolver $executionResolver,
     ): RedirectResponse {
         $user = $this->user($request);
         $staff = $resolver->resolve($user, $session);
-        $canManageAllClasses = $resolver->canManageAllClasses($user, $session->planned_start_at->toDateString());
+        $executionState = $executionResolver->resolve($session);
+        $canManageAllClasses = $resolver->canManageAllClasses($user, Carbon::parse($executionState['business_date'], AcademicBusinessTime::timezone()));
         $scopeParticipants = $session->studentParticipants()->with('student.classEnrollments')->get();
         $attendanceScope = $attendanceScopeResolver->resolve($user, $session, $scopeParticipants);
         $payload = $request->validate([
@@ -487,6 +509,7 @@ class StudentAttendanceController
             'attendance_versions' => ['sometimes', 'array'],
             'attendance_versions.*' => ['integer', 'min:1'],
         ]);
+        $this->requireHistoricalAcknowledgement($session, $request, $executionResolver, $canManageAllClasses);
 
         $authorizedParticipantIds = array_map('strval', $attendanceScope['authorized_participant_ids']);
         $submittedParticipantIds = array_map('strval', array_keys($payload['participants'] ?? []));
@@ -542,6 +565,22 @@ class StudentAttendanceController
     private function hasMeaningfulInput(mixed $value): bool
     {
         return is_string($value) ? trim($value) !== '' : $value !== null;
+    }
+
+    private function requireHistoricalAcknowledgement(
+        ClassSession $session,
+        Request $request,
+        AcademicSessionExecutionStateResolver $executionResolver,
+        bool $canManageAllClasses,
+    ): void {
+        $executionState = $executionResolver->resolve($session);
+        if (! $canManageAllClasses && $executionState['is_historical'] && $executionState['attendance_input_allowed']) {
+            $request->validate([
+                'historical_session_ack' => ['accepted'],
+            ], [
+                'historical_session_ack.accepted' => 'Konfirmasi sesi lampau wajib dicentang sebelum menyimpan kehadiran.',
+            ]);
+        }
     }
 
     private function authorizeReviewer(User $user, ?AcademicAuthorizationService $authorization = null): void

@@ -9,6 +9,7 @@ use App\Domains\Academic\Models\StudentAttendance;
 use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -21,6 +22,7 @@ class StudentAttendanceDraftService
         private readonly AcademicClassScopeResolver $classScope,
         private readonly SessionAttendanceScopeResolver $attendanceScopeResolver,
         private readonly AttendanceScopeLockEvaluator $lockEvaluator,
+        private readonly AcademicSessionExecutionStateResolver $executionResolver,
     ) {}
 
     public function save(
@@ -41,11 +43,15 @@ class StudentAttendanceDraftService
             throw new InvalidArgumentException('Removed participants cannot receive attendance.');
         }
 
+        if (! $this->executionResolver->resolve($session)['attendance_input_allowed']) {
+            throw new InvalidArgumentException('Pelaksanaan KBM belum dikonfirmasi; kehadiran belum dapat diisi.');
+        }
+
         if (! in_array($session->session_status, ['PLANNED', 'CONFIRMED'], true)) {
             throw new InvalidArgumentException('Only planned or confirmed sessions can accept attendance drafts.');
         }
 
-        $date = $session->planned_start_at->toDateString();
+        $date = AcademicBusinessTime::date($session->planned_start_at);
         $scopeClassIds = [(string) $session->class_id];
         $scopeAuthorized = false;
         if (count($this->classScope->forSession($session)) > 1) {
@@ -81,6 +87,10 @@ class StudentAttendanceDraftService
 
         return DB::transaction(function () use ($session, $participant, $actorUserId, $changes, $scopeClassIds, $expectedVersion): StudentAttendance {
             $lockedSession = ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
+            if (! $this->executionResolver->resolve($lockedSession)['attendance_input_allowed']) {
+                throw new InvalidArgumentException('Pelaksanaan KBM belum dikonfirmasi; kehadiran belum dapat diisi.');
+            }
+
             if (! in_array($lockedSession->session_status, ['PLANNED', 'CONFIRMED'], true)) {
                 throw new InvalidArgumentException('Only planned or confirmed sessions can accept attendance drafts.');
             }

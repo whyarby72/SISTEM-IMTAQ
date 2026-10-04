@@ -109,6 +109,7 @@ class StudentAttendancePartitionedFinalizerTest extends TestCase
 
         $this->actingAs($fixture['anchorUser'])
             ->post(route('academic.attendance.finalize', $fixture['session']), [
+                'historical_session_ack' => '1',
                 'participants' => [$fixture['anchorParticipant']->id => ['attendance_status' => 'PRESENT']],
             ])
             ->assertRedirect(route('academic.attendance.show', $fixture['session']))
@@ -145,6 +146,7 @@ class StudentAttendancePartitionedFinalizerTest extends TestCase
 
         $this->actingAs($fixture['anchorUser'])
             ->post(route('academic.attendance.finalize', $fixture['session']), [
+                'historical_session_ack' => '1',
                 'participants' => [
                     $fixture['anchorParticipant']->id => ['attendance_status' => 'PRESENT'],
                     $fixture['secondaryParticipant']->id => ['attendance_status' => 'ABSENT'],
@@ -171,6 +173,7 @@ class StudentAttendancePartitionedFinalizerTest extends TestCase
 
         $this->actingAs($fixture['anchorUser'])
             ->post(route('academic.attendance.finalize', $fixture['session']), [
+                'historical_session_ack' => '1',
                 'participants' => [$fixture['anchorParticipant']->id => ['attendance_status' => 'PRESENT']],
                 'attendance_versions' => [$fixture['anchorParticipant']->id => 1],
             ])

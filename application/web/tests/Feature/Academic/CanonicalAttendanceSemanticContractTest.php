@@ -8,13 +8,16 @@ use App\Domains\Academic\Models\ClassLineageMapping;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\GradeLevel;
 use App\Domains\Academic\Models\MonthlyAttendanceSummary;
+use App\Domains\Academic\Models\SessionOccurrenceVersion;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentAttendance;
 use App\Domains\Academic\Semantics\CanonicalAttendanceStatusMapper;
 use App\Domains\Academic\Semantics\Enums\AttendanceAuthorityStatus;
+use App\Domains\Academic\Services\AcademicSessionExecutionStateResolver;
 use App\Domains\Academic\Services\AttendanceSourceAuthorityResolver;
 use App\Domains\Academic\Services\CanonicalAttendanceSemanticService;
 use App\Domains\Academic\Services\ClassLineageResolver;
+use App\Domains\Academic\Services\SessionOccurrenceCutover;
 use App\Shared\Core\Models\AcademicYear;
 use App\Shared\Core\Models\OrganizationalUnit;
 use App\Shared\Platform\Imports\Models\ImportBatch;
@@ -59,6 +62,53 @@ class CanonicalAttendanceSemanticContractTest extends TestCase
         $this->assertSame('PLANNED_HISTORICAL_WORK_QUEUE', $semantic->sessionState($historical));
         $this->assertSame('CANCELLED', $semantic->sessionState($cancelled));
         $this->assertSame('RESCHEDULED_SOURCE', $semantic->sessionState($rescheduled));
+    }
+
+    public function test_canonical_execution_state_controls_attendance_obligation(): void
+    {
+        $cutover = Mockery::mock(SessionOccurrenceCutover::class);
+        $cutover->shouldReceive('regime')->andReturn(SessionOccurrenceCutover::CANONICAL);
+        $this->app->instance(SessionOccurrenceCutover::class, $cutover);
+        $resolver = app(AcademicSessionExecutionStateResolver::class);
+
+        foreach ([
+            'SCHEDULED' => [false, false],
+            'HELD' => [true, true],
+            'CANCELLED' => [false, false],
+            'RESCHEDULED' => [false, false],
+        ] as $status => [$obligation, $inputAllowed]) {
+            $session = new ClassSession([
+                'planned_start_at' => '2026-10-05 08:00:00',
+                'planned_end_at' => '2026-10-05 09:00:00',
+            ]);
+            $session->setRelation('effectiveOccurrenceVersion', new SessionOccurrenceVersion([
+                'occurrence_status' => $status,
+                'is_partial' => false,
+            ]));
+
+            $state = $resolver->resolve($session, Carbon::parse('2026-10-05 12:00:00', 'Asia/Jakarta'));
+
+            $this->assertSame($obligation, $state['attendance_obligation_exists'], $status);
+            $this->assertSame($inputAllowed, $state['attendance_input_allowed'], $status);
+        }
+    }
+
+    public function test_legacy_execution_state_preserves_existing_attendance_obligation(): void
+    {
+        $cutover = Mockery::mock(SessionOccurrenceCutover::class);
+        $cutover->shouldReceive('regime')->andReturn(SessionOccurrenceCutover::LEGACY);
+        $this->app->instance(SessionOccurrenceCutover::class, $cutover);
+        $session = new ClassSession([
+            'session_status' => 'PLANNED',
+            'planned_start_at' => '2026-07-06 08:00:00',
+            'planned_end_at' => '2026-07-06 09:00:00',
+        ]);
+
+        $state = app(AcademicSessionExecutionStateResolver::class)->resolve($session, Carbon::parse('2026-10-05 12:00:00', 'Asia/Jakarta'));
+
+        $this->assertSame(SessionOccurrenceCutover::LEGACY, $state['occurrence_regime']);
+        $this->assertTrue($state['attendance_obligation_exists']);
+        $this->assertTrue($state['attendance_input_allowed']);
     }
 
     public function test_late_is_present_with_late_punctuality_and_is_counted_once(): void

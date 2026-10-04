@@ -8,6 +8,7 @@ use App\Domains\Academic\Models\SessionTeacherParticipation;
 use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -17,6 +18,7 @@ class TeacherAttendanceService
     public function __construct(
         private readonly AuditLogger $auditLogger,
         private readonly AcademicAuthorizationService $authorization,
+        private readonly AcademicSessionExecutionStateResolver $executionResolver,
     ) {}
 
     public function record(
@@ -33,6 +35,10 @@ class TeacherAttendanceService
                 ->whereKey($session->id)
                 ->lockForUpdate()
                 ->firstOrFail();
+
+            if (! $this->executionResolver->resolve($lockedSession)['attendance_obligation_exists']) {
+                throw new InvalidArgumentException('Pelaksanaan KBM belum dikonfirmasi; kehadiran guru belum dapat dicatat.');
+            }
 
             if (in_array($lockedSession->session_status, ['CANCELLED', 'COMPLETED', 'RESCHEDULED'], true)) {
                 throw new InvalidArgumentException('Status sesi tidak dapat menerima perubahan kehadiran guru.');
@@ -52,7 +58,7 @@ class TeacherAttendanceService
                 throw new InvalidArgumentException('Teacher participation does not belong to the session.');
             }
 
-            $sessionDate = $lockedSession->planned_start_at->toDateString();
+            $sessionDate = AcademicBusinessTime::date($lockedSession->planned_start_at);
             $authorized = $actorUserId !== null
                 ? $this->authorization->canManageAcademicSession(User::query()->findOrFail($actorUserId), $lockedSession)
                 : $canManageAllClasses || ClassHomeroomAssignment::query()

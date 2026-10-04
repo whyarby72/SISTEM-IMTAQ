@@ -85,7 +85,42 @@ class StudentAttendanceUiTest extends TestCase
         $authorization = app(SessionOccurrenceAuthorizationService::class);
 
         $this->assertTrue($authorization->canManageRoutine($user, $session, 'HELD'));
+        $this->assertTrue($authorization->canManageRoutine($user, $session, 'PARTIAL_HELD'));
         $this->assertFalse($authorization->canManageRoutine($user, $session, 'CANCELLED'));
+        $this->assertFalse($authorization->canManageRoutine($user, $session, 'RESCHEDULED'));
+
+        config([
+            'academic.session_occurrence_enabled' => true,
+            'academic.session_occurrence_cutover_at' => '2026-06-01T00:00:00+07:00',
+        ]);
+        $this->actingAs($user)
+            ->post(route('academic.attendance.occurrence.record', $session), [
+                'action' => 'CANCELLED',
+                'reason' => 'Tidak jadi',
+            ])
+            ->assertForbidden();
+        $this->actingAs($user)
+            ->post(route('academic.attendance.occurrence.record', $session), [
+                'action' => 'RESCHEDULED',
+                'reason' => 'Pindah jadwal',
+                'new_start_at' => '2026-07-06T10:00',
+                'new_end_at' => '2026-07-06T11:30',
+            ])
+            ->assertForbidden();
+        $this->actingAs($user)
+            ->get(route('academic.attendance.show', $session))
+            ->assertOk()
+            ->assertSee('Pelaksanaan KBM')
+            ->assertSee('Catat KBM berlangsung')
+            ->assertSee('KBM berlangsung sebagian')
+            ->assertDontSee('Batalkan KBM')
+            ->assertDontSee('Jadwal ulang');
+
+        $waka = User::factory()->create();
+        $wakaRole = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka Akademik']);
+        UserRoleAssignment::create(['user_id' => $waka->id, 'role_id' => $wakaRole->id, 'effective_from' => '2026-07-01']);
+        $this->assertTrue($authorization->canManageRoutine($waka, $session, 'CANCELLED'));
+        $this->assertTrue($authorization->canManageRoutine($waka, $session, 'RESCHEDULED'));
     }
 
     public function test_wali_kelas_can_view_and_save_attendance_from_responsive_page(): void
@@ -127,7 +162,11 @@ class StudentAttendanceUiTest extends TestCase
             ->assertSee('data-attendance-meter', false)
             ->assertSee('data-attendance-percent', false)
             ->assertSee('data-finalize-button', false)
-            ->assertSee('aria-disabled="true"', false);
+            ->assertSee('aria-disabled="true"', false)
+            ->assertDontSee('@if')
+            ->assertDontSee('@endif')
+            ->assertDontSee('{{')
+            ->assertDontSee('$scopeIsLocked');
 
         Staff::create(['staff_code' => 'PILOT-AZHAR', 'full_name' => 'Azhar']);
         Staff::create(['staff_code' => 'PILOT-GURU-3A', 'full_name' => 'Guru Sample 3A']);
@@ -139,6 +178,7 @@ class StudentAttendanceUiTest extends TestCase
             ->assertDontSee('Guru Sample 3B');
 
         $this->actingAs($user)->post(route('academic.attendance.draft', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => 'PRESENT', 'notes' => 'Masuk di tengah sesi', 'discipline_code' => 'TIDAK_BERSERAGAM', 'grooming_note' => 'Seragam putih tidak dikenakan']],
         ])->assertRedirect(route('academic.attendance.show', $session));
 
@@ -157,6 +197,20 @@ class StudentAttendanceUiTest extends TestCase
 
         $this->assertSame(1, $session->studentParticipants()->count());
         $this->assertSame($participant->student_id, $session->studentParticipants()->first()->student_id);
+    }
+
+    public function test_wali_historical_attendance_write_requires_explicit_acknowledgement(): void
+    {
+        [$session, $participant, $user] = $this->fixtures();
+
+        $this->actingAs($user)
+            ->post(route('academic.attendance.draft', $session), [
+                'participants' => [$participant->id => ['attendance_status' => 'PRESENT']],
+            ])
+            ->assertRedirect(route('academic.attendance.show', $session))
+            ->assertSessionHasErrors('historical_session_ack');
+
+        $this->assertDatabaseCount('student_attendance', 0);
     }
 
     public function test_joint_session_shows_scope_identity_and_roster_breakdown(): void
@@ -267,6 +321,7 @@ class StudentAttendanceUiTest extends TestCase
         [$session, $participant, $user] = $this->fixtures();
 
         $this->actingAs($user)->post(route('academic.attendance.draft', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => ' ', 'notes' => '  ', 'discipline_code' => null, 'grooming_note' => "\t"]],
         ])->assertRedirect(route('academic.attendance.show', $session));
 
@@ -314,6 +369,7 @@ class StudentAttendanceUiTest extends TestCase
 
         $this->actingAs($user)->from(route('academic.attendance.show', $session))
             ->post(route('academic.attendance.draft', $session), [
+                'historical_session_ack' => '1',
                 'participants' => [$participant->id => ['attendance_status' => '', 'notes' => 'Catatan dari input gagal', 'discipline_code' => 'INVALID']],
             ])
             ->assertRedirect(route('academic.attendance.show', $session))
@@ -350,6 +406,7 @@ class StudentAttendanceUiTest extends TestCase
         [$session, $participant, $user] = $this->fixtures();
 
         $this->actingAs($user)->post(route('academic.attendance.draft', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => ' ', 'notes' => ' ', 'discipline_code' => 'TIDAK_BERPECI', 'grooming_note' => 'Peci belum digunakan']],
         ])->assertRedirect(route('academic.attendance.show', $session));
 
@@ -366,6 +423,7 @@ class StudentAttendanceUiTest extends TestCase
         [$session, $participant, $user] = $this->fixtures();
 
         $this->actingAs($user)->post(route('academic.attendance.draft', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => 'PRESENT', 'notes' => null, 'discipline_code' => null, 'grooming_note' => ' ']],
         ])->assertRedirect(route('academic.attendance.show', $session));
 
@@ -378,6 +436,7 @@ class StudentAttendanceUiTest extends TestCase
         [$session, $participant, $user] = $this->fixtures();
 
         $this->actingAs($user)->post(route('academic.attendance.finalize', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => ' ', 'notes' => ' ', 'discipline_code' => null, 'grooming_note' => ' ']],
         ])->assertRedirect(route('academic.attendance.show', $session))
             ->assertSessionHasErrors(['finalize' => 'Belum semua santri memiliki status kehadiran. Lengkapi status setiap santri terlebih dahulu.']);
@@ -398,6 +457,7 @@ class StudentAttendanceUiTest extends TestCase
             ->assertSee('Sakit');
 
         $this->actingAs($user)->post(route('academic.attendance.teacher-attendance', $session), [
+            'historical_session_ack' => '1',
             'participation_id' => $teacherParticipation->id,
             'attendance_status' => 'SICK',
             'reason' => 'Surat sakit diterima',
@@ -571,7 +631,7 @@ class StudentAttendanceUiTest extends TestCase
     {
         [$session, , $user] = $this->fixtures();
 
-        $this->actingAs($user)->post(route('academic.attendance.finalize', $session))
+        $this->actingAs($user)->post(route('academic.attendance.finalize', $session), ['historical_session_ack' => '1'])
             ->assertRedirect(route('academic.attendance.show', $session))
             ->assertSessionHasErrors(['finalize' => 'Belum semua santri memiliki status kehadiran. Lengkapi status setiap santri terlebih dahulu.']);
 
@@ -583,6 +643,7 @@ class StudentAttendanceUiTest extends TestCase
         [$session, $participant, $user] = $this->fixtures();
 
         $this->actingAs($user)->post(route('academic.attendance.finalize', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => 'PRESENT']],
         ])->assertRedirect(route('academic.attendance.show', $session));
 
@@ -599,6 +660,7 @@ class StudentAttendanceUiTest extends TestCase
         $auditCount = AuditLog::where('action', 'STUDENT_ATTENDANCE_DRAFT_SAVED')->count();
 
         $this->actingAs($user)->post(route('academic.attendance.draft', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => 'ABSENT']],
         ])->assertRedirect(route('academic.attendance.show', $session))
             ->assertSessionHasErrors('draft');
@@ -617,6 +679,7 @@ class StudentAttendanceUiTest extends TestCase
         AttendancePeriodLock::create(['class_id' => $session->class_id, 'period_start' => '2026-07-01', 'period_end' => '2026-07-31', 'status' => 'LOCKED', 'locked_by' => $user->id, 'locked_at' => now()]);
 
         $this->actingAs($user)->post(route('academic.attendance.draft', $session), [
+            'historical_session_ack' => '1',
             'participants' => [$participant->id => ['attendance_status' => 'ABSENT']],
         ])->assertRedirect(route('academic.attendance.show', $session))
             ->assertSessionHasErrors('draft');
@@ -631,6 +694,7 @@ class StudentAttendanceUiTest extends TestCase
         [$session, $participant, $user] = $this->fixtures();
         $primary = SessionTeacherParticipation::where('class_session_id', $session->id)->firstOrFail();
         $payload = ['participants' => [$participant->id => ['attendance_status' => 'PRESENT']]];
+        $payload['historical_session_ack'] = '1';
 
         $primary->delete();
         $this->actingAs($user)->post(route('academic.attendance.finalize', $session), $payload)
@@ -652,6 +716,7 @@ class StudentAttendanceUiTest extends TestCase
         [$session, $participant, $user] = $this->fixtures();
         $primary = SessionTeacherParticipation::where('class_session_id', $session->id)->firstOrFail();
         $payload = ['participants' => [$participant->id => ['attendance_status' => 'PRESENT']]];
+        $payload['historical_session_ack'] = '1';
 
         foreach (['ABSENT', 'SICK', 'IZIN', 'OTHER'] as $status) {
             $primary->update(['attendance_status' => $status]);

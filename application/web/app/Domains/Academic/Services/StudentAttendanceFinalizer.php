@@ -9,6 +9,7 @@ use App\Domains\Academic\Models\StudentAttendance;
 use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,7 @@ class StudentAttendanceFinalizer
         private readonly SessionAttendanceScopeResolver $attendanceScopeResolver,
         private readonly StudentAttendanceCompletenessChecker $completenessChecker,
         private readonly AttendanceScopeLockEvaluator $lockEvaluator,
+        private readonly AcademicSessionExecutionStateResolver $executionResolver,
     ) {}
 
     public function finalize(
@@ -40,6 +42,10 @@ class StudentAttendanceFinalizer
 
         return DB::transaction(function () use ($session, $inputter, $actorUserId, $expectedVersions, $canManageAllClasses): ClassSession {
             $lockedSession = ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
+
+            if (! $this->executionResolver->resolve($lockedSession)['attendance_input_allowed']) {
+                throw new InvalidArgumentException('Pelaksanaan KBM belum dikonfirmasi; kehadiran belum dapat disahkan.');
+            }
 
             if (in_array($lockedSession->session_status, ['CANCELLED', 'RESCHEDULED'], true)) {
                 throw new InvalidArgumentException('Cancelled or rescheduled sessions cannot be finalized.');
@@ -64,7 +70,7 @@ class StudentAttendanceFinalizer
                     throw new AuthorizationException('Only the effective Wali Kelas may finalize student attendance.');
                 }
             } elseif (! $canManageAllClasses) {
-                $date = $lockedSession->planned_start_at->toDateString();
+                $date = AcademicBusinessTime::date($lockedSession->planned_start_at);
                 $isHomeroom = ClassHomeroomAssignment::query()
                     ->where('class_id', $lockedSession->class_id)
                     ->where('staff_id', $inputter->id)

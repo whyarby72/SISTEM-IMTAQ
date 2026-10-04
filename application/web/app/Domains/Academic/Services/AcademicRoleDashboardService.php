@@ -22,6 +22,7 @@ class AcademicRoleDashboardService
         private readonly GradeSemanticMetricsService $gradeMetrics,
         private readonly AcademicAuthorizationService $authorization,
         private readonly JointAttendanceRosterBreakdownService $rosterBreakdown,
+        private readonly AcademicSessionExecutionStateResolver $executionResolver,
     ) {}
 
     public function forUser(User $actor, Carbon $from, Carbon $to, ?Semester $semester = null, int $trendDays = 14): array
@@ -69,7 +70,7 @@ class AcademicRoleDashboardService
                 'semester' => null,
                 'active_student_count' => 0,
                 'today_sessions' => collect(),
-                'urgent' => ['due_not_started' => 0, 'due_incomplete' => 0, 'teacher_attendance_missing' => 0],
+                'urgent' => ['occurrence_pending' => 0, 'due_not_started' => 0, 'due_incomplete' => 0, 'teacher_attendance_missing' => 0],
                 'today_completion' => ['finalized' => 0, 'due' => 0, 'rate' => null],
                 'next_session' => null,
             ];
@@ -110,6 +111,7 @@ class AcademicRoleDashboardService
             'active_student_count' => $this->activeStudentCountForClass($class, $now),
             'today_sessions' => $todaySessions,
             'urgent' => [
+                'occurrence_pending' => $todaySessions->where('state', 'OCCURRENCE_PENDING')->count(),
                 'due_not_started' => $todaySessions->where('state', 'DUE_NOT_STARTED')->count(),
                 'due_incomplete' => $todaySessions->where('state', 'DUE_INCOMPLETE')->count(),
                 'teacher_attendance_missing' => $todaySessions
@@ -142,6 +144,7 @@ class AcademicRoleDashboardService
                 'teacherParticipations' => fn ($query) => $query
                     ->where('participation_status', 'EXPECTED')
                     ->with('teacher'),
+                'effectiveOccurrenceVersion',
             ])
             ->where(fn ($query) => $query
                 ->whereIn('class_id', $classes->modelKeys())
@@ -151,7 +154,34 @@ class AcademicRoleDashboardService
 
     private function waliSessionItem(ClassSession $session, Collection $classes, Carbon $now): array
     {
+        $execution = $this->executionResolver->resolve($session, $now);
         $participants = $this->participantsForDashboardClasses($session, $classes);
+        if ($execution['occurrence_regime'] === SessionOccurrenceCutover::CANONICAL
+            && ! $execution['attendance_obligation_exists']) {
+            $statusLabel = match ($execution['execution_state']) {
+                'CANCELLED' => 'KBM dibatalkan',
+                'RESCHEDULED' => 'KBM dijadwal ulang',
+                default => 'Pelaksanaan belum dicatat',
+            };
+            $terminal = in_array($execution['execution_state'], ['CANCELLED', 'RESCHEDULED'], true);
+
+            return [
+                'session' => $session,
+                'state' => $terminal ? $execution['execution_state'] : 'OCCURRENCE_PENDING',
+                'priority' => $terminal ? 6 : 1,
+                'status_label' => $statusLabel,
+                'action_label' => $terminal ? 'Lihat Sesi' : 'Catat pelaksanaan',
+                'class_label' => $classes->pluck('display_name')->implode(' + '),
+                'subject_label' => $session->teachingAssignment?->subject?->subject_name ?? 'Pelajaran',
+                'teacher_label' => $session->teachingAssignment?->teacher?->full_name ?? 'Guru belum ditetapkan',
+                'eligible' => 0,
+                'resolved' => 0,
+                'missing' => 0,
+                'completion_rate' => null,
+                'teacher_attendance_label' => 'Menunggu pencatatan pelaksanaan',
+                'teacher_attendance_missing' => false,
+            ];
+        }
         $eligible = $participants->count();
         $resolved = $participants->filter(fn ($participant) => $participant->attendance?->attendance_status !== null)->count();
         $missing = max(0, $eligible - $resolved);
@@ -192,7 +222,7 @@ class AcademicRoleDashboardService
         return [
             'session' => $session,
             'state' => $state,
-            'priority' => ['DUE_INCOMPLETE' => 1, 'DUE_NOT_STARTED' => 2, 'IN_PROGRESS' => 3, 'UPCOMING' => 4, 'FINALIZED' => 5][$state],
+            'priority' => ['OCCURRENCE_PENDING' => 1, 'DUE_INCOMPLETE' => 2, 'DUE_NOT_STARTED' => 3, 'IN_PROGRESS' => 4, 'UPCOMING' => 5, 'FINALIZED' => 6][$state],
             'status_label' => $labels[$state][0],
             'action_label' => $labels[$state][1],
             'class_label' => $classes->pluck('display_name')->implode(' + '),
@@ -234,6 +264,7 @@ class AcademicRoleDashboardService
                 'academicClass',
                 'scopeGroups',
                 'teachingAssignment.subject',
+                'effectiveOccurrenceVersion',
                 'studentParticipants' => fn ($query) => $query
                     ->where('participant_status', 'EXPECTED')
                     ->where('is_required', true)
@@ -249,6 +280,7 @@ class AcademicRoleDashboardService
             ->get();
 
         return $sessions->each(function (ClassSession $session) use ($classes): void {
+            $execution = $this->executionResolver->resolve($session);
             $participants = $this->participantsForDashboardClasses($session, $classes);
             $session->setAttribute('student_participants_count', $participants->count());
             $session->setRelation('studentParticipants', $participants);
@@ -257,8 +289,12 @@ class AcademicRoleDashboardService
                 && $resolved === $participants->count()
                 && $participants->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED');
 
-            $session->setAttribute('attendance_label', $finalized ? 'Sudah disahkan' : ($resolved > 0 ? 'Belum lengkap' : 'Belum diisi'));
-            $session->setAttribute('attendance_action', $finalized ? 'Lihat kehadiran' : ($resolved > 0 ? 'Lanjutkan pengisian' : 'Isi kehadiran'));
+            $session->setAttribute('attendance_label', $execution['attendance_obligation_exists']
+                ? ($finalized ? 'Sudah disahkan' : ($resolved > 0 ? 'Belum lengkap' : 'Belum diisi'))
+                : 'Pelaksanaan belum dicatat');
+            $session->setAttribute('attendance_action', $execution['attendance_obligation_exists']
+                ? ($finalized ? 'Lihat kehadiran' : ($resolved > 0 ? 'Lanjutkan pengisian' : 'Isi kehadiran'))
+                : 'Catat pelaksanaan');
         });
     }
 
@@ -271,7 +307,7 @@ class AcademicRoleDashboardService
                 ->orWhereHas('scopeGroups', fn ($scopeQuery) => $scopeQuery->whereIn('class_id', $classes->modelKeys())))
             ->whereBetween('planned_start_at', [$from, $to])
             ->whereNotIn('session_status', ['CANCELLED', 'RESCHEDULED'])
-            ->with(['studentParticipants' => fn ($query) => $query
+            ->with(['effectiveOccurrenceVersion', 'studentParticipants' => fn ($query) => $query
                 ->where('participant_status', 'EXPECTED')
                 ->where('is_required', true)
                 ->with('attendance')])
@@ -282,6 +318,11 @@ class AcademicRoleDashboardService
         $due = $finalized = $dueNotFinalized = $inProgress = $upcoming = 0;
         $lastFinalizedAt = null;
         foreach ($sessions as $session) {
+            $execution = $this->executionResolver->resolve($session, $now);
+            if ($execution['occurrence_regime'] === SessionOccurrenceCutover::CANONICAL
+                && ! $execution['attendance_obligation_exists']) {
+                continue;
+            }
             $required = $this->participantsForDashboardClasses($session, $classes, $partitionByClass);
             $complete = $required->isNotEmpty() && $required->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED'
                 && $participant->attendance->attendance_status !== null);
@@ -324,6 +365,7 @@ class AcademicRoleDashboardService
     private function teacherAttendance($classes, Carbon $from, Carbon $to): array
     {
         $participations = SessionTeacherParticipation::query()
+            ->with('classSession.effectiveOccurrenceVersion')
             ->whereHas('classSession', fn ($query) => $query
                 ->where(fn ($sessionQuery) => $sessionQuery
                     ->whereIn('class_id', $classes->modelKeys())
@@ -333,6 +375,8 @@ class AcademicRoleDashboardService
                 ->whereBetween('planned_start_at', [$from, $to]))
             ->where('participation_status', 'EXPECTED')
             ->get();
+        $participations = $participations->filter(fn (SessionTeacherParticipation $participation): bool => $this->executionResolver->resolve($participation->classSession)['attendance_obligation_exists']
+        )->values();
         $eligible = $participations->count();
         $resolved = $participations->whereIn('attendance_status', ['PRESENT', 'ABSENT', 'SICK', 'IZIN', 'OTHER'])->count();
         $present = $participations->where('attendance_status', 'PRESENT')->count();
