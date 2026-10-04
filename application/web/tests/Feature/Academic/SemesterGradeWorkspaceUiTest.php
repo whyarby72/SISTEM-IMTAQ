@@ -127,7 +127,7 @@ class SemesterGradeWorkspaceUiTest extends TestCase
         $subject = Subject::create(['subject_code' => 'SUBJ-GRADE-'.Str::random(4), 'subject_name' => 'Grade Subject']);
         $teacher = Staff::create(['staff_code' => 'STAFF-GRADE-'.Str::random(4), 'full_name' => 'Grade Teacher']);
         $otherTeacher = Staff::create(['staff_code' => 'STAFF-OTHER-'.Str::random(4), 'full_name' => 'Other Teacher']);
-        $student = Student::create(['student_code' => 'STU-GRADE-1', 'full_name' => 'First Student']);
+        $student = Student::create(['student_code' => 'STU-GRADE-1-'.Str::random(4), 'full_name' => 'First Student']);
         $user = User::factory()->create(['status' => 'ACTIVE']);
         if (in_array($role, ['teacher', 'wali'], true)) {
             UserStaffLink::create(['user_id' => $user->id, 'staff_id' => $teacher->id, 'effective_from' => '2026-07-01']);
