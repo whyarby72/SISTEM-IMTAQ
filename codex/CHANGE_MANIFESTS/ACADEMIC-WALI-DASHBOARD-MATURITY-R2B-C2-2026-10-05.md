@@ -36,8 +36,8 @@ remains non-completed until every required partition is validated.
 3. Added server-owned partition read-only/finalization state and Indonesian
    post-finalization feedback.
 4. Submitted `attendance_versions[participant_id]` values are checked before
-   draft updates. Draft update plus finalization run in one outer transaction;
-   the finalizer receives the post-draft versions and retains its C1 guards.
+   draft updates. The finalizer receives the post-draft versions and retains
+   its C1 guards; ordinary draft-before-finalize behavior remains unchanged.
 5. Dashboard Wali FINALIZED state is partition-complete; Waka/global state
    still requires globally completed sessions.
 6. Completed-only export links remain unavailable while another joint

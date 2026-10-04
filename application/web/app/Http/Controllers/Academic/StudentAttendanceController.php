@@ -33,7 +33,6 @@ use App\Shared\Platform\Reports\CompletedAttendanceSessionExportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
@@ -496,30 +495,28 @@ class StudentAttendanceController
         abort_unless(array_diff($submittedVersionIds, $authorizedParticipantIds) === [], 403);
 
         try {
-            DB::transaction(function () use ($payload, $authorizedParticipantIds, $session, $staff, $user, $canManageAllClasses, $draftService, $groomingNoteService, $finalizer): void {
-                $expectedVersions = $payload['attendance_versions'] ?? [];
-                foreach ($payload['participants'] ?? [] as $participantId => $attributes) {
-                    abort_unless(in_array((string) $participantId, $authorizedParticipantIds, true), 403);
-                    $participant = $session->studentParticipants()->whereKey($participantId)->firstOrFail();
-                    if ($participant->attendance()->exists() || $this->hasMeaningfulInput($attributes['attendance_status'] ?? null) || $this->hasMeaningfulInput($attributes['notes'] ?? null)) {
-                        $saved = $draftService->save(
-                            $session,
-                            $participant,
-                            $staff,
-                            $user->id,
-                            $attributes,
-                            $canManageAllClasses,
-                            false,
-                            array_key_exists((string) $participantId, $expectedVersions) ? (int) $expectedVersions[$participantId] : null,
-                        );
-                        $expectedVersions[(string) $participantId] = $saved->version_no;
-                    }
-                    if ($participant->groomingNote()->exists() || $this->hasMeaningfulInput($attributes['discipline_code'] ?? null) || $this->hasMeaningfulInput($attributes['grooming_note'] ?? null)) {
-                        $groomingNoteService->save($session, $participant, $staff, $user->id, $attributes['discipline_code'] ?? null, $attributes['grooming_note'] ?? null, $canManageAllClasses);
-                    }
+            $expectedVersions = $payload['attendance_versions'] ?? [];
+            foreach ($payload['participants'] ?? [] as $participantId => $attributes) {
+                abort_unless(in_array((string) $participantId, $authorizedParticipantIds, true), 403);
+                $participant = $session->studentParticipants()->whereKey($participantId)->firstOrFail();
+                if ($participant->attendance()->exists() || $this->hasMeaningfulInput($attributes['attendance_status'] ?? null) || $this->hasMeaningfulInput($attributes['notes'] ?? null)) {
+                    $saved = $draftService->save(
+                        $session,
+                        $participant,
+                        $staff,
+                        $user->id,
+                        $attributes,
+                        $canManageAllClasses,
+                        false,
+                        array_key_exists((string) $participantId, $expectedVersions) ? (int) $expectedVersions[$participantId] : null,
+                    );
+                    $expectedVersions[(string) $participantId] = $saved->version_no;
                 }
-                $finalizer->finalize($session, $staff, $user->id, $expectedVersions, $canManageAllClasses);
-            });
+                if ($participant->groomingNote()->exists() || $this->hasMeaningfulInput($attributes['discipline_code'] ?? null) || $this->hasMeaningfulInput($attributes['grooming_note'] ?? null)) {
+                    $groomingNoteService->save($session, $participant, $staff, $user->id, $attributes['discipline_code'] ?? null, $attributes['grooming_note'] ?? null, $canManageAllClasses);
+                }
+            }
+            $finalizer->finalize($session, $staff, $user->id, $expectedVersions, $canManageAllClasses);
         } catch (InvalidArgumentException $exception) {
             return to_route('academic.attendance.show', $session)->withErrors([
                 'finalize' => match ($exception->getMessage()) {
