@@ -37,7 +37,7 @@ class TeacherAttendanceService
                 ->firstOrFail();
 
             if (! $this->executionResolver->resolve($lockedSession)['attendance_obligation_exists']) {
-                throw new InvalidArgumentException('Pelaksanaan KBM belum dikonfirmasi; kehadiran guru belum dapat dicatat.');
+                throw new InvalidArgumentException('Pelaksanaan KBM belum dikonfirmasi; status sesi tidak dapat menerima perubahan kehadiran guru.');
             }
 
             if (in_array($lockedSession->session_status, ['CANCELLED', 'COMPLETED', 'RESCHEDULED'], true)) {

@@ -66,7 +66,7 @@ class CanonicalAttendanceSemanticContractTest extends TestCase
 
     public function test_canonical_execution_state_controls_attendance_obligation(): void
     {
-        $cutover = Mockery::mock(SessionOccurrenceCutover::class);
+        $cutover = \Mockery::mock(SessionOccurrenceCutover::class);
         $cutover->shouldReceive('regime')->andReturn(SessionOccurrenceCutover::CANONICAL);
         $this->app->instance(SessionOccurrenceCutover::class, $cutover);
         $resolver = app(AcademicSessionExecutionStateResolver::class);
@@ -95,7 +95,7 @@ class CanonicalAttendanceSemanticContractTest extends TestCase
 
     public function test_legacy_execution_state_preserves_existing_attendance_obligation(): void
     {
-        $cutover = Mockery::mock(SessionOccurrenceCutover::class);
+        $cutover = \Mockery::mock(SessionOccurrenceCutover::class);
         $cutover->shouldReceive('regime')->andReturn(SessionOccurrenceCutover::LEGACY);
         $this->app->instance(SessionOccurrenceCutover::class, $cutover);
         $session = new ClassSession([

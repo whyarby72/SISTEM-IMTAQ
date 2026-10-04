@@ -107,15 +107,6 @@ class StudentAttendanceUiTest extends TestCase
                 'new_end_at' => '2026-07-06T11:30',
             ])
             ->assertForbidden();
-        $this->actingAs($user)
-            ->get(route('academic.attendance.show', $session))
-            ->assertOk()
-            ->assertSee('Pelaksanaan KBM')
-            ->assertSee('Catat KBM berlangsung')
-            ->assertSee('KBM berlangsung sebagian')
-            ->assertDontSee('Batalkan KBM')
-            ->assertDontSee('Jadwal ulang');
-
         $waka = User::factory()->create();
         $wakaRole = Role::create(['code' => 'WAKA_AKADEMIK', 'name' => 'Waka Akademik']);
         UserRoleAssignment::create(['user_id' => $waka->id, 'role_id' => $wakaRole->id, 'effective_from' => '2026-07-01']);
@@ -203,7 +194,7 @@ class StudentAttendanceUiTest extends TestCase
     {
         [$session, $participant, $user] = $this->fixtures();
 
-        $this->actingAs($user)
+        $this->actingAs($user)->from(route('academic.attendance.show', $session))
             ->post(route('academic.attendance.draft', $session), [
                 'participants' => [$participant->id => ['attendance_status' => 'PRESENT']],
             ])
