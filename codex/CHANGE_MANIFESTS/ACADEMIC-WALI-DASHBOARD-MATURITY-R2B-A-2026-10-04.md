@@ -49,7 +49,10 @@ provisioning.
 - Local focused PHPUnit: safely blocked before database access by the existing
   protected PILOT identity guard (`47 tests, 0 assertions executed`). No guard
   bypass was attempted.
-- Disposable PostgreSQL CI: pending exact implementation-commit verification.
+- Disposable PostgreSQL CI: first implementation run `37208245208` exposed a
+  test-fixture-only `ClassSessionGroup::createMany()` incompatibility; the
+  fixture was corrected without production changes. Final exact-head run
+  `37208377746` on `9fb5f8816b1f7aa3a7606d0a1ad2eb1b508286b5` passed.
 
 ## Safety boundary
 
@@ -66,7 +69,9 @@ session-level finalizer remains unchanged.
 
 ## Decision
 
-Implementation result: `R2B_A_IMPLEMENTED_PASS_PENDING_EXACT_CI`  
+Implementation result: `R2B_A_IMPLEMENTED_PASS`  
+Final tested HEAD: `9fb5f8816b1f7aa3a7606d0a1ad2eb1b508286b5`  
+Final exact CI: `37208377746` = SUCCESS  
 Next task after exact CI: `ACADEMIC-WALI-DASHBOARD-MATURITY-R2B-B-PARTITIONED-FINALIZATION`  
 PILOT access/write: `NONE / NONE`  
 Public Academic AI: `OFF`  
