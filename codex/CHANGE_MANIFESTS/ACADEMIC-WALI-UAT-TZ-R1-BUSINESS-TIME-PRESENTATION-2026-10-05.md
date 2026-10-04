@@ -4,8 +4,7 @@
 
 `ACADEMIC-WALI-UAT-TZ-R1-BUSINESS-TIME-PRESENTATION`
 
-Decision is pending exact disposable-PostgreSQL CI verification:
-`ACADEMIC_WALI_TIMEZONE_R1_HOLD` until the required CI evidence is green.
+Decision: `ACADEMIC_WALI_TIMEZONE_R1_IMPLEMENTED_PASS`.
 
 ## Root cause
 
@@ -85,7 +84,9 @@ was therefore rendered as `01:00–02:30` instead of `08:00–09:30 Asia/Jakarta
   run against the pilot as a test database. Disposable PostgreSQL CI remains
   required for the full acceptance gate.
 - `python3 scripts/check_project_structure.py`: PASS.
-- Exact disposable-PostgreSQL GitHub Actions result is pending.
+- Exact disposable-PostgreSQL GitHub Actions run `37241464340`:
+  SUCCESS on commit `06bd80e56d4232ddd8f2beca61a607e09f268bdc`; 17 passed,
+  575 warnings, 2,464 assertions, 0 failed.
 
 ## Recovery
 
@@ -95,5 +96,5 @@ rejects the result. Do not alter stored timestamps or applied migrations.
 
 ## Next atomic task
 
-Run the required disposable-PostgreSQL regression and exact GitHub Actions
-verification. Do not resume human attendance input automatically.
+Return this closeout for ChatGPT audit. Do not resume human attendance input
+automatically.
