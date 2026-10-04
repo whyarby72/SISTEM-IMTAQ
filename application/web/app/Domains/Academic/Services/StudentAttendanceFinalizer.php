@@ -6,9 +6,11 @@ use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentAttendance;
+use App\Models\User;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Platform\Audit\Services\AuditLogger;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -19,6 +21,10 @@ class StudentAttendanceFinalizer
     public function __construct(
         private readonly AuditLogger $auditLogger,
         private readonly SessionParticipantSnapshotter $snapshotter,
+        private readonly AcademicClassScopeResolver $classScope,
+        private readonly SessionAttendanceScopeResolver $attendanceScopeResolver,
+        private readonly StudentAttendanceCompletenessChecker $completenessChecker,
+        private readonly AttendanceScopeLockEvaluator $lockEvaluator,
     ) {}
 
     public function finalize(
@@ -28,33 +34,57 @@ class StudentAttendanceFinalizer
         array $expectedVersions = [],
         bool $canManageAllClasses = false,
     ): ClassSession {
-        if (in_array($session->session_status, ['CANCELLED', 'RESCHEDULED'], true)) {
-            throw new InvalidArgumentException('Cancelled or rescheduled sessions cannot be finalized.');
-        }
-
-        if (! in_array($session->session_status, ['PLANNED', 'CONFIRMED', 'COMPLETED'], true)) {
-            throw new InvalidArgumentException('Session is not eligible for attendance finalization.');
-        }
-
-        $date = $session->planned_start_at->toDateString();
-        $isHomeroom = ClassHomeroomAssignment::query()
-            ->where('class_id', $session->class_id)
-            ->where('staff_id', $inputter->id)
-            ->where('status', 'ACTIVE')
-            ->whereDate('effective_from', '<=', $date)
-            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
-            ->exists();
-
-        if (! $isHomeroom && ! $canManageAllClasses) {
-            throw new AuthorizationException('Only the effective Wali Kelas may finalize student attendance.');
-        }
-
         // Materialize outside the finalization transaction so a later
         // validation failure does not roll the roster snapshot back.
         $this->snapshotter->ensure($session);
 
-        return DB::transaction(function () use ($session, $actorUserId, $expectedVersions): ClassSession {
+        return DB::transaction(function () use ($session, $inputter, $actorUserId, $expectedVersions, $canManageAllClasses): ClassSession {
             $lockedSession = ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
+
+            if (in_array($lockedSession->session_status, ['CANCELLED', 'RESCHEDULED'], true)) {
+                throw new InvalidArgumentException('Cancelled or rescheduled sessions cannot be finalized.');
+            }
+
+            if (! in_array($lockedSession->session_status, ['PLANNED', 'CONFIRMED', 'COMPLETED'], true)) {
+                throw new InvalidArgumentException('Session is not eligible for attendance finalization.');
+            }
+
+            $canonicalClassIds = array_map('strval', $this->classScope->forSession($lockedSession));
+            $isJoint = count($canonicalClassIds) > 1;
+            $scope = null;
+
+            if ($isJoint) {
+                $actor = User::query()->findOrFail($actorUserId);
+                $scopeParticipants = $lockedSession->studentParticipants()
+                    ->with('student.classEnrollments')
+                    ->lockForUpdate()
+                    ->get();
+                $scope = $this->attendanceScopeResolver->resolve($actor, $lockedSession, $scopeParticipants);
+                if (! in_array($scope['mode'], ['WALI_CLASS_PARTITION', 'FULL_SESSION'], true)) {
+                    throw new AuthorizationException('Only the effective Wali Kelas may finalize student attendance.');
+                }
+            } elseif (! $canManageAllClasses) {
+                $date = $lockedSession->planned_start_at->toDateString();
+                $isHomeroom = ClassHomeroomAssignment::query()
+                    ->where('class_id', $lockedSession->class_id)
+                    ->where('staff_id', $inputter->id)
+                    ->where('status', 'ACTIVE')
+                    ->whereDate('effective_from', '<=', $date)
+                    ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
+                    ->exists();
+
+                if (! $isHomeroom) {
+                    throw new AuthorizationException('Only the effective Wali Kelas may finalize student attendance.');
+                }
+            }
+
+            $lockClassIds = $scope !== null && $scope['mode'] === 'WALI_CLASS_PARTITION'
+                ? $scope['effective_class_ids']
+                : [$lockedSession->class_id];
+            if ($this->lockEvaluator->isLocked($lockClassIds, $lockedSession->planned_start_at)) {
+                throw new InvalidArgumentException('Periode kehadiran sudah dikunci dan tidak dapat difinalisasi.');
+            }
+
             $primaryTeacher = $lockedSession->teacherParticipations()
                 ->where('role', 'PRIMARY')
                 ->where('participation_status', 'EXPECTED')
@@ -90,19 +120,33 @@ class StudentAttendanceFinalizer
                 ->where('class_session_id', $lockedSession->id)
                 ->where('participant_status', 'EXPECTED')
                 ->where('is_required', true)
+                ->with('student.classEnrollments')
                 ->lockForUpdate()
                 ->get();
 
-            if ($participants->isEmpty()) {
+            $targetParticipants = $scope === null
+                ? $participants
+                : $this->targetParticipants($participants, $scope);
+
+            if ($targetParticipants->isEmpty()) {
                 throw new InvalidArgumentException('Session has no required EXPECTED participants to finalize.');
             }
 
+            $targetIds = $targetParticipants->map(fn (SessionStudentParticipant $participant): string => (string) $participant->id)->all();
+            foreach (array_keys($expectedVersions) as $participantId) {
+                if (! in_array((string) $participantId, $targetIds, true)) {
+                    throw new InvalidArgumentException('Attendance participant is outside the authorized finalization scope.');
+                }
+            }
+
+            $attendances = StudentAttendance::query()
+                ->whereIn('session_student_participant_id', $targetIds)
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('session_student_participant_id');
             $changed = [];
-            foreach ($participants as $participant) {
-                $attendance = StudentAttendance::query()
-                    ->where('session_student_participant_id', $participant->id)
-                    ->lockForUpdate()
-                    ->first();
+            foreach ($targetParticipants as $participant) {
+                $attendance = $attendances->get($participant->id);
 
                 if ($attendance === null || $attendance->attendance_status === null) {
                     throw new InvalidArgumentException('All required EXPECTED participants must have attendance status.');
@@ -135,7 +179,9 @@ class StudentAttendanceFinalizer
                 }
             }
 
-            if (in_array($lockedSession->session_status, ['PLANNED', 'CONFIRMED'], true)) {
+            $globallyComplete = $this->completenessChecker->check($lockedSession)['is_complete'];
+
+            if ($globallyComplete && in_array($lockedSession->session_status, ['PLANNED', 'CONFIRMED'], true)) {
                 $beforeVersion = $lockedSession->version_no;
                 $lockedSession->update([
                     'session_status' => 'COMPLETED',
@@ -159,5 +205,12 @@ class StudentAttendanceFinalizer
 
             return $lockedSession->fresh();
         });
+    }
+
+    private function targetParticipants(Collection $participants, array $scope): Collection
+    {
+        $authorizedIds = array_map('strval', $scope['authorized_participant_ids']);
+
+        return $participants->filter(fn (SessionStudentParticipant $participant): bool => in_array((string) $participant->id, $authorizedIds, true))->values();
     }
 }
