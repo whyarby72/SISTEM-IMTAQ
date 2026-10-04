@@ -1,5 +1,26 @@
 # CURRENT TASK CONTEXT
 
+## Current Wali dashboard maturity R1 — 2026-10-04
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-MATURITY-R1-OPERATIONAL-HOME`
+**State:** `COMPLETED / PASS / WALI_DASHBOARD_R1_IMPLEMENTED_PASS`
+**Branch / tested executable HEAD:** `feat/super-admin-user-access-preferences` / `a857e341e88dc195add3f14a9a75d11c63a6734b`
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-MATURITY-R1-2026-10-04.md`
+**Exact CI:** `37204858961` = SUCCESS; 15 suites, 562 warnings, 2387 assertions, 0 failed.
+**PILOT database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R1_AUDIT`
+
+The Wali dashboard is now operational-first with strict own-class context,
+complete current-day queue, urgency ordering, canonical attendance links,
+separate teacher status, next-session context, safe joint partitioning, and
+responsive empty states. Grade G1/G2 remain PASS; G3 is
+`DEFERRED_BY_OWNER_PRIORITY`. Academic Web remains `4/10 = 40%`; Public
+Academic AI remains OFF, `IMP-S12-007` remains `NOT_STARTED`, and `SOC-MD-06`
+is unchanged.
+
+**REQUIRED NOW:** return to ChatGPT for R1 audit. Do not start attendance UAT,
+R2, or Grade G3 automatically.
+
 ## Current G2 implementation — 2026-10-04
 
 **Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING`

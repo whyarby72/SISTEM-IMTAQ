@@ -1,7 +1,7 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-10-04T19:07:00+07:00",
+  "indexed_at": "2026-10-04T20:20:00+07:00",
   "entries": [
     {
       "id": "super-admin-user-access-controlled-pilot-migration-e1",
@@ -690,6 +690,33 @@
       "commit": "b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88",
       "status": "PASS_EXACT_EXECUTABLE_HEAD",
       "summary": "Disposable PostgreSQL 18.6 migration replay, schema guards, focused G2 regressions, and full foundation verification passed: 15 passed, 558 warnings, 2359 assertions, 0 failed.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-maturity-r1-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-MATURITY-R1-OPERATIONAL-HOME.md",
+      "commit": "a857e341e88dc195add3f14a9a75d11c63a6734b",
+      "status": "COMPLETED_PASS",
+      "summary": "Wali operational-home contract records strict class context, complete current-day queue, five-state priority, canonical attendance navigation, joint partitioning, responsive empty states, and no dashboard write path.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-maturity-r1-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-MATURITY-R1-2026-10-04.md",
+      "commit": "a857e341e88dc195add3f14a9a75d11c63a6734b",
+      "status": "WALI_DASHBOARD_R1_IMPLEMENTED_PASS",
+      "summary": "Operational-first Wali dashboard implemented without migration, business write path, PILOT access, AI change, or Grade G3 work.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-maturity-r1-exact-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37204858961",
+      "commit": "a857e341e88dc195add3f14a9a75d11c63a6734b",
+      "status": "PASS_EXACT_EXECUTABLE_HEAD",
+      "summary": "Disposable PostgreSQL 18.6 migration replay, schema and identity guards, focused Wali dashboard regressions, and full foundation verification passed: 15 suites, 562 warnings, 2387 assertions, 0 failed.",
       "sensitivity": "non_secret"
     }
   ]

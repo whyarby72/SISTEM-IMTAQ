@@ -1,5 +1,22 @@
 # NEXT ACTION
 
+## Academic Wali dashboard maturity R1 closeout — 2026-10-04
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-MATURITY-R1-OPERATIONAL-HOME`
+**State:** `COMPLETED / PASS / WALI_DASHBOARD_R1_IMPLEMENTED_PASS`
+**Tested executable HEAD:** `a857e341e88dc195add3f14a9a75d11c63a6734b`
+**Exact CI:** `37204858961` = SUCCESS
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-MATURITY-R1-2026-10-04.md`
+**Database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R1_AUDIT`
+
+The dashboard is operational-first for Wali Kelas and remains a read model
+over canonical attendance/session facts. Grade G1/G2 stay PASS; Grade G3 is
+`DEFERRED_BY_OWNER_PRIORITY`. Academic Web remains `4/10 = 40%`. Do not start
+attendance UAT, dashboard R2, or Grade G3 automatically. Public Academic AI
+remains OFF; `IMP-S12-007` and canonical queue marker `SOC-MD-06` are
+unchanged.
+
 ## Academic grade workflow G2 closeout — 2026-10-04
 
 **Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING`

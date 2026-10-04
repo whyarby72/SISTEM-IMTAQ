@@ -1,5 +1,22 @@
 # Work Log
 
+## 2026-10-04 — Academic Wali dashboard maturity R1 operational home
+
+- Reframed the Wali dashboard around own-class identity, urgent work, every
+  current-day session, next session, and lower-priority period analytics.
+- Added deterministic five-state session classification, unfinished-first
+  ordering, canonical attendance CTAs, missing-versus-absent semantics,
+  separate teacher status, and safe joint-class participant partitioning.
+- Added focused tests for ordering, >12 current-day sessions, GET read-only
+  behavior, accessibility/mobile markup, and no-assignment empty state.
+- Local PHPUnit remained fail-closed on protected PILOT `imtaq`; no database
+  access/write occurred. Disposable PostgreSQL CI run `37204858961` passed on
+  executable HEAD `a857e341e88dc195add3f14a9a75d11c63a6734b`: 15 suites,
+  562 warnings, 2387 assertions, 0 failed.
+- No migration, business write path, PILOT mutation, AI/provider change, or
+  G3 implementation. Decision: `WALI_DASHBOARD_R1_IMPLEMENTED_PASS`; next:
+  `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R1_AUDIT`.
+
 ## 2026-10-04 — Academic Web grade workflow G1 authorization/read surface
 
 - Implemented a strict `academic.grades` feature boundary, exact subject-teacher/Wali/Waka read authorization, scoped sidebar navigation, and a read-only semester/class/subject grade worklist.

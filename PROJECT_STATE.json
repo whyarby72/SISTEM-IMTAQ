@@ -1,25 +1,27 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88",
+  "repo_commit": "a857e341e88dc195add3f14a9a75d11c63a6734b",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING",
+  "current_task_id": "ACADEMIC-WALI-DASHBOARD-MATURITY-R1-OPERATIONAL-HOME",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "AWG2-01",
-    "AWG2-02",
-    "AWG2-03",
-    "AWG2-04",
-    "AWG2-05",
-    "AWG2-06",
-    "AWG2-07",
-    "AWG2-08",
-    "AWG2-09",
-    "AWG2-10"
+    "AWDMR1-01",
+    "AWDMR1-02",
+    "AWDMR1-03",
+    "AWDMR1-04",
+    "AWDMR1-05",
+    "AWDMR1-06",
+    "AWDMR1-07",
+    "AWDMR1-08",
+    "AWDMR1-09",
+    "AWDMR1-10",
+    "AWDMR1-11",
+    "AWDMR1-12"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -97,10 +99,13 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37194977772",
     "codex/TASK_CONTEXTS/ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING.md",
     "codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G2-2026-10-04.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37200924044"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37200924044",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-MATURITY-R1-OPERATIONAL-HOME.md",
+    "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-MATURITY-R1-2026-10-04.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37204858961"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37200924044 / HEAD_b3878d9f02fbbde06dc9e23b2562e8ad8eaacd88",
+    "exact_current_ci": "PASS / RUN_37204858961 / HEAD_a857e341e88dc195add3f14a9a75d11c63a6734b",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",
@@ -153,6 +158,8 @@
     "academic_web_grade_workflow_decision_ratification_d1": "COMPLETED / DESIGN_GOVERNANCE_RATIFICATION / READY_FOR_IMPLEMENTATION / ENTRY_STATE_HARDENING_REQUIRED_G2"
     ,"academic_web_grade_workflow_g1_authorization_read_surface": "COMPLETED / PASS / GRADE_G1_IMPLEMENTED_PASS / RUN_37194977772"
     ,"academic_web_grade_workflow_g2_draft_entry_state_hardening": "COMPLETED / PASS / GRADE_G2_IMPLEMENTED_PASS / RUN_37200924044"
+    ,"academic_web_grade_workflow_g3": "DEFERRED_BY_OWNER_PRIORITY"
+    ,"academic_wali_dashboard_maturity_r1_operational_home": "COMPLETED / PASS / WALI_DASHBOARD_R1_IMPLEMENTED_PASS / RUN_37204858961"
   },
   "blockers": [
     {
@@ -190,11 +197,11 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_atomic_task": "ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING",
+  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R1_AUDIT",
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-10-04T17:20:00+07:00",
+  "updated_at": "2026-10-04T20:20:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",
