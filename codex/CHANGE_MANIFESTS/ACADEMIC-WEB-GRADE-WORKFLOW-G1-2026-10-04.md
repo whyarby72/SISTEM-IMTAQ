@@ -33,7 +33,7 @@ No migration, schema change, runtime configuration change, grade write endpoint,
 - Composer validate: PASS.
 - Route list, view cache, and project structure: route list/view cache PASS; project structure command requires repository-root invocation.
 - Focused PHPUnit: local execution was safely blocked before test execution because `.env` resolves to protected pilot database `imtaq`; the test guard correctly refused it. No database write occurred. Disposable PostgreSQL `imtaq_test_*` was not available locally.
-- Exact disposable PostgreSQL CI verification: PASS, run `37194801505` on tested source basis `1285c1ec78f7c61f6ea85de93dd520315b82c506`; foundation suite completed with 16 tests, 2288 assertions, 0 failures.
+- Exact disposable PostgreSQL CI verification: PASS, run `37194977772` on tested source basis `8800c5c6a234e3f11c5eddcfdd9be34ce99cf1cc`; foundation suite completed with 16 tests, 2288 assertions, 0 failures.
 
 ## Rollback
 

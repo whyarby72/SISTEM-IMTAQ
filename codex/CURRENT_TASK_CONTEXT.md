@@ -4,9 +4,9 @@
 
 **Current task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE`
 **State:** `COMPLETED / PASS / GRADE_G1_IMPLEMENTED_PASS`
-**Branch / tested source basis:** `feat/super-admin-user-access-preferences` / `1285c1ec78f7c61f6ea85de93dd520315b82c506`
+**Branch / tested source basis:** `feat/super-admin-user-access-preferences` / `8800c5c6a234e3f11c5eddcfdd9be34ce99cf1cc`
 **Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-2026-10-04.md`
-**Exact CI:** `37194801505` = SUCCESS on tested source basis
+**Exact CI:** `37194977772` = SUCCESS on tested source basis
 **Application source changed:** `YES / READ-ONLY GRADE SURFACE ONLY`
 **Database write:** `NONE`
 **Next atomic task:** `ACADEMIC-WEB-GRADE-WORKFLOW-G2-DRAFT-ENTRY-STATE-HARDENING`

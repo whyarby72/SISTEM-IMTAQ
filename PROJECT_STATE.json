@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "1285c1ec78f7c61f6ea85de93dd520315b82c506",
+  "repo_commit": "8800c5c6a234e3f11c5eddcfdd9be34ce99cf1cc",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
@@ -94,10 +94,10 @@
     "codex/DECISIONS/ACADEMIC-WEB-GRADE-WORKFLOW-D1-DECISIONS-2026-10-04.md",
     "codex/TASK_CONTEXTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-AUTHORIZATION-READ-SURFACE.md",
     "codex/CHANGE_MANIFESTS/ACADEMIC-WEB-GRADE-WORKFLOW-G1-2026-10-04.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37194801505"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37194977772"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37194801505 / HEAD_1285c1ec78f7c61f6ea85de93dd520315b82c506",
+    "exact_current_ci": "PASS / RUN_37194977772 / HEAD_8800c5c6a234e3f11c5eddcfdd9be34ce99cf1cc",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",
@@ -148,7 +148,7 @@
     "super_admin_user_access_controlled_pilot_migration_e1": "COMPLETED / PASS / 43_TO_46_MIGRATIONS / BOOTSTRAP_VERIFIED",
     "academic_web_grade_workflow_surface_design": "COMPLETED / DESIGN_ONLY / GRADE_WORKFLOW_READY_FOR_IMPLEMENTATION / 4_OF_10_COMPLETE_EVIDENCED",
     "academic_web_grade_workflow_decision_ratification_d1": "COMPLETED / DESIGN_GOVERNANCE_RATIFICATION / READY_FOR_IMPLEMENTATION / ENTRY_STATE_HARDENING_REQUIRED_G2"
-    ,"academic_web_grade_workflow_g1_authorization_read_surface": "COMPLETED / PASS / GRADE_G1_IMPLEMENTED_PASS / RUN_37194801505"
+    ,"academic_web_grade_workflow_g1_authorization_read_surface": "COMPLETED / PASS / GRADE_G1_IMPLEMENTED_PASS / RUN_37194977772"
   },
   "blockers": [
     {
