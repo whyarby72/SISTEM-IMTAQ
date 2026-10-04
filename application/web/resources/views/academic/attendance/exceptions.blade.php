@@ -66,7 +66,16 @@
                 </form>
                 @if (($filters['from'] ?? null) && ($filters['to'] ?? null))
                     @if ($bulkSessions->isNotEmpty())
-                        <div class="bulk-preview"><strong>{{ $bulkSessions->count() }} sesi memenuhi syarat pembatalan</strong><span>Hanya sesi yang masih memenuhi aturan sistem yang akan dibatalkan.</span><details class="bulk-preview-list" @if ($bulkSessions->count() <= 6) open @endif><summary>Lihat {{ $bulkSessions->count() }} sesi</summary><div class="bulk-preview-items">@foreach ($bulkSessions as $bulkSession)@php($bulkScopeClasses = $bulkSession->scopeGroups->pluck('academicClass')->filter()->sortBy('display_name')->values())@php($bulkScopeLabel = $bulkScopeClasses->count() > 1 ? $bulkScopeClasses->pluck('display_name')->implode(' + ') : ($bulkScopeClasses->first()?->display_name ?? $bulkSession->academicClass?->display_name ?? $bulkSession->class_id))<div class="bulk-preview-item"><strong>{{ $bulkScopeLabel }}</strong>@if ($bulkScopeClasses->count() > 1)<small class="exception-joint-label">Kelas gabungan</small>@endif<span>{{ $weekdayNames[$bulkSession->planned_start_at->format('l')] ?? $bulkSession->planned_start_at->format('l') }}, {{ $bulkSession->planned_start_at->format('d M Y · H:i') }}</span></div>@endforeach</div></details></div>
+                        <div class="bulk-preview"><strong>{{ $bulkSessions->count() }} sesi memenuhi syarat pembatalan</strong><span>Hanya sesi yang masih memenuhi aturan sistem yang akan dibatalkan.</span><details class="bulk-preview-list" @if ($bulkSessions->count() <= 6) open @endif><summary>Lihat {{ $bulkSessions->count() }} sesi</summary><div class="bulk-preview-items">
+                            @foreach ($bulkSessions as $bulkSession)
+                                @php
+                                    $bulkScopeClasses = $bulkSession->scopeGroups->pluck('academicClass')->filter()->sortBy('display_name')->values();
+                                    $bulkScopeLabel = $bulkScopeClasses->count() > 1 ? $bulkScopeClasses->pluck('display_name')->implode(' + ') : ($bulkScopeClasses->first()?->display_name ?? $bulkSession->academicClass?->display_name ?? $bulkSession->class_id);
+                                    $bulkStart = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($bulkSession->planned_start_at);
+                                @endphp
+                                <div class="bulk-preview-item"><strong>{{ $bulkScopeLabel }}</strong>@if ($bulkScopeClasses->count() > 1)<small class="exception-joint-label">Kelas gabungan</small>@endif<span>{{ $weekdayNames[$bulkStart->format('l')] ?? $bulkStart->format('l') }}, {{ $bulkStart->format('d M Y · H:i') }}</span></div>
+                            @endforeach
+                        </div></details></div>
                         <p class="bulk-safety-note">Periksa daftar sesi sebelum melanjutkan. Pembatalan akan tercatat dalam riwayat perubahan.</p>
                         <form class="bulk-cancel-submit" method="POST" action="{{ route('academic.attendance.exceptions.bulk-cancel') }}" onsubmit="return window.confirm('Batalkan {{ $bulkSessions->count() }} sesi yang tampil dalam pratinjau?')">
                             @csrf<input type="hidden" name="class_id" value="{{ $filters['class_id'] ?? '' }}"><input type="hidden" name="from" value="{{ $filters['from'] }}"><input type="hidden" name="to" value="{{ $filters['to'] }}">
@@ -102,7 +111,10 @@
                             @php($scopeClasses = $session->scopeGroups->pluck('academicClass')->filter()->sortBy('display_name')->values())
                             @php($scopeLabel = $scopeClasses->count() > 1 ? $scopeClasses->pluck('display_name')->implode(' + ') : ($scopeClasses->first()?->display_name ?? $session->academicClass?->display_name ?? 'Kelas'))
                             <td data-label="Sesi"><strong>{{ $scopeLabel }}</strong>@if ($scopeClasses->count() > 1)<br><small class="exception-joint-label">Kelas gabungan</small>@endif<br><span class="muted">{{ ['PLANNED' => 'Dijadwalkan', 'CONFIRMED' => 'Dikonfirmasi', 'COMPLETED' => 'Selesai', 'CANCELLED' => 'Dibatalkan'][$session->session_status] ?? $session->session_status }}</span></td>
-                            <td data-label="Waktu"><strong>{{ $weekdayNames[$session->planned_start_at->format('l')] ?? $session->planned_start_at->format('l') }}</strong><br><span class="muted">{{ $session->planned_start_at->format('d M Y, H:i') }}</span></td>
+                            @php
+                                $sessionStart = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($session->planned_start_at);
+                            @endphp
+                            <td data-label="Waktu"><strong>{{ $weekdayNames[$sessionStart->format('l')] ?? $sessionStart->format('l') }}</strong><br><span class="muted">{{ $sessionStart->format('d M Y, H:i') }}</span></td>
                             <td data-label="Temuan">
                                 @if ($finding['no_participants'] ?? false)
                                     <span class="flag">Roster santri belum dibuat</span>

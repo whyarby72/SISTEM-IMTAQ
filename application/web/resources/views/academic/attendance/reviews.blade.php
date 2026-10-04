@@ -56,7 +56,7 @@
                         @php($scopeLabel = $scopeClasses->count() > 1 ? $scopeClasses->pluck('display_name')->implode(' + ') : ($scopeClasses->first()?->display_name ?? $session->academicClass?->display_name ?? 'Kelas'))
                         <div>
                             <strong>{{ $scopeLabel }} · {{ $session->teachingAssignment?->subject?->subject_name ?? 'Pelajaran' }}</strong>@if ($scopeClasses->count() > 1)<small class="review-joint-label">Kelas gabungan</small>@endif
-                            <small>{{ $session->planned_start_at->format('d M Y, H:i') }} · Hadir {{ $summary->get('PRESENT', 0) }} · Sakit {{ $summary->get('SICK', 0) }} · Izin {{ $summary->get('IZIN', 0) }} · Tidak hadir {{ $summary->get('ABSENT', 0) }} · Belum diisi {{ $summary->get('PENDING', 0) }}</small>
+                            <small>{{ \App\Shared\Platform\Presentation\AcademicBusinessTime::dateTime($session->planned_start_at) }} · Hadir {{ $summary->get('PRESENT', 0) }} · Sakit {{ $summary->get('SICK', 0) }} · Izin {{ $summary->get('IZIN', 0) }} · Tidak hadir {{ $summary->get('ABSENT', 0) }} · Belum diisi {{ $summary->get('PENDING', 0) }}</small>
                         </div>
                         <a href="{{ route('academic.attendance.review', $session) }}">Periksa hasil</a>
                     </div>

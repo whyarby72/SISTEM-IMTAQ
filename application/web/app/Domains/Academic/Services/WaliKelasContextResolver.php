@@ -6,6 +6,7 @@ use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
 use App\Models\User;
 use App\Shared\Core\Models\Staff;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Carbon;
 
@@ -18,7 +19,7 @@ class WaliKelasContextResolver
 
     public function resolve(User $user, ClassSession $session): Staff
     {
-        $date = $session->planned_start_at->toDateString();
+        $date = AcademicBusinessTime::date($session->planned_start_at);
         $link = $user->staffLink()
             ->where(fn ($query) => $query->whereNull('effective_from')->orWhereDate('effective_from', '<=', $date))
             ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
@@ -46,7 +47,7 @@ class WaliKelasContextResolver
     /** @return array<int,string> */
     public function effectiveClassIdsForSession(User $user, ClassSession $session): array
     {
-        $date = $session->planned_start_at->toDateString();
+        $date = AcademicBusinessTime::date($session->planned_start_at);
         $link = $user->staffLink()
             ->where(fn ($query) => $query->whereNull('effective_from')->orWhereDate('effective_from', '<=', $date))
             ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
@@ -82,8 +83,8 @@ class WaliKelasContextResolver
             ->with('staff')
             ->where('class_id', $session->class_id)
             ->where('status', 'ACTIVE')
-            ->whereDate('effective_from', '<=', $session->planned_start_at->toDateString())
-            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $session->planned_start_at->toDateString()))
+            ->whereDate('effective_from', '<=', AcademicBusinessTime::date($session->planned_start_at))
+            ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', AcademicBusinessTime::date($session->planned_start_at)))
             ->first()?->staff;
     }
 }

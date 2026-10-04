@@ -5,6 +5,7 @@ namespace App\Domains\Academic\Services;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Models\User;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Collection;
 
@@ -104,7 +105,7 @@ class SessionAttendanceScopeResolver
 
     private function effectiveClassMatches(ClassSession $session, object $participant, array $classIds): Collection
     {
-        $sessionDate = $session->planned_start_at->toDateString();
+        $sessionDate = AcademicBusinessTime::date($session->planned_start_at);
 
         return $participant->student->classEnrollments
             ->filter(fn ($enrollment): bool => in_array((string) $enrollment->class_id, $classIds, true)

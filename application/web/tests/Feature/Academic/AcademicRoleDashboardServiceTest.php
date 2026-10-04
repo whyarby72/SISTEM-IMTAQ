@@ -258,6 +258,7 @@ class AcademicRoleDashboardServiceTest extends TestCase
             ->assertSee("event.key !== 'Escape'", false)
             ->assertDontSee('Peran: Wali Kelas')
             ->assertDontSee('Perlu Perhatian Kehadiran')
+            ->assertSee('10/07/2026, 08:00')
             ->assertSee('Belum ada data wajib yang dapat dihitung');
     }
 

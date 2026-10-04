@@ -14,7 +14,7 @@ class AcademicTodaySessionService
 
     public function forUser(User $user, ?DateTimeInterface $now = null): array
     {
-        $clock = Carbon::parse($now ?? now())->setTimezone(config('app.timezone', 'Asia/Jakarta'));
+        $clock = Carbon::parse($now ?? now())->setTimezone(config('academic.business_timezone', 'Asia/Jakarta'));
         if (! $this->authorization->hasAcademicFullAuthority($user, $clock)) {
             throw new AuthorizationException('Only Waka Akademik or Super Admin may read Today academic sessions.');
         }

@@ -3,6 +3,7 @@
 use App\Domains\Academic\Semantics\Enums\AttendanceSourceType;
 
 return [
+    'business_timezone' => env('ACADEMIC_BUSINESS_TIMEZONE', 'Asia/Jakarta'),
     'session_occurrence_enabled' => (bool) env('ACADEMIC_SESSION_OCCURRENCE_ENABLED', false),
     'session_occurrence_cutover_at' => env('ACADEMIC_SESSION_OCCURRENCE_CUTOVER_AT'),
     'attendance_source_precedence' => [

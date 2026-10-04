@@ -3,6 +3,7 @@
 namespace App\Domains\Academic\Services;
 
 use App\Domains\Academic\Models\ClassSession;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Support\Collection;
 
 class JointAttendanceRosterBreakdownService
@@ -67,7 +68,7 @@ class JointAttendanceRosterBreakdownService
 
     private function effectiveMatches(ClassSession $session, object $participant, array $classIds): Collection
     {
-        $sessionDate = $session->planned_start_at->toDateString();
+        $sessionDate = AcademicBusinessTime::date($session->planned_start_at);
 
         return $participant->student->classEnrollments
             ->filter(fn ($enrollment) => in_array((string) $enrollment->class_id, array_map('strval', $classIds), true)

@@ -75,7 +75,7 @@ class AcademicRoleDashboardService
             ];
         }
 
-        $timezone = (string) config('app.timezone', 'Asia/Jakarta');
+        $timezone = (string) config('academic.business_timezone', 'Asia/Jakarta');
         $now = Carbon::now($timezone);
         $todayStart = $now->copy()->startOfDay();
         $tomorrowStart = $todayStart->copy()->addDay();

@@ -120,8 +120,12 @@
                             @else
                                 <div class="wali-work-list" role="list">
                                     @foreach ($todayWork as $work)
+                                        @php
+                                            $workStart = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($work['session']->planned_start_at);
+                                            $workEnd = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($work['session']->planned_end_at);
+                                        @endphp
                                         <article class="wali-work-item" role="listitem" data-state="{{ $work['state'] }}">
-                                            <div class="wali-work-time"><strong>{{ $work['session']->planned_start_at->format('H:i') }}–{{ $work['session']->planned_end_at->format('H:i') }}</strong><span>{{ $weekdayNames[$work['session']->planned_start_at->format('l')] ?? $work['session']->planned_start_at->format('l') }}, {{ $work['session']->planned_start_at->format('d/m/Y') }}</span><span>@uiLabel($work['class_label'])</span></div>
+                                            <div class="wali-work-time"><strong>{{ $workStart->format('H:i') }}–{{ $workEnd->format('H:i') }}</strong><span>{{ $weekdayNames[$workStart->format('l')] ?? $workStart->format('l') }}, {{ $workStart->format('d/m/Y') }}</span><span>@uiLabel($work['class_label'])</span></div>
                                             <div class="wali-work-main"><strong>@uiLabel($work['subject_label'])</strong><span>Guru: @uiLabel($work['teacher_label'])</span><span class="waka-session-status">{{ $work['status_label'] }}</span><span class="wali-work-metrics">Santri {{ $work['resolved'] }}/{{ $work['eligible'] }} terselesaikan · {{ $work['missing'] }} belum diisi · {{ $work['completion_rate'] !== null ? $work['completion_rate'].'%' : 'denominator belum tersedia' }}</span><span class="wali-work-metrics">Kehadiran guru: {{ $work['teacher_attendance_label'] }}</span></div>
                                             <a class="wali-work-action" href="{{ route('academic.attendance.show', $work['session']) }}">{{ $work['action_label'] }} <span aria-hidden="true">→</span></a>
                                         </article>
@@ -131,7 +135,11 @@
                         </section>
                         <section class="waka-card wali-next" aria-labelledby="wali-next-title"><div class="waka-card-heading"><div><h2 id="wali-next-title">Sesi Berikutnya</h2><p>Jadwal terdekat kelas binaan.</p></div></div>
                             @if ($nextSession)
-                                <div class="wali-next-detail"><strong>@uiLabel($nextSession['subject_label'])</strong><span>{{ $weekdayNames[$nextSession['session']->planned_start_at->format('l')] ?? $nextSession['session']->planned_start_at->format('l') }}, {{ $nextSession['session']->planned_start_at->format('d/m/Y') }} · {{ $nextSession['session']->planned_start_at->format('H:i') }}–{{ $nextSession['session']->planned_end_at->format('H:i') }}</span><span>Guru: @uiLabel($nextSession['teacher_label'])</span><span>{{ $nextSession['status_label'] }}</span><a class="wali-work-action" href="{{ route('academic.attendance.show', $nextSession['session']) }}">Lihat Sesi <span aria-hidden="true">→</span></a></div>
+                                @php
+                                    $nextStart = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($nextSession['session']->planned_start_at);
+                                    $nextEnd = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($nextSession['session']->planned_end_at);
+                                @endphp
+                                <div class="wali-next-detail"><strong>@uiLabel($nextSession['subject_label'])</strong><span>{{ $weekdayNames[$nextStart->format('l')] ?? $nextStart->format('l') }}, {{ $nextStart->format('d/m/Y') }} · {{ $nextStart->format('H:i') }}–{{ $nextEnd->format('H:i') }}</span><span>Guru: @uiLabel($nextSession['teacher_label'])</span><span>{{ $nextSession['status_label'] }}</span><a class="wali-work-action" href="{{ route('academic.attendance.show', $nextSession['session']) }}">Lihat Sesi <span aria-hidden="true">→</span></a></div>
                             @else
                                 <div class="wali-empty"><strong>Belum ada sesi berikutnya</strong>Tidak ada jadwal mendatang yang tersedia untuk kelas binaan.</div>
                             @endif
@@ -219,15 +227,16 @@
                                 @endphp
                                 @foreach ($attendanceSessions as $attendanceSession)
                                     @php
-                                        $sessionDate = $attendanceSession->planned_start_at->toDateString();
+                                        $attendanceStart = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($attendanceSession->planned_start_at);
+                                        $sessionDate = $attendanceStart->toDateString();
                                     @endphp
                                     @if ($sessionDate !== $previousSessionDate)
-                                        <div class="waka-session-day">{{ $weekdayNames[$attendanceSession->planned_start_at->format('l')] ?? $attendanceSession->planned_start_at->format('l') }}, {{ $attendanceSession->planned_start_at->format('d/m/Y') }}</div>
+                                        <div class="waka-session-day">{{ $weekdayNames[$attendanceStart->format('l')] ?? $attendanceStart->format('l') }}, {{ $attendanceStart->format('d/m/Y') }}</div>
                                         @php
                                             $previousSessionDate = $sessionDate;
                                         @endphp
                                     @endif
-                                    <a class="waka-session-row" href="{{ route('academic.attendance.show', $attendanceSession) }}"><span><strong>@uiLabel($attendanceSession->teachingAssignment?->subject?->subject_name ?? 'Pelajaran')</strong><small>{{ $attendanceSession->planned_start_at->format('d/m/Y, H:i') }} · {{ $attendanceSession->studentParticipants->count() }} santri</small><span class="waka-session-meta"><span class="waka-session-status">{{ $attendanceSession->attendance_label }}</span></span></span><span class="waka-session-action">{{ $attendanceSession->attendance_action }} →</span></a>
+                                    <a class="waka-session-row" href="{{ route('academic.attendance.show', $attendanceSession) }}"><span><strong>@uiLabel($attendanceSession->teachingAssignment?->subject?->subject_name ?? 'Pelajaran')</strong><small>{{ $attendanceStart->format('d/m/Y, H:i') }} · {{ $attendanceSession->studentParticipants->count() }} santri</small><span class="waka-session-meta"><span class="waka-session-status">{{ $attendanceSession->attendance_label }}</span></span></span><span class="waka-session-action">{{ $attendanceSession->attendance_action }} →</span></a>
                                 @endforeach
                             </div>
                         @endif

@@ -5,6 +5,7 @@ namespace App\Domains\Academic\Services;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentClassEnrollment;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +24,7 @@ class SessionParticipantSnapshotter
     {
         return DB::transaction(function () use ($session): Collection {
             $lockedSession = ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
-            $date = $lockedSession->planned_start_at->toDateString();
+            $date = AcademicBusinessTime::date($lockedSession->planned_start_at);
             $scopeClassIds = $lockedSession->scopeGroups()->pluck('class_id')->all();
             if ($scopeClassIds === []) {
                 $scopeClassIds = [$lockedSession->class_id];

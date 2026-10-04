@@ -292,17 +292,21 @@
     </style>
 </head>
 <body>
-@php($dayNames = ['Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'])
-@php($attendanceDay = ($dayNames[$session->planned_start_at->format('l')] ?? $session->planned_start_at->format('l')).', '.$session->planned_start_at->format('d M Y'))
-@php($isReviewRoute = request()->routeIs('academic.attendance.review'))
-@php($attendanceReturnUrl = $isReviewRoute ? route('academic.attendance.reviews') : route('academic.attendance.exceptions', $attendanceScope['is_joint'] ? ['list_month' => $session->planned_start_at->format('Y-m'), 'list_sort' => 'newest'] : ['list_month' => $session->planned_start_at->format('Y-m'), 'list_class_id' => $session->class_id, 'list_sort' => 'newest']))
-@php($attendanceReturnLabel = $isReviewRoute || $attendanceScope['is_joint'] ? '← Kembali ke daftar sesi' : '← Kembali ke daftar sesi kelas ini')
+@php
+    $dayNames = ['Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'];
+    $businessStart = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($session->planned_start_at);
+    $businessEnd = \App\Shared\Platform\Presentation\AcademicBusinessTime::at($session->planned_end_at);
+    $attendanceDay = ($dayNames[$businessStart->format('l')] ?? $businessStart->format('l')).', '.$businessStart->format('d M Y');
+    $isReviewRoute = request()->routeIs('academic.attendance.review');
+    $attendanceReturnUrl = $isReviewRoute ? route('academic.attendance.reviews') : route('academic.attendance.exceptions', $attendanceScope['is_joint'] ? ['list_month' => $businessStart->format('Y-m'), 'list_sort' => 'newest'] : ['list_month' => $businessStart->format('Y-m'), 'list_class_id' => $session->class_id, 'list_sort' => 'newest']);
+    $attendanceReturnLabel = $isReviewRoute || $attendanceScope['is_joint'] ? '← Kembali ke daftar sesi' : '← Kembali ke daftar sesi kelas ini';
+@endphp
 <div class="waka-shell">@include('academic.partials.sidebar', ['activeMenu' => 'attendance', 'attendanceUrl' => $attendanceReturnUrl])<main class="waka-content attendance-page">
     <header class="card session-header">
         <p class="eyebrow">{{ ($readOnly ?? false) ? 'Pemeriksaan Waka Akademik' : 'Operasional kelas' }}</p><h1>{{ ($readOnly ?? false) ? 'Hasil Kehadiran Santri' : 'Kehadiran Santri' }}</h1><a class="attendance-back-link" href="{{ $attendanceReturnUrl }}">{{ $attendanceReturnLabel }}</a>
         <div class="hero-meta-grid">
             <div class="hero-meta-block"><span class="hero-meta-label">{{ $attendanceScope['is_joint'] ? 'Kelas gabungan · Mata pelajaran' : 'Kelas · Mata pelajaran' }}</span><strong class="hero-meta-value">{{ $attendanceScope['is_joint'] ? 'Kelas gabungan · '.$attendanceScope['class_label'] : ($session->academicClass?->display_name ?? 'Kelas belum ditentukan') }} · {{ $session->teachingAssignment?->subject?->subject_name ?? 'Mata pelajaran belum ditentukan' }}</strong><span class="hero-meta-secondary">Sesi Kehadiran</span>@if ($attendanceScope['is_joint'])<div class="joint-scope-summary"><strong>Breakdown roster</strong><span>{{ $attendanceScope['counts']->map(fn ($item) => $item['label'].' · '.$item['count'].' santri')->implode(' · ') }}@if ($attendanceScope['unmapped_count'] > 0) · Belum terpetakan · {{ $attendanceScope['unmapped_count'] }} santri @endif</span></div>@endif</div>
-            <div class="hero-meta-block"><span class="hero-meta-label">Tanggal · Waktu</span><strong class="hero-meta-value">{{ $attendanceDay }}</strong><span class="hero-meta-secondary">{{ $session->planned_start_at->format('H:i') }}–{{ $session->planned_end_at->format('H:i') }}</span></div>
+            <div class="hero-meta-block"><span class="hero-meta-label">Tanggal · Waktu</span><strong class="hero-meta-value">{{ $attendanceDay }}</strong><span class="hero-meta-secondary">{{ $businessStart->format('H:i') }}–{{ $businessEnd->format('H:i') }}</span></div>
             <div class="hero-meta-block"><span class="hero-meta-label">Guru terjadwal</span><strong class="hero-meta-value">{{ $session->teachingAssignment?->teacher?->full_name ?? 'Belum ditentukan' }}</strong></div>
             <div class="hero-meta-block"><span class="hero-meta-label">Dicatat oleh</span><strong class="hero-meta-value">{{ $staff?->full_name ?? auth()->user()->name }}</strong></div>
             <div class="hero-meta-block"><span class="hero-meta-label">Status sesi</span><span class="hero-status-badge">{{ ['PLANNED' => 'Dijadwalkan', 'CONFIRMED' => 'Dikonfirmasi', 'COMPLETED' => 'Selesai', 'CANCELLED' => 'Dibatalkan', 'RESCHEDULED' => 'Dijadwal ulang'][$session->session_status] ?? $session->session_status }}</span></div>

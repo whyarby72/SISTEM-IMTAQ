@@ -6,6 +6,7 @@ use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
 use App\Models\User;
 use App\Shared\Platform\Authorization\Models\Permission;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Carbon;
 
@@ -60,7 +61,7 @@ class AcademicAuthorizationService
 
     public function isEffectiveWaliForSession(User $user, ClassSession $session): bool
     {
-        $date = $session->planned_start_at->toDateString();
+        $date = AcademicBusinessTime::date($session->planned_start_at);
         $link = $user->staffLink()
             ->where(fn ($query) => $query->whereNull('effective_from')->orWhereDate('effective_from', '<=', $date))
             ->where(fn ($query) => $query->whereNull('effective_until')->orWhereDate('effective_until', '>', $date))
