@@ -1,5 +1,21 @@
 # NEXT ACTION
 
+## Academic Wali UAT R3A1 closeout — 2026-10-05
+
+**Current task:** `ACADEMIC-WALI-UAT-R3A1-FUTURE-OCCURRENCE-GUARD`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R3A1_IMPLEMENTED_PASS`
+**Starting HEAD:** `6cfd0284b73153c27bb6c5667aeb49465759651b`
+**Tested executable HEAD:** `7442dac3466d4abfca5bc0c17a80e8e6db713234`
+**Exact CI:** `37245865829` = SUCCESS
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-UAT-R3A1-FUTURE-OCCURRENCE-GUARD-2026-10-05.md`
+**Database access/write:** `NONE / NONE`
+**Next atomic task:** `R3A1_SOURCE_READY_FOR_CHATGPT_AUDIT`
+
+Do not automatically resume human UAT, start R3B, or resume Grade G3.
+Public Academic AI remains OFF; Academic Web remains `4/10 = 40%
+COMPLETE_EVIDENCED`; `SOC-MD-06` is unchanged; `IMP-S12-007` remains
+`NOT_STARTED`.
+
 ## Academic Wali dashboard maturity R1 closeout — 2026-10-04
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-MATURITY-R1-OPERATIONAL-HOME`

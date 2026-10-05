@@ -1,5 +1,22 @@
 # Work Log
 
+## 2026-10-05 — Academic Wali UAT R3A1 future occurrence guard
+
+- Closed the P1 temporal integrity gap for canonical future ClassSession
+  execution state and occurrence recording.
+- Future null/SCHEDULED sessions are `UPCOMING`; at or after the planned
+  instant they are `OCCURRENCE_PENDING`. Pre-start HELD/PARTIAL_HELD and
+  correction-to-HELD are rejected before occurrence or snapshot mutation.
+- Preserved Waka future cancel/reschedule authority, Wali scope, legacy,
+  joint-session, finalization, historical acknowledgement, and timezone
+  semantics. Teacher attendance presentation now respects the existing lock.
+- Exact disposable PostgreSQL foundation CI `37245865829` passed on executable
+  HEAD `7442dac3466d4abfca5bc0c17a80e8e6db713234`.
+- No PILOT access/write, attendance write, migration, schema/config/dependency
+  change, AI/provider mutation, or public Academic AI activation.
+- Decision: `ACADEMIC_WALI_R3A1_IMPLEMENTED_PASS`; next task is
+  `R3A1_SOURCE_READY_FOR_CHATGPT_AUDIT`.
+
 ## 2026-10-04 — Academic Wali dashboard maturity R2B-A joint scope authorization
 
 - Added `SessionAttendanceScopeResolver` for canonical ClassSession scope,
