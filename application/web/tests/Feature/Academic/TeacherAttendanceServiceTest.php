@@ -3,8 +3,10 @@
 namespace Tests\Feature\Academic;
 
 use App\Domains\Academic\Models\AcademicClass;
+use App\Domains\Academic\Models\AttendancePeriodLock;
 use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
+use App\Domains\Academic\Models\ClassSessionGroup;
 use App\Domains\Academic\Models\GradeLevel;
 use App\Domains\Academic\Models\Semester;
 use App\Domains\Academic\Models\SessionTeacherParticipation;
@@ -73,6 +75,43 @@ class TeacherAttendanceServiceTest extends TestCase
     {
         [$session, $participation, $homeroom] = $this->fixtures();
         $session->update(['session_status' => 'COMPLETED']);
+
+        $this->expectException(InvalidArgumentException::class);
+        app(TeacherAttendanceService::class)->record($session, $participation, $homeroom, 'PRESENT');
+    }
+
+    public function test_locked_ordinary_period_rejects_teacher_attendance_without_audit_or_mutation(): void
+    {
+        [$session, $participation, $homeroom] = $this->fixtures();
+        AttendancePeriodLock::create([
+            'class_id' => $session->class_id,
+            'period_start' => '2026-07-01',
+            'period_end' => '2026-07-31',
+            'status' => 'LOCKED',
+        ]);
+
+        try {
+            app(TeacherAttendanceService::class)->record($session, $participation, $homeroom, 'PRESENT');
+            $this->fail('A locked period must reject normal teacher attendance writes.');
+        } catch (InvalidArgumentException $exception) {
+            $this->assertStringContainsString('periode kehadiran sudah dikunci', strtolower($exception->getMessage()));
+        }
+
+        $this->assertNull($participation->fresh()->attendance_status);
+        $this->assertSame(0, AuditLog::where('action', 'TEACHER_ATTENDANCE_RECORDED')->count());
+    }
+
+    public function test_joint_teacher_attendance_is_blocked_when_anchor_class_is_locked(): void
+    {
+        [$session, $participation, $homeroom] = $this->jointFixtures(true, false);
+
+        $this->expectException(InvalidArgumentException::class);
+        app(TeacherAttendanceService::class)->record($session, $participation, $homeroom, 'PRESENT');
+    }
+
+    public function test_joint_teacher_attendance_is_blocked_when_non_anchor_class_is_locked(): void
+    {
+        [$session, $participation, $homeroom] = $this->jointFixtures(false, true);
 
         $this->expectException(InvalidArgumentException::class);
         app(TeacherAttendanceService::class)->record($session, $participation, $homeroom, 'PRESENT');
@@ -161,5 +200,34 @@ class TeacherAttendanceServiceTest extends TestCase
         $participation = SessionTeacherParticipation::create(['class_session_id' => $session->id, 'teacher_staff_id' => $teacher->id, 'role' => 'PRIMARY', 'obligation_type' => 'TEACHING_ASSIGNMENT']);
 
         return [$session, $participation, $homeroom, $otherStaff];
+    }
+
+    private function jointFixtures(bool $lockAnchor, bool $lockNonAnchor): array
+    {
+        [$session, $participation, $homeroom] = $this->fixtures('JOINT');
+        $anchor = $session->academicClass()->firstOrFail();
+        $nonAnchor = AcademicClass::create([
+            'class_code' => 'CLASS-TA-B-JOINT',
+            'academic_year_id' => $anchor->academic_year_id,
+            'organizational_unit_id' => $anchor->organizational_unit_id,
+            'grade_level_id' => $anchor->grade_level_id,
+            'section_code' => 'B',
+            'display_name' => 'Kelas 1 B Joint',
+        ]);
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $anchor->id, 'scope_role' => 'PRIMARY']);
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $nonAnchor->id, 'scope_role' => 'JOINT']);
+
+        foreach ([$anchor->id => $lockAnchor, $nonAnchor->id => $lockNonAnchor] as $classId => $locked) {
+            if ($locked) {
+                AttendancePeriodLock::create([
+                    'class_id' => $classId,
+                    'period_start' => '2026-07-01',
+                    'period_end' => '2026-07-31',
+                    'status' => 'LOCKED',
+                ]);
+            }
+        }
+
+        return [$session, $participation, $homeroom];
     }
 }

@@ -5,7 +5,6 @@ namespace App\Domains\Academic\Services;
 use App\Domains\Academic\Models\ClassSession;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Models\User;
-use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Collection;
 
@@ -15,6 +14,7 @@ class SessionAttendanceScopeResolver
         private readonly AcademicClassScopeResolver $classScope,
         private readonly AcademicAuthorizationService $authorization,
         private readonly WaliKelasContextResolver $waliContext,
+        private readonly SessionParticipantEffectiveClassResolver $effectiveClassResolver,
     ) {}
 
     /**
@@ -55,7 +55,7 @@ class SessionAttendanceScopeResolver
         $unmapped = [];
         $ambiguous = [];
         foreach ($participants as $participant) {
-            $matches = $this->effectiveClassMatches($session, $participant, $canonicalClassIds);
+            $matches = $this->effectiveClassResolver->matches($session, $participant);
             if ($matches->count() === 0) {
                 $unmapped[] = (string) $participant->getKey();
             } elseif ($matches->count() > 1) {
@@ -101,16 +101,5 @@ class SessionAttendanceScopeResolver
         $allowed = array_map('strval', $scope['authorized_participant_ids']);
 
         return $participants->filter(fn (SessionStudentParticipant $participant): bool => in_array((string) $participant->getKey(), $allowed, true))->values();
-    }
-
-    private function effectiveClassMatches(ClassSession $session, object $participant, array $classIds): Collection
-    {
-        $sessionDate = AcademicBusinessTime::date($session->planned_start_at);
-
-        return $participant->student->classEnrollments
-            ->filter(fn ($enrollment): bool => in_array((string) $enrollment->class_id, $classIds, true)
-                && $enrollment->status === 'ACTIVE'
-                && $enrollment->effective_from->lte($sessionDate)
-                && ($enrollment->effective_until === null || $enrollment->effective_until->gt($sessionDate)));
     }
 }

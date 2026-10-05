@@ -19,6 +19,8 @@ class TeacherAttendanceService
         private readonly AuditLogger $auditLogger,
         private readonly AcademicAuthorizationService $authorization,
         private readonly AcademicSessionExecutionStateResolver $executionResolver,
+        private readonly AcademicClassScopeResolver $classScope,
+        private readonly AttendanceScopeLockEvaluator $lockEvaluator,
     ) {}
 
     public function record(
@@ -42,6 +44,10 @@ class TeacherAttendanceService
 
             if (in_array($lockedSession->session_status, ['CANCELLED', 'COMPLETED', 'RESCHEDULED'], true)) {
                 throw new InvalidArgumentException('Status sesi tidak dapat menerima perubahan kehadiran guru.');
+            }
+
+            if ($this->lockEvaluator->isLocked($this->classScope->forSession($lockedSession), $lockedSession->planned_start_at)) {
+                throw new InvalidArgumentException('Periode kehadiran sudah dikunci; perubahan kehadiran guru harus menggunakan alur koreksi.');
             }
 
             if (! in_array($attendanceStatus, ['PRESENT', 'ABSENT', 'SICK', 'IZIN', 'OTHER'], true)) {

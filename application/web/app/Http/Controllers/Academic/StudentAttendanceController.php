@@ -87,10 +87,11 @@ class StudentAttendanceController
             ? $attendanceScopeData['effective_class_ids']
             : [(string) $session->class_id];
         $scopeIsLocked = $lockEvaluator->isLocked($lockClassIds, $session->planned_start_at);
+        $teacherScopeIsLocked = $lockEvaluator->isLocked(array_map('strval', $this->classScope->forSession($session)), $session->planned_start_at);
         $canSaveDraft = ! $readOnly && $executionState['attendance_input_allowed'] && ! $scopeIsLocked;
         $canRequestCorrection = $readOnly && $scopeIsLocked && $correctionCandidates->isNotEmpty();
         $canRecordTeacherAttendance = ! $readOnly
-            && ! $scopeIsLocked
+            && ! $teacherScopeIsLocked
             && $executionState['attendance_obligation_exists']
             && $session->teacherParticipations->isNotEmpty();
         $requiredParticipants = $participants->filter(fn ($participant) => $participant->participant_status === 'EXPECTED' && $participant->is_required);
@@ -119,7 +120,7 @@ class StudentAttendanceController
 
         $requiresHistoricalAcknowledgement = ! $canManageAllClasses && $executionState['is_historical'] && $canSaveDraft;
 
-        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'partitionFinalized', 'canFinalize', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'canSaveDraft', 'scopeIsLocked', 'completeness', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canManageOccurrencePhysical', 'canCorrectOccurrence', 'executionState', 'requiresHistoricalAcknowledgement'));
+        return view('academic.attendance.show', compact('session', 'participants', 'staff', 'homeroomStaff', 'replacementTeachers', 'canCancel', 'readOnly', 'partitionFinalized', 'canFinalize', 'correctionCandidates', 'canRequestCorrection', 'canRecordTeacherAttendance', 'canSaveDraft', 'scopeIsLocked', 'teacherScopeIsLocked', 'completeness', 'attendanceScope', 'occurrenceFeatureEnabled', 'occurrenceCanonicalRegime', 'occurrenceHistory', 'effectiveOccurrence', 'canManageOccurrence', 'canManageOccurrencePhysical', 'canCorrectOccurrence', 'executionState', 'requiresHistoricalAcknowledgement'));
     }
 
     public function recordOccurrence(

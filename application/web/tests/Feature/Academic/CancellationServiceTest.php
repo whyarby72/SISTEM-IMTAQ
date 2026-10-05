@@ -18,6 +18,7 @@ use App\Shared\Core\Models\Staff;
 use App\Shared\Core\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Tests\TestCase;
 
@@ -62,6 +63,24 @@ class CancellationServiceTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         app(CancellationService::class)->apply($session, null, 'Kegiatan akademik diganti Tahfizh');
+    }
+
+    public function test_single_cancellation_uses_the_locked_session_for_decisive_attendance_check(): void
+    {
+        [$session] = $this->fixtures('2099-01-01 08:00:00', 'PLANNED');
+        $queries = [];
+        DB::listen(function ($query) use (&$queries): void {
+            $queries[] = strtolower($query->sql);
+        });
+
+        app(CancellationService::class)->apply($session, null, 'Institution closure');
+
+        $lockIndex = collect($queries)->search(fn (string $sql): bool => str_contains($sql, 'for update') && str_contains($sql, 'class_sessions'));
+        $attendanceCheckIndex = collect($queries)->search(fn (string $sql): bool => str_contains($sql, 'exists') && str_contains($sql, 'student_attendance'));
+
+        $this->assertNotFalse($lockIndex);
+        $this->assertNotFalse($attendanceCheckIndex);
+        $this->assertLessThan($attendanceCheckIndex, $lockIndex);
     }
 
     private function fixtures(string $start, string $status): array

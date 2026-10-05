@@ -6,10 +6,12 @@ use App\Domains\Academic\Models\AcademicClass;
 use App\Domains\Academic\Models\AttendancePeriodLock;
 use App\Domains\Academic\Models\ClassHomeroomAssignment;
 use App\Domains\Academic\Models\ClassSession;
+use App\Domains\Academic\Models\ClassSessionGroup;
 use App\Domains\Academic\Models\GradeLevel;
 use App\Domains\Academic\Models\Semester;
 use App\Domains\Academic\Models\SessionStudentParticipant;
 use App\Domains\Academic\Models\StudentAttendance;
+use App\Domains\Academic\Models\StudentClassEnrollment;
 use App\Domains\Academic\Models\Subject;
 use App\Domains\Academic\Models\TeachingAssignment;
 use App\Domains\Academic\Services\PostLockAttendanceCorrectionService;
@@ -86,6 +88,36 @@ class PostLockAttendanceCorrectionServiceTest extends TestCase
         $this->assertSame(2, $attendance->fresh()->version_no);
     }
 
+    public function test_joint_participant_does_not_inherit_anchor_lock_for_submission(): void
+    {
+        [$attendanceB, , $waliB] = $this->jointFixtures(true, false);
+
+        $this->expectException(InvalidArgumentException::class);
+        app(PostLockAttendanceCorrectionService::class)->submit($attendanceB, $waliB, 2, 'Correction', ['attendance_status' => 'ABSENT']);
+    }
+
+    public function test_joint_participant_uses_its_effective_class_lock_for_submission(): void
+    {
+        [$attendanceB, , $waliB] = $this->jointFixtures(false, true);
+
+        $request = app(PostLockAttendanceCorrectionService::class)->submit($attendanceB, $waliB, 2, 'Correction', ['attendance_status' => 'ABSENT']);
+
+        $this->assertSame('PENDING', $request->status);
+    }
+
+    public function test_approved_joint_correction_rechecks_participant_lock_on_apply(): void
+    {
+        [$attendanceB, , $waliB, $waka] = $this->jointFixtures(false, true);
+        $service = app(PostLockAttendanceCorrectionService::class);
+        $request = $service->submit($attendanceB, $waliB, 2, 'Correction', ['attendance_status' => 'ABSENT']);
+        $approved = $service->review($request, $waka, true);
+
+        AttendancePeriodLock::query()->where('class_id', $attendanceB->participant->student->classEnrollments->first()->class_id)->delete();
+
+        $this->expectException(InvalidArgumentException::class);
+        $service->applyApproved($approved, $waka);
+    }
+
     public function test_wali_cannot_review_and_super_admin_cannot_be_replaced_by_client_input(): void
     {
         [$attendance, , $wali, $waka] = $this->fixtures();
@@ -157,11 +189,48 @@ class PostLockAttendanceCorrectionServiceTest extends TestCase
         $assignment = TeachingAssignment::create(['assignment_code' => 'TA-POST-001', 'semester_id' => $semester->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'teacher_staff_id' => $teacher->id, 'effective_from' => '2026-07-01', 'workflow_status' => 'ACTIVE']);
         $session = ClassSession::create(['session_code' => 'SESSION-POST-001', 'teaching_assignment_id' => $assignment->id, 'class_id' => $class->id, 'subject_id' => $subject->id, 'planned_start_at' => '2026-07-06 08:00:00', 'planned_end_at' => '2026-07-06 09:30:00', 'session_source' => 'SCHEDULED', 'participant_scope' => 'FULL_CLASS', 'session_status' => 'PLANNED']);
         $participant = SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => Student::create(['student_code' => 'STU-POST-001', 'full_name' => 'Student'])->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        StudentClassEnrollment::create(['student_id' => $participant->student_id, 'class_id' => $class->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
         $attendance = StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'version_no' => 2, 'entered_by' => $wali->id, 'entered_at' => now(), 'finalized_by' => $wali->id, 'finalized_at' => now(), 'updated_by' => $wali->id, 'updated_at' => now()]);
         if ($locked) {
             AttendancePeriodLock::create(['class_id' => $class->id, 'period_start' => '2026-07-01', 'period_end' => '2026-07-31', 'status' => 'LOCKED', 'locked_by' => $waka->id, 'locked_at' => Carbon::parse('2026-08-15'), 'version_no' => 1]);
         }
 
         return [$attendance, $session, $wali, $waka, $superAdmin];
+    }
+
+    private function jointFixtures(bool $lockAnchor, bool $lockNonAnchor): array
+    {
+        [$attendanceA, $session, $waliA, $waka] = $this->fixtures(false);
+        $anchor = $session->academicClass()->firstOrFail();
+        $nonAnchor = AcademicClass::create([
+            'class_code' => 'CLASS-POST-B',
+            'academic_year_id' => $anchor->academic_year_id,
+            'organizational_unit_id' => $anchor->organizational_unit_id,
+            'grade_level_id' => $anchor->grade_level_id,
+            'section_code' => 'B',
+            'display_name' => 'Kelas 1 B',
+        ]);
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $anchor->id, 'scope_role' => 'PRIMARY']);
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $nonAnchor->id, 'scope_role' => 'JOINT']);
+
+        $homeroomB = Staff::create(['staff_code' => 'STAFF-POST-003', 'full_name' => 'Wali Kelas B']);
+        $waliB = User::factory()->create();
+        $waliRole = Role::where('code', 'WALI_KELAS')->firstOrFail();
+        UserRoleAssignment::create(['user_id' => $waliB->id, 'role_id' => $waliRole->id, 'effective_from' => '2026-07-01']);
+        UserStaffLink::create(['user_id' => $waliB->id, 'staff_id' => $homeroomB->id, 'effective_from' => '2026-07-01']);
+        ClassHomeroomAssignment::create(['class_id' => $nonAnchor->id, 'staff_id' => $homeroomB->id, 'effective_from' => '2026-07-01']);
+
+        $studentB = Student::create(['student_code' => 'STU-POST-002', 'full_name' => 'Student B']);
+        $participantB = SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $studentB->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        StudentClassEnrollment::create(['student_id' => $studentB->id, 'class_id' => $nonAnchor->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
+        $attendanceB = StudentAttendance::create(['session_student_participant_id' => $participantB->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'version_no' => 2, 'entered_by' => $waliA->id, 'entered_at' => now(), 'finalized_by' => $waliA->id, 'finalized_at' => now(), 'updated_by' => $waliA->id, 'updated_at' => now()]);
+
+        foreach ([$anchor->id => $lockAnchor, $nonAnchor->id => $lockNonAnchor] as $classId => $locked) {
+            if ($locked) {
+                AttendancePeriodLock::create(['class_id' => $classId, 'period_start' => '2026-07-01', 'period_end' => '2026-07-31', 'status' => 'LOCKED', 'locked_by' => $waka->id, 'locked_at' => Carbon::parse('2026-08-15'), 'version_no' => 1]);
+            }
+        }
+
+        return [$attendanceB, $attendanceA, $waliB, $waka];
     }
 }

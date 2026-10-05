@@ -23,6 +23,7 @@ class PostLockAttendanceCorrectionService
         private readonly AcademicAuthorizationService $authorization,
         private readonly SessionAttendanceScopeResolver $attendanceScopeResolver,
         private readonly AttendanceScopeLockEvaluator $lockEvaluator,
+        private readonly SessionParticipantEffectiveClassResolver $effectiveClassResolver,
     ) {}
 
     public function submit(
@@ -43,8 +44,8 @@ class PostLockAttendanceCorrectionService
         }
         $scope = $this->attendanceScopeResolver->resolveForUser($requester, $session);
         $this->attendanceScopeResolver->assertParticipantAuthorized($scope, $attendance->participant);
-        $scopeClassIds = $this->scopeClassIdsForCorrection($scope, $session);
-        if (! $this->lockEvaluator->isLocked($scopeClassIds, $session->planned_start_at)) {
+        $effectiveClassId = $this->effectiveClassResolver->resolve($session, $attendance->participant);
+        if (! $this->lockEvaluator->isLocked([$effectiveClassId], $session->planned_start_at)) {
             throw new InvalidArgumentException('Post-lock correction requires a locked attendance period.');
         }
 
@@ -152,10 +153,11 @@ class PostLockAttendanceCorrectionService
             if ($session === null || $locked->workflow_status !== 'VALIDATED') {
                 throw new InvalidArgumentException('Only VALIDATED attendance may be corrected.');
             }
-            if ($this->lockEvaluator->isLocked([(string) $session->class_id], $session->planned_start_at)) {
+            $effectiveClassId = $this->effectiveClassResolver->resolve($session, $locked->participant);
+            if ($this->lockEvaluator->isLocked([$effectiveClassId], $session->planned_start_at)) {
                 throw new InvalidArgumentException('Locked attendance must use post-lock correction workflow.');
             }
-            if ($requiresLock && ! $this->lockEvaluator->isLocked([(string) $session->class_id], $session->planned_start_at)) {
+            if ($requiresLock && ! $this->lockEvaluator->isLocked([$effectiveClassId], $session->planned_start_at)) {
                 throw new InvalidArgumentException('Approved correction requires a locked attendance period.');
             }
             if ($requiresLock) {
@@ -173,7 +175,12 @@ class PostLockAttendanceCorrectionService
     {
         $this->validateAttendanceVersion($attendance, $expectedVersion);
         $attendance->loadMissing('participant.classSession');
-        if ($attendance->participant?->classSession === null || ! $this->lockEvaluator->isLocked([(string) $attendance->participant->classSession->class_id], $attendance->participant->classSession->planned_start_at)) {
+        if ($attendance->participant?->classSession === null) {
+            throw new InvalidArgumentException('Approved correction requires a locked attendance period.');
+        }
+
+        $effectiveClassId = $this->effectiveClassResolver->resolve($attendance->participant->classSession, $attendance->participant);
+        if (! $this->lockEvaluator->isLocked([$effectiveClassId], $attendance->participant->classSession->planned_start_at)) {
             throw new InvalidArgumentException('Approved correction requires a locked attendance period.');
         }
     }
@@ -203,16 +210,6 @@ class PostLockAttendanceCorrectionService
             'new_values' => $locked->only(array_keys($updates)),
             'reason' => $reason,
         ]);
-    }
-
-    /** @return array<int,string> */
-    private function scopeClassIdsForCorrection(array $scope, $session): array
-    {
-        if (($scope['mode'] ?? null) === 'WALI_CLASS_PARTITION') {
-            return array_map('strval', $scope['effective_class_ids']);
-        }
-
-        return [(string) $session->class_id];
     }
 
     private function validateReasonAndChanges(string $reason, array $changes): void

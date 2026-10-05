@@ -12,25 +12,21 @@ class CancellationService
 {
     public function apply(ClassSession $session, ?int $actorUserId, string $reason): ScheduleChange
     {
-        if (in_array($session->session_status, ['COMPLETED', 'CANCELLED', 'RESCHEDULED'], true)) {
-            throw new InvalidArgumentException('Only active planned sessions may be cancelled.');
-        }
-
-        if ($session->studentParticipants()->whereHas('attendance')->exists()) {
-            throw new InvalidArgumentException('A session with attendance data cannot be cancelled.');
-        }
-
         return DB::transaction(function () use ($session, $actorUserId, $reason): ScheduleChange {
-            $session->refresh();
-            if ($session->session_status !== 'PLANNED' || $session->studentParticipants()->whereHas('attendance')->exists()) {
+            $lockedSession = ClassSession::query()
+                ->whereKey($session->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($lockedSession->session_status !== 'PLANNED' || $lockedSession->studentParticipants()->whereHas('attendance')->exists()) {
                 throw new InvalidArgumentException('Session changed before cancellation could be applied.');
             }
-            $session->update(['session_status' => 'CANCELLED']);
+            $lockedSession->update(['session_status' => 'CANCELLED']);
 
             return ScheduleChange::create([
-                'change_code' => 'CANCEL-'.$session->id.'-'.str()->uuid(),
+                'change_code' => 'CANCEL-'.$lockedSession->id.'-'.str()->uuid(),
                 'change_type' => 'CANCELLATION',
-                'source_session_id' => $session->id,
+                'source_session_id' => $lockedSession->id,
                 'reason' => $reason,
                 'requested_by_user_id' => $actorUserId,
                 'requested_at' => now(),
