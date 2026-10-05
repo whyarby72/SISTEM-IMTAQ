@@ -2,7 +2,7 @@
 
 **Project:** SISTEM-IMTAQ
 **Task:** `ACADEMIC-WALI-DASHBOARD-R4A1-WRITE-INTEGRITY-AND-LOCKING`
-**Decision at local checkpoint:** `ACADEMIC_WALI_R4A1_EVIDENCE_PARTIAL`
+**Decision at local checkpoint:** `ACADEMIC_WALI_R4A1_IMPLEMENTED_PASS`
 
 ## Repository and safety boundary
 
@@ -11,8 +11,8 @@
 - Starting HEAD: `6418644c3cb2ab4472dfd665ae9287384c15770c`
 - Remote branch at preflight: same SHA
 - Tested executable HEAD: `f8dad35b06bfbfc2e5817d4c9d49af7bb6f0c8a9`
-- Final governance HEAD: `4beaca1cec407f845f8993555a0af695cdc0b134`
-- Exact GitHub Actions: run `37293302925` on the exact HEAD, `FAILURE` at `Run foundation verification`
+- Final governance HEAD before this evidence closure: `4beaca1cec407f845f8993555a0af695cdc0b134`
+- Exact GitHub Actions: run `37297519060` on executable HEAD `eef7401acf9c98c012458be313a04e4a444d3da6`, `SUCCESS`
 - Application source changed: `YES`, only R4A1 scope
 - Migration: `NONE`
 - Schema: `NONE`
@@ -36,7 +36,7 @@ The existing local R4 audit documents under `codex/AUDITS/` were preserved as kn
 - controller read-model uses the same all-class teacher lock scope;
 - normal post-lock teacher correction remains intentionally unimplemented.
 
-Result: implementation present; focused database tests pending disposable PostgreSQL.
+Result: implementation present and covered by the successful disposable-PostgreSQL foundation run.
 
 ## P1-06 — joint correction lock scope
 
@@ -48,7 +48,7 @@ Added `SessionParticipantEffectiveClassResolver` as the narrow reusable authorit
 - direct Waka/Super Admin correction checks the participant class and cannot bypass a locked participant period through the normal override primitive;
 - `SessionAttendanceScopeResolver` reuses the resolver’s matching logic rather than maintaining a second enrollment predicate.
 
-Result: implementation present; focused joint PostgreSQL tests pending disposable PostgreSQL.
+Result: implementation present and covered by the successful disposable-PostgreSQL foundation run.
 
 ## P1-07 — cancellation race
 
@@ -60,7 +60,7 @@ Added `CancellationConcurrencyTest` using two independent PostgreSQL connections
 - cancellation-first: cancellation obtains the session lock, attendance waits, then rejects after cancellation commits;
 - final state and ScheduleChange count are asserted for both orders.
 
-The concurrency test is not claimed as PASS until it runs on disposable PostgreSQL.
+The concurrency test is proven on disposable PostgreSQL by exact run `37297519060`.
 
 ## Lock-order/deadlock assessment
 
@@ -95,31 +95,49 @@ Passed locally without opening the protected database:
 - attendance route inspection;
 - `git diff --check`.
 
-Not completed locally:
+Local environment remains safely blocked from database execution:
 
 - focused PostgreSQL feature tests: 29 discovered, 0 executed, 0 assertions, 29 guard errors; blocked because `.env` points to protected `imtaq`;
-- disposable PostgreSQL replay: Docker daemon was unavailable, so no disposable container was started;
-- exact GitHub Actions run `37293302925`: exact SHA matched, but foundation verification failed; no PASS claim is made.
+- no local disposable container was started because Docker was unavailable;
+- no test command bypassed the guard.
+
+Authoritative disposable-PostgreSQL verification:
+
+- exact executable HEAD: `eef7401acf9c98c012458be313a04e4a444d3da6`;
+- exact GitHub Actions run: `37297519060`;
+- result: `SUCCESS`;
+- foundation suite: 19 passed, 593 warnings, 2600 assertions;
+- schema identity, migrations, focused Academic regression, both concurrency races, and full foundation verification passed.
 
 No test command was allowed to bypass the guard. No PILOT query or write was performed.
 
 ## Current disposition
 
-`ACADEMIC_WALI_R4A1_EVIDENCE_PARTIAL`
+`ACADEMIC_WALI_R4A1_IMPLEMENTED_PASS`
 
-The source remediation is implemented, but P1-07 and the overall R4A1 decision remain unclosed until focused disposable-PostgreSQL tests, full regression, and a successful exact-head GitHub Actions run are available. The exact run `37293302925` failed at `Run foundation verification`; its failure log was not publicly retrievable from the unauthenticated API endpoint.
+The initial exact run `37293302925` failed at `Run foundation verification` because the test called the unsupported `db()` helper. Subsequent harness-only repairs isolated the test class from schema lifecycle contamination and removed the forked PostgreSQL connection invalidation. Exact run `37297519060` then passed the full disposable-PostgreSQL foundation suite.
 
 ## R4A1-CI concurrency evidence closure update
 
 The exact run `37293302925` failure was confirmed against repository source:
 `CancellationConcurrencyTest` called unsupported `db()`/`db()->purge()` helpers. The test now uses `Illuminate\Support\Facades\DB` only; production source is unchanged in this checkpoint.
 
-The harness now requires `pcntl_fork` and `stream_socket_pair`, creates a fresh child Laravel/PostgreSQL connection after `DB::purge()`, records distinct parent/child `pg_backend_pid()` values, observes the child in `pg_stat_activity` with `wait_event_type = Lock` before the parent commits, and serializes outcome plus exception class/message. Socket reads and lock observation are bounded; unexpected Throwable types are asserted as failures rather than converted to domain rejection.
+The harness now requires `pcntl_fork`, `stream_socket_pair`, and `posix_kill`; disconnects the fixture connection before forking so parent/child do not share a libpq socket; creates independent PostgreSQL backends after fork; records distinct parent/child `pg_backend_pid()` values; observes the child in `pg_stat_activity` with `wait_event_type = Lock` before the parent commits; and serializes outcome plus exception class/message. Socket reads and lock observation are bounded; unexpected Throwable types are asserted as failures rather than converted to domain rejection. The child ACK handshake and hard termination prevent inherited Laravel shutdown callbacks from contaminating the parent test lifecycle.
 
 Local focused result remains safely blocked by the protected-database guard: `2 tests, 0 assertions, 2 guard errors`; no PILOT query or write occurred.
 
-R4A1-CI current task status: `IMPLEMENTATION_READY_FOR_DISPOSABLE_POSTGRESQL_REPLAY`.
+Race evidence from exact run `37297519060`:
+
+- attendance-first: `PASS`; child cancellation rejected with `InvalidArgumentException` and `Session changed before cancellation could be applied.`; final session remained `PLANNED`, one student attendance row existed, and schedule changes remained zero;
+- cancellation-first: `PASS`; child attendance rejected with `InvalidArgumentException` and `Pelaksanaan KBM belum dikonfirmasi; kehadiran belum dapat diisi.`; final session was `CANCELLED`, no student attendance row was created, and exactly one schedule change existed;
+- parent/child PostgreSQL connection isolation: `PASS`; distinct backend PID assertion passed;
+- unexpected Throwable masking: `REMOVED`; exception class/message are transported and asserted;
+- P1-01 teacher attendance lock: `CLOSED`;
+- P1-06 joint correction lock scope: `CLOSED`;
+- P1-07 cancellation race: `CLOSED`.
+
+R4A1-CI current task status: `CLOSED / ACCEPTED`.
 
 ## Next atomic action
 
-Run the changed and full foundation suites against disposable PostgreSQL 18.6, then publish the exact executable commit for GitHub Actions verification. Do not access PILOT and do not start R4A2 automatically.
+Return to ChatGPT for R4A1 audit. Do not access PILOT and do not start R4A2 automatically.
