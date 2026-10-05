@@ -4,6 +4,7 @@ namespace App\Domains\Academic\Services;
 
 use App\Domains\Academic\Models\Semester;
 use App\Models\User;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Carbon;
 
@@ -13,7 +14,8 @@ class AcademicDashboardExportService
 
     public function csv(User $actor, Carbon $from, Carbon $to, ?Semester $semester = null): string
     {
-        if (! $actor->roleAssignments()->effectiveAt($from)->whereHas('role.permissions', fn ($query) => $query->where('code', 'academic.dashboard.export'))->exists()) {
+        $current = Carbon::now(AcademicBusinessTime::timezone());
+        if (! $actor->roleAssignments()->effectiveAt($current)->whereHas('role.permissions', fn ($query) => $query->where('code', 'academic.dashboard.export'))->exists()) {
             throw new AuthorizationException('Export permission is required for the Academic dashboard.');
         }
 

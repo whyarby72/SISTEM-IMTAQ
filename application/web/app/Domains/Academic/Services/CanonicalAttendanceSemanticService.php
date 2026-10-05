@@ -18,6 +18,7 @@ class CanonicalAttendanceSemanticService
         private readonly CanonicalAttendanceStatusMapper $statusMapper,
         private readonly JointAttendanceRosterBreakdownService $rosterBreakdown,
         private readonly SessionOccurrenceCutover $cutover,
+        private readonly WaliClassEntitlementResolver $waliEntitlements,
     ) {}
 
     public function sessionState(ClassSession $session, ?Carbon $now = null): string
@@ -133,17 +134,22 @@ class CanonicalAttendanceSemanticService
      * Canonical live-period read model. Historical PLANNED sessions are returned
      * as an operational queue but never enter the official denominator.
      */
-    public function forClassPeriod(AcademicClass $class, Carbon $from, Carbon $to): array
+    public function forClassPeriod(AcademicClass $class, Carbon $from, Carbon $to, ?array $authorizedWindows = null): array
     {
-        $sessions = ClassSession::query()
-            ->where(fn ($query) => $query
-                ->where('class_id', $class->id)
-                ->orWhereHas('scopeGroups', fn ($scope) => $scope->where('class_id', $class->id)))
-            ->whereBetween('planned_start_at', [$from, $to])
+        $query = ClassSession::query()
             ->with(['scopeGroups', 'effectiveOccurrenceVersion', 'studentParticipants' => fn ($query) => $query
                 ->where('participant_status', 'EXPECTED')
-                ->with(['attendance', 'student.classEnrollments'])])
-            ->get();
+                ->with(['attendance', 'student.classEnrollments'])]);
+        if ($authorizedWindows === null) {
+            $query
+                ->where(fn ($scope) => $scope
+                    ->where('class_id', $class->id)
+                    ->orWhereHas('scopeGroups', fn ($scopeQuery) => $scopeQuery->where('class_id', $class->id)))
+                ->whereBetween('planned_start_at', [$from, $to]);
+        } else {
+            $this->waliEntitlements->constrainSessionQuery($query, [(string) $class->id => $authorizedWindows], $from, $to);
+        }
+        $sessions = $query->get();
 
         $opportunitySessions = $sessions->filter(fn (ClassSession $session): bool => $this->isAttendanceOpportunity($session));
         $participants = $opportunitySessions->flatMap(function (ClassSession $session) use ($class) {

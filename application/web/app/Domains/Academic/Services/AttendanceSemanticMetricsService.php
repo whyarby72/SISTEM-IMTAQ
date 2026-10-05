@@ -9,9 +9,9 @@ class AttendanceSemanticMetricsService
 {
     public function __construct(private readonly CanonicalAttendanceSemanticService $canonicalSemantic) {}
 
-    public function forClassPeriod(AcademicClass $class, Carbon $from, Carbon $to): array
+    public function forClassPeriod(AcademicClass $class, Carbon $from, Carbon $to, ?array $authorizedWindows = null): array
     {
-        $canonical = $this->canonicalSemantic->forClassPeriod($class, $from, $to);
+        $canonical = $this->canonicalSemantic->forClassPeriod($class, $from, $to, $authorizedWindows);
         $resolved = (int) $canonical['resolved_opportunities'];
         $counts = $canonical['counts'];
         $rate = static fn (int $numerator, int $denominator) => $denominator === 0 ? null : round(($numerator / $denominator) * 100, 2);

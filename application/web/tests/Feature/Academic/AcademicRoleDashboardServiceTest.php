@@ -846,6 +846,116 @@ class AcademicRoleDashboardServiceTest extends TestCase
         app(AcademicRoleDashboardService::class)->forUser($wali, Carbon::parse('2026-07-16'), Carbon::parse('2026-07-31'));
     }
 
+    public function test_expired_wali_cannot_resurrect_dashboard_with_historical_filter(): void
+    {
+        [, , $wali] = $this->fixture();
+        UserRoleAssignment::where('user_id', $wali->id)->update(['effective_until' => '2026-09-30']);
+        Carbon::setTestNow(Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta'));
+
+        try {
+            $this->expectException(AuthorizationException::class);
+            app(AcademicRoleDashboardService::class)->forUser($wali, Carbon::parse('2026-09-01'), Carbon::parse('2026-09-30')->endOfDay());
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_future_wali_role_does_not_authorize_dashboard_today(): void
+    {
+        [, , $wali] = $this->fixture();
+        UserRoleAssignment::where('user_id', $wali->id)->update(['effective_from' => '2026-10-06']);
+        Carbon::setTestNow(Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta'));
+
+        try {
+            $this->expectException(AuthorizationException::class);
+            app(AcademicRoleDashboardService::class)->forUser($wali, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay());
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_wali_class_transition_scopes_each_class_to_its_authorized_window(): void
+    {
+        [$first, $second, $wali] = $this->fixture();
+        $staffId = UserStaffLink::query()->where('user_id', $wali->id)->value('staff_id');
+        ClassHomeroomAssignment::query()->where('class_id', $first->id)->update(['effective_until' => '2026-10-15']);
+        ClassHomeroomAssignment::create(['class_id' => $second->id, 'staff_id' => $staffId, 'effective_from' => '2026-10-15', 'status' => 'ACTIVE']);
+        ClassSession::query()->where('class_id', $first->id)->update([
+            'planned_start_at' => Carbon::parse('2026-10-14 08:00:00', 'Asia/Jakarta')->utc(),
+            'planned_end_at' => Carbon::parse('2026-10-14 09:00:00', 'Asia/Jakarta')->utc(),
+        ]);
+        ClassSession::query()->where('class_id', $second->id)->update([
+            'planned_start_at' => Carbon::parse('2026-10-15 08:00:00', 'Asia/Jakarta')->utc(),
+            'planned_end_at' => Carbon::parse('2026-10-15 09:00:00', 'Asia/Jakarta')->utc(),
+        ]);
+        Carbon::setTestNow(Carbon::parse('2026-10-20 10:00:00', 'Asia/Jakarta'));
+
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)
+                ->forUser($wali, Carbon::parse('2026-10-01', 'Asia/Jakarta'), Carbon::parse('2026-10-31 23:59:59', 'Asia/Jakarta'));
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertEqualsCanonicalizing([$first->id, $second->id], $dashboard['classes']->pluck('class.id')->all());
+        $this->assertSame(1, $dashboard['classes']->firstWhere('class.id', $first->id)['sessions']['counted_sessions']);
+        $this->assertSame(1, $dashboard['classes']->firstWhere('class.id', $second->id)['sessions']['counted_sessions']);
+    }
+
+    public function test_wali_entitlement_gap_excludes_sessions_and_metrics(): void
+    {
+        [$first, , $wali, , $assignment] = $this->fixture();
+        $staffId = UserStaffLink::query()->where('user_id', $wali->id)->value('staff_id');
+        ClassHomeroomAssignment::query()->where('class_id', $first->id)->update(['effective_until' => '2026-10-10']);
+        ClassHomeroomAssignment::create(['class_id' => $first->id, 'staff_id' => $staffId, 'effective_from' => '2026-10-20', 'status' => 'ACTIVE']);
+        $session = ClassSession::query()->where('class_id', $first->id)->firstOrFail();
+        $session->update([
+            'planned_start_at' => Carbon::parse('2026-10-15 08:00:00', 'Asia/Jakarta')->utc(),
+            'planned_end_at' => Carbon::parse('2026-10-15 09:00:00', 'Asia/Jakarta')->utc(),
+        ]);
+        $afterGap = ClassSession::create([
+            'session_code' => 'DASH-AFTER-GAP',
+            'teaching_assignment_id' => $assignment->id,
+            'class_id' => $first->id,
+            'subject_id' => $assignment->subject_id,
+            'planned_start_at' => Carbon::parse('2026-10-21 08:00:00', 'Asia/Jakarta')->utc(),
+            'planned_end_at' => Carbon::parse('2026-10-21 09:00:00', 'Asia/Jakarta')->utc(),
+            'session_source' => 'SCHEDULED',
+            'participant_scope' => 'FULL_CLASS',
+            'session_status' => 'COMPLETED',
+        ]);
+        Carbon::setTestNow(Carbon::parse('2026-10-25 10:00:00', 'Asia/Jakarta'));
+
+        try {
+            $class = app(AcademicRoleDashboardService::class)
+                ->forUser($wali, Carbon::parse('2026-10-01'), Carbon::parse('2026-10-31')->endOfDay())['classes']
+                ->first()['sessions'];
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertSame(1, $class['counted_sessions']);
+        $this->assertSame(1, $class['completed_sessions']);
+        $this->assertNotNull($afterGap);
+    }
+
+    public function test_historical_export_permission_cannot_grant_current_export_action(): void
+    {
+        [, , $wali] = $this->fixture();
+        $role = UserRoleAssignment::where('user_id', $wali->id)->firstOrFail()->role;
+        $permission = Permission::create(['code' => 'academic.dashboard.export', 'name' => 'Export Academic dashboard']);
+        $role->permissions()->attach($permission);
+        UserRoleAssignment::where('user_id', $wali->id)->update(['effective_until' => '2026-09-30']);
+        Carbon::setTestNow(Carbon::parse('2026-10-05 10:00:00', 'Asia/Jakarta'));
+
+        try {
+            $this->expectException(AuthorizationException::class);
+            app(AcademicDashboardExportService::class)->csv($wali, Carbon::parse('2026-09-01'), Carbon::parse('2026-09-30')->endOfDay());
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
     public function test_export_requires_explicit_permission_and_reuses_dashboard_metrics(): void
     {
         [$first, , $wali] = $this->fixture();

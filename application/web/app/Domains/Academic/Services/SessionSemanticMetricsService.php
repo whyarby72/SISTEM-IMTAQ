@@ -8,14 +8,21 @@ use Illuminate\Support\Carbon;
 
 class SessionSemanticMetricsService
 {
-    public function forClassPeriod(AcademicClass $class, Carbon $from, Carbon $to): array
+    public function __construct(private readonly WaliClassEntitlementResolver $waliEntitlements) {}
+
+    public function forClassPeriod(AcademicClass $class, Carbon $from, Carbon $to, ?array $authorizedWindows = null): array
     {
-        $sessions = ClassSession::query()
-            ->where(fn ($query) => $query
-                ->where('class_id', $class->id)
-                ->orWhereHas('scopeGroups', fn ($scopeQuery) => $scopeQuery->where('class_id', $class->id)))
-            ->whereBetween('planned_start_at', [$from, $to])
-            ->get();
+        $query = ClassSession::query();
+        if ($authorizedWindows === null) {
+            $query
+                ->where(fn ($scope) => $scope
+                    ->where('class_id', $class->id)
+                    ->orWhereHas('scopeGroups', fn ($scopeQuery) => $scopeQuery->where('class_id', $class->id)))
+                ->whereBetween('planned_start_at', [$from, $to]);
+        } else {
+            $this->waliEntitlements->constrainSessionQuery($query, [(string) $class->id => $authorizedWindows], $from, $to);
+        }
+        $sessions = $query->get();
 
         $cancelled = $sessions->where('session_status', 'CANCELLED');
         $rescheduledSources = $sessions->where('session_status', 'RESCHEDULED');
