@@ -1,7 +1,7 @@
 {
   "index_version": "1.0",
   "repo": "whyarby72/SISTEM-IMTAQ",
-  "indexed_at": "2026-10-04T20:20:00+07:00",
+  "indexed_at": "2026-10-06T00:00:00+07:00",
   "entries": [
     {
       "id": "super-admin-user-access-controlled-pilot-migration-e1",
@@ -717,6 +717,24 @@
       "commit": "a857e341e88dc195add3f14a9a75d11c63a6734b",
       "status": "PASS_EXACT_EXECUTABLE_HEAD",
       "summary": "Disposable PostgreSQL 18.6 migration replay, schema and identity guards, focused Wali dashboard regressions, and full foundation verification passed: 15 suites, 562 warnings, 2387 assertions, 0 failed.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-r4a2-point-in-time-wali-authorization-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION-2026-10-05.md",
+      "commit": "4e443dcce84efb2b6e8d1a9990fe33736f4efee8",
+      "status": "ACADEMIC_WALI_R4A2_IMPLEMENTED_PASS",
+      "summary": "Current-time Wali authorization and end-exclusive point-in-time class entitlement windows are enforced across dashboard read models, operational/today views, joint partitions, and exports without migration or PILOT access.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-r4a2-exact-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37323408359",
+      "commit": "4e443dcce84efb2b6e8d1a9990fe33736f4efee8",
+      "status": "PASS_EXACT_EXECUTABLE_HEAD",
+      "summary": "Disposable PostgreSQL 18.6 migration replay, identity/schema guards, focused R4A2 authorization regressions, and full foundation verification passed with 0 failures.",
       "sensitivity": "non_secret"
     }
   ]

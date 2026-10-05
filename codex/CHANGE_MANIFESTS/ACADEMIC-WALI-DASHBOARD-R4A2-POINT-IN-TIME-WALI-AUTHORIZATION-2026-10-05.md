@@ -2,7 +2,7 @@
 
 **Project:** SISTEM-IMTAQ  
 **Task:** `ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION`  
-**Decision:** `PENDING_EXACT_DISPOSABLE_POSTGRES_CI`
+**Decision:** `ACADEMIC_WALI_R4A2_IMPLEMENTED_PASS`
 
 ## Repository and safety boundary
 
@@ -10,6 +10,9 @@
 - Branch: `feat/super-admin-user-access-preferences`
 - Starting HEAD: `72949b259db742031e91d898a40df2dd7fc1b67a`
 - Starting remote HEAD: same SHA
+- Tested executable HEAD: `4e443dcce84efb2b6e8d1a9990fe33736f4efee8`
+- Final governance HEAD: `PENDING_METADATA_CLOSEOUT_COMMIT`
+- Exact GitHub Actions: run `37323408359` = `SUCCESS` on tested executable HEAD
 - Application source changed: `YES`, Academic dashboard read-scope only
 - Migration: `NONE`
 - Schema: `NONE`
@@ -115,12 +118,22 @@ and test files; the existing `codex/AUDITS/` artifacts remain untouched.
 
 ## Closeout update
 
-The exact executable commit and GitHub Actions run will be recorded here after
-push. The task must return `ACADEMIC_WALI_R4A2_IMPLEMENTED_PASS` only if the
-disposable PostgreSQL suite proves current-role authorization, point-in-time
+The exact disposable PostgreSQL workflow passed on commit
+`4e443dcce84efb2b6e8d1a9990fe33736f4efee8` in run `37323408359`. The first
+implementation run `37322682819` exposed one null-handling regression in the
+CSV export path; the follow-up commit added the minimum null guard for the
+intentional Wali grade-suppression representation and passed the full workflow.
+The passing run covers the current-role authorization, point-in-time
 class/session/metric/export scope, transitions, gaps, joint behavior,
-Asia/Jakarta boundaries, and R4A1/R3 regressions. Otherwise the decision is
-`ACADEMIC_WALI_R4A2_HOLD` with the exact failing gate recorded.
+Asia/Jakarta boundaries, and R4A1/R3 regressions. No PILOT access or write was
+performed.
+
+The implementation commit contains 17 passing tests and 0 failures in the
+foundation verification step; GitHub Actions is the authoritative disposable
+PostgreSQL result. The run emitted the repository's existing PHPUnit deprecation
+and AI-runtime warning output; no warning was promoted to a failure.
 
 **Next atomic task:** return to ChatGPT/project owner for R4A2 audit. Do not
 start R4A3, R4B, Grade G3, AI, or PILOT work automatically.
+
+**SAFE_TO_CLOSE:** `YES`

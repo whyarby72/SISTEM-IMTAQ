@@ -1,5 +1,24 @@
 # CURRENT TASK CONTEXT
 
+## Academic Wali dashboard R4A2 closeout — 2026-10-06
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4A2_IMPLEMENTED_PASS`
+**Branch / tested executable HEAD:** `feat/super-admin-user-access-preferences` / `4e443dcce84efb2b6e8d1a9990fe33736f4efee8`
+**Exact CI:** `37323408359` = `SUCCESS`; disposable PostgreSQL foundation verification passed with 0 failures.
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION-2026-10-05.md`
+**PILOT database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4A2_AUDIT`
+
+R4A2 enforces current-time Wali role authorization and end-exclusive,
+Asia/Jakarta point-in-time class entitlement windows across dashboard metrics,
+session lists, operational/today views, trends, teacher summaries, joint
+session partitions, and exports. Waka/Super Admin institution-wide scope is
+preserved. Grade G3, R4A3/R4B, human UAT, and PILOT work remain deferred.
+
+**REQUIRED NOW:** return to ChatGPT/project owner for R4A2 audit. Do not start
+R4A3, R4B, Grade G3, AI, or PILOT work automatically.
+
 ## Current Wali dashboard maturity R1 — 2026-10-04
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-MATURITY-R1-OPERATIONAL-HOME`

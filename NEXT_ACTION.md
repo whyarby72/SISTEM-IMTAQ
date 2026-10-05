@@ -1,5 +1,23 @@
 # NEXT ACTION
 
+# Academic Wali dashboard R4A2 closeout — 2026-10-06
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4A2_IMPLEMENTED_PASS`
+**Tested executable HEAD:** `4e443dcce84efb2b6e8d1a9990fe33736f4efee8`
+**Exact CI:** `37323408359` = `SUCCESS`
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION-2026-10-05.md`
+**Database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4A2_AUDIT`
+
+R4A2 point-in-time Wali authorization is complete. Current-time role checks,
+temporal class entitlement windows, session/metric/list/trend/today/export
+scope, joint partitioning, and the intentional Wali grade-suppression boundary
+are covered by the implementation and exact disposable PostgreSQL CI. Public
+Academic AI remains OFF; `IMP-S12-007` and `SOC-MD-06` remain unchanged.
+
+Do not start R4A3, R4B, Grade G3, AI, human UAT, or PILOT work automatically.
+
 ## Academic Wali UAT R3A1 closeout — 2026-10-05
 
 **Current task:** `ACADEMIC-WALI-UAT-R3A1-FUTURE-OCCURRENCE-GUARD`
