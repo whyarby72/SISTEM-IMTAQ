@@ -70,7 +70,7 @@ class CancellationConcurrencyTest extends TestCase
             );
         });
 
-        $this->assertRaceRejection($result, 'Only planned or confirmed sessions can accept attendance drafts.');
+        $this->assertRaceRejection($result, 'Pelaksanaan KBM belum dikonfirmasi; kehadiran belum dapat diisi.');
         $this->assertSame('Lock', $result['wait_event_type']);
         $this->assertSame('CANCELLED', $session->fresh()->session_status);
         $this->assertSame(0, StudentAttendance::where('session_student_participant_id', $participant->id)->count());
