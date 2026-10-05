@@ -19,8 +19,10 @@ use App\Shared\Core\Models\OrganizationalUnit;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Core\Models\Student;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\RunClassInSeparateProcess;
 use Tests\TestCase;
 
+#[RunClassInSeparateProcess]
 class CancellationConcurrencyTest extends TestCase
 {
     protected function setUp(): void
