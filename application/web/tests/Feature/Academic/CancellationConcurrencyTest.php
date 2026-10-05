@@ -91,13 +91,11 @@ class CancellationConcurrencyTest extends TestCase
         $this->assertTrue(function_exists('stream_socket_pair'), 'Concurrency evidence requires stream_socket_pair.');
         $this->assertTrue(function_exists('posix_kill'), 'Concurrency evidence requires isolated child termination.');
 
-        $connection = DB::connection();
-        $this->assertSame('pgsql', $connection->getDriverName(), 'Concurrency evidence requires disposable PostgreSQL.');
-        $connection->getPdo();
-        $parentBackendPid = (int) DB::selectOne('SELECT pg_backend_pid() AS pid')->pid;
-        $connection->beginTransaction();
-        ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
-
+        // Close the fixture connection before forking. PostgreSQL/libpq
+        // connections are not fork-safe: closing an inherited child PDO can
+        // invalidate the parent's duplicated socket. Each process therefore
+        // opens its own backend only after the fork.
+        DB::disconnect();
         $sockets = stream_socket_pair(STREAM_PF_UNIX, STREAM_SOCK_STREAM, 0);
         $this->assertNotFalse($sockets, 'Unable to create the bounded concurrency coordination socket.');
         [$parentSocket, $childSocket] = $sockets;
@@ -135,15 +133,25 @@ class CancellationConcurrencyTest extends TestCase
                     'exception_message' => $exception->getMessage(),
                 ]);
             }
+            $this->readProtocol($childSocket, 'parent ACK');
             fclose($childSocket);
             posix_kill(getmypid(), SIGKILL);
         }
 
         fclose($childSocket);
+        $connection = null;
+        $committed = false;
         try {
             $ready = $this->readProtocol($parentSocket, 'child READY');
             $this->assertSame('READY', $ready['event']);
             $childBackendPid = (int) $ready['child_backend_pid'];
+
+            $connection = DB::connection();
+            $this->assertSame('pgsql', $connection->getDriverName(), 'Concurrency evidence requires disposable PostgreSQL.');
+            $connection->getPdo();
+            $parentBackendPid = (int) DB::selectOne('SELECT pg_backend_pid() AS pid')->pid;
+            $connection->beginTransaction();
+            ClassSession::query()->whereKey($session->id)->lockForUpdate()->firstOrFail();
             $this->assertNotSame($parentBackendPid, $childBackendPid, 'Parent and child must use independent PostgreSQL backends.');
 
             $this->writeProtocol($parentSocket, ['event' => 'GO']);
@@ -153,9 +161,11 @@ class CancellationConcurrencyTest extends TestCase
 
             $firstOperation();
             $connection->commit();
+            $committed = true;
 
             $result = $this->readProtocol($parentSocket, 'child RESULT');
             $this->assertSame('RESULT', $result['event']);
+            $this->writeProtocol($parentSocket, ['event' => 'ACK']);
 
             return [
                 'outcome' => (string) $result['outcome'],
@@ -167,7 +177,7 @@ class CancellationConcurrencyTest extends TestCase
                 'wait_event' => $wait['wait_event'] ?? null,
             ];
         } finally {
-            if ($connection->transactionLevel() > 0) {
+            if ($connection !== null && ! $committed && $connection->transactionLevel() > 0) {
                 $connection->rollBack();
             }
             pcntl_waitpid($pid, $status);
@@ -188,9 +198,13 @@ class CancellationConcurrencyTest extends TestCase
     private function writeProtocol($socket, array $payload): void
     {
         $encoded = json_encode($payload, JSON_THROW_ON_ERROR)."\n";
-        $written = fwrite($socket, $encoded);
-        if ($written === false || $written < strlen($encoded)) {
-            throw new \RuntimeException('Concurrency protocol write failed.');
+        $remaining = $encoded;
+        while ($remaining !== '') {
+            $written = fwrite($socket, $remaining);
+            if ($written === false || $written === 0) {
+                throw new \RuntimeException('Concurrency protocol write failed.');
+            }
+            $remaining = substr($remaining, $written);
         }
         fflush($socket);
     }
