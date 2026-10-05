@@ -109,6 +109,17 @@ No test command was allowed to bypass the guard. No PILOT query or write was per
 
 The source remediation is implemented, but P1-07 and the overall R4A1 decision remain unclosed until focused disposable-PostgreSQL tests, full regression, and a successful exact-head GitHub Actions run are available. The exact run `37293302925` failed at `Run foundation verification`; its failure log was not publicly retrievable from the unauthenticated API endpoint.
 
+## R4A1-CI concurrency evidence closure update
+
+The exact run `37293302925` failure was confirmed against repository source:
+`CancellationConcurrencyTest` called unsupported `db()`/`db()->purge()` helpers. The test now uses `Illuminate\Support\Facades\DB` only; production source is unchanged in this checkpoint.
+
+The harness now requires `pcntl_fork` and `stream_socket_pair`, creates a fresh child Laravel/PostgreSQL connection after `DB::purge()`, records distinct parent/child `pg_backend_pid()` values, observes the child in `pg_stat_activity` with `wait_event_type = Lock` before the parent commits, and serializes outcome plus exception class/message. Socket reads and lock observation are bounded; unexpected Throwable types are asserted as failures rather than converted to domain rejection.
+
+Local focused result remains safely blocked by the protected-database guard: `2 tests, 0 assertions, 2 guard errors`; no PILOT query or write occurred.
+
+R4A1-CI current task status: `IMPLEMENTATION_READY_FOR_DISPOSABLE_POSTGRESQL_REPLAY`.
+
 ## Next atomic action
 
 Run the changed and full foundation suites against disposable PostgreSQL 18.6, then publish the exact executable commit for GitHub Actions verification. Do not access PILOT and do not start R4A2 automatically.
