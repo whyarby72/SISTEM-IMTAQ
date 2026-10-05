@@ -11,7 +11,7 @@
 - Starting HEAD: `6418644c3cb2ab4472dfd665ae9287384c15770c`
 - Remote branch at preflight: same SHA
 - Tested executable HEAD: `f8dad35b06bfbfc2e5817d4c9d49af7bb6f0c8a9`
-- Final governance HEAD: `f8dad35b06bfbfc2e5817d4c9d49af7bb6f0c8a9`
+- Final governance HEAD: `4beaca1cec407f845f8993555a0af695cdc0b134`
 - Exact GitHub Actions: run `37293302925` on the exact HEAD, `FAILURE` at `Run foundation verification`
 - Application source changed: `YES`, only R4A1 scope
 - Migration: `NONE`
