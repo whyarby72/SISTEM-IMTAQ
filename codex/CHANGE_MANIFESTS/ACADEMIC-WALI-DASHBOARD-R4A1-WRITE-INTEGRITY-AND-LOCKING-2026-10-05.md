@@ -10,8 +10,9 @@
 - Branch: `feat/super-admin-user-access-preferences`
 - Starting HEAD: `6418644c3cb2ab4472dfd665ae9287384c15770c`
 - Remote branch at preflight: same SHA
-- Tested executable HEAD: pending commit/CI publication
-- Final governance HEAD: pending exact GitHub Actions verification
+- Tested executable HEAD: `f8dad35b06bfbfc2e5817d4c9d49af7bb6f0c8a9`
+- Final governance HEAD: `f8dad35b06bfbfc2e5817d4c9d49af7bb6f0c8a9`
+- Exact GitHub Actions: run `37293302925` on the exact HEAD, `FAILURE` at `Run foundation verification`
 - Application source changed: `YES`, only R4A1 scope
 - Migration: `NONE`
 - Schema: `NONE`
@@ -96,9 +97,9 @@ Passed locally without opening the protected database:
 
 Not completed locally:
 
-- focused PostgreSQL feature tests: blocked by the local test guard because `.env` points to protected `imtaq`;
+- focused PostgreSQL feature tests: 29 discovered, 0 executed, 0 assertions, 29 guard errors; blocked because `.env` points to protected `imtaq`;
 - disposable PostgreSQL replay: Docker daemon was unavailable, so no disposable container was started;
-- exact GitHub Actions run: pending commit/push and available GitHub authentication.
+- exact GitHub Actions run `37293302925`: exact SHA matched, but foundation verification failed; no PASS claim is made.
 
 No test command was allowed to bypass the guard. No PILOT query or write was performed.
 
@@ -106,7 +107,7 @@ No test command was allowed to bypass the guard. No PILOT query or write was per
 
 `ACADEMIC_WALI_R4A1_EVIDENCE_PARTIAL`
 
-The source remediation is implemented, but P1-07 and the overall R4A1 decision remain unclosed until focused disposable-PostgreSQL tests, full regression, and exact GitHub Actions evidence pass.
+The source remediation is implemented, but P1-07 and the overall R4A1 decision remain unclosed until focused disposable-PostgreSQL tests, full regression, and a successful exact-head GitHub Actions run are available. The exact run `37293302925` failed at `Run foundation verification`; its failure log was not publicly retrievable from the unauthenticated API endpoint.
 
 ## Next atomic action
 
