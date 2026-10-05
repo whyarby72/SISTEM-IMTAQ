@@ -10,7 +10,7 @@
 - Branch: `feat/super-admin-user-access-preferences`
 - Starting HEAD: `6418644c3cb2ab4472dfd665ae9287384c15770c`
 - Remote branch at preflight: same SHA
-- Tested executable HEAD: `f8dad35b06bfbfc2e5817d4c9d49af7bb6f0c8a9`
+- Tested executable HEAD: `eef7401acf9c98c012458be313a04e4a444d3da6`
 - Final governance HEAD before this evidence closure: `4beaca1cec407f845f8993555a0af695cdc0b134`
 - Exact GitHub Actions: run `37297519060` on executable HEAD `eef7401acf9c98c012458be313a04e4a444d3da6`, `SUCCESS`
 - Application source changed: `YES`, only R4A1 scope
