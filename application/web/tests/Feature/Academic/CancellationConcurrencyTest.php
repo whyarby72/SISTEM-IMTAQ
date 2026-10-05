@@ -87,6 +87,7 @@ class CancellationConcurrencyTest extends TestCase
     {
         $this->assertTrue(function_exists('pcntl_fork'), 'Concurrency evidence requires pcntl_fork.');
         $this->assertTrue(function_exists('stream_socket_pair'), 'Concurrency evidence requires stream_socket_pair.');
+        $this->assertTrue(function_exists('posix_kill'), 'Concurrency evidence requires isolated child termination.');
 
         $connection = DB::connection();
         $this->assertSame('pgsql', $connection->getDriverName(), 'Concurrency evidence requires disposable PostgreSQL.');
@@ -133,7 +134,7 @@ class CancellationConcurrencyTest extends TestCase
                 ]);
             }
             fclose($childSocket);
-            exit(0);
+            posix_kill(getmypid(), SIGKILL);
         }
 
         fclose($childSocket);
