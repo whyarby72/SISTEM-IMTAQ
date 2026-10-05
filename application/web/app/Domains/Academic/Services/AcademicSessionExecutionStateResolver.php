@@ -41,7 +41,7 @@ class AcademicSessionExecutionStateResolver
             $status = $effective?->occurrence_status;
             $beforeStart = $now->copy()->utc()->lessThan($session->planned_start_at->copy()->utc());
             $executionState = match ($status) {
-                'SCHEDULED' => 'SCHEDULED',
+                'SCHEDULED' => 'OCCURRENCE_PENDING',
                 'HELD' => 'HELD',
                 'CANCELLED' => 'CANCELLED',
                 'RESCHEDULED' => 'RESCHEDULED',
