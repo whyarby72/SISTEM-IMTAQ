@@ -18,13 +18,18 @@ use App\Shared\Core\Models\AcademicYear;
 use App\Shared\Core\Models\OrganizationalUnit;
 use App\Shared\Core\Models\Staff;
 use App\Shared\Core\Models\Student;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class CancellationConcurrencyTest extends TestCase
 {
-    use DatabaseMigrations;
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->artisan('migrate:fresh');
+        $this->beforeApplicationDestroyed(fn () => $this->artisan('migrate:fresh'));
+    }
 
     public function test_attendance_first_race_serializes_cancellation_after_the_session_lock(): void
     {
