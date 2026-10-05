@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "4e443dcce84efb2b6e8d1a9990fe33736f4efee8",
+  "repo_commit": "558adda51ca7bcf013e97d281688e602f8134e02",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
@@ -93,10 +93,11 @@
     "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-MATURITY-R1-2026-10-04.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37204858961",
     "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION-2026-10-05.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37323408359"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37323408359",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37377396528"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37323408359 / HEAD_4e443dcce84efb2b6e8d1a9990fe33736f4efee8",
+    "exact_current_ci": "PASS / RUN_37377396528 / HEAD_558adda51ca7bcf013e97d281688e602f8134e02",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",

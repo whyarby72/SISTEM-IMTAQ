@@ -11,7 +11,7 @@
 - Starting HEAD: `72949b259db742031e91d898a40df2dd7fc1b67a`
 - Starting remote HEAD: same SHA
 - Tested executable HEAD: `4e443dcce84efb2b6e8d1a9990fe33736f4efee8`
-- Final governance HEAD: `PENDING_METADATA_CLOSEOUT_COMMIT`
+- Final governance HEAD: `558adda51ca7bcf013e97d281688e602f8134e02`
 - Exact GitHub Actions: run `37323408359` = `SUCCESS` on tested executable HEAD
 - Application source changed: `YES`, Academic dashboard read-scope only
 - Migration: `NONE`
