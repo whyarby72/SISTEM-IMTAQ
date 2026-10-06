@@ -630,6 +630,86 @@ class AcademicRoleDashboardServiceTest extends TestCase
         $this->assertSame(50.0, $wakaTrend['physical_presence_rate']);
     }
 
+    public function test_non_anchor_wali_sees_only_their_partition_of_a_joint_session(): void
+    {
+        [$first, $second, $wali] = $this->fixture();
+        ClassHomeroomAssignment::query()->where('class_id', $first->id)->delete();
+        $staffId = UserStaffLink::query()->where('user_id', $wali->id)->value('staff_id');
+        ClassHomeroomAssignment::create([
+            'class_id' => $second->id,
+            'staff_id' => $staffId,
+            'effective_from' => '2026-07-01',
+            'status' => 'ACTIVE',
+        ]);
+
+        $session = ClassSession::where('class_id', $first->id)->firstOrFail();
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $first->id, 'scope_role' => 'JOINT_SCOPE']);
+        ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $second->id, 'scope_role' => 'JOINT_SCOPE']);
+        $firstStudent = Student::create(['student_code' => 'DASH-JOINT-NON-ANCHOR-A', 'full_name' => 'Joint Non Anchor A']);
+        $secondStudent = Student::create(['student_code' => 'DASH-JOINT-NON-ANCHOR-B', 'full_name' => 'Joint Non Anchor B']);
+        StudentClassEnrollment::create(['student_id' => $firstStudent->id, 'class_id' => $first->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
+        StudentClassEnrollment::create(['student_id' => $secondStudent->id, 'class_id' => $second->id, 'effective_from' => '2026-07-01', 'status' => 'ACTIVE']);
+        SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $firstStudent->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $secondStudent->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+
+        $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+            $wali,
+            Carbon::parse('2026-07-01', 'Asia/Jakarta'),
+            Carbon::parse('2026-07-31 23:59:59', 'Asia/Jakarta'),
+        );
+        $item = $dashboard['attendance_sessions']->firstOrFail();
+
+        $this->assertSame($second->id, $dashboard['classes']->first()['class']->id);
+        $this->assertSame(1, $item->student_participants_count);
+        $this->assertSame('Kelas B', $item->class_label);
+        $this->assertSame([$secondStudent->id], $item->studentParticipants->pluck('student_id')->all());
+    }
+
+    public function test_next_session_uses_future_entitlement_and_excludes_after_assignment_end(): void
+    {
+        [$first, , $wali, , $assignment] = $this->fixture();
+        ClassHomeroomAssignment::query()->where('class_id', $first->id)->update(['effective_until' => '2026-10-06']);
+        $future = $this->operationalSession($assignment, 'DASH-NEXT-AFTER-END', '2026-10-06 08:00:00', '2026-10-06 09:00:00');
+
+        Carbon::setTestNow(Carbon::parse('2026-10-05 12:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-10-05', 'Asia/Jakarta'),
+                Carbon::parse('2026-10-05 23:59:59', 'Asia/Jakarta'),
+            );
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertNotNull($future);
+        $this->assertNull($dashboard['wali_operational']['next_session']);
+    }
+
+    public function test_next_session_transition_uses_the_future_class_partition(): void
+    {
+        [$first, $second, $wali] = $this->fixture();
+        $staffId = UserStaffLink::query()->where('user_id', $wali->id)->value('staff_id');
+        ClassHomeroomAssignment::query()->where('class_id', $first->id)->update(['effective_until' => '2026-10-15']);
+        ClassHomeroomAssignment::create(['class_id' => $second->id, 'staff_id' => $staffId, 'effective_from' => '2026-10-15', 'status' => 'ACTIVE']);
+        $secondAssignment = TeachingAssignment::where('class_id', $second->id)->firstOrFail();
+        $future = $this->operationalSession($secondAssignment, 'DASH-NEXT-TRANSITION', '2026-10-15 08:00:00', '2026-10-15 09:00:00');
+
+        Carbon::setTestNow(Carbon::parse('2026-10-14 17:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-10-14', 'Asia/Jakarta'),
+                Carbon::parse('2026-10-14 23:59:59', 'Asia/Jakarta'),
+            );
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertSame($future->id, $dashboard['wali_operational']['next_session']['session']->id);
+        $this->assertSame('Kelas B', $dashboard['wali_operational']['next_session']['class_label']);
+    }
+
     public function test_dashboard_accepts_supported_trend_window(): void
     {
         [, , , $waka] = $this->fixture();

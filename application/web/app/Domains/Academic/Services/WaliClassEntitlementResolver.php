@@ -89,6 +89,26 @@ class WaliClassEntitlementResolver
         return $entitlements['class_windows'][$classId] ?? [];
     }
 
+    /**
+     * Resolve entitlement windows at one Asia/Jakarta business date.
+     *
+     * @param  array<string,array<int,array{authorized_from:string,authorized_until:string}>>  $classWindows
+     * @return array<int,string>
+     */
+    public function authorizedClassIdsAt(array $classWindows, Carbon|string $businessDate): array
+    {
+        $date = $businessDate instanceof Carbon
+            ? $businessDate->copy()->setTimezone(AcademicBusinessTime::timezone())->toDateString()
+            : Carbon::parse($businessDate, AcademicBusinessTime::timezone())->toDateString();
+
+        return collect($classWindows)
+            ->filter(fn (array $windows): bool => $this->containsDate($windows, $date))
+            ->keys()
+            ->map(fn ($classId): string => (string) $classId)
+            ->values()
+            ->all();
+    }
+
     /** @param array<int,array{authorized_from:string,authorized_until:string}> $windows */
     public function containsDate(array $windows, string|Carbon $date): bool
     {

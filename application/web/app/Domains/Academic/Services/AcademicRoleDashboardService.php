@@ -9,6 +9,7 @@ use App\Domains\Academic\Models\SessionTeacherParticipation;
 use App\Domains\Academic\Models\StudentClassEnrollment;
 use App\Domains\Academic\Models\TeachingAssignment;
 use App\Models\User;
+use App\Shared\Platform\Presentation\AcademicBusinessTime;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -23,6 +24,7 @@ class AcademicRoleDashboardService
         private readonly JointAttendanceRosterBreakdownService $rosterBreakdown,
         private readonly AcademicSessionExecutionStateResolver $executionResolver,
         private readonly WaliClassEntitlementResolver $waliEntitlements,
+        private readonly AcademicClassScopeResolver $classScope,
     ) {}
 
     public function forUser(User $actor, Carbon $from, Carbon $to, ?Semester $semester = null, int $trendDays = 14): array
@@ -44,11 +46,28 @@ class AcademicRoleDashboardService
 
         $operationalClasses = $classes;
         $operationalWindows = $classWindows;
+        $nextClasses = $classes;
+        $nextWindows = $classWindows;
+        $nextUntil = null;
         if ($role === 'WALI_KELAS') {
             $businessNow = Carbon::now((string) config('academic.business_timezone', 'Asia/Jakarta'));
             $operationalEntitlements = $this->waliEntitlements->forPeriod($actor, $businessNow->copy()->startOfDay(), $businessNow->copy()->endOfDay());
             $operationalWindows = $operationalEntitlements['class_windows'];
             $operationalClasses = $this->waliClasses($actor, $businessNow->copy()->startOfDay(), $businessNow->copy()->endOfDay(), $operationalWindows);
+            $academicYearEnd = $operationalClasses
+                ->map(fn (AcademicClass $class) => $class->academicYear?->ends_on)
+                ->filter()
+                ->map(fn ($date) => Carbon::parse((string) $date, $businessNow->timezone())->endOfDay())
+                ->max();
+            if ($academicYearEnd !== null) {
+                $nextUntil = $academicYearEnd->copy()->addDay()->startOfDay();
+                $nextEntitlements = $this->waliEntitlements->forPeriod($actor, $businessNow->copy()->startOfDay(), $academicYearEnd);
+                $nextWindows = $nextEntitlements['class_windows'];
+                $nextClasses = $this->waliClasses($actor, $businessNow->copy()->startOfDay(), $academicYearEnd, $nextWindows);
+            } else {
+                $nextClasses = collect();
+                $nextWindows = [];
+            }
         }
 
         $classItems = $classes->map(fn (AcademicClass $class): array => [
@@ -70,12 +89,19 @@ class AcademicRoleDashboardService
             'attendance_status_source' => 'live_sessions',
             'teacher_attendance' => $teacherAttendance,
             'attendance_sessions' => $role === 'WALI_KELAS' ? $this->attendanceSessions($classes, $from, $to, $classWindows) : collect(),
-            'wali_operational' => $role === 'WALI_KELAS' ? $this->waliOperationalHome($operationalClasses, $operationalWindows) : null,
+            'wali_operational' => $role === 'WALI_KELAS'
+                ? $this->waliOperationalHome($operationalClasses, $operationalWindows, $nextClasses, $nextWindows, $nextUntil)
+                : null,
         ];
     }
 
-    private function waliOperationalHome(Collection $classes, array $classWindows = []): array
-    {
+    private function waliOperationalHome(
+        Collection $classes,
+        array $classWindows = [],
+        ?Collection $nextClasses = null,
+        ?array $nextWindows = null,
+        ?Carbon $nextUntil = null,
+    ): array {
         $class = $classes->first();
         if (! $class instanceof AcademicClass) {
             return [
@@ -106,14 +132,17 @@ class AcademicRoleDashboardService
             ->where('planned_start_at', '>=', $todayStart->copy()->utc())
             ->where('planned_start_at', '<', $tomorrowStart->copy()->utc())
             ->get()
-            ->map(fn (ClassSession $session): array => $this->waliSessionItem($session, $classes, $now))
+            ->map(fn (ClassSession $session): array => $this->waliSessionItem($session, $classes, $now, $classWindows))
             ->sortBy(fn (array $item): string => sprintf('%02d-%s', $item['priority'], $item['session']->planned_start_at->format('YmdHis')))
             ->values();
 
-        $nextSession = $this->waliOperationalSessionsQuery($classes, $classWindows)
+        $nextClasses ??= $classes;
+        $nextWindows ??= $classWindows;
+        $nextQuery = $this->waliOperationalSessionsQuery($nextClasses, $nextWindows)
             ->where('planned_start_at', '>', $now->copy()->utc())
-            ->orderBy('planned_start_at')
-            ->first();
+            ->when($nextUntil !== null, fn ($query) => $query->where('planned_start_at', '<', $nextUntil->copy()->utc()))
+            ->orderBy('planned_start_at');
+        $nextSession = $nextQuery->first();
 
         $due = $todaySessions->whereIn('state', ['DUE_NOT_STARTED', 'DUE_INCOMPLETE', 'FINALIZED'])->count();
         $finalized = $todaySessions->where('state', 'FINALIZED')->count();
@@ -138,7 +167,7 @@ class AcademicRoleDashboardService
                 'due' => $due,
                 'rate' => $due === 0 ? null : round(($finalized / $due) * 100, 2),
             ],
-            'next_session' => $nextSession === null ? null : $this->waliSessionItem($nextSession, $classes, $now),
+            'next_session' => $nextSession === null ? null : $this->waliSessionItem($nextSession, $nextClasses, $now, $nextWindows),
         ];
     }
 
@@ -171,10 +200,10 @@ class AcademicRoleDashboardService
         return $query->whereNotIn('session_status', ['CANCELLED', 'RESCHEDULED']);
     }
 
-    private function waliSessionItem(ClassSession $session, Collection $classes, Carbon $now): array
+    private function waliSessionItem(ClassSession $session, Collection $classes, Carbon $now, ?array $classWindows = null): array
     {
         $execution = $this->executionResolver->resolve($session, $now);
-        $participants = $this->participantsForDashboardClasses($session, $classes);
+        $participants = $this->participantsForDashboardClasses($session, $classes, true, $classWindows);
         if ($execution['occurrence_regime'] === SessionOccurrenceCutover::CANONICAL
             && ! $execution['attendance_obligation_exists']) {
             $upcoming = $execution['execution_state'] === 'UPCOMING';
@@ -192,7 +221,7 @@ class AcademicRoleDashboardService
                 'priority' => $terminal ? 6 : ($upcoming ? 5 : 1),
                 'status_label' => $statusLabel,
                 'action_label' => $terminal || $upcoming ? 'Lihat Sesi' : 'Catat pelaksanaan',
-                'class_label' => $this->sessionClassLabel($session, $classes),
+                'class_label' => $this->sessionClassLabel($session, $classes, $classWindows),
                 'subject_label' => $session->teachingAssignment?->subject?->subject_name ?? 'Pelajaran',
                 'teacher_label' => $session->teachingAssignment?->teacher?->full_name ?? 'Guru belum ditetapkan',
                 'eligible' => 0,
@@ -246,7 +275,7 @@ class AcademicRoleDashboardService
             'priority' => ['OCCURRENCE_PENDING' => 1, 'DUE_INCOMPLETE' => 2, 'DUE_NOT_STARTED' => 3, 'IN_PROGRESS' => 4, 'UPCOMING' => 5, 'FINALIZED' => 6][$state],
             'status_label' => $labels[$state][0],
             'action_label' => $labels[$state][1],
-            'class_label' => $this->sessionClassLabel($session, $classes),
+            'class_label' => $this->sessionClassLabel($session, $classes, $classWindows),
             'subject_label' => $session->teachingAssignment?->subject?->subject_name ?? 'Pelajaran',
             'teacher_label' => $session->teachingAssignment?->teacher?->full_name ?? 'Guru belum ditetapkan',
             'eligible' => $eligible,
@@ -306,11 +335,12 @@ class AcademicRoleDashboardService
             ->limit(12)
             ->get();
 
-        return $sessions->each(function (ClassSession $session) use ($classes): void {
+        return $sessions->each(function (ClassSession $session) use ($classes, $classWindows): void {
             $execution = $this->executionResolver->resolve($session);
-            $participants = $this->participantsForDashboardClasses($session, $classes);
+            $participants = $this->participantsForDashboardClasses($session, $classes, true, $classWindows);
             $session->setAttribute('student_participants_count', $participants->count());
             $session->setRelation('studentParticipants', $participants);
+            $session->setAttribute('class_label', $this->sessionClassLabel($session, $classes, $classWindows));
             $resolved = $participants->filter(fn ($participant) => $participant->attendance?->attendance_status !== null)->count();
             $finalized = $participants->isNotEmpty()
                 && $resolved === $participants->count()
@@ -356,7 +386,7 @@ class AcademicRoleDashboardService
                 && ! $execution['attendance_obligation_exists']) {
                 continue;
             }
-            $required = $this->participantsForDashboardClasses($session, $classes, $partitionByClass);
+            $required = $this->participantsForDashboardClasses($session, $classes, $partitionByClass, $classWindows);
             $complete = $required->isNotEmpty() && $required->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED'
                 && $participant->attendance->attendance_status !== null);
             $isFinalized = $partitionByClass ? $complete : ($session->session_status === 'COMPLETED' && $complete);
@@ -627,30 +657,58 @@ class AcademicRoleDashboardService
         throw new AuthorizationException('Only Super Admin, Wali Kelas, and Waka Akademik may view the Academic dashboard.');
     }
 
-    private function participantsForDashboardClasses(ClassSession $session, Collection $classes, bool $partitionByClass = true): Collection
-    {
+    private function participantsForDashboardClasses(
+        ClassSession $session,
+        Collection $classes,
+        bool $partitionByClass = true,
+        ?array $classWindows = null,
+    ): Collection {
         $participants = $session->studentParticipants;
+        $effectiveClasses = $this->authorizedDashboardClassesForSession($session, $classes, $classWindows);
+        if ($classWindows !== null && $effectiveClasses->isEmpty()) {
+            return collect();
+        }
         if (! $partitionByClass || $session->scopeGroups->isEmpty()) {
             return $participants;
         }
 
-        return $classes
+        return $effectiveClasses
             ->flatMap(fn (AcademicClass $class) => $this->rosterBreakdown->forClass($session, $participants, (string) $class->id))
             ->unique('id')
             ->values();
     }
 
-    private function sessionClassLabel(ClassSession $session, Collection $classes): string
+    private function sessionClassLabel(ClassSession $session, Collection $classes, ?array $classWindows = null): string
     {
         $sessionClassIds = $session->scopeGroups->pluck('class_id')
             ->push($session->class_id)
             ->map(fn ($id): string => (string) $id)
             ->unique();
 
-        return $classes
+        return $this->authorizedDashboardClassesForSession($session, $classes, $classWindows)
             ->filter(fn (AcademicClass $class): bool => $sessionClassIds->contains((string) $class->id))
             ->pluck('display_name')
             ->implode(' + ');
+    }
+
+    private function authorizedDashboardClassesForSession(ClassSession $session, Collection $periodClasses, ?array $classWindows): Collection
+    {
+        if ($classWindows === null) {
+            return $periodClasses;
+        }
+
+        $authorizedClassIds = collect($this->waliEntitlements->authorizedClassIdsAt(
+            $classWindows,
+            AcademicBusinessTime::date($session->planned_start_at),
+        ));
+        $effectiveClassIds = collect($this->classScope->forSession($session))
+            ->map(fn ($classId): string => (string) $classId)
+            ->intersect($authorizedClassIds)
+            ->values();
+
+        return $periodClasses
+            ->filter(fn (AcademicClass $class): bool => $effectiveClassIds->contains((string) $class->id))
+            ->values();
     }
 
     private function waliClasses(User $actor, Carbon $from, Carbon $to, array $classWindows)
