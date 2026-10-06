@@ -57,7 +57,7 @@ class AcademicRoleDashboardService
             $academicYearEnd = $operationalClasses
                 ->map(fn (AcademicClass $class) => $class->academicYear?->ends_on)
                 ->filter()
-                ->map(fn ($date) => Carbon::parse((string) $date, $businessNow->timezone())->endOfDay())
+                ->map(fn ($date) => Carbon::parse((string) $date, (string) config('academic.business_timezone', 'Asia/Jakarta'))->endOfDay())
                 ->max();
             if ($academicYearEnd !== null) {
                 $nextUntil = $academicYearEnd->copy()->addDay()->startOfDay();
