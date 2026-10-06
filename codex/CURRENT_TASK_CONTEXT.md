@@ -1,5 +1,31 @@
 # CURRENT TASK CONTEXT
 
+## Academic Wali dashboard R4A2-1 closeout — 2026-10-06
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_IMPLEMENTED_PASS`
+**Branch / tested executable HEAD:** `feat/super-admin-user-access-preferences` / `694065cb30e959f974b8d1c8e8a5bddb6a252cf9`
+**Exact CI:** `37438813516` = `SUCCESS`; disposable PostgreSQL foundation verification passed with 0 failures.
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT-2026-10-06.md`
+**Task context:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT.md`
+**PILOT database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4A2_1_AUDIT`
+
+R4A2-1 corrects joint-session dashboard partitioning at the session's
+Asia/Jakarta business date and separates today's Wali entitlement scope from
+the bounded future next-session scope. Non-anchor Wali access, participant
+isolation, end-exclusive assignment expiry, future A→B transition, ordinary
+session behavior, and full Waka/Super Admin authority are covered by the
+implementation and exact disposable PostgreSQL CI.
+
+No migration, schema, dependency, runtime configuration, or PILOT/business
+data change was performed. Public Academic AI remains OFF; `IMP-S12-007`
+remains `NOT_STARTED`; `SOC-MD-06` is unchanged; Academic Web remains
+`4/10 = 40%`; and broader R4 P1 remains `3/7` pending independent audit.
+
+**REQUIRED NOW:** return to ChatGPT/project owner for R4A2-1 audit. Do not
+start R4A3, R4B, Grade G3, human UAT, AI, or PILOT work automatically.
+
 ## Academic Wali dashboard R4A2 closeout — 2026-10-06
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION`

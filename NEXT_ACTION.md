@@ -1,5 +1,21 @@
 # NEXT ACTION
 
+# Academic Wali dashboard R4A2-1 closeout — 2026-10-06
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_IMPLEMENTED_PASS`
+**Tested executable HEAD:** `694065cb30e959f974b8d1c8e8a5bddb6a252cf9`
+**Exact CI:** `37438813516` = `SUCCESS`
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT-2026-10-06.md`
+**Task context:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT.md`
+**Database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4A2_1_AUDIT`
+
+R4A2-1 is complete on exact green disposable PostgreSQL CI. The Wali
+dashboard now resolves joint participant/class scope at the session business
+date and uses bounded future entitlement for next-session visibility. Do not
+start R4A3, R4B, Grade G3, human UAT, AI, or PILOT work automatically.
+
 # Academic Wali dashboard R4A2 closeout — 2026-10-06
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-POINT-IN-TIME-WALI-AUTHORIZATION`

@@ -22,6 +22,11 @@
 - `application/web/app/Domains/Academic/Services/WaliClassEntitlementResolver.php`
 - `application/web/tests/Feature/Academic/AcademicRoleDashboardServiceTest.php`
 - `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT-2026-10-06.md`
+- `codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT.md`
+- `codex/CURRENT_TASK_CONTEXT.md`
+- `NEXT_ACTION.md`
+- `PROJECT_STATE.json`
+- `EVIDENCE_INDEX.json`
 
 No migration, schema, dependency, runtime configuration, deployment, or database files were changed.
 
@@ -43,7 +48,7 @@ No migration, schema, dependency, runtime configuration, deployment, or database
 - `php artisan route:list --except-vendor`: PASS.
 - `python3 scripts/check_project_structure.py`: PASS.
 - Local focused PHPUnit: BLOCKED safely by the existing fail-closed `TestDatabaseIdentityGuard` because local configuration resolves to the protected pilot identity; no database query or write was allowed.
-- Disposable PostgreSQL focused/full regression and exact GitHub Actions verification: PENDING at manifest creation.
+- Disposable PostgreSQL focused/full regression and exact GitHub Actions verification: PASS, exact run `37438813516` on `694065cb30e959f974b8d1c8e8a5bddb6a252cf9`.
 
 ## Safety boundary
 
@@ -58,5 +63,4 @@ No migration, schema, dependency, runtime configuration, deployment, or database
 
 ## Decision gate
 
-The implementation decision is not promoted until the disposable PostgreSQL regression and exact current-head GitHub Actions run are green. Expected success decision: `ACADEMIC_WALI_R4A2_1_IMPLEMENTED_PASS`. If future transition behavior cannot be safely evidenced while P1 is fixed, use `ACADEMIC_WALI_R4A2_1_PARTIAL / NEXT_SESSION_TRANSITION_UX_DECISION_REQUIRED`; if cross-class leakage remains, use `ACADEMIC_WALI_R4A2_1_HOLD`.
-
+The exact executable-head disposable PostgreSQL regression is green. Decision: `ACADEMIC_WALI_R4A2_1_IMPLEMENTED_PASS`. If a later independent audit finds future transition behavior cannot be safely represented, use `ACADEMIC_WALI_R4A2_1_PARTIAL / NEXT_SESSION_TRANSITION_UX_DECISION_REQUIRED`; if cross-class leakage is found, use `ACADEMIC_WALI_R4A2_1_HOLD`.

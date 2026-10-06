@@ -745,6 +745,33 @@
       "status": "PASS_EXACT_FINAL_GOVERNANCE_HEAD",
       "summary": "Final R4A2 manifest/state/evidence reconciliation passed the disposable PostgreSQL foundation workflow on the exact governance HEAD.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-r4a2-1-task",
+      "kind": "task_context",
+      "ref": "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT.md",
+      "commit": "694065cb30e959f974b8d1c8e8a5bddb6a252cf9",
+      "status": "COMPLETED_PASS",
+      "summary": "R4A2-1 contract freezes session-business-date joint partitioning, bounded future Wali entitlement, end-exclusive transitions, and disposable PostgreSQL-only verification.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-r4a2-1-manifest",
+      "kind": "change_manifest",
+      "ref": "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT-2026-10-06.md",
+      "commit": "694065cb30e959f974b8d1c8e8a5bddb6a252cf9",
+      "status": "ACADEMIC_WALI_R4A2_1_IMPLEMENTED_PASS",
+      "summary": "Dashboard joint-session scope is partitioned at the session business date and next-session entitlement is bounded by academic-year end; no migration or PILOT access/write occurred.",
+      "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-r4a2-1-exact-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37438813516",
+      "commit": "694065cb30e959f974b8d1c8e8a5bddb6a252cf9",
+      "status": "PASS_EXACT_EXECUTABLE_HEAD",
+      "summary": "PostgreSQL 18.6 disposable service, UTC technical session, identity guard, migration-from-zero, schema checks, focused dashboard regressions, and full foundation verification passed with 0 failures.",
+      "sensitivity": "non_secret"
     }
   ]
 }
