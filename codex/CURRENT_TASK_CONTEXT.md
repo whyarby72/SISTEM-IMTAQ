@@ -1,5 +1,22 @@
 # CURRENT TASK CONTEXT
 
+## Academic Wali R4A2-1E evidence closure — 2026-10-07
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_EVIDENCE_CLOSED`
+**Branch / exact HEAD:** `feat/super-admin-user-access-preferences` / `cf3eb537f31015888c83ecf386417f20d67b5832`
+**Exact CI:** `37596527013` = `SUCCESS`; disposable PostgreSQL foundation verification passed with 0 failures.
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE-2026-10-07.md`
+**Task context:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE.md`
+**Production application source changed:** `NO`
+**PILOT access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4A2_1E_AUDIT`
+
+R4A2-1E closes executable evidence for Oct 14 Class A partitioning, Oct 15
+Class B end-exclusive transition, period/trend isolation, unauthorized
+participant exclusion, and Oct 6 next-session selection. Do not start R4A3,
+R4B, Grade G3, human UAT, PILOT work, or AI work automatically.
+
 ## Academic Wali dashboard R4A2-1 closeout — 2026-10-06
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT`

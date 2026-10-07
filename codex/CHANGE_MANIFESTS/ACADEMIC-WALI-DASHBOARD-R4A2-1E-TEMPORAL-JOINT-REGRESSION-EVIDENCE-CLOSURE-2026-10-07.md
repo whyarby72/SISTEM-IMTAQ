@@ -13,6 +13,8 @@
 - `application/web/tests/Feature/Academic/AcademicRoleDashboardServiceTest.php`
   adds the exact temporal A/B joint-session partition, period-counter and
   trend-isolation regression, plus the explicit tomorrow next-session case.
+- `codex/CURRENT_TASK_CONTEXT.md`, `NEXT_ACTION.md`, `PROJECT_STATE.json`, and
+  `EVIDENCE_INDEX.json` record the completed evidence closure and exact CI.
 - No production application source was changed.
 - No migration, schema, dependency, runtime configuration, deployment, or
   business-data file was changed.
@@ -38,8 +40,10 @@ The new regression asserts:
 - Focused local PHPUnit: `BLOCKED_SAFE` by the existing fail-closed
   `TestDatabaseIdentityGuard` because local configuration resolves to the
   protected PILOT database; no database query or write ran.
-- Disposable PostgreSQL focused/full regression: `PENDING_EXACT_CI`.
-- Exact GitHub Actions result: `PENDING_EXACT_CI`.
+- Disposable PostgreSQL focused/full regression: `PASS`.
+- Exact GitHub Actions result: `37596527013` = `SUCCESS` on
+  `cf3eb537f31015888c83ecf386417f20d67b5832`.
+- Foundation summary: `17 passed, 604 warnings, 2642 assertions, 0 failures`.
 
 ## Safety boundary
 
@@ -54,7 +58,6 @@ The new regression asserts:
 
 ## Decision gate
 
-Pending exact disposable PostgreSQL CI. Success outcome:
-`ACADEMIC_WALI_R4A2_1_EVIDENCE_CLOSED`. Any application-behavior failure in
-the new tests requires `R4A2_1_IMPLEMENTATION_DEFECT_FOUND` and a stop; no
-production patch is authorized by this task.
+`ACADEMIC_WALI_R4A2_1_EVIDENCE_CLOSED`. All five evidence cases passed on
+disposable PostgreSQL and exact-current GitHub Actions is green. No
+production patch was required or authorized.

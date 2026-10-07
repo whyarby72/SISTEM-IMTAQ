@@ -1,16 +1,16 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "694065cb30e959f974b8d1c8e8a5bddb6a252cf9",
+  "repo_commit": "cf3eb537f31015888c83ecf386417f20d67b5832",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT",
+  "current_task_id": "ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT"
+    "ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -97,7 +97,10 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37377396528",
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT.md",
     "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-1-SESSION-DATE-PARTITION-AND-NEXT-SESSION-ENTITLEMENT-2026-10-06.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37438813516"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37438813516",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE.md",
+    "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE-2026-10-07.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37596527013"
   ],
   "latest_test_state": {
     "exact_current_ci": "PASS / RUN_37438813516 / HEAD_694065cb30e959f974b8d1c8e8a5bddb6a252cf9",
@@ -157,6 +160,7 @@
     ,"academic_wali_dashboard_maturity_r1_operational_home": "COMPLETED / PASS / WALI_DASHBOARD_R1_IMPLEMENTED_PASS / RUN_37204858961"
     ,"academic_wali_dashboard_r4a2_point_in_time_wali_authorization": "COMPLETED / PASS / ACADEMIC_WALI_R4A2_IMPLEMENTED_PASS / RUN_37323408359"
     ,"academic_wali_dashboard_r4a2_1_session_date_partition_and_next_session_entitlement": "COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_IMPLEMENTED_PASS / RUN_37438813516"
+    ,"academic_wali_dashboard_r4a2_1e_temporal_joint_regression_evidence_closure": "COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_EVIDENCE_CLOSED / RUN_37596527013"
   },
   "blockers": [
     {
@@ -194,11 +198,11 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4A2_1_AUDIT",
+  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4A2_1E_AUDIT",
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
-  "updated_at": "2026-10-06T00:00:00+07:00",
+  "updated_at": "2026-10-07T00:00:00+07:00",
   "timezone_authority": {
     "status": "APPROVED_BY_PROJECT_OWNER",
     "selected_option": "OPTION_A",
