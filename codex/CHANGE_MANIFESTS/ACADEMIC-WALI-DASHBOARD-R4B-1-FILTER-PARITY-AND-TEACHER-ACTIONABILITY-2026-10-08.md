@@ -45,7 +45,7 @@
 - `git diff --check`: PASS.
 - Focused local tests: `BLOCKED_SAFE`; the database identity guard rejected
   the protected local PILOT identity before any business query/write.
-- Exact disposable PostgreSQL CI on implementation HEAD `a3b604548502f07aa63ddb0f0a6a7946d45a0bf9`: PASS, run `37699429083`; 17 passed, 610 warnings, 2852 assertions, 0 failures. Foundation verification, migration-from-zero, PostgreSQL identity/schema/extension/UTC checks passed.
+- Exact disposable PostgreSQL CI on implementation HEAD `44d2bc94731de471bcfa78f46f0e3f0a13241abf`: PASS, run `37700043931`; 17 passed, 610 warnings, 2852 assertions, 0 failures. Foundation verification, migration-from-zero, PostgreSQL identity/schema/extension/UTC checks passed.
 
 ## R4B.1 closeout evidence
 
@@ -59,7 +59,7 @@
   attendance and urgent count one; legacy past due remains actionable.
 - R4B 20-session summary/filter regression and R4A regression: PASS in exact
   disposable PostgreSQL CI.
-- Final implementation HEAD: `a3b604548502f07aa63ddb0f0a6a7946d45a0bf9`.
+- Final implementation HEAD: `44d2bc94731de471bcfa78f46f0e3f0a13241abf`.
 - Final decision: `ACADEMIC_WALI_R4B_1_IMPLEMENTED_PASS`.
 
 ## Required closeout evidence
