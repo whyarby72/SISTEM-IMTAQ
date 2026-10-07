@@ -4,8 +4,9 @@
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY`
 **State:** `COMPLETED / PASS / ACADEMIC_WALI_R4B_1_IMPLEMENTED_PASS`
-**Branch / exact HEAD:** `feat/super-admin-user-access-preferences` / `a3b604548502f07aa63ddb0f0a6a7946d45a0bf9`
-**Exact CI:** `37699429083` = `SUCCESS`; 17 passed, 610 warnings, 2852 assertions, 0 failures.
+**Branch / final governance HEAD:** `feat/super-admin-user-access-preferences` / `e5750bcb3b2ab698fbfa5cf8cd3fd60376408b97`
+**Executable HEAD / CI:** `a3b604548502f07aa63ddb0f0a6a7946d45a0bf9` / run `37699429083` = `SUCCESS`; 17 passed, 610 warnings, 2852 assertions, 0 failures.
+**Final governance CI:** `37699623461` = `SUCCESS` on the final governance HEAD.
 **Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY-2026-10-08.md`
 **Application source changed:** `YES / dashboard read model and rendered-row testability only`
 **PILOT access/write:** `NONE / NONE`
