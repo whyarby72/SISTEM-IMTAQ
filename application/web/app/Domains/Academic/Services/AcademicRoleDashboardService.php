@@ -70,6 +70,10 @@ class AcademicRoleDashboardService
             }
         }
 
+        $attendanceSessions = $role === 'WALI_KELAS'
+            ? $this->attendanceSessions($classes, $from, $to, $classWindows)
+            : collect();
+
         $classItems = $classes->map(fn (AcademicClass $class): array => [
             'class' => $class,
             'attendance' => $this->dashboardAttendance($this->attendanceMetrics->forClassPeriod($class, $from, $to, $role === 'WALI_KELAS' ? ($classWindows[(string) $class->id] ?? []) : null)),
@@ -88,9 +92,12 @@ class AcademicRoleDashboardService
             'today_attendance' => $this->periodAttendance($classes, $from, $to, $role === 'WALI_KELAS', $role === 'WALI_KELAS' ? $classWindows : null),
             'attendance_status_source' => 'live_sessions',
             'teacher_attendance' => $teacherAttendance,
-            'attendance_sessions' => $role === 'WALI_KELAS' ? $this->attendanceSessions($classes, $from, $to, $classWindows) : collect(),
+            'attendance_sessions' => $attendanceSessions,
+            'attendance_session_summary' => $role === 'WALI_KELAS'
+                ? $this->attendanceSessionSummary($attendanceSessions)
+                : [],
             'wali_operational' => $role === 'WALI_KELAS'
-                ? $this->waliOperationalHome($operationalClasses, $operationalWindows, $nextClasses, $nextWindows, $nextUntil)
+                ? $this->waliOperationalHome($operationalClasses, $operationalWindows, $nextClasses, $nextWindows, $nextUntil, $attendanceSessions)
                 : null,
         ];
     }
@@ -101,6 +108,7 @@ class AcademicRoleDashboardService
         ?Collection $nextClasses = null,
         ?array $nextWindows = null,
         ?Carbon $nextUntil = null,
+        ?Collection $periodSessions = null,
     ): array {
         $class = $classes->first();
         if (! $class instanceof AcademicClass) {
@@ -138,6 +146,8 @@ class AcademicRoleDashboardService
 
         $nextClasses ??= $classes;
         $nextWindows ??= $classWindows;
+        $periodSessions ??= collect();
+        $actionableSessions = $periodSessions->filter(fn (ClassSession $session): bool => (bool) $session->getAttribute('needs_action'));
         $nextQuery = $this->waliOperationalSessionsQuery($nextClasses, $nextWindows)
             ->where('planned_start_at', '>', $now->copy()->utc())
             ->when($nextUntil !== null, fn ($query) => $query->where('planned_start_at', '<', $nextUntil->copy()->utc()))
@@ -154,13 +164,10 @@ class AcademicRoleDashboardService
             'active_student_count' => $this->activeStudentCountForClasses($classes, $now),
             'today_sessions' => $todaySessions,
             'urgent' => [
-                'occurrence_pending' => $todaySessions->where('state', 'OCCURRENCE_PENDING')->count(),
-                'due_not_started' => $todaySessions->where('state', 'DUE_NOT_STARTED')->count(),
-                'due_incomplete' => $todaySessions->where('state', 'DUE_INCOMPLETE')->count(),
-                'teacher_attendance_missing' => $todaySessions
-                    ->whereIn('state', ['DUE_NOT_STARTED', 'DUE_INCOMPLETE', 'IN_PROGRESS'])
-                    ->where('teacher_attendance_missing', true)
-                    ->count(),
+                'occurrence_pending' => $actionableSessions->where('period_state', 'OCCURRENCE_PENDING')->count(),
+                'due_not_started' => $actionableSessions->where('period_state', 'DUE_NOT_STARTED')->count(),
+                'due_incomplete' => $actionableSessions->where('period_state', 'DUE_INCOMPLETE')->count(),
+                'teacher_attendance_missing' => $actionableSessions->where('teacher_attendance_missing', true)->count(),
             ],
             'today_completion' => [
                 'finalized' => $finalized,
@@ -319,6 +326,8 @@ class AcademicRoleDashboardService
                     ->where('participant_status', 'EXPECTED')
                     ->where('is_required', true)
                     ->with(['attendance', 'student.classEnrollments']),
+                'teacherParticipations' => fn ($query) => $query
+                    ->where('participation_status', 'EXPECTED'),
             ]);
         if ($classWindows === null) {
             $query
@@ -332,7 +341,6 @@ class AcademicRoleDashboardService
         $sessions = $query
             ->whereNotIn('session_status', ['CANCELLED', 'RESCHEDULED'])
             ->orderBy('planned_start_at')
-            ->limit(12)
             ->get();
 
         return $sessions->each(function (ClassSession $session) use ($classes, $classWindows): void {
@@ -345,6 +353,14 @@ class AcademicRoleDashboardService
             $finalized = $participants->isNotEmpty()
                 && $resolved === $participants->count()
                 && $participants->every(fn ($participant) => $participant->attendance?->workflow_status === 'VALIDATED');
+            $teacherParticipation = $session->teacherParticipations
+                ->first(fn ($participation) => $participation->role === 'PRIMARY')
+                ?? $session->teacherParticipations->first();
+            $teacherAttendanceMissing = $teacherParticipation !== null && $teacherParticipation->attendance_status === null;
+            $periodState = $this->periodSessionState($session, $execution, $resolved, $finalized);
+            $needsAction = $periodState !== 'UPCOMING'
+                && (in_array($periodState, ['OCCURRENCE_PENDING', 'DUE_NOT_STARTED', 'DUE_INCOMPLETE', 'IN_PROGRESS'], true)
+                    || $teacherAttendanceMissing);
 
             $session->setAttribute('attendance_label', $execution['attendance_obligation_exists']
                 ? ($finalized ? 'Sudah disahkan' : ($resolved > 0 ? 'Belum lengkap' : 'Belum diisi'))
@@ -352,7 +368,44 @@ class AcademicRoleDashboardService
             $session->setAttribute('attendance_action', $execution['attendance_obligation_exists']
                 ? ($finalized ? 'Lihat kehadiran' : ($resolved > 0 ? 'Lanjutkan pengisian' : 'Isi kehadiran'))
                 : ($execution['execution_state'] === 'UPCOMING' ? 'Lihat sesi' : 'Catat pelaksanaan'));
+            $session->setAttribute('period_state', $periodState);
+            $session->setAttribute('needs_action', $needsAction);
+            $session->setAttribute('teacher_attendance_missing', $teacherAttendanceMissing);
         });
+    }
+
+    private function periodSessionState(ClassSession $session, array $execution, int $resolved, bool $finalized): string
+    {
+        if ($execution['occurrence_regime'] === SessionOccurrenceCutover::CANONICAL
+            && ! $execution['attendance_obligation_exists']) {
+            return $execution['execution_state'] === 'UPCOMING' ? 'UPCOMING' : 'OCCURRENCE_PENDING';
+        }
+        if ($finalized) {
+            return 'FINALIZED';
+        }
+        if ($session->planned_start_at->isFuture()) {
+            return 'UPCOMING';
+        }
+        if ($session->planned_end_at->isFuture()) {
+            return 'IN_PROGRESS';
+        }
+
+        return $resolved === 0 ? 'DUE_NOT_STARTED' : 'DUE_INCOMPLETE';
+    }
+
+    private function attendanceSessionSummary(Collection $sessions): array
+    {
+        return [
+            'total' => $sessions->count(),
+            'empty' => $sessions->where('attendance_label', 'Belum diisi')->count(),
+            'incomplete' => $sessions->where('attendance_label', 'Belum lengkap')->count(),
+            'finalized' => $sessions->where('attendance_label', 'Sudah disahkan')->count(),
+            'upcoming' => $sessions->where('period_state', 'UPCOMING')->count(),
+            'occurrence_pending' => $sessions->where('period_state', 'OCCURRENCE_PENDING')->count(),
+            'due_not_started' => $sessions->where('period_state', 'DUE_NOT_STARTED')->count(),
+            'needs_action' => $sessions->where('needs_action', true)->unique('id')->count(),
+            'teacher_attendance_missing' => $sessions->where('teacher_attendance_missing', true)->unique('id')->count(),
+        ];
     }
 
     private function periodAttendance($classes, Carbon $from, Carbon $to, bool $partitionByClass, ?array $classWindows = null): array

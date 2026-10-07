@@ -556,7 +556,193 @@ class AcademicRoleDashboardServiceTest extends TestCase
         }
 
         $this->assertCount(14, $dashboard['wali_operational']['today_sessions']);
-        $this->assertCount(12, $dashboard['attendance_sessions']);
+        $this->assertCount(14, $dashboard['attendance_sessions']);
+        $this->assertSame(14, $dashboard['attendance_session_summary']['total']);
+    }
+
+    public function test_wali_period_sessions_are_complete_and_summary_counts_match_all_states(): void
+    {
+        [$first, , $wali, $waka, $assignment] = $this->fixture();
+        $existing = ClassSession::query()->where('class_id', $first->id)->firstOrFail();
+        $sessions = [$existing];
+        $existingParticipant = $this->participant($existing, 1);
+        StudentAttendance::create([
+            'session_student_participant_id' => $existingParticipant->id,
+            'attendance_status' => 'PRESENT',
+            'workflow_status' => 'VALIDATED',
+            'entered_by' => $waka->id,
+            'entered_at' => now(),
+            'finalized_by' => $waka->id,
+            'finalized_at' => now(),
+            'updated_by' => $waka->id,
+            'updated_at' => now(),
+        ]);
+
+        foreach (range(1, 7) as $index) {
+            $session = $this->operationalSession($assignment, 'DASH-R4B-FINAL-'.$index, '2026-07-09 08:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-09 09:00:00', 'COMPLETED');
+            $participant = $this->participant($session, $index);
+            StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'entered_by' => $waka->id, 'entered_at' => now(), 'finalized_by' => $waka->id, 'finalized_at' => now(), 'updated_by' => $waka->id, 'updated_at' => now()]);
+            $sessions[] = $session;
+        }
+        foreach (range(1, 5) as $index) {
+            $session = $this->operationalSession($assignment, 'DASH-R4B-INCOMPLETE-'.$index, '2026-07-09 10:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-09 11:00:00', 'COMPLETED');
+            $participant = $this->participant($session, $index + 10);
+            StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'DRAFT', 'entered_by' => $waka->id, 'entered_at' => now(), 'updated_by' => $waka->id, 'updated_at' => now()]);
+            $sessions[] = $session;
+        }
+        foreach (range(1, 3) as $index) {
+            $session = $this->operationalSession($assignment, 'DASH-R4B-EMPTY-'.$index, '2026-07-09 12:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-09 13:00:00', 'COMPLETED');
+            $this->participant($session, $index + 20);
+            $sessions[] = $session;
+        }
+        foreach (range(1, 4) as $index) {
+            $session = $this->operationalSession($assignment, 'DASH-R4B-UPCOMING-'.$index, '2026-07-11 08:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-11 09:00:00');
+            $sessions[] = $session;
+        }
+
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-07-01', 'Asia/Jakarta'),
+                Carbon::parse('2026-07-31 23:59:59', 'Asia/Jakarta'),
+            );
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $summary = $dashboard['attendance_session_summary'];
+        $this->assertCount(20, $dashboard['attendance_sessions']);
+        $this->assertEqualsCanonicalizing(collect($sessions)->pluck('id')->all(), $dashboard['attendance_sessions']->pluck('id')->all());
+        $this->assertSame(20, $summary['total']);
+        $this->assertSame(3, $summary['empty']);
+        $this->assertSame(5, $summary['incomplete']);
+        $this->assertSame(8, $summary['finalized']);
+        $this->assertSame(4, $summary['upcoming']);
+        $this->assertSame(8, $summary['needs_action']);
+        $this->assertSame(0, $summary['occurrence_pending']);
+
+        $hiddenBeforeR4B = $dashboard['attendance_sessions']->firstWhere('id', ClassSession::where('session_code', 'DASH-R4B-INCOMPLETE-5')->value('id'));
+        $this->assertNotNull($hiddenBeforeR4B);
+        $this->assertTrue($hiddenBeforeR4B->needs_action);
+
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $this->actingAs($wali)
+                ->get(route('academic.dashboard', ['from' => '2026-07-01', 'to' => '2026-07-31', 'attendance_filter' => 'needs_action']))
+                ->assertOk()
+                ->assertSee('Semua (20)')
+                ->assertSee('Belum diisi (3)')
+                ->assertSee('Belum lengkap (5)')
+                ->assertSee('Sudah disahkan (8)')
+                ->assertSee('Perlu ditangani (8)')
+                ->assertSee(route('academic.attendance.show', $hiddenBeforeR4B), false)
+                ->assertSee('Ringkasan sesi pada periode terpilih yang sudah membutuhkan tindakan.')
+                ->assertSee('Lihat sesi yang perlu ditangani');
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_perlu_ditangani_includes_overdue_and_today_but_excludes_future_sessions(): void
+    {
+        [$first, , $wali, , $assignment] = $this->fixture();
+        $overdue = $this->operationalSession($assignment, 'DASH-R4B-OVERDUE', '2026-10-08 08:00:00', '2026-10-08 09:00:00', 'COMPLETED');
+        $today = $this->operationalSession($assignment, 'DASH-R4B-TODAY', '2026-10-10 08:00:00', '2026-10-10 09:00:00', 'COMPLETED');
+        $future = $this->operationalSession($assignment, 'DASH-R4B-FUTURE', '2026-10-12 08:00:00', '2026-10-12 09:00:00');
+        $this->participant($overdue, 1);
+        $this->participant($today, 2);
+        $this->participant($future, 3);
+
+        Carbon::setTestNow(Carbon::parse('2026-10-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-10-01', 'Asia/Jakarta'),
+                Carbon::parse('2026-10-31 23:59:59', 'Asia/Jakarta'),
+            );
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $summary = $dashboard['attendance_session_summary'];
+        $actionable = $dashboard['attendance_sessions']->filter(fn ($session) => $session->needs_action);
+        $this->assertSame(2, $summary['needs_action']);
+        $this->assertEqualsCanonicalizing([$overdue->id, $today->id], $actionable->pluck('id')->all());
+        $this->assertSame(1, $dashboard['wali_operational']['today_sessions']->count());
+        $this->assertSame($today->id, $dashboard['wali_operational']['today_sessions']->first()['session']->id);
+        $this->assertSame(2, $dashboard['wali_operational']['urgent']['due_not_started']);
+        $this->assertSame(0, $dashboard['wali_operational']['urgent']['occurrence_pending']);
+        $this->assertNotContains($future->id, $actionable->pluck('id')->all());
+        $this->assertSame($first->id, $today->class_id);
+    }
+
+    public function test_occurrence_pending_is_actionable_but_future_canonical_session_is_not(): void
+    {
+        [, , $wali, , $assignment] = $this->fixture();
+        config(['academic.session_occurrence_enabled' => true, 'academic.session_occurrence_cutover_at' => '2026-06-01T00:00:00+07:00']);
+        $pending = $this->operationalSession($assignment, 'DASH-R4B-OCCURRENCE-PENDING', '2026-10-08 08:00:00', '2026-10-08 09:00:00');
+        $future = $this->operationalSession($assignment, 'DASH-R4B-OCCURRENCE-FUTURE', '2026-10-12 08:00:00', '2026-10-12 09:00:00');
+        $this->participant($pending, 1);
+        $this->participant($future, 2);
+
+        Carbon::setTestNow(Carbon::parse('2026-10-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser($wali, Carbon::parse('2026-10-01'), Carbon::parse('2026-10-31')->endOfDay());
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $pendingItem = $dashboard['attendance_sessions']->firstWhere('id', $pending->id);
+        $futureItem = $dashboard['attendance_sessions']->firstWhere('id', $future->id);
+        $this->assertSame('OCCURRENCE_PENDING', $pendingItem->period_state);
+        $this->assertTrue($pendingItem->needs_action);
+        $this->assertSame('UPCOMING', $futureItem->period_state);
+        $this->assertFalse($futureItem->needs_action);
+        $this->assertSame(1, $dashboard['attendance_session_summary']['occurrence_pending']);
+        $this->assertSame(1, $dashboard['attendance_session_summary']['needs_action']);
+    }
+
+    public function test_teacher_attendance_missing_contributes_to_period_backlog_only_when_expected(): void
+    {
+        [$first, , $wali, , $assignment] = $this->fixture();
+        $past = $this->operationalSession($assignment, 'DASH-R4B-TEACHER-MISSING', '2026-10-08 08:00:00', '2026-10-08 09:00:00', 'COMPLETED');
+        $future = $this->operationalSession($assignment, 'DASH-R4B-TEACHER-FUTURE', '2026-10-12 08:00:00', '2026-10-12 09:00:00');
+        $this->participant($past, 1);
+        SessionTeacherParticipation::create(['class_session_id' => $past->id, 'teacher_staff_id' => $assignment->teacher_staff_id, 'role' => 'PRIMARY', 'obligation_type' => 'TEACHING_ASSIGNMENT', 'participation_status' => 'EXPECTED']);
+        SessionTeacherParticipation::create(['class_session_id' => $future->id, 'teacher_staff_id' => $assignment->teacher_staff_id, 'role' => 'PRIMARY', 'obligation_type' => 'TEACHING_ASSIGNMENT', 'participation_status' => 'EXPECTED']);
+
+        Carbon::setTestNow(Carbon::parse('2026-10-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser($wali, Carbon::parse('2026-10-01'), Carbon::parse('2026-10-31')->endOfDay());
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $pastItem = $dashboard['attendance_sessions']->firstWhere('id', $past->id);
+        $futureItem = $dashboard['attendance_sessions']->firstWhere('id', $future->id);
+        $this->assertTrue($pastItem->teacher_attendance_missing);
+        $this->assertTrue($pastItem->needs_action);
+        $this->assertFalse($futureItem->teacher_attendance_missing);
+        $this->assertSame(1, $dashboard['attendance_session_summary']['teacher_attendance_missing']);
+        $this->assertSame(1, $dashboard['attendance_session_summary']['needs_action']);
+        $this->assertSame($first->id, $past->class_id);
+    }
+
+    public function test_wali_dashboard_has_zero_session_summary_for_an_empty_period(): void
+    {
+        [, , $wali] = $this->fixture();
+        ClassSession::query()->delete();
+
+        $dashboard = app(AcademicRoleDashboardService::class)->forUser($wali, Carbon::parse('2026-07-01'), Carbon::parse('2026-07-31')->endOfDay());
+
+        $this->assertCount(0, $dashboard['attendance_sessions']);
+        $this->assertSame(['total' => 0, 'empty' => 0, 'incomplete' => 0, 'finalized' => 0, 'upcoming' => 0, 'occurrence_pending' => 0, 'due_not_started' => 0, 'needs_action' => 0, 'teacher_attendance_missing' => 0], $dashboard['attendance_session_summary']);
+        $this->actingAs($wali)
+            ->get(route('academic.dashboard', ['from' => '2026-07-01', 'to' => '2026-07-31']))
+            ->assertOk()
+            ->assertSee('0 sesi')
+            ->assertSee('Belum ada sesi dalam periode yang dipilih.');
     }
 
     public function test_wali_dashboard_get_is_read_only_and_renders_operational_mobile_accessibility_contract(): void

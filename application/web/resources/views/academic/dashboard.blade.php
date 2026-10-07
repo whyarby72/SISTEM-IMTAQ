@@ -107,7 +107,7 @@
                         <div><p class="waka-kicker">Wali Kelas</p><h2 id="wali-class-title">@uiLabel($waliClass->display_name)</h2><p>{{ $waliClass->gradeLevel?->display_name ?? 'Tingkat belum tersedia' }} · Bagian {{ $waliClass->section_code ?: '—' }} · {{ $waliClass->academicYear?->display_name ?? 'Tahun ajaran belum tersedia' }}{{ $waliHome['semester'] ? ' · '.$waliHome['semester']->display_name : '' }}</p></div>
                         <div class="wali-identity-count"><strong>{{ $waliHome['active_student_count'] }}</strong><span>santri aktif</span></div>
                     </section>
-                    <section aria-labelledby="wali-urgent-title"><div class="waka-card-heading"><div><h2 id="wali-urgent-title">Perlu Ditangani</h2><p>Ringkasan pekerjaan kelas yang membutuhkan perhatian hari ini.</p></div></div><div class="wali-urgent">
+                    <section aria-labelledby="wali-urgent-title"><div class="waka-card-heading"><div><h2 id="wali-urgent-title">Perlu Ditangani</h2><p>Ringkasan sesi pada periode terpilih yang sudah membutuhkan tindakan.</p></div><a class="waka-link" href="{{ request()->fullUrlWithQuery(['attendance_filter' => 'needs_action']) }}#pengisian-kehadiran">Lihat sesi yang perlu ditangani →</a></div><div class="wali-urgent">
                         <div class="wali-urgent-item"><strong>{{ $waliHome['urgent']['occurrence_pending'] }}</strong><span>pelaksanaan KBM belum dicatat</span></div>
                         <div class="wali-urgent-item"><strong>{{ $waliHome['urgent']['due_incomplete'] }}</strong><span>sesi belum lengkap</span></div>
                         <div class="wali-urgent-item"><strong>{{ $waliHome['urgent']['due_not_started'] }}</strong><span>sesi belum dimulai pengisiannya</span></div>
@@ -201,23 +201,26 @@
                     @php
                         $attendanceFilter = request('attendance_filter', 'all');
                         $attendanceSessions = $dashboard['attendance_sessions'];
+                        $attendanceSessionSummary = $dashboard['attendance_session_summary'];
                         $attendanceSessionCounts = [
-                            'all' => $attendanceSessions->count(),
-                            'empty' => $attendanceSessions->where('attendance_label', 'Belum diisi')->count(),
-                            'incomplete' => $attendanceSessions->where('attendance_label', 'Belum lengkap')->count(),
-                            'finalized' => $attendanceSessions->where('attendance_label', 'Sudah disahkan')->count(),
+                            'all' => $attendanceSessionSummary['total'],
+                            'empty' => $attendanceSessionSummary['empty'],
+                            'incomplete' => $attendanceSessionSummary['incomplete'],
+                            'finalized' => $attendanceSessionSummary['finalized'],
+                            'needs_action' => $attendanceSessionSummary['needs_action'],
                         ];
                         if ($attendanceFilter !== 'all') {
                             $attendanceSessions = $attendanceSessions->filter(fn ($session) => match ($attendanceFilter) {
                                 'empty' => $session->attendance_label === 'Belum diisi',
                                 'incomplete' => $session->attendance_label === 'Belum lengkap',
                                 'finalized' => $session->attendance_label === 'Sudah disahkan',
+                                'needs_action' => $session->needs_action === true,
                                 default => true,
                             });
                         }
-                        $attendanceFilterLabels = ['all' => 'Semua', 'empty' => 'Belum diisi', 'incomplete' => 'Belum lengkap', 'finalized' => 'Sudah disahkan'];
+                        $attendanceFilterLabels = ['all' => 'Semua', 'empty' => 'Belum diisi', 'incomplete' => 'Belum lengkap', 'finalized' => 'Sudah disahkan', 'needs_action' => 'Perlu ditangani'];
                     @endphp
-                    <section class="waka-card" id="pengisian-kehadiran"><div class="waka-card-heading"><div><h2>Riwayat Sesi Periode</h2><p>Daftar ringkas sesi terdahulu dan mendatang pada periode terpilih.</p></div><span class="waka-link">{{ $attendanceSessions->count() }} sesi</span></div>
+                    <section class="waka-card" id="pengisian-kehadiran"><div class="waka-card-heading"><div><h2>Riwayat Sesi Periode</h2><p>Daftar ringkas sesi terdahulu dan mendatang pada periode terpilih.</p></div><span class="waka-link">{{ $attendanceSessionSummary['total'] }} sesi</span></div>
                         <div class="waka-session-filters" aria-label="Filter status pengisian"><span>Status:</span>@foreach ($attendanceFilterLabels as $filter => $label)<a class="waka-link {{ $attendanceFilter === $filter ? 'active' : '' }}" href="{{ request()->fullUrlWithQuery(['attendance_filter' => $filter]) }}">{{ $label }} ({{ $attendanceSessionCounts[$filter] }})</a>@endforeach</div>
                         @if ($attendanceSessions->isEmpty())
                             <div class="waka-unavailable"><strong>Belum ada sesi</strong>Belum ada sesi dalam periode yang dipilih.</div>

@@ -17,7 +17,11 @@ class AcademicDashboardController
 {
     public function index(Request $request, AcademicRoleDashboardService $dashboard): View|RedirectResponse
     {
-        $request->validate(['semester_id' => ['nullable', 'uuid'], 'trend_days' => ['nullable', 'integer', 'in:7,14,30']]);
+        $request->validate([
+            'semester_id' => ['nullable', 'uuid'],
+            'trend_days' => ['nullable', 'integer', 'in:7,14,30'],
+            'attendance_filter' => ['nullable', 'in:all,empty,incomplete,finalized,needs_action'],
+        ]);
         $actor = $request->user();
         abort_unless($actor instanceof User, 403);
         ['from' => $from, 'to' => $to, 'month' => $month, 'academicYear' => $academicYear] = $this->resolvePeriod($request);
