@@ -710,6 +710,123 @@ class AcademicRoleDashboardServiceTest extends TestCase
         $this->assertSame('Kelas B', $dashboard['wali_operational']['next_session']['class_label']);
     }
 
+    public function test_temporal_joint_sessions_keep_period_and_trend_partitions_isolated(): void
+    {
+        [$first, $second, $wali, $waka] = $this->fixture();
+        $staffId = UserStaffLink::query()->where('user_id', $wali->id)->value('staff_id');
+        ClassHomeroomAssignment::query()->where('class_id', $first->id)->update(['effective_until' => '2026-10-15']);
+        ClassHomeroomAssignment::create([
+            'class_id' => $second->id,
+            'staff_id' => $staffId,
+            'effective_from' => '2026-10-15',
+            'status' => 'ACTIVE',
+        ]);
+
+        $beforeTransition = ClassSession::query()->where('class_id', $first->id)->firstOrFail();
+        $onTransition = ClassSession::query()->where('class_id', $second->id)->firstOrFail();
+        $beforeTransition->update([
+            'planned_start_at' => Carbon::parse('2026-10-14 08:00:00', 'Asia/Jakarta')->utc(),
+            'planned_end_at' => Carbon::parse('2026-10-14 09:00:00', 'Asia/Jakarta')->utc(),
+        ]);
+        $onTransition->update([
+            'planned_start_at' => Carbon::parse('2026-10-15 08:00:00', 'Asia/Jakarta')->utc(),
+            'planned_end_at' => Carbon::parse('2026-10-15 09:00:00', 'Asia/Jakarta')->utc(),
+        ]);
+        foreach ([$beforeTransition, $onTransition] as $session) {
+            ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $first->id, 'scope_role' => 'JOINT_SCOPE']);
+            ClassSessionGroup::create(['class_session_id' => $session->id, 'class_id' => $second->id, 'scope_role' => 'JOINT_SCOPE']);
+        }
+
+        $studentA = Student::create(['student_code' => 'DASH-TEMPORAL-A', 'full_name' => 'Temporal A']);
+        $studentB = Student::create(['student_code' => 'DASH-TEMPORAL-B', 'full_name' => 'Temporal B']);
+        StudentClassEnrollment::create(['student_id' => $studentA->id, 'class_id' => $first->id, 'effective_from' => '2026-10-01', 'status' => 'ACTIVE']);
+        StudentClassEnrollment::create(['student_id' => $studentB->id, 'class_id' => $second->id, 'effective_from' => '2026-10-01', 'status' => 'ACTIVE']);
+
+        $beforeA = SessionStudentParticipant::create(['class_session_id' => $beforeTransition->id, 'student_id' => $studentA->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        SessionStudentParticipant::create(['class_session_id' => $beforeTransition->id, 'student_id' => $studentB->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        SessionStudentParticipant::create(['class_session_id' => $onTransition->id, 'student_id' => $studentA->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        $onB = SessionStudentParticipant::create(['class_session_id' => $onTransition->id, 'student_id' => $studentB->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
+        foreach ([$beforeA, $onB] as $participant) {
+            StudentAttendance::create([
+                'session_student_participant_id' => $participant->id,
+                'attendance_status' => 'PRESENT',
+                'workflow_status' => 'VALIDATED',
+                'entered_by' => $waka->id,
+                'entered_at' => now(),
+                'finalized_by' => $waka->id,
+                'finalized_at' => now(),
+                'updated_by' => $waka->id,
+                'updated_at' => now(),
+            ]);
+        }
+
+        Carbon::setTestNow(Carbon::parse('2026-10-20 10:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-10-01', 'Asia/Jakarta'),
+                Carbon::parse('2026-10-31 23:59:59', 'Asia/Jakarta'),
+                null,
+                31,
+            );
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $beforeItem = $dashboard['attendance_sessions']->firstWhere('id', $beforeTransition->id);
+        $transitionItem = $dashboard['attendance_sessions']->firstWhere('id', $onTransition->id);
+        $beforeTrend = collect($dashboard['attendance_trend'])->firstWhere('date', '2026-10-14');
+        $transitionTrend = collect($dashboard['attendance_trend'])->firstWhere('date', '2026-10-15');
+        $classA = $dashboard['classes']->firstWhere('class.id', $first->id);
+        $classB = $dashboard['classes']->firstWhere('class.id', $second->id);
+
+        $this->assertNotNull($beforeItem);
+        $this->assertNotNull($transitionItem);
+        $this->assertSame(1, $beforeItem->student_participants_count);
+        $this->assertSame(1, $transitionItem->student_participants_count);
+        $this->assertSame([$studentA->id], $beforeItem->studentParticipants->pluck('student_id')->all());
+        $this->assertSame([$studentB->id], $transitionItem->studentParticipants->pluck('student_id')->all());
+        $this->assertSame('Kelas A', $beforeItem->class_label);
+        $this->assertSame('Kelas B', $transitionItem->class_label);
+        $this->assertStringNotContainsString('Kelas B', $beforeItem->class_label);
+        $this->assertStringNotContainsString('Kelas A', $transitionItem->class_label);
+
+        $this->assertSame(1, $beforeTrend['eligible_opportunities']);
+        $this->assertSame(1, $beforeTrend['resolved_opportunities']);
+        $this->assertSame(100.0, $beforeTrend['completeness_rate']);
+        $this->assertSame(1, $transitionTrend['eligible_opportunities']);
+        $this->assertSame(1, $transitionTrend['resolved_opportunities']);
+        $this->assertSame(100.0, $transitionTrend['completeness_rate']);
+        $this->assertSame(1, $classA['attendance']['eligible_opportunities']);
+        $this->assertSame(1, $classA['attendance']['resolved_opportunities']);
+        $this->assertSame(1, $classB['attendance']['eligible_opportunities']);
+        $this->assertSame(1, $classB['attendance']['resolved_opportunities']);
+        $this->assertSame(2, $dashboard['overview']['attendance']['eligible_opportunities']);
+        $this->assertSame(2, $dashboard['overview']['attendance']['resolved_opportunities']);
+        $this->assertSame(0, $dashboard['overview']['attendance']['missing_opportunities']);
+    }
+
+    public function test_wali_operational_home_surfaces_tomorrows_next_session(): void
+    {
+        [$first, , $wali, , $assignment] = $this->fixture();
+        $tomorrow = $this->operationalSession($assignment, 'DASH-NEXT-TOMORROW', '2026-10-06 08:00:00', '2026-10-06 09:00:00');
+
+        Carbon::setTestNow(Carbon::parse('2026-10-05 17:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-10-01', 'Asia/Jakarta'),
+                Carbon::parse('2026-10-31 23:59:59', 'Asia/Jakarta'),
+            );
+        } finally {
+            Carbon::setTestNow();
+        }
+
+        $this->assertSame($first->id, $tomorrow->class_id);
+        $this->assertSame($tomorrow->id, $dashboard['wali_operational']['next_session']['session']->id);
+        $this->assertSame('Kelas A', $dashboard['wali_operational']['next_session']['class_label']);
+    }
+
     public function test_dashboard_accepts_supported_trend_window(): void
     {
         [, , , $waka] = $this->fixture();
