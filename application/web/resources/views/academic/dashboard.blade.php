@@ -212,9 +212,9 @@
                         ];
                         if ($attendanceFilter !== 'all') {
                             $attendanceSessions = $attendanceSessions->filter(fn ($session) => match ($attendanceFilter) {
-                                'empty' => $session->attendance_label === 'Belum diisi',
-                                'incomplete' => $session->attendance_label === 'Belum lengkap',
-                                'finalized' => $session->attendance_label === 'Sudah disahkan',
+                                'empty' => $session->period_state === 'DUE_NOT_STARTED',
+                                'incomplete' => in_array($session->period_state, ['DUE_INCOMPLETE', 'IN_PROGRESS'], true),
+                                'finalized' => $session->period_state === 'FINALIZED',
                                 'upcoming' => $session->period_state === 'UPCOMING',
                                 'needs_action' => $session->needs_action === true,
                                 default => true,
