@@ -21,7 +21,8 @@ ordinary-session behavior.
   `limit(12)` or equivalent presentation cap is semantic.
 - Server-owned summary counts cover the complete collection: total, empty,
   incomplete, finalized, upcoming, occurrence-pending, due-not-started,
-  needs-action, and missing expected teacher attendance.
+  needs-action, and missing expected teacher attendance. Future sessions are
+  counted as `upcoming`, never as current empty/incomplete work.
 - `needs_action` includes overdue/today occurrence, attendance, and expected
   teacher-attendance work, but excludes future sessions.
 - “Sesi Hari Ini” remains today-only.

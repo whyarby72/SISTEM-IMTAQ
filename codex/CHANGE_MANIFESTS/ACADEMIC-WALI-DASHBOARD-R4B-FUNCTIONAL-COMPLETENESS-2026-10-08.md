@@ -39,6 +39,8 @@ Pre-existing `codex/AUDITS/` files are preserved and not included.
 - Removed the Wali period-session semantic cap.
 - Summary totals and status filters are derived from the complete server-side
   collection, not from the filtered display subset.
+- Future sessions are classified as `upcoming` in the summary/filter contract,
+  not as current empty/incomplete work.
 - `needs_action` covers overdue and today actionable period sessions and
   excludes future sessions.
 - Occurrence-pending and missing expected teacher attendance are represented in

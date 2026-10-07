@@ -399,8 +399,8 @@ class AcademicRoleDashboardService
     {
         return [
             'total' => $sessions->count(),
-            'empty' => $sessions->where('attendance_label', 'Belum diisi')->count(),
-            'incomplete' => $sessions->where('attendance_label', 'Belum lengkap')->count(),
+            'empty' => $sessions->where('period_state', 'DUE_NOT_STARTED')->count(),
+            'incomplete' => $sessions->whereIn('period_state', ['DUE_INCOMPLETE', 'IN_PROGRESS'])->count(),
             'finalized' => $sessions->where('attendance_label', 'Sudah disahkan')->count(),
             'upcoming' => $sessions->where('period_state', 'UPCOMING')->count(),
             'occurrence_pending' => $sessions->where('period_state', 'OCCURRENCE_PENDING')->count(),

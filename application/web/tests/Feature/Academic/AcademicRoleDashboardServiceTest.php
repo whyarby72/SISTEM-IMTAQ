@@ -637,6 +637,7 @@ class AcademicRoleDashboardServiceTest extends TestCase
                 ->assertSee('Belum diisi (3)')
                 ->assertSee('Belum lengkap (5)')
                 ->assertSee('Sudah disahkan (8)')
+                ->assertSee('Akan datang (4)')
                 ->assertSee('Perlu ditangani (8)')
                 ->assertSee(route('academic.attendance.show', $hiddenBeforeR4B), false)
                 ->assertSee('Ringkasan sesi pada periode terpilih yang sudah membutuhkan tindakan.')

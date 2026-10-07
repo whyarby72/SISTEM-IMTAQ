@@ -207,6 +207,7 @@
                             'empty' => $attendanceSessionSummary['empty'],
                             'incomplete' => $attendanceSessionSummary['incomplete'],
                             'finalized' => $attendanceSessionSummary['finalized'],
+                            'upcoming' => $attendanceSessionSummary['upcoming'],
                             'needs_action' => $attendanceSessionSummary['needs_action'],
                         ];
                         if ($attendanceFilter !== 'all') {
@@ -214,11 +215,12 @@
                                 'empty' => $session->attendance_label === 'Belum diisi',
                                 'incomplete' => $session->attendance_label === 'Belum lengkap',
                                 'finalized' => $session->attendance_label === 'Sudah disahkan',
+                                'upcoming' => $session->period_state === 'UPCOMING',
                                 'needs_action' => $session->needs_action === true,
                                 default => true,
                             });
                         }
-                        $attendanceFilterLabels = ['all' => 'Semua', 'empty' => 'Belum diisi', 'incomplete' => 'Belum lengkap', 'finalized' => 'Sudah disahkan', 'needs_action' => 'Perlu ditangani'];
+                        $attendanceFilterLabels = ['all' => 'Semua', 'empty' => 'Belum diisi', 'incomplete' => 'Belum lengkap', 'finalized' => 'Sudah disahkan', 'upcoming' => 'Akan datang', 'needs_action' => 'Perlu ditangani'];
                     @endphp
                     <section class="waka-card" id="pengisian-kehadiran"><div class="waka-card-heading"><div><h2>Riwayat Sesi Periode</h2><p>Daftar ringkas sesi terdahulu dan mendatang pada periode terpilih.</p></div><span class="waka-link">{{ $attendanceSessionSummary['total'] }} sesi</span></div>
                         <div class="waka-session-filters" aria-label="Filter status pengisian"><span>Status:</span>@foreach ($attendanceFilterLabels as $filter => $label)<a class="waka-link {{ $attendanceFilter === $filter ? 'active' : '' }}" href="{{ request()->fullUrlWithQuery(['attendance_filter' => $filter]) }}">{{ $label }} ({{ $attendanceSessionCounts[$filter] }})</a>@endforeach</div>
