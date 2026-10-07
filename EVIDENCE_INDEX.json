@@ -826,6 +826,15 @@
       "status": "PASS_EXACT_FINAL_HEAD",
       "summary": "Disposable PostgreSQL 18.6 foundation verification passed: 17 tests, 609 warnings, 2689 assertions, 0 failures; migration-from-zero, identity/schema/extension/UTC checks passed.",
       "sensitivity": "non_secret"
+    },
+    {
+      "id": "academic-wali-dashboard-r4b-final-governance-ci",
+      "kind": "github_actions_run",
+      "ref": "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696655724",
+      "commit": "edf983ef6946dca9a9e7ff34b1c0bf49fcfcfaf5",
+      "status": "PASS_EXACT_FINAL_GOVERNANCE_HEAD",
+      "summary": "Final R4B state/routing/evidence governance HEAD passed the disposable PostgreSQL foundation workflow with 17 passed, 609 warnings, 2689 assertions, and 0 failures.",
+      "sensitivity": "non_secret"
     }
   ]
 }

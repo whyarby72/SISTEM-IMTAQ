@@ -1,7 +1,7 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "cdccbdde732f95c2fc525b85863f996bb69dd0b3",
+  "repo_commit": "edf983ef6946dca9a9e7ff34b1c0bf49fcfcfaf5",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
@@ -103,10 +103,11 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37596527013",
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS.md",
     "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS-2026-10-08.md",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696361882"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696361882",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696655724"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37696361882 / HEAD_cdccbdde732f95c2fc525b85863f996bb69dd0b3",
+    "exact_current_ci": "PASS / RUN_37696655724 / HEAD_edf983ef6946dca9a9e7ff34b1c0bf49fcfcfaf5",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",

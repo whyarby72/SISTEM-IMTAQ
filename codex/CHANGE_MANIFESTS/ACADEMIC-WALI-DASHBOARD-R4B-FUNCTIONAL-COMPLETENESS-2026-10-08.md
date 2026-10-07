@@ -76,6 +76,9 @@ Pre-existing `codex/AUDITS/` files are preserved and not included.
   Foundation verification reported 17 passed, 609 warnings, 2689 assertions,
   and 0 failures; PostgreSQL 18.6 identity, migration-from-zero, schema,
   extension, and UTC-session checks passed.
+- Final governance HEAD `edf983ef6946dca9a9e7ff34b1c0bf49fcfcfaf5` was
+  independently verified by exact run `37696655724` with the same successful
+  foundation result.
 
 ## Recovery
 
