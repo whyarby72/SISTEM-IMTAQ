@@ -579,24 +579,28 @@ class AcademicRoleDashboardServiceTest extends TestCase
         ]);
 
         foreach (range(1, 7) as $index) {
-            $session = $this->operationalSession($assignment, 'DASH-R4B-FINAL-'.$index, '2026-07-09 08:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-09 09:00:00', 'COMPLETED');
+            $hour = 7 + $index;
+            $session = $this->operationalSession($assignment, 'DASH-R4B-FINAL-'.$index, sprintf('2026-07-09 %02d:00:00', $hour), sprintf('2026-07-09 %02d:00:00', $hour + 1), 'COMPLETED');
             $participant = $this->participant($session, $index);
             StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'entered_by' => $waka->id, 'entered_at' => now(), 'finalized_by' => $waka->id, 'finalized_at' => now(), 'updated_by' => $waka->id, 'updated_at' => now()]);
             $sessions[] = $session;
         }
         foreach (range(1, 5) as $index) {
-            $session = $this->operationalSession($assignment, 'DASH-R4B-INCOMPLETE-'.$index, '2026-07-09 10:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-09 11:00:00', 'COMPLETED');
+            $hour = 14 + $index;
+            $session = $this->operationalSession($assignment, 'DASH-R4B-INCOMPLETE-'.$index, sprintf('2026-07-09 %02d:00:00', $hour), sprintf('2026-07-09 %02d:00:00', $hour + 1), 'COMPLETED');
             $participant = $this->participant($session, $index + 10);
             StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'DRAFT', 'entered_by' => $waka->id, 'entered_at' => now(), 'updated_by' => $waka->id, 'updated_at' => now()]);
             $sessions[] = $session;
         }
         foreach (range(1, 3) as $index) {
-            $session = $this->operationalSession($assignment, 'DASH-R4B-EMPTY-'.$index, '2026-07-09 12:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-09 13:00:00', 'COMPLETED');
+            $hour = 19 + $index;
+            $session = $this->operationalSession($assignment, 'DASH-R4B-EMPTY-'.$index, sprintf('2026-07-09 %02d:00:00', $hour), sprintf('2026-07-09 %02d:00:00', $hour + 1), 'COMPLETED');
             $this->participant($session, $index + 20);
             $sessions[] = $session;
         }
         foreach (range(1, 4) as $index) {
-            $session = $this->operationalSession($assignment, 'DASH-R4B-UPCOMING-'.$index, '2026-07-11 08:'.str_pad((string) $index, 2, '0', STR_PAD_LEFT).':00', '2026-07-11 09:00:00');
+            $hour = 7 + $index;
+            $session = $this->operationalSession($assignment, 'DASH-R4B-UPCOMING-'.$index, sprintf('2026-07-11 %02d:00:00', $hour), sprintf('2026-07-11 %02d:00:00', $hour + 1));
             $sessions[] = $session;
         }
 
