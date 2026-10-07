@@ -1,5 +1,26 @@
 # CURRENT TASK CONTEXT
 
+## Academic Wali dashboard R4B functional completeness — 2026-10-08
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4B_IMPLEMENTED_PASS`
+**Branch / exact HEAD:** `feat/super-admin-user-access-preferences` / `cdccbdde732f95c2fc525b85863f996bb69dd0b3`
+**Exact CI:** `37696361882` = `SUCCESS`; 17 passed, 609 warnings, 2689 assertions, 0 failures.
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS-2026-10-08.md`
+**Task context:** `codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS.md`
+**Application source changed:** `YES / Wali dashboard read model, filter, and presentation only`
+**PILOT access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4B_AUDIT`
+
+R4B removes the silent twelve-session period cap, makes summary/filter counts
+server-owned over the complete authorized dataset, and expands “Perlu
+Ditangani” to overdue and today actionable sessions while excluding future
+work. R4A1/R4A2/R4A2.1/R4A2.1E scope and read-only behavior remain covered by
+the exact disposable PostgreSQL foundation workflow.
+
+R4B P1 is a candidate for ChatGPT audit. Do not start R4C, human UAT, PILOT
+work, Grade G3, or AI work automatically.
+
 ## Academic Wali R4A2-1E evidence closure — 2026-10-07
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE`

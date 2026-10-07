@@ -71,8 +71,11 @@ Pre-existing `codex/AUDITS/` files are preserved and not included.
 - `git diff --check`: PASS.
 - Focused local tests: `BLOCKED_SAFE`; the existing database identity guard
   rejected the protected local PILOT identity before any business query/write.
-- Disposable PostgreSQL GitHub Actions verification: PENDING at manifest
-  creation; exact run and result must be recorded before final closeout.
+- Disposable PostgreSQL GitHub Actions verification: PASS, exact run
+  `37696361882` on final HEAD `cdccbdde732f95c2fc525b85863f996bb69dd0b3`.
+  Foundation verification reported 17 passed, 609 warnings, 2689 assertions,
+  and 0 failures; PostgreSQL 18.6 identity, migration-from-zero, schema,
+  extension, and UTC-session checks passed.
 
 ## Recovery
 
@@ -82,5 +85,5 @@ restore is required because no database was changed.
 
 ## Status
 
-Implementation status: `PENDING_EXACT_CI`
-Candidate closeout: `R4B_P1=READY_FOR_CHATGPT_AUDIT` only after exact CI success.
+Implementation status: `COMPLETED / PASS / ACADEMIC_WALI_R4B_IMPLEMENTED_PASS`
+Candidate closeout: `R4B_P1=READY_FOR_CHATGPT_AUDIT`.

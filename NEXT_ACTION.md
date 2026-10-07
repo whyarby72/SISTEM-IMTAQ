@@ -1,5 +1,19 @@
 # NEXT ACTION
 
+## Academic Wali dashboard R4B functional completeness — 2026-10-08
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4B_IMPLEMENTED_PASS`
+**Exact HEAD:** `cdccbdde732f95c2fc525b85863f996bb69dd0b3`
+**Exact CI:** `37696361882` = `SUCCESS`
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS-2026-10-08.md`
+**Database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4B_AUDIT`
+
+R4B is complete on exact green disposable PostgreSQL CI. The remaining R4
+P1 decision is intentionally left for ChatGPT/project-owner audit. Do not
+start R4C, human UAT, PILOT work, Grade G3, or AI work automatically.
+
 ## Academic Wali R4A2-1E evidence closure — 2026-10-07
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4A2-1E-TEMPORAL-JOINT-REGRESSION-EVIDENCE-CLOSURE`
