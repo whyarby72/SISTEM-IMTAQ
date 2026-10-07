@@ -1,16 +1,16 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "edf983ef6946dca9a9e7ff34b1c0bf49fcfcfaf5",
+  "repo_commit": "a3b604548502f07aa63ddb0f0a6a7946d45a0bf9",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS",
+  "current_task_id": "ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS"
+    "ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -107,7 +107,7 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696655724"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37696655724 / HEAD_edf983ef6946dca9a9e7ff34b1c0bf49fcfcfaf5",
+    "exact_current_ci": "PASS / RUN_37699429083 / HEAD_a3b604548502f07aa63ddb0f0a6a7946d45a0bf9",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",
@@ -166,6 +166,7 @@
     ,"academic_wali_dashboard_r4a2_1_session_date_partition_and_next_session_entitlement": "COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_IMPLEMENTED_PASS / RUN_37438813516"
     ,"academic_wali_dashboard_r4a2_1e_temporal_joint_regression_evidence_closure": "COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_EVIDENCE_CLOSED / RUN_37596527013"
     ,"academic_wali_dashboard_r4b_functional_completeness": "COMPLETED / PASS / ACADEMIC_WALI_R4B_IMPLEMENTED_PASS / RUN_37696361882"
+    ,"academic_wali_dashboard_r4b_1_filter_parity_and_teacher_actionability": "COMPLETED / PASS / ACADEMIC_WALI_R4B_1_IMPLEMENTED_PASS / RUN_37699429083"
   },
   "blockers": [
     {

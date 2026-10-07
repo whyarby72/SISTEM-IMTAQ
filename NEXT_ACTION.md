@@ -1,5 +1,20 @@
 # NEXT ACTION
 
+## Academic Wali dashboard R4B.1 closeout — 2026-10-08
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4B_1_IMPLEMENTED_PASS`
+**Exact HEAD:** `a3b604548502f07aa63ddb0f0a6a7946d45a0bf9`
+**Exact CI:** `37699429083` = `SUCCESS`; 17 passed, 610 warnings, 2852 assertions, 0 failures.
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY-2026-10-08.md`
+**Database access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4B_1_AUDIT`
+
+R4B.1 is complete on exact green disposable PostgreSQL foundation CI. Filter
+parity, legacy future exclusion, and teacher actionability defects are closed.
+Do not start R4C, replacement-teacher governance, Human UAT, PILOT work, Grade
+G3, or AI work automatically.
+
 ## Academic Wali dashboard R4B functional completeness — 2026-10-08
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS`

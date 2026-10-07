@@ -1,5 +1,24 @@
 # CURRENT TASK CONTEXT
 
+## Academic Wali dashboard R4B.1 — 2026-10-08
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4B_1_IMPLEMENTED_PASS`
+**Branch / exact HEAD:** `feat/super-admin-user-access-preferences` / `a3b604548502f07aa63ddb0f0a6a7946d45a0bf9`
+**Exact CI:** `37699429083` = `SUCCESS`; 17 passed, 610 warnings, 2852 assertions, 0 failures.
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY-2026-10-08.md`
+**Application source changed:** `YES / dashboard read model and rendered-row testability only`
+**PILOT access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4B_1_AUDIT`
+
+R4B.1 aligns all six dashboard filters with server-owned `period_state` and
+`needs_action` predicates, makes finalized summary state-based, and gates
+teacher-missing actionability on an actual attendance obligation and non-future
+time. Exact disposable PostgreSQL CI verifies legacy/future boundaries,
+rendered-row parity, occurrence-pending/HELD/future teacher states, R4B, and
+R4A regressions. Do not start R4C, replacement-teacher governance, Human UAT,
+PILOT work, Grade G3, or AI work automatically.
+
 ## Academic Wali dashboard R4B functional completeness — 2026-10-08
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS`
