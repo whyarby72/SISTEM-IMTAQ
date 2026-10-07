@@ -242,7 +242,7 @@
                                             $previousSessionDate = $sessionDate;
                                         @endphp
                                     @endif
-                                    <a class="waka-session-row" href="{{ route('academic.attendance.show', $attendanceSession) }}"><span><strong>@uiLabel($attendanceSession->teachingAssignment?->subject?->subject_name ?? 'Pelajaran')</strong><small>{{ $attendanceStart->format('d/m/Y, H:i') }} · {{ $attendanceSession->studentParticipants->count() }} santri</small><span class="waka-session-meta"><span class="waka-session-status">{{ $attendanceSession->attendance_label }}</span></span></span><span class="waka-session-action">{{ $attendanceSession->attendance_action }} →</span></a>
+                                    <a class="waka-session-row" data-session-id="{{ $attendanceSession->id }}" href="{{ route('academic.attendance.show', $attendanceSession) }}"><span><strong>@uiLabel($attendanceSession->teachingAssignment?->subject?->subject_name ?? 'Pelajaran')</strong><small>{{ $attendanceStart->format('d/m/Y, H:i') }} · {{ $attendanceSession->studentParticipants->count() }} santri</small><span class="waka-session-meta"><span class="waka-session-status">{{ $attendanceSession->attendance_label }}</span></span></span><span class="waka-session-action">{{ $attendanceSession->attendance_action }} →</span></a>
                                 @endforeach
                             </div>
                         @endif

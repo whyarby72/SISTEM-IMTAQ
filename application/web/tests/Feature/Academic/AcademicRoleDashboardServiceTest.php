@@ -671,9 +671,9 @@ class AcademicRoleDashboardServiceTest extends TestCase
                 $content = $response->assertOk()->getContent();
                 $renderedCount = 0;
                 foreach ($dashboard['attendance_sessions'] as $session) {
-                    $urlCount = substr_count($content, 'href="'.route('academic.attendance.show', $session).'"');
-                    $this->assertSame($expected->contains('id', $session->id) ? 1 : 0, $urlCount, $filter.' filter parity for '.$session->id);
-                    $renderedCount += $urlCount;
+                    $rowCount = substr_count($content, 'data-session-id="'.$session->id.'"');
+                    $this->assertSame($expected->contains('id', $session->id) ? 1 : 0, $rowCount, $filter.' filter parity for '.$session->id);
+                    $renderedCount += $rowCount;
                 }
                 $this->assertSame($summaryCount, $renderedCount, $filter.' rendered row parity');
             }
@@ -701,12 +701,12 @@ class AcademicRoleDashboardServiceTest extends TestCase
         }
 
         foreach ($past as $session) {
-            $this->assertStringContainsString('href="'.route('academic.attendance.show', $session).'"', $pastResponse->getContent());
-            $this->assertStringNotContainsString('href="'.route('academic.attendance.show', $session).'"', $futureResponse->getContent());
+            $this->assertStringContainsString('data-session-id="'.$session->id.'"', $pastResponse->getContent());
+            $this->assertStringNotContainsString('data-session-id="'.$session->id.'"', $futureResponse->getContent());
         }
         foreach ($future as $session) {
-            $this->assertStringNotContainsString('href="'.route('academic.attendance.show', $session).'"', $pastResponse->getContent());
-            $this->assertStringContainsString('href="'.route('academic.attendance.show', $session).'"', $futureResponse->getContent());
+            $this->assertStringNotContainsString('data-session-id="'.$session->id.'"', $pastResponse->getContent());
+            $this->assertStringContainsString('data-session-id="'.$session->id.'"', $futureResponse->getContent());
         }
     }
 
