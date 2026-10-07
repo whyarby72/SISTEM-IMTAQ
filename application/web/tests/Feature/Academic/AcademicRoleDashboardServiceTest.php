@@ -922,11 +922,16 @@ class AcademicRoleDashboardServiceTest extends TestCase
         SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $firstStudent->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
         SessionStudentParticipant::create(['class_session_id' => $session->id, 'student_id' => $secondStudent->id, 'participant_basis' => 'CLASS_ENROLLMENT']);
 
-        $dashboard = app(AcademicRoleDashboardService::class)->forUser(
-            $wali,
-            Carbon::parse('2026-07-01', 'Asia/Jakarta'),
-            Carbon::parse('2026-07-31 23:59:59', 'Asia/Jakarta'),
-        );
+        Carbon::setTestNow(Carbon::parse('2026-07-10 12:00:00', 'Asia/Jakarta'));
+        try {
+            $dashboard = app(AcademicRoleDashboardService::class)->forUser(
+                $wali,
+                Carbon::parse('2026-07-01', 'Asia/Jakarta'),
+                Carbon::parse('2026-07-31 23:59:59', 'Asia/Jakarta'),
+            );
+        } finally {
+            Carbon::setTestNow();
+        }
         $item = $dashboard['attendance_sessions']->firstOrFail();
 
         $this->assertSame($second->id, $dashboard['classes']->first()['class']->id);
