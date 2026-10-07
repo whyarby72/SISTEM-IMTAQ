@@ -103,7 +103,7 @@
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37596527013"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37438813516 / HEAD_694065cb30e959f974b8d1c8e8a5bddb6a252cf9",
+    "exact_current_ci": "PASS / RUN_37596527013 / HEAD_cf3eb537f31015888c83ecf386417f20d67b5832",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",
