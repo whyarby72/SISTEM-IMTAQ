@@ -358,7 +358,7 @@ class AcademicRoleDashboardService
                 ?? $session->teacherParticipations->first();
             $teacherAttendanceMissing = $teacherParticipation !== null
                 && $teacherParticipation->attendance_status === null
-                && $execution['execution_state'] !== 'UPCOMING';
+                && ! $session->planned_start_at->isFuture();
             $periodState = $this->periodSessionState($session, $execution, $resolved, $finalized);
             $needsAction = $periodState !== 'UPCOMING'
                 && (in_array($periodState, ['OCCURRENCE_PENDING', 'DUE_NOT_STARTED', 'DUE_INCOMPLETE', 'IN_PROGRESS'], true)

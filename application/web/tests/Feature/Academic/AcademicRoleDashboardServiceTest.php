@@ -581,15 +581,13 @@ class AcademicRoleDashboardServiceTest extends TestCase
         foreach (range(1, 7) as $index) {
             $hour = 7 + $index;
             $session = $this->operationalSession($assignment, 'DASH-R4B-FINAL-'.$index, sprintf('2026-07-09 %02d:00:00', $hour), sprintf('2026-07-09 %02d:00:00', $hour + 1), 'COMPLETED');
-            $participant = $this->participant($session, $index);
-            StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'VALIDATED', 'entered_by' => $waka->id, 'entered_at' => now(), 'finalized_by' => $waka->id, 'finalized_at' => now(), 'updated_by' => $waka->id, 'updated_at' => now()]);
+            $this->populateSession($session, $waka, 1, 0, 0);
             $sessions[] = $session;
         }
         foreach (range(1, 5) as $index) {
             $hour = 14 + $index;
             $session = $this->operationalSession($assignment, 'DASH-R4B-INCOMPLETE-'.$index, sprintf('2026-07-09 %02d:00:00', $hour), sprintf('2026-07-09 %02d:00:00', $hour + 1), 'COMPLETED');
-            $participant = $this->participant($session, $index + 10);
-            StudentAttendance::create(['session_student_participant_id' => $participant->id, 'attendance_status' => 'PRESENT', 'workflow_status' => 'DRAFT', 'entered_by' => $waka->id, 'entered_at' => now(), 'updated_by' => $waka->id, 'updated_at' => now()]);
+            $this->populateSession($session, $waka, 1, 0, 1);
             $sessions[] = $session;
         }
         foreach (range(1, 3) as $index) {
