@@ -643,42 +643,42 @@ class AcademicRoleDashboardServiceTest extends TestCase
                 ->assertSee(route('academic.attendance.show', $hiddenBeforeR4B), false)
                 ->assertSee('Ringkasan sesi pada periode terpilih yang sudah membutuhkan tindakan.')
                 ->assertSee('Lihat sesi yang perlu ditangani');
+
+            $filterPredicates = [
+                'all' => fn ($session): bool => true,
+                'empty' => fn ($session): bool => $session->period_state === 'DUE_NOT_STARTED',
+                'incomplete' => fn ($session): bool => in_array($session->period_state, ['DUE_INCOMPLETE', 'IN_PROGRESS'], true),
+                'finalized' => fn ($session): bool => $session->period_state === 'FINALIZED',
+                'upcoming' => fn ($session): bool => $session->period_state === 'UPCOMING',
+                'needs_action' => fn ($session): bool => $session->needs_action === true,
+            ];
+            foreach ($filterPredicates as $filter => $predicate) {
+                $expected = $dashboard['attendance_sessions']->filter($predicate);
+                $summaryCount = match ($filter) {
+                    'all' => $dashboard['attendance_session_summary']['total'],
+                    'empty' => $dashboard['attendance_session_summary']['empty'],
+                    'incomplete' => $dashboard['attendance_session_summary']['incomplete'],
+                    'finalized' => $dashboard['attendance_session_summary']['finalized'],
+                    'upcoming' => $dashboard['attendance_session_summary']['upcoming'],
+                    'needs_action' => $dashboard['attendance_session_summary']['needs_action'],
+                };
+                $this->assertSame($summaryCount, $expected->count(), $filter.' server summary parity');
+                $response = $this->actingAs($wali)->get(route('academic.dashboard', [
+                    'from' => '2026-07-01',
+                    'to' => '2026-07-31',
+                    'attendance_filter' => $filter,
+                ]));
+                $content = $response->assertOk()->getContent();
+                $renderedCount = 0;
+                foreach ($dashboard['attendance_sessions'] as $session) {
+                    $urlCount = substr_count($content, 'href="'.route('academic.attendance.show', $session).'"');
+                    $this->assertSame($expected->contains('id', $session->id) ? 1 : 0, $urlCount, $filter.' filter parity for '.$session->id);
+                    $renderedCount += $urlCount;
+                }
+                $this->assertSame($summaryCount, $renderedCount, $filter.' rendered row parity');
+            }
         } finally {
             Carbon::setTestNow();
-        }
-
-        $filterPredicates = [
-            'all' => fn ($session): bool => true,
-            'empty' => fn ($session): bool => $session->period_state === 'DUE_NOT_STARTED',
-            'incomplete' => fn ($session): bool => in_array($session->period_state, ['DUE_INCOMPLETE', 'IN_PROGRESS'], true),
-            'finalized' => fn ($session): bool => $session->period_state === 'FINALIZED',
-            'upcoming' => fn ($session): bool => $session->period_state === 'UPCOMING',
-            'needs_action' => fn ($session): bool => $session->needs_action === true,
-        ];
-        foreach ($filterPredicates as $filter => $predicate) {
-            $expected = $dashboard['attendance_sessions']->filter($predicate);
-            $summaryCount = match ($filter) {
-                'all' => $dashboard['attendance_session_summary']['total'],
-                'empty' => $dashboard['attendance_session_summary']['empty'],
-                'incomplete' => $dashboard['attendance_session_summary']['incomplete'],
-                'finalized' => $dashboard['attendance_session_summary']['finalized'],
-                'upcoming' => $dashboard['attendance_session_summary']['upcoming'],
-                'needs_action' => $dashboard['attendance_session_summary']['needs_action'],
-            };
-            $this->assertSame($summaryCount, $expected->count(), $filter.' server summary parity');
-            $response = $this->actingAs($wali)->get(route('academic.dashboard', [
-                'from' => '2026-07-01',
-                'to' => '2026-07-31',
-                'attendance_filter' => $filter,
-            ]));
-            $content = $response->assertOk()->getContent();
-            $renderedCount = 0;
-            foreach ($dashboard['attendance_sessions'] as $session) {
-                $urlCount = substr_count($content, 'href="'.route('academic.attendance.show', $session).'"');
-                $this->assertSame($expected->contains('id', $session->id) ? 1 : 0, $urlCount, $filter.' filter parity for '.$session->id);
-                $renderedCount += $urlCount;
-            }
-            $this->assertSame($summaryCount, $renderedCount, $filter.' rendered row parity');
         }
     }
 
