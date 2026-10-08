@@ -254,7 +254,7 @@ class AcademicRoleDashboardServiceTest extends TestCase
             ->assertSee('aria-label="Beranda"', false)
             ->assertSee('aria-current="page"', false)
             ->assertSee('aria-controls="waka-nav"', false)
-            ->assertSee('aria-label="Arsip Juli 2026"', false)
+            ->assertSee('aria-label="Arsip kehadiran historis Juli 2026"', false)
             ->assertSee('academic/dashboard?from=2026-07-01&amp;to=2026-07-31', false)
             ->assertSee("event.key !== 'Escape'", false)
             ->assertDontSee('Peran: Wali Kelas')

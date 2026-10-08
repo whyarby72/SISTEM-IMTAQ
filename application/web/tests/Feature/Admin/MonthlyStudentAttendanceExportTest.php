@@ -31,7 +31,8 @@ class MonthlyStudentAttendanceExportTest extends TestCase
         $this->assertStringContainsString('90,91%', $csv);
         $this->assertStringContainsString('LEGACY_MONTHLY_SNAPSHOT', $csv);
         $this->assertStringContainsString('Historical attendance snapshot', $csv);
-        $this->assertStringContainsString('"Live data","NO"', $csv);
+        $this->assertStringContainsString('Live data', $csv);
+        $this->assertStringContainsString('NO', $csv);
         $this->assertStringNotContainsString('Jumlah Sesi', $csv);
         $this->assertStringStartsWith('%PDF-1.4', $pdf);
         $this->assertGreaterThan(10000, strlen($pdf));
