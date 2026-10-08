@@ -1,5 +1,23 @@
 # CURRENT TASK CONTEXT
 
+# Academic Wali dashboard R4C — 2026-10-08
+
+**Current task:** `ACADEMIC-WALI-DASHBOARD-R4C-LEGACY-MONTHLY-REPORT-SEMANTICS`
+**State:** `COMPLETED / PASS / ACADEMIC_WALI_R4C_IMPLEMENTED_PASS`
+**Branch / executable HEAD:** `feat/super-admin-user-access-preferences` / `675180930adc5e76c82bd690cf77b0217db58850`
+**Exact CI:** `37724036253` = `SUCCESS`; foundation verification passed with 19 passed, 608 warnings, 2858 assertions, 0 failures.
+**Manifest:** `codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4C-LEGACY-MONTHLY-REPORT-SEMANTICS-2026-10-08.md`
+**PILOT access/write:** `NONE / NONE`
+**Next atomic task:** `RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4C_AUDIT`
+
+R4C explicitly separates the July 2026 legacy monthly archive from live
+ClassSession/StudentAttendance reporting across navigation, dashboard quick
+action, index/detail, publication wording, CSV/PDF exports, and provenance
+metadata. The dashboard remains live-only; the archive is
+`LEGACY_MONTHLY_SNAPSHOT` / `IMTAQ_LEGACY` at monthly aggregate grain. Do not
+start R4D, replacement-teacher governance, Human UAT, PILOT work, Grade G3,
+or AI work automatically.
+
 ## Academic Wali dashboard R4B.1 — 2026-10-08
 
 **Current task:** `ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY`

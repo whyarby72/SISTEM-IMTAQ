@@ -1,16 +1,16 @@
 {
   "repo": "whyarby72/SISTEM-IMTAQ",
   "repo_visibility": "private",
-  "repo_commit": "44d2bc94731de471bcfa78f46f0e3f0a13241abf",
+  "repo_commit": "675180930adc5e76c82bd690cf77b0217db58850",
   "repo_commit_semantics": "STATE_BASIS_COMMIT",
   "head_resolution": "RESOLVE_FROM_GIT_BRANCH_REF",
   "active_branch": "feat/super-admin-user-access-preferences",
   "product_stage": "PILOT_IMPLEMENTED_HARDENING",
-  "current_task_id": "ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY",
+  "current_task_id": "ACADEMIC-WALI-DASHBOARD-R4C-LEGACY-MONTHLY-REPORT-SEMANTICS",
   "adapter_id": "WEB_FULLSTACK_SERVICE_API",
   "adapter_status": "CANDIDATE_REFERENCE_ONLY",
   "acceptance_ids": [
-    "ACADEMIC-WALI-DASHBOARD-R4B-1-FILTER-PARITY-AND-TEACHER-ACTIONABILITY"
+    "ACADEMIC-WALI-DASHBOARD-R4C-LEGACY-MONTHLY-REPORT-SEMANTICS"
   ],
   "latest_evidence_refs": [
     "codex/REVIEWS/SUPER-ADMIN-USER-ACCESS-PILOT-MIGRATION-READINESS-2026-10-02.md",
@@ -104,10 +104,13 @@
     "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS.md",
     "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4B-FUNCTIONAL-COMPLETENESS-2026-10-08.md",
     "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696361882",
-    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696655724"
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37696655724",
+    "codex/TASK_CONTEXTS/ACADEMIC-WALI-DASHBOARD-R4C-LEGACY-MONTHLY-REPORT-SEMANTICS.md",
+    "codex/CHANGE_MANIFESTS/ACADEMIC-WALI-DASHBOARD-R4C-LEGACY-MONTHLY-REPORT-SEMANTICS-2026-10-08.md",
+    "https://github.com/whyarby72/SISTEM-IMTAQ/actions/runs/37724036253"
   ],
   "latest_test_state": {
-    "exact_current_ci": "PASS / RUN_37700043931 / HEAD_44d2bc94731de471bcfa78f46f0e3f0a13241abf",
+    "exact_current_ci": "PASS / RUN_37724036253 / HEAD_675180930adc5e76c82bd690cf77b0217db58850",
     "user_access_pilot_migration_readiness": "COMPLETED / READY_FOR_CONTROLLED_PILOT_MIGRATION / R2",
     "current_review_database_write": "CONTROLLED_PILOT_SCHEMA_AND_AUTHORITY_BOOTSTRAP / POSTFLIGHT_VERIFIED",
     "historical_local_regression": "PASS",
@@ -167,6 +170,7 @@
     ,"academic_wali_dashboard_r4a2_1e_temporal_joint_regression_evidence_closure": "COMPLETED / PASS / ACADEMIC_WALI_R4A2_1_EVIDENCE_CLOSED / RUN_37596527013"
     ,"academic_wali_dashboard_r4b_functional_completeness": "COMPLETED / PASS / ACADEMIC_WALI_R4B_IMPLEMENTED_PASS / RUN_37696361882"
     ,"academic_wali_dashboard_r4b_1_filter_parity_and_teacher_actionability": "COMPLETED / PASS / ACADEMIC_WALI_R4B_1_IMPLEMENTED_PASS / RUN_37700043931"
+    ,"academic_wali_dashboard_r4c_legacy_monthly_report_semantics": "COMPLETED / PASS / ACADEMIC_WALI_R4C_IMPLEMENTED_PASS / RUN_37724036253"
   },
   "blockers": [
     {
@@ -204,7 +208,7 @@
     "Controlled real-provider verification remains pending and was not run by A3."
   ],
   "next_owner": "CHATGPT_AND_PROJECT_OWNER",
-  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4B_AUDIT",
+  "next_atomic_task": "RETURN_TO_CHATGPT_FOR_ACADEMIC_WALI_DASHBOARD_R4C_AUDIT",
   "next_task": "SOC-MD-06",
   "factory_status": "CANDIDATE_REFERENCE_ONLY",
   "public_academic_ai": "OFF",
