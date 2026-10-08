@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Shared\Platform\Audit\Services\AuditLogger;
 use App\Shared\Platform\Imports\Services\July2026OfficialClassMappingService;
 use App\Shared\Platform\Reports\MonthlyAttendanceReportExportService;
+use App\Shared\Platform\Reports\MonthlyAttendanceReportContext;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,14 +28,17 @@ class MonthlyAttendanceReportController
     {
         $role = $this->authorizeViewer($request);
         $mapping = $classMapping->resolve();
-        $report = MonthlyAttendanceSummary::query()->with(['academicClass', 'publishedBy'])->where('period', '2026-07')
+        $report = MonthlyAttendanceSummary::query()->with(['academicClass', 'publishedBy', 'importBatch'])->where('period', '2026-07')
             ->whereIn('class_id', $mapping['valid'] ? array_map(fn ($class): string => (string) $class->id, $mapping['classes']) : []);
         if ($role === 'WALI_KELAS') {
             $report->whereIn('class_id', $this->waliClassIds($request->user()));
         }
 
+        $report = $report->orderBy('class_id')->get();
+
         return view('admin.academic.monthly-reports.index', [
-            'report' => $report->orderBy('class_id')->get(),
+            'report' => $report,
+            'reportContext' => app(MonthlyAttendanceReportContext::class)->resolve($report),
             'viewerRole' => $role,
             'backRoute' => $request->routeIs('academic.*') ? 'academic.dashboard' : 'admin.academic.dashboard',
         ]);
@@ -57,14 +61,14 @@ class MonthlyAttendanceReportController
             $auditLogger->record(['actor_user_id' => $actor->id, 'action' => 'MONTHLY_ATTENDANCE_REPORT_PUBLISHED', 'entity_type' => MonthlyAttendanceSummary::class, 'entity_id' => '2026-07', 'old_values' => ['statuses' => $oldStatuses], 'new_values' => ['status' => 'PUBLISHED', 'period' => '2026-07', 'row_count' => $rows->count()], 'reason' => 'Waka Akademik menyetujui rekap bulanan Juli 2026', 'source_channel' => 'WEB']);
         });
 
-        return redirect()->route('admin.academic.monthly-reports.index')->with('status', 'Rekap Juli 2026 sudah disetujui dan dipublikasikan.');
+        return redirect()->route('admin.academic.monthly-reports.index')->with('status', 'Arsip kehadiran Juli 2026 sudah disetujui dan dipublikasikan.');
     }
 
     public function detail(Request $request, AcademicClass $class): View
     {
         $role = $this->authorizeViewer($request);
         abort_if(str_ends_with(strtoupper((string) $class->academicYear?->year_code), '-PILOT'), 404);
-        $summary = MonthlyAttendanceSummary::query()->where('period', '2026-07')->where('class_id', $class->id)->firstOrFail();
+        $summary = MonthlyAttendanceSummary::query()->with('importBatch')->where('period', '2026-07')->where('class_id', $class->id)->firstOrFail();
         if ($role === 'WALI_KELAS' && ! in_array($class->id, $this->waliClassIds($request->user()), true)) {
             throw new AuthorizationException('Anda hanya dapat melihat detail kelas yang menjadi tanggung jawab Anda.');
         }
@@ -91,7 +95,18 @@ class MonthlyAttendanceReportController
                 ])
             : collect();
 
-        return view('admin.academic.monthly-reports.detail', compact('class', 'summary', 'students', 'role', 'detailAvailable'));
+        $detailSnapshots = $detailAvailable
+            ? MonthlyStudentAttendanceSnapshot::query()->with('importBatch')->where('period', '2026-07')->where('class_id', $class->id)->get()
+            : collect();
+
+        return view('admin.academic.monthly-reports.detail', [
+            'class' => $class,
+            'summary' => $summary,
+            'students' => $students,
+            'role' => $role,
+            'detailAvailable' => $detailAvailable,
+            'reportContext' => app(MonthlyAttendanceReportContext::class)->resolve(collect([$summary]), $detailSnapshots),
+        ]);
     }
 
     public function exportCsv(Request $request, MonthlyAttendanceReportExportService $exporter): StreamedResponse
